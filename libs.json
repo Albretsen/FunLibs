@@ -1,24 +1,37 @@
 
 [
-    {
-      "name": "Lib Name",
-      "id": 0,
-      "text": [
-        "This is a ",
-        " text. It is called ",
-        ""
-      ],
-      "suggestions": [
-        "Adjective",
-        "Name"
-      ],
-      "words": [
-        "funny",
-        "Cool text"
-      ]
-    },
-    {
-        "name": "Test",
-        "id": 1
-    }
-  ]
+  {
+    "name": "Lib Name",
+    "id": 0,
+    "text": [
+      "This is a ",
+      " text. It is called ",
+      ""
+    ],
+    "suggestions": [
+      "Adjective",
+      "Name"
+    ],
+    "words": [
+      "funny",
+      "Cool text"
+    ]
+  },
+  {
+    "name": "Second lib",
+    "id": 1,
+    "text": [
+      "This is a ",
+      " text. It is called ",
+      ""
+    ],
+    "suggestions": [
+      "Adjective",
+      "Name for a text"
+    ],
+    "words": [
+      "funny",
+      "Stupid text"
+    ]
+  }
+]

@@ -4,6 +4,7 @@ import ListItem from '/components/ListItem';
 import Header from '/components/Header';
 import FixedButton from '/components/FixedButton';
 import PlayScreen from './components/PlayScreen';
+import miscStyles from './components/miscStyles';
 import data from './libs.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -87,7 +88,7 @@ export default function App() {
 
 function LibsScreen() {
   return (
-    <View style={styles.container}>
+    <View style={[miscStyles.screenStandard]}>
       <FixedButton />
       <StatusBar style="auto" />
       <ScrollView style={styles.listItemContainer}>
@@ -101,7 +102,7 @@ function LibsScreen() {
 
 function StoriesScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={miscStyles.screenStandard}>
       <Text>Stories!</Text>
     </View>
   );
@@ -109,7 +110,7 @@ function StoriesScreen() {
 
 function YourLibsScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={miscStyles.screenStandard}>
       <Text>Your Libs!</Text>
     </View>
   );
@@ -124,10 +125,5 @@ function YourLibsScreen() {
 // }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+
 });

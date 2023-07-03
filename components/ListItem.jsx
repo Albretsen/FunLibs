@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Dimensions, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import textStyles from './textStyles';
 import { useNavigation } from '@react-navigation/native';
+import miscStyles from './miscStyles';
 
 export default function ListItem(props) {
     const { name, id } = props;
@@ -9,12 +10,12 @@ export default function ListItem(props) {
 
     function playLib(id) {
         console.log(id)
-        navigation.navigate('PlayScreen');
+        navigation.navigate('PlayScreen', { libId: id });
     }
 
     return (
         <TouchableOpacity onPress={() => playLib(id)}>
-            <View style={styles.container}>
+            <View style={[styles.container, miscStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
                     <Text style={textStyles.fontLarge}>{name[0]}</Text>
                 </View>
@@ -27,12 +28,9 @@ export default function ListItem(props) {
     );
 }
 
-const fullWidth = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: fullWidth - fullWidth / 20,
         flexDirection: "row",
         gap: 10,
         paddingTop: 20
