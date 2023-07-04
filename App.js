@@ -17,6 +17,8 @@ import Lib from './scripts/lib.js';
 import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js"
 
+LibManager.initialize();
+
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

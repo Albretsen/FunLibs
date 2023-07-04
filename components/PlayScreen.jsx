@@ -5,13 +5,14 @@ import data from '/libs.json';
 import miscStyles from './miscStyles';
 import textStyles from './textStyles';
 import Lib from "../scripts/lib.js";
+import LibManager from '../scripts/lib_manager';
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	const currentLib = new Lib("Name", libId, ["This is a ", " text"], ["Adjective", "Verb"])
+	const currentLib = LibManager.getLibByID(libId);
 
 	// Extract prompts from the current lib
 	const prompts = currentLib ? currentLib.suggestions : [];
@@ -62,6 +63,7 @@ function PlayScreen({ route }) {
 			// Open the drawer instead of console logging
 			openDrawer();
 			displayLib(() => {
+				console.log(currentLib.display)
 				return currentLib.display;
 			});
 		}
