@@ -1,4 +1,4 @@
-class Lib {
+export default class Lib {
     words;
 
     constructor(name, id, text, suggestions, words = []) {

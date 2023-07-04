@@ -14,6 +14,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Lib from './scripts/lib.js';
+import FileManager from "./scripts/file_manager.js";
+import LibManager from "./scripts/lib_manager.js"
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
