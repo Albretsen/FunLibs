@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute', // Here is the trick
     bottom: 20, // Position from bottom
-    // alignSelf: 'center', // Center horizontally
-    right: 20,
+    right: 20, // Position almost entirely to the right
     backgroundColor: "#D1E8D5",
     padding: 12,
     borderRadius: 16
