@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Button } from 'react-native';
-import ListItem from '/components/ListItem';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Header from '/components/Header';
-import FixedButton from '/components/FixedButton';
-import PlayScreen from './components/PlayScreen';
-import miscStyles from './components/miscStyles';
+import PlayScreen from './screens/PlayScreen';
+import LibsScreen from './screens/LibsScreen';
+import StoriesScreen from './screens/StoriesScreen';
+import YourLibsScreen from './screens/YourLibsScreen';
+import miscStyles from './styles/miscStyles';
 import data from './libs.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,7 +12,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import Lib from './scripts/lib.js';
 import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js"
@@ -28,7 +27,7 @@ function HomeStackScreen({ navigation }) {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={TabNavigation} // Replace LibsScreen with TabNavigation
+        component={TabNavigation}
         options={{
           // header: (props) => <Header {...props} leftIcon="Hamburger" navigation={navigation} />,
           headerTitle: 'Fun Libs',
@@ -100,44 +99,6 @@ export default function App() {
         </Drawer.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
-  );
-}
-
-function LibsScreen() {
-  return (
-    <View style={[miscStyles.screenStandard]}>
-      <FixedButton />
-      <StatusBar style="auto" />
-      <ScrollView style={styles.listItemContainer}>
-        {data.map((item) => (
-          <ListItem name={item.name} id={item.id} key={item.id}></ListItem>
-        ))}
-      </ScrollView>
-    </View>
-  );
-}
-
-function StoriesScreen() {
-  return (
-    <View style={miscStyles.screenStandard}>
-      <FixedButton />
-      <Text>Stories!</Text>
-      <ScrollView style={styles.listItemContainer}>
-        <ListItem name={"Test"} id={0}></ListItem>
-      </ScrollView>
-    </View>
-  );
-}
-
-function YourLibsScreen() {
-  return (
-    <View style={miscStyles.screenStandard}>
-      <FixedButton />
-      <Text>Stories!</Text>
-      <ScrollView style={styles.listItemContainer}>
-        <ListItem name={"Test"} id={0}></ListItem>
-      </ScrollView>
-    </View>
   );
 }
 

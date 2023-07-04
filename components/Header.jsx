@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import textStyles from '/components/textStyles';
+import textStyles from '../styles/textStyles';
 import { HeaderBackButton } from '@react-navigation/stack';
 
 export default function Header({ scene, previous, navigation, leftIcon }) {
@@ -12,8 +12,6 @@ export default function Header({ scene, previous, navigation, leftIcon }) {
     //     ? options.title
     //     : scene.route.name;
 
-
-  
     return (
       <View style={styles.headerContainer}>
         {leftIcon === "Backbutton" ? <HeaderBackButton onPress={() => navigation.goBack()} /> :

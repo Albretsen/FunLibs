@@ -2,10 +2,11 @@ import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '/libs.json';
-import miscStyles from './miscStyles';
-import textStyles from './textStyles';
+import miscStyles from '../styles/miscStyles';
+import textStyles from '../styles/textStyles';
 import Lib from "../scripts/lib.js";
-import Drawer from "./Drawer";
+import LibManager from '../scripts/lib_manager';
+import Drawer from "../components/Drawer";
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
@@ -22,6 +23,7 @@ function PlayScreen({ route }) {
 	const [responses, setResponses] = useState([]);
 	const [currentInput, setCurrentInput] = useState('');
 	const [finishedLib, displayLib] = useState([]);
+	
 	const drawerRef = useRef(null);
 
 	// Calculate progress

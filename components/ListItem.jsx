@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import textStyles from './textStyles';
+import textStyles from '../styles/textStyles';
 import { useNavigation } from '@react-navigation/native';
-import miscStyles from './miscStyles';
+import miscStyles from '../styles/miscStyles';
 
 export default function ListItem(props) {
     const { name, id } = props;
