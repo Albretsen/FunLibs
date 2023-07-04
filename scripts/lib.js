@@ -53,6 +53,8 @@ export default class Lib {
     }
 }
 
+export default Lib
+
 //let lib = new Lib("Name", 0, ["This is a ", " text"], ["Adjective"], ["funny"])
 //console.log(lib.display);
 //let lib = Lib.createLib('This is a "Adjective" text. "Noun"');
