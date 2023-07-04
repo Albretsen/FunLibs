@@ -1,4 +1,4 @@
-class Lib {
+export default class Lib {
     words;
 
     constructor(name, id, text, suggestions, words = []) {
@@ -52,8 +52,6 @@ class Lib {
         return text;
     }
 }
-
-export default Lib
 
 //let lib = new Lib("Name", 0, ["This is a ", " text"], ["Adjective"], ["funny"])
 //console.log(lib.display);

@@ -12,7 +12,7 @@ function PlayScreen({ route }) {
 	const libId = route.params.libId;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	const currentLib = new Lib("Name", libId, ["This is a ", " text"], ["Adjective", "Verb"])
+	const currentLib = LibManager.getLibByID(libId);
 
 	// Extract prompts from the current lib
 	const prompts = currentLib ? currentLib.suggestions : [];
@@ -43,6 +43,7 @@ function PlayScreen({ route }) {
 		} else {
 			drawerRef.current.openDrawer();
 			displayLib(() => {
+				console.log(currentLib.display)
 				return currentLib.display;
 			});
 		}
