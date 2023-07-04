@@ -106,7 +106,7 @@ function LibsScreen() {
       <StatusBar style="auto" />
       <ScrollView style={styles.listItemContainer}>
         {data.map((item) => (
-          <ListItem name={item.name} id={item.id}></ListItem>
+          <ListItem name={item.name} id={item.id} key={item.id}></ListItem>
         ))}
       </ScrollView>
     </View>
@@ -116,7 +116,11 @@ function LibsScreen() {
 function StoriesScreen() {
   return (
     <View style={miscStyles.screenStandard}>
+      <FixedButton />
       <Text>Stories!</Text>
+      <ScrollView style={styles.listItemContainer}>
+        <ListItem name={"Test"} id={0}></ListItem>
+      </ScrollView>
     </View>
   );
 }
@@ -124,7 +128,11 @@ function StoriesScreen() {
 function YourLibsScreen() {
   return (
     <View style={miscStyles.screenStandard}>
-      <Text>Your Libs!</Text>
+      <FixedButton />
+      <Text>Stories!</Text>
+      <ScrollView style={styles.listItemContainer}>
+        <ListItem name={"Test"} id={0}></ListItem>
+      </ScrollView>
     </View>
   );
 }

@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Modal, Animated, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '/libs.json';
 import miscStyles from './miscStyles';
 import textStyles from './textStyles';
 import Lib from "../scripts/lib.js";
+import Drawer from "./Drawer";
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
@@ -21,30 +22,10 @@ function PlayScreen({ route }) {
 	const [responses, setResponses] = useState([]);
 	const [currentInput, setCurrentInput] = useState('');
 	const [finishedLib, displayLib] = useState([]);
+	const drawerRef = useRef(null);
 
 	// Calculate progress
 	const progress = (currentPromptIndex + 1) / prompts.length;
-
-	// State for controlling the visibility of the drawer
-	const [drawerVisible, setDrawerVisible] = useState(false);
-	const slideAnim = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
-
-	const openDrawer = () => {
-		setDrawerVisible(true);
-		Animated.timing(slideAnim, {
-			toValue: 0,
-			duration: 500,
-			useNativeDriver: true,
-		}).start();
-	};
-
-	const closeDrawer = () => {
-		Animated.timing(slideAnim, {
-			toValue: -Dimensions.get('window').width,
-			duration: 500,
-			useNativeDriver: true,
-		}).start(() => setDrawerVisible(false));
-	};
 
 	const handleNext = () => {
 		// Add the current response to the responses array
@@ -55,12 +36,12 @@ function PlayScreen({ route }) {
 			return newResponses;
 		});
 
+		console.log(currentPromptIndex, prompts.length - 1)
 		if (currentPromptIndex < prompts.length - 1) {
 			// If there are more prompts, show the next one
 			setCurrentPromptIndex(currentPromptIndex + 1);
 		} else {
-			// Open the drawer instead of console logging
-			openDrawer();
+			drawerRef.current.openDrawer();
 			displayLib(() => {
 				return currentLib.display;
 			});
@@ -105,36 +86,22 @@ function PlayScreen({ route }) {
 						<Text style={[textStyles.bold, textStyles.fontMedium]}>Next</Text>
 					</TouchableOpacity>
 				</View>
-				<Modal
-					animationType="none"
-					transparent={true}
-					visible={drawerVisible}
-					onRequestClose={closeDrawer}
-				>
-					<Animated.View style={{
-						flex: 1,
-						backgroundColor: 'white',
-						// Set width of drawer to screen width - 15% of screen width
-						width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
-						transform: [{ translateX: slideAnim }],
-					}}>
+				<Drawer ref={drawerRef}>
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
 							<Text>Finished, responses: {JSON.stringify(finishedLib)}</Text>
 						</View>
-
 						<View style={[styles.buttonContainer, styles.drawerBottom]}>
 							<TouchableOpacity style={styles.button}>
-							<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
+								<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
 							</TouchableOpacity>
 							{/* Add proper onPress */}
-							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={closeDrawer}>
-							<Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
+							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={() => drawerRef.current.closeDrawer()}>
+								<Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
 							</TouchableOpacity>
 						</View>
-						</View>
-					</Animated.View>
-				</Modal>
+					</View>
+				</Drawer>
 			</View>
 		</View>
 	);
