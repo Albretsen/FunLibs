@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Modal, Animated, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '/libs.json';
 import miscStyles from './miscStyles';
@@ -22,6 +22,27 @@ function PlayScreen({ route }) {
   // Calculate progress
   const progress = (currentPromptIndex + 1) / prompts.length;
 
+  // State for controlling the visibility of the drawer
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
+
+  const openDrawer = () => {
+    setDrawerVisible(true);
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeDrawer = () => {
+    Animated.timing(slideAnim, {
+      toValue: -Dimensions.get('window').width,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => setDrawerVisible(false));
+  };
+
   const handleNext = () => {
     // Add the current response to the responses array
     setResponses((prevResponses) => {
@@ -34,9 +55,8 @@ function PlayScreen({ route }) {
       // If there are more prompts, show the next one
       setCurrentPromptIndex(currentPromptIndex + 1);
     } else {
-      // If there are no more prompts, show the finished state
-      console.log('Finished, responses:', responses);
-      // Here you could navigate to a different screen or update the UI in some other way
+      // Open the drawer instead of console logging
+      openDrawer();
     }
     // Clear current input
     setCurrentInput('');
@@ -50,6 +70,7 @@ function PlayScreen({ route }) {
       setCurrentInput(responses[currentPromptIndex - 1]);
     }
   };
+
 
   return (
     <View style={[miscStyles.screenStandard]}>
@@ -78,6 +99,36 @@ function PlayScreen({ route }) {
             <Text style={[textStyles.bold, textStyles.fontMedium]}>Next</Text>
           </TouchableOpacity>
         </View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={drawerVisible}
+          onRequestClose={closeDrawer}
+        >
+          <Animated.View style={{
+            flex: 1,
+            backgroundColor: 'white',
+            // Set width of drawer to screen width - 15% of screen width
+            width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
+            transform: [{ translateX: slideAnim }],
+          }}>
+            <View style={styles.drawerContainer}>
+              <View style={styles.drawerTop}>
+                <Text>Finished, responses: {JSON.stringify(responses)}</Text>
+              </View>
+
+              <View style={[styles.buttonContainer, styles.drawerBottom]}>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
+                </TouchableOpacity>
+                {/* Add proper onPress */}
+                <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={closeDrawer}>
+                  <Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Animated.View>
+        </Modal>
       </View>
     </View>
   );
@@ -88,7 +139,7 @@ export default PlayScreen;
 const styles = StyleSheet.create({
   promptContainer: {
     borderRadius: 10,
-    borderColor: "gray",
+    borderColor: "#CAC4D0",
     borderWidth: 1,
     padding: 20,
     rowGap: 10,
@@ -124,7 +175,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     padding: 10,
-    minWidth: 85,
+    minWidth: 100,
+    height: 50,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -132,5 +184,20 @@ const styles = StyleSheet.create({
   buttonNext: {
     backgroundColor: "#D1E8D5",
     borderColor: "#D1E8D5",
+  },
+
+  drawerContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    borderRightWidth: 1,
+    borderColor: "#D1E8D5"
+  },
+
+  drawerBottom: {
+    marginBottom: 10,
+    marginRight: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderColor: "gray",
   }
 })

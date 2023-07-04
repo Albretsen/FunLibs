@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button } from 'react-native';
 import ListItem from '/components/ListItem';
 import Header from '/components/Header';
 import FixedButton from '/components/FixedButton';
@@ -24,17 +24,28 @@ function HomeStackScreen({ navigation }) {
         name="Home"
         component={TabNavigation} // Replace LibsScreen with TabNavigation
         options={{
-          header: (props) => <Header {...props} navigation={navigation} />,
-          title: 'My Home Screen',
+          // header: (props) => <Header {...props} leftIcon="Hamburger" navigation={navigation} />,
+          headerTitle: 'Fun Libs',
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={34} onPress={() => navigation.openDrawer()} />
+          ),
+          headerRight: () => (
+            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          ),
         }}
       />
       <Stack.Screen
         name="PlayScreen"
-        component={PlayScreen} // Replace LibsScreen with TabNavigation
-        // options={{
-        //   header: (props) => <Header {...props} navigation={navigation} />,
-        //   title: 'My Home Screen',
-        // }}
+        component={PlayScreen}
+        options={{
+          // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
+          headerTitle: 'Fun Libs',
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          )
+        }}
       />
       {/* You can add more Stack.Screens here if you have more pages in your stack */}
     </Stack.Navigator>
@@ -115,14 +126,6 @@ function YourLibsScreen() {
     </View>
   );
 }
-
-// function PlayScreen() {
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Text>Play Lib</Text>
-//     </View>
-//   );
-// }
 
 const styles = StyleSheet.create({
 
