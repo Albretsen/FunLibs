@@ -9,6 +9,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import Lib from './scripts/lib.js';
+
 const Drawer = createDrawerNavigator();
 
 export default function App() {
