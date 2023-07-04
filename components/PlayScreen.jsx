@@ -4,12 +4,14 @@ import * as Progress from 'react-native-progress';
 import data from '/libs.json';
 import miscStyles from './miscStyles';
 import textStyles from './textStyles';
+import Lib from "../scripts/lib.js";
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
 	// Find the right lib from data
-	const currentLib = data.find(lib => lib.id === libId);
+	//const currentLib = data.find(lib => lib.id === libId);
+	const currentLib = new Lib("Name", libId, ["This is a ", " text"], ["Adjective", "Verb"])
 
 	// Extract prompts from the current lib
 	const prompts = currentLib ? currentLib.suggestions : [];
@@ -18,6 +20,7 @@ function PlayScreen({ route }) {
 	const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
 	const [responses, setResponses] = useState([]);
 	const [currentInput, setCurrentInput] = useState('');
+	const [finishedLib, displayLib] = useState([]);
 
 	// Calculate progress
 	const progress = (currentPromptIndex + 1) / prompts.length;
@@ -46,9 +49,10 @@ function PlayScreen({ route }) {
 	const handleNext = () => {
 		// Add the current response to the responses array
 		setResponses((prevResponses) => {
-		const newResponses = [...prevResponses];
-		newResponses[currentPromptIndex] = currentInput;
-		return newResponses;
+			const newResponses = [...prevResponses];
+			newResponses[currentPromptIndex] = currentInput;
+			currentLib.words = newResponses;
+			return newResponses;
 		});
 
 		if (currentPromptIndex < prompts.length - 1) {
@@ -57,6 +61,9 @@ function PlayScreen({ route }) {
 		} else {
 			// Open the drawer instead of console logging
 			openDrawer();
+			displayLib(() => {
+				return currentLib.display;
+			});
 		}
 		// Clear current input
 		setCurrentInput('');
@@ -99,10 +106,10 @@ function PlayScreen({ route }) {
 					</TouchableOpacity>
 				</View>
 				<Modal
-				animationType="none"
-				transparent={true}
-				visible={drawerVisible}
-				onRequestClose={closeDrawer}
+					animationType="none"
+					transparent={true}
+					visible={drawerVisible}
+					onRequestClose={closeDrawer}
 				>
 					<Animated.View style={{
 						flex: 1,
@@ -113,7 +120,7 @@ function PlayScreen({ route }) {
 					}}>
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
-							<Text>Finished, responses: {JSON.stringify(responses)}</Text>
+							<Text>Finished, responses: {JSON.stringify(finishedLib)}</Text>
 						</View>
 
 						<View style={[styles.buttonContainer, styles.drawerBottom]}>
