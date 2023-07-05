@@ -34,14 +34,14 @@ export default class LibManager {
      * @param {The lib that will be stored to a local file} lib 
      * @param {The key for the file storage location} key 
      */
-    static storeLib(lib, key) {
+    static storeLib(lib, key = "libs") {
         if (lib.id) {
-            LibManager.libs[parseInt(lib.id)] = lib;
-            FileManager._storeData(key, JSON.stringify(LibManager.libs));
+            LibManager.libs[key][parseInt(lib.id)] = lib;
+            FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         } else {
-            lib.id = LibManager.libs.length;
-            LibManager.libs.push(lib);
-            FileManager._storeData(key, JSON.stringify(LibManager.libs));
+            lib.id = LibManager.libs[key].length;
+            LibManager.libs[key].push(lib);
+            FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         }
     }
 
@@ -53,8 +53,8 @@ export default class LibManager {
         return '{"libs":[{"name":"First Lib","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Second lib","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}],"stories":[{"name":"Lib story 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}]}';
     }
 
-    static getLibByID(id, type = "libs") {
-        let lib = LibManager.libs[type][parseInt(id)];
+    static getLibByID(id, key = "libs") {
+        let lib = LibManager.libs[key][parseInt(id)];
         return lib;
     }
 

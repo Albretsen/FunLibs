@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import Header from '/components/Header';
+import Header from './components/Header';
 import PlayScreen from './screens/PlayScreen';
 import LibsScreen from './screens/LibsScreen';
 import StoriesScreen from './screens/StoriesScreen';

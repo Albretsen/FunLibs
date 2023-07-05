@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import ListItem from '/components/ListItem';
+import ListItem from '../components/ListItem';
 import miscStyles from "../styles/miscStyles";
-import FixedButton from "../components/fixedButton";
+import FixedButton from "../components/FixedButton";
 
 export default function StoriesScreen() {
     return (

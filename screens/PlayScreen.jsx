@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as Progress from 'react-native-progress';
-import data from '/libs.json';
+import data from '../libs.json';
 import miscStyles from '../styles/miscStyles';
 import textStyles from '../styles/textStyles';
 import Lib from "../scripts/lib.js";

@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRef, useEffect } from 'react';
-import ListItem from '/components/ListItem';
+import ListItem from '../components/ListItem';
 import miscStyles from "../styles/miscStyles";
 import FixedButton from "../components/FixedButton";
 import { StatusBar } from "expo-status-bar";
