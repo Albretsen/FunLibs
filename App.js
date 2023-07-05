@@ -16,7 +16,7 @@ import Lib from './scripts/lib.js';
 import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js"
 
-await LibManager.initialize();
+LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
 
 const Drawer = createDrawerNavigator();
