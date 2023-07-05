@@ -17,15 +17,15 @@ export default class LibManager {
 
     /**
      * 
-     * @returns Returns an array of all libs (Can also use the LibManager.libs variable!)
+     * @returns Returns a JS object with all libs in Lib object format (Can also use the LibManager.libs variable!)
      */
     static async libs(key = "libs") {
         let libs = await FileManager._retrieveData(key);
         if (libs != null || libs != undefined) {
-            return LibManager.libJsonToLibArray(JSON.parse(libs));
+            return LibManager.libJsonToJSObjectWithLib(JSON.parse(libs));
         } else {
             FileManager._storeData(key, LibManager.defaultLibs);
-            return LibManager.libJsonToLibArray(JSON.parse(LibManager.defaultLibs));
+            return LibManager.libJsonToJSObjectWithLib(JSON.parse(LibManager.defaultLibs));
         }
     }
 
@@ -50,28 +50,53 @@ export default class LibManager {
      * TO DO: Load from a JSON file (Not doing it now because it is added complexity that might break)
      */
     static get defaultLibs() {
-        return '[{"name":"Lib Name","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Second lib","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}]';
+        return '{"libs":[{"name":"First Lib","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Second lib","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}],"stories":[{"name":"Lib story 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}]}';
     }
 
-    static getLibByID(id) {
-        let lib = LibManager.libs[parseInt(id)];
+    static getLibByID(id, type = "libs") {
+        let lib = LibManager.libs[type][parseInt(id)];
         return lib;
     }
 
     /**
      * 
-     * @param {Array in JSON format. To be converted to array of lib objects} json 
+     * @param {All libs, stories and your libs in a JSON format. To be converted to a JS object with Lib objects} json 
      * @returns Array of lib objects
      */
-    static libJsonToLibArray(json) {
-        let result = [];
-        for (let i = 0; i < json.length; i++) {
+    static libJsonToJSObjectWithLib(json) {
+        let dict = {
+            "libs": [],
+            "stories": [],
+            "yourLibs": []
+        };
+        for (let i = 0; i < json["libs"].length; i++) {
+            if (json["libs"][i].words) {
+                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].suggestions, json["libs"][i].words));
+            } else {
+                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].suggestions));
+            }
+        }
+        for (let i = 0; i < json["stories"].length; i++) {
+            if (json["stories"][i].words) {
+                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].suggestions, json["stories"][i].words));
+            } else {
+                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].suggestions));
+            }
+        }
+        for (let i = 0; i < json["yourLibs"].length; i++) {
+            if (json["yourLibs"][i].words) {
+                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].suggestions, json["yourLibs"][i].words));
+            } else {
+                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].suggestions));
+            }
+        }
+        /*for (let i = 0; i < json.length; i++) {
             if (json[i].words) {
                 result.push(new Lib(json[i].name, json[i].id, json[i].text, json[i].suggestions, json[i].words));
             } else {
                 result.push(new Lib(json[i].name, json[i].id, json[i].text, json[i].suggestions));
             }
-        }
-        return result;
+        }*/
+        return dict;
     }
 }
