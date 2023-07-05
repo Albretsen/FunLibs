@@ -30,16 +30,20 @@
  *
  * @requires React
  * @requires useState, useEffect, useRef, forwardRef, useImperativeHandle from 'react'
- * @requires Animated, Dimensions, Modal from 'react-native'
+ * @requires Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity from 'react-native'
+ * @requires MaterialIcons from 'react-native-vector-icons/MaterialIcons'
  */
 
 import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect, Component } from 'react';
-import { Animated, Dimensions, Modal } from 'react-native';
+import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Drawer = forwardRef((props, ref) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const slideAnim = useRef(new Animated.Value(Dimensions.get('window').width)).current;
+
+    const { title } = props;
 
     const animateDrawer = (isVisible) => {
         Animated.timing(slideAnim, {
@@ -81,6 +85,12 @@ const Drawer = forwardRef((props, ref) => {
                 width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
                 transform: [{ translateX: slideAnim }],
             }}>
+                <View style={styles.topBar}>
+                <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
+                    <MaterialIcons name="arrow-back" size={30} />
+                </TouchableOpacity>
+                    <Text style={styles.title}>{title}</Text>
+                </View>
                 {props.children}
             </Animated.View>
         </Modal>
@@ -88,3 +98,15 @@ const Drawer = forwardRef((props, ref) => {
 });
 
 export default Drawer;
+
+const styles = StyleSheet.create({
+    topBar: {
+        height: 75,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10
+    },
+    title: {
+        fontSize: 24
+    }
+})
