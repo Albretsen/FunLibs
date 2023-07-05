@@ -11,9 +11,11 @@ import Drawer from "../components/Drawer";
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
+
+	const type = route.params.type;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	const currentLib = LibManager.getLibByID(libId);
+	const currentLib = LibManager.getLibByID(libId, type);
 
 	// Extract prompts from the current lib
 	const prompts = currentLib ? currentLib.suggestions : [];
@@ -28,6 +30,13 @@ function PlayScreen({ route }) {
 
 	// Calculate progress
 	const progress = (currentPromptIndex + 1) / prompts.length;
+
+	const saveLib = () => {
+		console.log("LOL");
+		console.log(LibManager.libs[type][libId]);
+		console.log(type);
+		LibManager.storeLib(LibManager.libs[type][libId], "stories");
+	}
 
 	const handleNext = () => {
 		// Add the current response to the responses array
@@ -45,7 +54,6 @@ function PlayScreen({ route }) {
 		} else {
 			drawerRef.current.openDrawer();
 			displayLib(() => {
-				console.log(currentLib.display)
 				return currentLib.display;
 			});
 		}
@@ -92,14 +100,14 @@ function PlayScreen({ route }) {
 				<Drawer ref={drawerRef}>
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
-							<Text>Finished, responses: {JSON.stringify(finishedLib)}</Text>
+							<Text>{JSON.stringify(finishedLib)}</Text>
 						</View>
 						<View style={[styles.buttonContainer, styles.drawerBottom]}>
 							<TouchableOpacity style={styles.button}>
 								<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
 							</TouchableOpacity>
 							{/* Add proper onPress */}
-							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={() => drawerRef.current.closeDrawer()}>
+							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={saveLib}>
 								<Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
 							</TouchableOpacity>
 						</View>

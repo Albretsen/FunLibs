@@ -35,7 +35,7 @@ export default class LibManager {
      * @param {The key for the file storage location} key 
      */
     static storeLib(lib, key = "libs") {
-        if (lib.id) {
+        if (lib.id || key != "stories") {
             LibManager.libs[key][parseInt(lib.id)] = lib;
             FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         } else {

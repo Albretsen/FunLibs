@@ -14,7 +14,7 @@ export default class Lib {
      * @param {A user-generated string that will be converted into a lib object} text 
      * @returns A Lib object
      */
-    static createLib(text) {
+    static createLib(text, name) {
         let textResult = [];
         let suggestionsResult = [];
         let wordStartIndex = null;
@@ -37,7 +37,7 @@ export default class Lib {
             }
         }
 
-        return new Lib("TestLib", 0, textResult, suggestionsResult);
+        return new Lib(name, 0, textResult, suggestionsResult);
     }
     
     /**

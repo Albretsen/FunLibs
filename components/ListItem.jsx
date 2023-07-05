@@ -5,16 +5,21 @@ import { useNavigation } from '@react-navigation/native';
 import miscStyles from '../styles/miscStyles';
 
 export default function ListItem(props) {
-    const { name, id } = props;
+    const { name, id, type, drawer, onClick } = props;
     const navigation = useNavigation();
 
-    function playLib(id) {
+    function playLib(id, type) {
         console.log(id)
-        navigation.navigate('PlayScreen', { libId: id });
+        if(type == "stories") {
+            drawer.current.openDrawer();
+            onClick({id, name, type})
+        } else {
+            navigation.navigate('PlayScreen', { libId: id, type: type });
+        }
     }
 
     return (
-        <TouchableOpacity onPress={() => playLib(id)}>
+        <TouchableOpacity onPress={() => playLib(id, type)}>
             <View style={[styles.container, miscStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
                     <Text style={textStyles.fontLarge}>{name[0]}</Text>
