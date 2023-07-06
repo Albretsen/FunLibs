@@ -5,7 +5,7 @@ import miscStyles from "../styles/miscStyles";
 import FixedButton from "../components/FixedButton";
 import LibManager from '../scripts/lib_manager';
 import Lib from '../scripts/lib';
-import Drawer from '../components/drawer';
+import Drawer from '../components/Drawer';
 
 export default function StoriesScreen() {
 

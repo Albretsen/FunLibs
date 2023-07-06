@@ -7,6 +7,7 @@ import textStyles from '../styles/textStyles';
 import Lib from "../scripts/lib.js";
 import LibManager from '../scripts/lib_manager';
 import Drawer from "../components/Drawer";
+import BottomButtons from '../components/bottomButtons';
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
@@ -32,9 +33,6 @@ function PlayScreen({ route }) {
 	const progress = (currentPromptIndex + 1) / prompts.length;
 
 	const saveLib = () => {
-		console.log("LOL");
-		console.log(LibManager.libs[type][libId]);
-		console.log(type);
 		LibManager.storeLib(LibManager.libs[type][libId], "stories");
 	}
 
@@ -102,15 +100,15 @@ function PlayScreen({ route }) {
 						<View style={styles.drawerTop}>
 							<Text>{JSON.stringify(finishedLib)}</Text>
 						</View>
-						<View style={[styles.buttonContainer, styles.drawerBottom]}>
+						{/* <View style={[styles.buttonContainer, styles.drawerBottom]}>
 							<TouchableOpacity style={styles.button}>
 								<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
 							</TouchableOpacity>
-							{/* Add proper onPress */}
 							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={saveLib}>
 								<Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
 							</TouchableOpacity>
-						</View>
+						</View> */}
+						<BottomButtons firstLabel="Cancel" secondLabel="Save" secondOnPress={() => saveLib} />
 					</View>
 				</Drawer>
 			</View>

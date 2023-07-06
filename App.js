@@ -28,11 +28,16 @@ function HomeStackScreen({ navigation }) {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={TabNavigation}
+        component={LibsHomeScreen}
         options={{
           // header: (props) => <Header {...props} leftIcon="Hamburger" navigation={navigation} />,
           headerTitle: 'Fun Libs',
           headerTitleAlign: "center",
+          headerStyle: {
+            elevation: 0, // remove shadow on Android
+            shadowOpacity: 0, // remove shadow on iOS
+            borderBottomWidth: 0, // for explicit border settings
+          },
           headerLeft: () => (
             <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={34} onPress={() => navigation.openDrawer()} />
           ),
@@ -48,6 +53,11 @@ function HomeStackScreen({ navigation }) {
           // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
           headerTitle: 'Fun Libs',
           headerTitleAlign: "center",
+          headerStyle: {
+            elevation: 0, // remove shadow on Android
+            shadowOpacity: 0, // remove shadow on iOS
+            borderBottomWidth: 0, // for explicit border settings
+          },
           headerRight: () => (
             <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
           )
@@ -58,7 +68,7 @@ function HomeStackScreen({ navigation }) {
   );
 }
 
-function TabNavigation() {
+function LibsHomeScreen() {
   return (
     <Tab.Navigator
       initialRouteName="Libs"
@@ -70,15 +80,34 @@ function TabNavigation() {
           iconName = focused ? "radio-button-checked" : "radio-button-unchecked";
 
           // You can return any component that you like here!
-          return <MaterialIcons name={iconName} size={16} />;
+          return (
+            <View
+              style={{
+                height: 30, // or the size you want
+                width: 60, // or the size you want
+                backgroundColor: focused ? '#abc' : 'transparent', // Change #abc to your preferred color.
+                borderRadius: 16, // half of your size to make it circular
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <MaterialIcons name={iconName} size={18} color={focused ? '#49454F' : color} />
+            </View>
+          );
         },
         tabBarActiveTintColor: "gray",
         tabBarInactiveTintColor: "gray",
         tabBarLabelStyle: {
-          fontSize: 14
+          fontSize: 16
         },
         tabBarStyle: {
-          paddingVertical: 1
+          paddingVertical: 1,
+          paddingBottom: 10,
+          backgroundColor: "#F0F1EC",
+          elevation: 0, // remove shadow on Android
+          shadowOpacity: 0, // remove shadow on iOS
+          borderTopWidth: 0, // for explicit border settings
+          height: 74
         }
       })}
     >
