@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import textStyles from '../styles/textStyles';
 
-export default function BottomButtons({ firstLabel, secondLabel, firstOnPress, secondOnPress }) {
+export default function ButtonPair({ firstLabel, secondLabel, firstOnPress, secondOnPress, bottomButtons }) {
     return (
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, bottomButtons ? styles.bottomStyle : null]}>
             <TouchableOpacity style={styles.button} onPress={firstOnPress}>
                 <Text style={[textStyles.bold, textStyles.fontMedium]}>{firstLabel}</Text>
             </TouchableOpacity>
@@ -22,10 +22,13 @@ const styles = StyleSheet.create({
 		gap: 10,
 		marginTop: 10,
         marginBottom: 10,
-		marginRight: 10,
+	},
+	bottomStyle: {
+		paddingLeft: 20,
 		paddingTop: 10,
 		borderTopWidth: 1,
-		borderColor: "gray",
+		borderColor: "#cccccc",
+		justifyContent: "flex-start"
 	},
 	button: {
 		borderRadius: 40,

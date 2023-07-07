@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '../libs.json';
 import miscStyles from '../styles/miscStyles';
@@ -7,7 +7,8 @@ import textStyles from '../styles/textStyles';
 import Lib from "../scripts/lib.js";
 import LibManager from '../scripts/lib_manager';
 import Drawer from "../components/Drawer";
-import BottomButtons from '../components/bottomButtons';
+import ButtonPair from '../components/ButtonPair';
+import { useNavigation } from '@react-navigation/native';
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
@@ -32,8 +33,12 @@ function PlayScreen({ route }) {
 	// Calculate progress
 	const progress = (currentPromptIndex + 1) / prompts.length;
 
+	const navigation = useNavigation();
+
 	const saveLib = () => {
 		LibManager.storeLib(LibManager.libs[type][libId], "stories");
+		drawerRef.current.closeDrawer();
+		navigation.navigate('LibsHomeScreen');
 	}
 
 	const handleNext = () => {
@@ -87,30 +92,22 @@ function PlayScreen({ route }) {
 					borderWidth={0}
 					borderRadius={0}
 				/>
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity style={styles.button} onPress={handleBack}>
-						<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Back</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={handleNext}>
-						<Text style={[textStyles.bold, textStyles.fontMedium]}>Next</Text>
-					</TouchableOpacity>
-				</View>
-				<Drawer ref={drawerRef}>
+				<ButtonPair firstLabel="Back" firstOnPress={handleBack} secondLabel="Next" secondOnPress={handleNext} bottomButtons={false} />
+				<Drawer ref={drawerRef} title="Finished Lib">
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
-							<Text>{JSON.stringify(finishedLib)}</Text>
+							<Text style={textStyles.fontLarge}>Title of Lib here</Text>
+							<Text style={textStyles.fontMedium}>{JSON.stringify(finishedLib)}</Text>
 						</View>
-						{/* <View style={[styles.buttonContainer, styles.drawerBottom]}>
-							<TouchableOpacity style={styles.button}>
-								<Text style={[styles.buttonText, textStyles.bold, textStyles.fontMedium]}>Cancel</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={saveLib}>
-								<Text style={[textStyles.bold, textStyles.fontMedium]}>Save</Text>
-							</TouchableOpacity>
-						</View> */}
-						<BottomButtons firstLabel="Cancel" secondLabel="Save" secondOnPress={() => saveLib} />
+						<ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
 					</View>
 				</Drawer>
+			</View>
+			<View style={styles.bottomLeftContainer}>
+				<Image
+				style={styles.image}
+				source={require('../assets/images/girl-with-balloon.svg')}
+				/>
 			</View>
 		</View>
 	);
@@ -167,11 +164,27 @@ const styles = StyleSheet.create({
 		borderRightWidth: 1,
 		borderColor: "#D1E8D5"
 	},
+	drawerTop: {
+		marginHorizontal: 20,
+	},
 	drawerBottom: {
 		marginBottom: 10,
 		marginRight: 10,
 		paddingTop: 10,
 		borderTopWidth: 1,
 		borderColor: "gray",
-	}
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+	bottomLeftContainer: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+	},
+	image: {
+		width: 170,
+		height: 180,
+	},
 })

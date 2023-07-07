@@ -1,20 +1,29 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import miscStyles from '../styles/miscStyles'
+import miscStyles from '../styles/miscStyles';
+import { useNavigation } from '@react-navigation/native';
 
-export default function FixedButton({ onPress = () => console.log('Default onPress') }) {
-    return (
-      <View style={[styles.buttonContainer, miscStyles.dropShadow]}>
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={onPress}
-        > 
-          <MaterialIcons name="add" size={36} />
-        </TouchableOpacity>
-      </View>
-    );
+export default function FixedButton({ onPress }) {
+  const navigation = useNavigation();
+  
+  const openCreate = () => {
+    navigation.navigate('Your Libs', { openDrawer: true });
   }
+
+  // Use openCreate if no onPress prop is provided
+  const handlePress = onPress || openCreate;
+  return (
+    <View style={[styles.buttonContainer, miscStyles.dropShadow]}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handlePress}
+      > 
+        <MaterialIcons name="add" size={36} />
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {

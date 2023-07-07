@@ -27,7 +27,7 @@ function HomeStackScreen({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name="LibsHomeScreen"
         component={LibsHomeScreen}
         options={{
           // header: (props) => <Header {...props} leftIcon="Hamburger" navigation={navigation} />,
