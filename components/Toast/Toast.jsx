@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Text, Animated, StyleSheet } from 'react-native';
-import textStyles from '../../styles/textStyles';
+import globalStyles from '../../styles/globalStyles';
 
 const Toast = ({ title, message }) => {
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -23,8 +23,8 @@ const Toast = ({ title, message }) => {
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
-      <Text style={[styles.text, textStyles.fontLarge]}>{title}</Text>
-      <Text style={[styles.text, textStyles.fontMedium]}>{message}</Text>
+      <Text style={[styles.text, globalStyles.fontLarge]}>{title}</Text>
+      <Text style={[styles.text, globalStyles.fontMedium]}>{message}</Text>
     </Animated.View>
   );
 };

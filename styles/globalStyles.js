@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const fullWidth = Dimensions.get("window").width;
 
-const miscStyles = StyleSheet.create({
+const globalStyles = StyleSheet.create({
     dropShadow: {
         // iOS shadow properties
         shadowColor: "#000",
@@ -27,7 +27,38 @@ const miscStyles = StyleSheet.create({
 
     containerWhitespace: {
         width: fullWidth - fullWidth / 16,
+    },
+
+    fontSmall: {
+        fontSize: 15
+    },
+
+    fontMedium: {
+        fontSize: 18
+    },
+
+    fontLarge: {
+        fontSize: 26
+    },
+
+    bold: {
+        fontWeight: 500
+    },
+
+    input: {
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#79747E"
+    },
+
+    inputSmall: {
+        height: 50,
+        padding: 10
+    },
+
+    inputLarge: {
+        padding: 10
     }
 })
 
-export default miscStyles;
+export default globalStyles;

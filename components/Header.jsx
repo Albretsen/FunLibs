@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import textStyles from '../styles/textStyles';
+import globalStyles from '../styles/globalStyles';
 import { HeaderBackButton } from '@react-navigation/stack';
 
 export default function Header({ scene, previous, navigation, leftIcon }) {
@@ -16,7 +16,7 @@ export default function Header({ scene, previous, navigation, leftIcon }) {
       <View style={styles.headerContainer}>
         {leftIcon === "Backbutton" ? <HeaderBackButton onPress={() => navigation.goBack()} /> :
         <MaterialIcons name="menu" size={34} onPress={() => navigation.openDrawer()} />}
-        <Text style={textStyles.fontLarge}>Fun Libs</Text>
+        <Text style={globalStyles.fontLarge}>Fun Libs</Text>
         <MaterialIcons name="account-circle" size={26} />
       </View>
     );

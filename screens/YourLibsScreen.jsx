@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
 import React, { useRef, useContext } from 'react';
 import ListItem from '../components/ListItem';
-import miscStyles from "../styles/miscStyles";
+import globalStyles from "../styles/globalStyles";
 import FixedButton from "../components/FixedButton";
 import LibManager from '../scripts/lib_manager';
 import Lib from '../scripts/lib';
@@ -49,7 +49,7 @@ export default function YourLibsScreen() {
   );
 
   return (
-    <View style={miscStyles.screenStandard}>
+    <View style={globalStyles.screenStandard}>
       <FixedButton onPress={() => drawerRef.current.openDrawer()}/>
       <Text>Your Libs!</Text>
       <ScrollView style={styles.listItemContainer}>
@@ -58,17 +58,21 @@ export default function YourLibsScreen() {
         ))}
       </ScrollView>
       <Drawer ref={drawerRef} title="Write your own Lib!">
-        <Text>This is content inside the drawer.</Text>
-        <TextInput
-          multiline={true}
-          numberOfLines={1}
-          onChangeText={text => setTitle(text)}
-        />
-        <TextInput
-          multiline={true}
-          numberOfLines={50}
-          onChangeText={text => setText(text)}
-        />
+        <View style={{marginHorizontal: 14, flex: 1}}>
+          <Text>This is content inside the drawer.</Text>
+          <TextInput
+            style={[globalStyles.input, globalStyles.inputSmall]}
+            multiline={true}
+            numberOfLines={1}
+            onChangeText={text => setTitle(text)}
+          />
+          <TextInput
+            style={[globalStyles.input, globalStyles.inputLarge, {flex: 1}]}
+            multiline={true}
+            numberOfLines={50}
+            onChangeText={text => setText(text)}
+          />
+        </View>
         <ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
       </Drawer>
     </View>

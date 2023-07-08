@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import textStyles from '../styles/textStyles';
+import globalStyles from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
-import miscStyles from '../styles/miscStyles';
 
 export default function ListItem(props) {
     const { name, id, type, drawer, onClick } = props;
@@ -20,13 +19,13 @@ export default function ListItem(props) {
 
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>
-            <View style={[styles.container, miscStyles.containerWhitespace]}>
+            <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
-                    <Text style={textStyles.fontLarge}>{name[0]}</Text>
+                    <Text style={globalStyles.fontLarge}>{name[0]}</Text>
                 </View>
                 <View style={styles.textRow}>
-                    <Text style={[textStyles.fontMedium, textStyles.bold]}>{name}</Text>
-                    <Text style={textStyles.fontMedium}>Some text goes here...</Text>
+                    <Text style={[globalStyles.fontMedium, globalStyles.bold]}>{name}</Text>
+                    <Text style={globalStyles.fontMedium}>Some text goes here...</Text>
                 </View>
             </View>
         </TouchableOpacity>

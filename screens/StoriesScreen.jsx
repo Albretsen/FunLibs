@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRef, useState } from 'react';
 import ListItem from '../components/ListItem';
-import miscStyles from "../styles/miscStyles";
+import globalStyles from "../styles/globalStyles";
 import FixedButton from "../components/FixedButton";
 import LibManager from '../scripts/lib_manager';
 import Lib from '../scripts/lib';
@@ -19,7 +19,7 @@ export default function StoriesScreen() {
     };
 
     return (
-        <View style={miscStyles.screenStandard}>
+        <View style={globalStyles.screenStandard}>
             <FixedButton />
             <Text>Stories!</Text>
             <ScrollView style={styles.listItemContainer}>

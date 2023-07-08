@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import textStyles from '../styles/textStyles';
+import globalStyles from '../styles/globalStyles';
 
 export default function ButtonPair({ firstLabel, secondLabel, firstOnPress, secondOnPress, bottomButtons }) {
     return (
         <View style={[styles.buttonContainer, bottomButtons ? styles.bottomStyle : null]}>
             <TouchableOpacity style={styles.button} onPress={firstOnPress}>
-                <Text style={[textStyles.bold, textStyles.fontMedium]}>{firstLabel}</Text>
+                <Text style={[globalStyles.bold, globalStyles.fontMedium]}>{firstLabel}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={secondOnPress}>
-                <Text style={[textStyles.bold, textStyles.fontMedium]}>{secondLabel}</Text>
+                <Text style={[globalStyles.bold, globalStyles.fontMedium]}>{secondLabel}</Text>
             </TouchableOpacity>
         </View>
     )

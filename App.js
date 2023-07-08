@@ -4,7 +4,6 @@ import PlayScreen from './screens/PlayScreen';
 import LibsScreen from './screens/LibsScreen';
 import StoriesScreen from './screens/StoriesScreen';
 import YourLibsScreen from './screens/YourLibsScreen';
-import miscStyles from './styles/miscStyles';
 import data from './libs.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

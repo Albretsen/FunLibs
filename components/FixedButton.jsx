@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import miscStyles from '../styles/miscStyles';
+import globalStyles from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 
 export default function FixedButton({ onPress }) {
@@ -14,7 +14,7 @@ export default function FixedButton({ onPress }) {
   // Use openCreate if no onPress prop is provided
   const handlePress = onPress || openCreate;
   return (
-    <View style={[styles.buttonContainer, miscStyles.dropShadow]}>
+    <View style={[styles.buttonContainer, globalStyles.dropShadow]}>
       <TouchableOpacity 
         style={styles.button}
         onPress={handlePress}

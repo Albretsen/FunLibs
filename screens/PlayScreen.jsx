@@ -2,8 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '../libs.json';
-import miscStyles from '../styles/miscStyles';
-import textStyles from '../styles/textStyles';
+import globalStyles from '../styles/globalStyles';
 import Lib from "../scripts/lib.js";
 import LibManager from '../scripts/lib_manager';
 import Drawer from "../components/Drawer";
@@ -76,16 +75,16 @@ function PlayScreen({ route }) {
 	};
 
 	return (
-		<View style={[miscStyles.screenStandard]}>
-			<View style={[styles.promptContainer, miscStyles.containerWhitespace]}>
-				<Text style={[textStyles.fontMedium, styles.leftPadding]}>{prompts[currentPromptIndex]}</Text>
+		<View style={[globalStyles.screenStandard]}>
+			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
+				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{prompts[currentPromptIndex]}</Text>
 				<TextInput
-					style={[styles.input, textStyles.fontMedium]}
+					style={[styles.input, globalStyles.fontMedium]}
 					value={currentInput}
 					onChangeText={setCurrentInput}
 					placeholder={`Write your word here...`}
 				/>
-				<Text style={[styles.leftPadding, textStyles.fontSmall, styles.explanation]}>Explanation of word here.</Text>
+				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>Explanation of word here.</Text>
 				<Progress.Bar
 					progress={progress}
 					width={null}
@@ -98,8 +97,8 @@ function PlayScreen({ route }) {
 				<Drawer ref={drawerRef} title="Finished Lib">
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
-							<Text style={textStyles.fontLarge}>Title of Lib here</Text>
-							<Text style={textStyles.fontMedium}>{JSON.stringify(finishedLib)}</Text>
+							<Text style={globalStyles.fontLarge}>Title of Lib here</Text>
+							<Text style={globalStyles.fontMedium}>{JSON.stringify(finishedLib)}</Text>
 						</View>
 						<ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
 					</View>
