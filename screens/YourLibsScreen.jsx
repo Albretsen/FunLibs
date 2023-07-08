@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import ListItem from '../components/ListItem';
 import miscStyles from "../styles/miscStyles";
 import FixedButton from "../components/FixedButton";
@@ -8,13 +8,17 @@ import Lib from '../scripts/lib';
 import Drawer from '../components/Drawer';
 import ButtonPair from '../components/ButtonPair';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+import ToastContext from '../components/Toast/ToastContext';
 
 export default function YourLibsScreen() {
   let libText = "";
   let libTitle = "";
+  const showToast = useContext(ToastContext);
   const saveLib = () => {
     let lib = Lib.createLib(libText, libTitle);
     LibManager.storeLib(lib, "yourLibs");
+    drawerRef.current.closeDrawer();
+    showToast('Lib saved', 'Your lib can be found under "Your libs" at the bottom of your screen.');
   }
 
   const setText = (text) => {

@@ -14,7 +14,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lib from './scripts/lib.js';
 import FileManager from "./scripts/file_manager.js";
-import LibManager from "./scripts/lib_manager.js"
+import LibManager from "./scripts/lib_manager.js";
+import ToastProvider from './components/Toast/ToastProvider';
 
 LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
@@ -120,15 +121,17 @@ function LibsHomeScreen() {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-          <Drawer.Screen name="Home" component={HomeStackScreen} />
-          {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
-          {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <ToastProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <Drawer.Screen name="Home" component={HomeStackScreen} />
+            {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
+            {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </ToastProvider>
   );
 }
 

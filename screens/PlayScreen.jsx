@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '../libs.json';
@@ -9,6 +9,7 @@ import LibManager from '../scripts/lib_manager';
 import Drawer from "../components/Drawer";
 import ButtonPair from '../components/ButtonPair';
 import { useNavigation } from '@react-navigation/native';
+import ToastContext from '../components/Toast/ToastContext';
 
 function PlayScreen({ route }) {
 	// The id passed from ListItem component is received here
@@ -34,11 +35,12 @@ function PlayScreen({ route }) {
 	const progress = (currentPromptIndex + 1) / prompts.length;
 
 	const navigation = useNavigation();
-
+	const showToast = useContext(ToastContext);
 	const saveLib = () => {
 		LibManager.storeLib(LibManager.libs[type][libId], "stories");
 		drawerRef.current.closeDrawer();
 		navigation.navigate('LibsHomeScreen');
+		showToast('Story saved', 'Your story can be found under "Stories" at the bottom of your screen.');
 	}
 
 	const handleNext = () => {
