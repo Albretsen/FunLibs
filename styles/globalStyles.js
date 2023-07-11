@@ -54,11 +54,11 @@ const globalStyles = StyleSheet.create({
 
     inputSmall: {
         height: 50,
-        padding: 10
+        // padding: 10
     },
 
     inputLarge: {
-        padding: 10
+        // padding: 10
     }
 })
 

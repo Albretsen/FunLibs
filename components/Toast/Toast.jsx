@@ -23,8 +23,8 @@ const Toast = ({ title, message }) => {
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
-      <Text allowFontScaling style={[styles.text, {fontSize: 16}]}>{title}</Text>
-      <Text allowFontScaling style={[styles.text, globalStyles.fontMedium]}>{message}</Text>
+      <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text>
+      <Text allowFontScaling style={[styles.text, {fontSize: 16}]}>{message}</Text>
     </Animated.View>
   );
 };
