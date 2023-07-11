@@ -45,7 +45,6 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
-        
     }
 
     /**
@@ -54,7 +53,8 @@ export default class LibManager {
      * @param {The key for the file storage location} key 
      */
     static storeLib(lib, key = "libs") {
-        if (lib.id || lib.id == 0) {
+        lib = { ...lib };
+        if (lib.id || lib.id == 0 && key === "libs") {
             LibManager.libs[key][parseInt(lib.id)] = lib;
             FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         } else {
