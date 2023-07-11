@@ -13,7 +13,6 @@ export default function LibsScreen() {
 	useFocusEffect(
 	  useCallback(() => {
 		setListItems([...LibManager.libs["libs"]]);
-		console.log("test")
 		return () => {}; // Cleanup function if necessary
 	  }, [])
 	);
