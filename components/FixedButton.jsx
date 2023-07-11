@@ -8,7 +8,8 @@ export default function FixedButton({ onPress }) {
   const navigation = useNavigation();
   
   const openCreate = () => {
-    navigation.navigate('Your Libs', { openDrawer: true });
+    // navigation.navigate('Your Libs', { openDrawer: true });
+    navigation.navigate('CreateLibScreen');
   }
 
   // Use openCreate if no onPress prop is provided

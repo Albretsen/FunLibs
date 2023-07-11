@@ -15,6 +15,7 @@
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
+    "@reduxjs/toolkit": "^1.9.5",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
     "mocha": "^10.2.0",
@@ -27,6 +28,8 @@
     "react-native-reanimated": "^2.14.4",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.18.12",
+    "react-redux": "^8.1.1",
+    "redux": "^4.2.1",
     "unit.js": "^2.1.1"
   },
   "devDependencies": {

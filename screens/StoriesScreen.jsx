@@ -23,9 +23,9 @@ export default function StoriesScreen() {
             <FixedButton />
             <Text>Stories!</Text>
             <ScrollView style={styles.listItemContainer}>
-            {LibManager.libs["stories"].map((item) => (
-                <ListItem name={item.name} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)}></ListItem>
-            ))}
+                {LibManager.libs["stories"].map((item) => (
+                    <ListItem name={item.name} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)}></ListItem>
+                ))}
             </ScrollView>
             <Drawer ref={drawerRef}>
                 {selectedItem ? <Text>{`Selected Item: ${selectedItem.display}`}</Text> : <Text>No item selected</Text>}

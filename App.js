@@ -4,6 +4,7 @@ import PlayScreen from './screens/PlayScreen';
 import LibsScreen from './screens/LibsScreen';
 import StoriesScreen from './screens/StoriesScreen';
 import YourLibsScreen from './screens/YourLibsScreen';
+import CreateLibScreen from './screens/createLibScreen';
 import data from './libs.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -49,6 +50,23 @@ function HomeStackScreen({ navigation }) {
       <Stack.Screen
         name="PlayScreen"
         component={PlayScreen}
+        options={{
+          // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
+          headerTitle: 'Fun Libs',
+          headerTitleAlign: "center",
+          headerStyle: {
+            elevation: 0, // remove shadow on Android
+            shadowOpacity: 0, // remove shadow on iOS
+            borderBottomWidth: 0, // for explicit border settings
+          },
+          headerRight: () => (
+            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          )
+        }}
+      />
+      <Stack.Screen
+        name="CreateLibScreen"
+        component={CreateLibScreen}
         options={{
           // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
           headerTitle: 'Fun Libs',
