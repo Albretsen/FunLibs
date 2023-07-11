@@ -95,6 +95,7 @@ function HomeStackScreen({ navigation }) {
 function LibsHomeScreen() {
   return (
     <Tab.Navigator
+      swipeEnabled={true}
       initialRouteName="Libs"
       screenOptions={({ route }) => ({
         headerShown: false,

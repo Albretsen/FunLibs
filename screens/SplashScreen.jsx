@@ -1,11 +1,7 @@
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
-import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
-import FixedButton from "../components/FixedButton";
-import { StatusBar } from "expo-status-bar";
 import LibManager from '../scripts/lib_manager';
-import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 export default function SplashScreen() {
