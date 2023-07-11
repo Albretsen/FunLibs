@@ -1,4 +1,4 @@
-import mobileAds from 'react-native-google-mobile-ads';
+// import mobileAds from 'react-native-google-mobile-ads';
 
 /*mobileAds()
   .initialize()

@@ -17,6 +17,7 @@ import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js";
 import AdManager from "./scripts/ad_manager.js";
 import ToastProvider from './components/Toast/ToastProvider';
+import SplashScreen from './screens/SplashScreen';
 
 LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
@@ -28,6 +29,10 @@ const Stack = createStackNavigator();
 function HomeStackScreen({ navigation }) {
   return (
     <Stack.Navigator>
+      <Stack.Screen 
+        name="SplashScreen"
+        component={SplashScreen}>
+      </Stack.Screen>
       <Stack.Screen
         name="LibsHomeScreen"
         component={LibsHomeScreen}

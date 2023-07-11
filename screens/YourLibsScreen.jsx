@@ -33,31 +33,13 @@ export default function YourLibsScreen() {
 
   return (
     <View style={globalStyles.screenStandard}>
-      <FixedButton onPress={() => drawerRef.current.openDrawer()}/>
+      <FixedButton/>
       <Text>Your Libs!</Text>
       <ScrollView style={styles.listItemContainer}>
         {LibManager.libs["yourLibs"].map((item) => (
           <ListItem name={item.name} id={item.id} type="yourLibs" key={item.id}></ListItem>
         ))}
       </ScrollView>
-      <Drawer ref={drawerRef} title="Write your own Lib!">
-        <View style={{marginHorizontal: 14, flex: 1}}>
-          <Text>This is content inside the drawer.</Text>
-          <TextInput
-            style={[globalStyles.input, globalStyles.inputSmall]}
-            multiline={true}
-            numberOfLines={1}
-            onChangeText={text => setTitle(text)}
-          />
-          <TextInput
-            style={[globalStyles.input, globalStyles.inputLarge, {flex: 1}]}
-            multiline={true}
-            numberOfLines={50}
-            onChangeText={text => setText(text)}
-          />
-        </View>
-        <ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
-      </Drawer>
     </View>
   );
 }
