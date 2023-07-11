@@ -2,24 +2,35 @@ import FileManager from "../scripts/file_manager.js";
 import Lib from "../scripts/lib.js";
 
 export default class LibManager {
-    static libs;
+    static libs = {
+        "libs": [{
+            "name": "Loading libs...",
+            "id": 0,
+            "text": [
+                "This is a ",
+                " text. It is called ",
+                ""
+            ],
+            "suggestions": [
+                "Adjective",
+                "Name"
+            ],
+            "words": [
+                "funny",
+                "Cool text"
+            ]
+        }]
+    }
 
     static async initialize() {
         await LibManager.loadLibsToMemory();
     }
 
     /**
-     * Loads all libs to the LibManager.libs variable. This is to prevent having to read from a file every time the system requests a lib, which would require asynchronous calls.
-     */
-    static async loadLibsToMemory() {
-        LibManager.libs = await LibManager.libs();
-    }
-
-    /**
      * 
      * @returns Returns a JS object with all libs in Lib object format (Can also use the LibManager.libs variable!)
      */
-    static async libs(key = "libs") {
+    static async getLibs(key = "libs") {
         let libs = await FileManager._retrieveData(key);
         if (libs != null || libs != undefined) {
             return LibManager.libJsonToJSObjectWithLib(JSON.parse(libs));
@@ -27,6 +38,13 @@ export default class LibManager {
             FileManager._storeData(key, LibManager.defaultLibs);
             return LibManager.libJsonToJSObjectWithLib(JSON.parse(LibManager.defaultLibs));
         }
+    }
+
+    /**
+     * Loads all libs to the LibManager.libs variable. This is to prevent having to read from a file every time the system requests a lib, which would require asynchronous calls.
+     */
+    static async loadLibsToMemory() {
+        LibManager.libs = await LibManager.getLibs();
     }
 
     /**

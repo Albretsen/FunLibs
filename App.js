@@ -15,6 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lib from './scripts/lib.js';
 import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js";
+import AdManager from "./scripts/ad_manager.js";
 import ToastProvider from './components/Toast/ToastProvider';
 
 LibManager.initialize();
