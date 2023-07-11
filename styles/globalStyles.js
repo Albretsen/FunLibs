@@ -34,7 +34,8 @@ const globalStyles = StyleSheet.create({
     },
 
     fontMedium: {
-        fontSize: 18
+        fontSize: 18,
+        // fontFamily: "Roboto-Regular"
     },
 
     fontLarge: {
