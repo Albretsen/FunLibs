@@ -21,7 +21,7 @@ export default function StoriesScreen() {
     return (
         <View style={globalStyles.screenStandard}>
             <FixedButton />
-            <Text>Stories!</Text>
+            <Text>Stories</Text>
             <ScrollView style={styles.listItemContainer}>
             {LibManager.libs["stories"].map((item) => (
                 <ListItem name={item.name} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)}></ListItem>
