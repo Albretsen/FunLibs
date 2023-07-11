@@ -1,13 +1,23 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
 import FixedButton from "../components/FixedButton";
 import LibManager from '../scripts/lib_manager';
 import Lib from '../scripts/lib';
 import Drawer from '../components/Drawer';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function StoriesScreen() {
+
+    const [listItems, setListItems] = useState(LibManager.libs["stories"]);
+
+	useFocusEffect(
+	  useCallback(() => {
+		setListItems([...LibManager.libs["stories"]]);
+		return () => {}; // Cleanup function if necessary
+	  }, [])
+	);
 
     const drawerRef = useRef();
     
@@ -23,7 +33,7 @@ export default function StoriesScreen() {
             <FixedButton />
             <Text>Stories</Text>
             <ScrollView style={styles.listItemContainer}>
-                {LibManager.libs["stories"].map((item) => (
+                {listItems.map((item) => (
                     <ListItem name={item.name} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)}></ListItem>
                 ))}
             </ScrollView>

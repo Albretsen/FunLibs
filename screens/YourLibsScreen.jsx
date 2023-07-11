@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TextInput} from 'react-native';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useCallback, useState } from 'react';
 import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
 import FixedButton from "../components/FixedButton";
@@ -11,6 +11,15 @@ import { useFocusEffect, useRoute } from '@react-navigation/native';
 import ToastContext from '../components/Toast/ToastContext';
 
 export default function YourLibsScreen() {
+
+  const [listItems, setListItems] = useState(LibManager.libs["yourLibs"]);
+
+	useFocusEffect(
+	  useCallback(() => {
+		setListItems([...LibManager.libs["yourLibs"]]);
+		return () => {}; // Cleanup function if necessary
+	  }, [])
+	);
 
   const route = useRoute(); // Get the route prop to access the parameters
   const drawerRef = useRef();
@@ -36,7 +45,7 @@ export default function YourLibsScreen() {
       <FixedButton/>
       <Text>Your Libs!</Text>
       <ScrollView style={styles.listItemContainer}>
-        {LibManager.libs["yourLibs"].map((item) => (
+        {listItems.map((item) => (
           <ListItem name={item.name} id={item.id} type="yourLibs" key={item.id}></ListItem>
         ))}
       </ScrollView>
