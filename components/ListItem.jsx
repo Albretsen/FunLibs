@@ -8,7 +8,6 @@ export default function ListItem(props) {
     const navigation = useNavigation();
 
     function playLib(id, type) {
-        console.log(id)
         if(type == "stories") {
             drawer.current.openDrawer();
             onClick({id, name, type})

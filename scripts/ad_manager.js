@@ -1,23 +1,24 @@
-import mobileAds from 'react-native-google-mobile-ads';
-import { AppOpenAd, InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
-const delay = ms => new Promise(res => setTimeout(res, ms));
+export default class AdManager {
+  static interstitial;
+  static interstitialLoaded = false;
 
-mobileAds().initialize().then(adapterStatuses => {
-  //requestInterstitial();
-});
+  static production = false;
 
-let interstitial;
+  static initialize() {
+  }
 
-async function requestInterstitial() {
-  const adUnitId = TestIds.INTERSTITIAL;
+  static loadAd(type = null) {
+    return;
+  }
 
-  interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-    requestNonPersonalizedAdsOnly: true
-  });
-
-  await delay(2000);
-  loadInterstitial();
+  static showAd(type = null) {
+    return;
+  }
 }
+
+/*interstitial = InterstitialAd.createForAdRequest(interstitialID, {
+  requestNonPersonalizedAdsOnly: true
+});
 
 async function loadInterstitial() {
   // Preload an app open ad
@@ -32,4 +33,4 @@ function showInterstitial() {
   interstitial.show();
 
   //////
-}
+}*/

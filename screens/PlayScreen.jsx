@@ -9,8 +9,15 @@ import Drawer from "../components/Drawer";
 import ButtonPair from '../components/ButtonPair';
 import { useNavigation } from '@react-navigation/native';
 import ToastContext from '../components/Toast/ToastContext';
+import { useEffect } from 'react';
+import AdManager from '../scripts/ad_manager';
 
 function PlayScreen({ route }) {
+
+	useEffect(() => {
+		AdManager.showAd("interstitial");
+	});
+
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
 

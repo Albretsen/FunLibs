@@ -6,9 +6,18 @@ import FixedButton from "../components/FixedButton";
 import { StatusBar } from "expo-status-bar";
 import LibManager from '../scripts/lib_manager';
 import { useFocusEffect } from '@react-navigation/native';
+// ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS 
+import AdManager from '../scripts/ad_manager';
 
 export default function LibsScreen() {
 	const [listItems, setListItems] = useState(LibManager.libs["libs"]);
+
+	useEffect(() => {
+		try {			
+			// ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS 			 
+			AdManager.loadAd("interstitial");
+		} catch {}
+	})
 
 	useFocusEffect(
 	  useCallback(() => {
