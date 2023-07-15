@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const fullWidth = Dimensions.get("window").width;
 
@@ -49,11 +49,16 @@ const globalStyles = StyleSheet.create({
     input: {
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "#79747E"
+        borderColor: "#79747E",
+        fontSize: 16,
+        padding: 6
     },
 
     inputSmall: {
         height: 50,
+        // Need to test this on emulator
+        ...(Platform.OS === 'ios' && { paddingVertical: 10 }),
+        ...(Platform.OS === 'android' && { textAlignVertical: 'center' }),
         // padding: 10
     },
 
