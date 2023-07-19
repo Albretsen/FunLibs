@@ -20,7 +20,16 @@ export default class Lib {
         let wordStartIndex = null;
 
         for (let i = 0; i < text.length; i++) {
-            if (text[i] === '"') {
+            if (i === (text.length - 1) && text[i] !== '"') {
+                let j = Infinity;
+                for (j = text.length - 1; j >= 0; j--) {
+                    if (text[j] === '"') {
+                        textResult.push(text.substr(j + 1, text.length - (j + 1)));
+                        break;
+                    }
+                }
+            }
+            else if (text[i] === '"') {
                 if (wordStartIndex) {
                     let j = Infinity;
                     for (j = wordStartIndex - 1; j >= 0; j--) {
