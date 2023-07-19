@@ -49,18 +49,20 @@ export default function CreateLibScreen() {
                 <TextInput
                     style={[globalStyles.input, globalStyles.inputLarge, {flex: 1}]}
                     multiline={true}
-                    numberOfLines={20}
+                    // numberOfLines={10}
                     onChangeText={text => setLibText(text)}
                 />
             </View>
-            <ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
+            <ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16
+        fontSize: 18,
+        marginBottom: 4,
+        marginTop: 16,
     },
     highlighted: {
         color: "#00522F"
