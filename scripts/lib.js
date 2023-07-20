@@ -52,6 +52,27 @@ export default class Lib {
         }
         return text;
     }
+
+    /**
+     * 
+     */
+    static removeDuplicates(array) {
+        let result = [];
+        for (let i = 0; i < array.length; i++) {
+            if (isNum(array[i][array[i].length - 1])) {
+                console.log("test");
+                if(!result.includes(array[i]))
+                    result.push(array[i]);
+            } else {
+                result.push(array[i]);
+            }
+        }
+        return result;
+    }
+}
+
+function isNum(n) {
+    return /.*[0-9].*/.test(n);
 }
 
 //let lib = new Lib("Name", 0, ["This is a ", " text"], ["Adjective"], ["funny"])
