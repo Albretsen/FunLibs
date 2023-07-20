@@ -22,7 +22,7 @@ const globalStyles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         // justifyContent: 'center',
-        paddingTop: 10
+        paddingTop: 1
     },
 
     containerWhitespace: {
@@ -40,6 +40,17 @@ const globalStyles = StyleSheet.create({
 
     fontLarge: {
         fontSize: 26
+    },
+
+    title: {
+        fontSize: 22,
+    },
+
+    titleContainer: {
+        marginHorizontal: 20,
+        alignItems: "center",
+        textAlign: "center",
+        // paddingHorizontal: 20
     },
 
     bold: {

@@ -6,7 +6,7 @@ import StoriesScreen from './screens/StoriesScreen';
 import YourLibsScreen from './screens/YourLibsScreen';
 import CreateLibScreen from './screens/CreateLibScreen';
 import data from './libs.json';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -29,32 +29,48 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const getHeaderTitle = (route) => {
+  // If the focused route is not found, use the screen's name
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Libs';
+
+  switch (routeName) {
+    case 'Libs':
+      return 'Fun Libs';
+    case 'Stories':
+      return 'Stories';
+    case 'Your Libs':
+      return 'Your Libs';
+    default:
+      return 'Fun Libs';
+  }
+};
+
 function HomeStackScreen({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen 
         name="SplashScreen"
-        component={SplashScreen}>
+        component={SplashScreen}
+        options={{headerShown: false}}>
       </Stack.Screen>
       <Stack.Screen
         name="LibsHomeScreen"
         component={LibsHomeScreen}
-        options={{
-          // header: (props) => <Header {...props} leftIcon="Hamburger" navigation={navigation} />,
-          headerTitle: 'Fun Libs',
+        options={({ route }) => ({
+          headerTitle: getHeaderTitle(route),
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android
             shadowOpacity: 0, // remove shadow on iOS
             borderBottomWidth: 0, // for explicit border settings
           },
-          headerLeft: () => (
-            <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={34} onPress={() => navigation.openDrawer()} />
-          ),
-          headerRight: () => (
-            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          ),
-        }}
+          // headerLeft: () => (
+          //   <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={34} onPress={() => navigation.openDrawer()} />
+          // ),
+          // headerRight: () => (
+          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          // ),
+        })}
       />
       <Stack.Screen
         name="PlayScreen"
