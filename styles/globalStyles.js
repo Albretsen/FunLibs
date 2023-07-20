@@ -75,6 +75,10 @@ const globalStyles = StyleSheet.create({
 
     inputLarge: {
         // padding: 10
+    },
+
+    listItemContainer: {
+        paddingBottom: 30
     }
 })
 

@@ -33,7 +33,7 @@ export default function LibsScreen() {
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>
 		<StatusBar style="auto" />
-		<ScrollView>
+		<ScrollView style={globalStyles.listItemContainer}>
 		  {listItems.map((item) => (
 			<ListItem name={item.name} id={item.id} type="libs" key={item.id}></ListItem>
 		  ))}

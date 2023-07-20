@@ -34,7 +34,7 @@ export default function StoriesScreen() {
             <View style={globalStyles.titleContainer}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>
             </View>
-            <ScrollView style={styles.listItemContainer}>
+            <ScrollView style={globalStyles.listItemContainer}>
                 {listItems.map((item) => (
                     <ListItem name={item.name} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)}></ListItem>
                 ))}
