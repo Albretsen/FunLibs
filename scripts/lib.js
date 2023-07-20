@@ -10,40 +10,32 @@ export default class Lib {
     }
 
     /**
-     * 
-     * @param {A user-generated string that will be converted into a lib object} text 
-     * @returns A Lib object
+     * Converts user-generated input into a Lib object for mad libs.
+     *
+     * @param {string} text - A user-generated string with placeholders in double quotes.
+     * @param {string} name - Name of the Lib object.
+     * @returns {Lib} A Lib object containing the extracted text and suggestions.
      */
     static createLib(text, name) {
-        let textResult = [];
-        let suggestionsResult = [];
-        let wordStartIndex = null;
+        const textResult = [];
+        const suggestionsResult = [];
+        const regex = /"([^"]+)"/g;
 
-        for (let i = 0; i < text.length; i++) {
-            if (i === (text.length - 1) && text[i] !== '"') {
-                let j = Infinity;
-                for (j = text.length - 1; j >= 0; j--) {
-                    if (text[j] === '"') {
-                        textResult.push(text.substr(j + 1, text.length - (j + 1)));
-                        break;
-                    }
-                }
-            }
-            else if (text[i] === '"') {
-                if (wordStartIndex) {
-                    let j = Infinity;
-                    for (j = wordStartIndex - 1; j >= 0; j--) {
-                        if (text[j] === '"') {
-                            break;       
-                        }
-                    }
-                    textResult.push(text.substr(j + 1, wordStartIndex - (j + 1)));
-                    suggestionsResult.push(text.substr(wordStartIndex + 1, i - (wordStartIndex + 1)));
-                    wordStartIndex = null;
-                } else {
-                    wordStartIndex = i;
-                }
-            }
+        let match;
+        let lastIndex = 0;
+
+        while ((match = regex.exec(text)) !== null) {
+            const suggestion = match[1];
+            const textBeforeSuggestion = text.substring(lastIndex, match.index);
+            lastIndex = regex.lastIndex;
+
+            textResult.push(textBeforeSuggestion);
+            suggestionsResult.push(suggestion);
+        }
+
+        // Add the remaining text after the last suggestion, if any.
+        if (lastIndex < text.length) {
+            textResult.push(text.substring(lastIndex));
         }
 
         return new Lib(name, 0, textResult, suggestionsResult);
