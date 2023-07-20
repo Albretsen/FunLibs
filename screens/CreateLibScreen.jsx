@@ -13,9 +13,17 @@ export default function CreateLibScreen() {
     const showToast = useContext(ToastContext);
 
     const saveLib = () => {
-        let lib = Lib.createLib(libText, libTitle);
-        LibManager.storeLib(lib, "yourLibs");
-        showToast('Lib saved', 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        // Might want to add some proper validation here,
+        // such as validating that the lib has at least one prompt
+        if(libTitle == "") {
+            showToast("Missing title", "Please add a title to your lib!");
+        } else if(libText == "") {
+            showToast("Missing text", "Your lib has no text!");
+        } else {
+            let lib = Lib.createLib(libText, libTitle);
+            LibManager.storeLib(lib, "yourLibs");
+            showToast('Lib saved', 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        }
     }
 
     return(

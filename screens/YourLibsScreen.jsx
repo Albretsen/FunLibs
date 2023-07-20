@@ -43,8 +43,10 @@ export default function YourLibsScreen() {
   return (
     <View style={globalStyles.screenStandard}>
       <FixedButton/>
-      <Text>Your Libs!</Text>
-      <ScrollView style={styles.listItemContainer}>
+      <View style={globalStyles.titleContainer}>
+        <Text>These are the libs that you have written. Click on a lib to play it! You can create a new lib by tapping the + icon in the bottom right corner.</Text>
+      </View>
+      <ScrollView style={globalStyles.listItemContainer}>
         {listItems.map((item) => (
           <ListItem name={item.name} id={item.id} type="yourLibs" key={item.id}></ListItem>
         ))}

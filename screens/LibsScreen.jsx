@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
 import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
@@ -29,8 +29,11 @@ export default function LibsScreen() {
 	return (
 	  <View style={[globalStyles.screenStandard]}>
 		<FixedButton/>
+		<View style={globalStyles.titleContainer}>
+            <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
+        </View>
 		<StatusBar style="auto" />
-		<ScrollView>
+		<ScrollView style={globalStyles.listItemContainer}>
 		  {listItems.map((item) => (
 			<ListItem name={item.name} id={item.id} type="libs" key={item.id}></ListItem>
 		  ))}
