@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, Animated, StyleSheet } from 'react-native';
+import { Text, Animated, StyleSheet, Dimensions } from 'react-native';
 import globalStyles from '../../styles/globalStyles';
 
 const Toast = ({ title, message }) => {
@@ -33,11 +33,14 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: 90,
-    marginHorizontal: 25,
+    // marginHorizontal: 25,
     backgroundColor: '#3B6470',
     padding: 20,
     borderRadius: 12,
     alignSelf: 'center',
+    alignContent: "center",
+    marginHorizontal: Dimensions.get('window').width * 0.05,
+    width: Dimensions.get('window').width * 0.9,
   },
 
   text: {

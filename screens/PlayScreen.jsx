@@ -104,8 +104,8 @@ function PlayScreen({ route }) {
 				<Drawer ref={drawerRef} title="Finished Lib">
 					<View style={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
-							<Text style={globalStyles.fontLarge}>Title of Lib here</Text>
-							<Text style={globalStyles.fontMedium}>{JSON.stringify(finishedLib)}</Text>
+							<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
+							<Text style={globalStyles.fontMedium}>{finishedLib}</Text>
 						</View>
 						<ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
 					</View>

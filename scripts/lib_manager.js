@@ -69,7 +69,20 @@ export default class LibManager {
      * TO DO: Load from a JSON file (Not doing it now because it is added complexity that might break)
      */
     static get defaultLibs() {
-        return '{"libs":[{"name":"First Lib","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Second lib","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}],"stories":[{"name":"Lib story 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}]}';
+        return '{"libs":[{"name":"First Lib","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name","Name 1", "Adjective"]},{"name":"Second lib","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}],"stories":[{"name":"Lib story 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}]}';
+    }
+
+    /**
+     * 
+     */
+    static deleteLib(id, type) {
+        for (let i = 0; i < LibManager.libs[type].length; i++) {
+            if (LibManager.libs[type][i].id == id) LibManager.libs[type].splice(i, 1);
+        }
+        for (let i = 0; i < LibManager.libs[type].length; i++) {
+            LibManager.libs[type][i].id = i;
+        }
+        FileManager._storeData("libs", JSON.stringify(LibManager.libs));
     }
 
     static getLibByID(id, key = "libs") {
