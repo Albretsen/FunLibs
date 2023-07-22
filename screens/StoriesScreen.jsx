@@ -15,11 +15,11 @@ export default function StoriesScreen() {
     useEffect(() => {
 		let maxLength = -Infinity;
 		for (let i = 0; i < LibManager.libs[type].length; i++) {
-			if (LibManager.libs[type][i].suggestions.length > maxLength) maxLength = LibManager.libs[type][i].suggestions.length;
+			if (LibManager.libs[type][i].prompts.length > maxLength) maxLength = LibManager.libs[type][i].prompts.length;
 		}
 
 		for (let i = 0; i < LibManager.libs[type].length; i++) {
-			LibManager.libs[type][i].percent = LibManager.libs[type][i].suggestions.length / maxLength;
+			LibManager.libs[type][i].percent = LibManager.libs[type][i].prompts.length / maxLength;
 		}
 	})
 

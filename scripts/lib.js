@@ -1,11 +1,11 @@
 export default class Lib {
     words;
 
-    constructor(name, id, text, suggestions, words = []) {
+    constructor(name, id, text, prompts, words = []) {
         this.name = name;
         this.id = id;
         this.text = text;
-        this.suggestions = suggestions;
+        this.prompts = prompts;
         this.words = words;
     }
 
@@ -18,19 +18,39 @@ export default class Lib {
      */
     static createLib(text, name) {
         const textResult = [];
-        const suggestionsResult = [];
+        const promptResult = [];
         const regex = /"([^"]+)"/g;
 
         let match;
         let lastIndex = 0;
 
+        let i = 0;
+        let x = 0;
         while ((match = regex.exec(text)) !== null) {
             const suggestion = match[1];
             const textBeforeSuggestion = text.substring(lastIndex, match.index);
             lastIndex = regex.lastIndex;
 
-            textResult.push(textBeforeSuggestion);
-            suggestionsResult.push(suggestion);
+            if (i !== 0) textResult.push(textBeforeSuggestion);
+            textResult.push("");
+            if (isNum(suggestion.slice(-1))) {
+                let found = false;
+                for (let j = 0; j < promptResult.length; j++) {
+                    try {
+                        promptResult[j][suggestion].push(x*2);
+                        found = true;
+                        break;
+                    } catch { }
+                }
+                if (!found) { 
+                    promptResult[i] = { [suggestion]: [x*2] }; 
+                    i++;
+                }
+            } else {
+                promptResult[i] = { [suggestion]: [x*2] };
+                i++;
+            }
+            x++;
         }
 
         // Add the remaining text after the last suggestion, if any.
@@ -38,19 +58,15 @@ export default class Lib {
             textResult.push(text.substring(lastIndex));
         }
 
-        return new Lib(name, 0, textResult, suggestionsResult);
+        console.log(JSON.stringify(new Lib(name, 0, textResult, promptResult)));
+        return new Lib(name, 0, textResult, promptResult);
     }
     
     /**
      * @returns Returns a readable story by combining the text with the user-inputted words
      */
     get display() {
-        let text = ""
-        for (let i = 0; i < this.text.length || i < this.words.length; i++) {
-            if (this.text[i] != undefined) text += this.text[i];
-            if (this.words[i] != undefined) text += this.words[i];
-        }
-        return text;
+        return this.text.join("");
     }
 
     /**
@@ -60,7 +76,6 @@ export default class Lib {
         let result = [];
         for (let i = 0; i < array.length; i++) {
             if (isNum(array[i][array[i].length - 1])) {
-                console.log("test");
                 if(!result.includes(array[i]))
                     result.push(array[i]);
             } else {

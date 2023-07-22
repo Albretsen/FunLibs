@@ -7,18 +7,17 @@ export default class LibManager {
             "name": "Loading libs...",
             "id": 0,
             "text": [
-                "This is a ",
-                " text. It is called ",
-                ""
-            ],
-            "suggestions": [
-                "Adjective",
-                "Name"
+                "Adjective: ",
+                " Name 1: ",
+                " Noun: ",
+                " Adjective: ",
+                " Name 1"
             ],
             "words": [
                 "funny",
                 "Cool text"
-            ]
+            ],
+            "prompts": [{"Adjective": [0]}, {"Name 1": [1, 4]}, {"Noun": [2]}, {"Adjective": [3]}]
         }]
     }
 
@@ -69,7 +68,7 @@ export default class LibManager {
      * TO DO: Load from a JSON file (Not doing it now because it is added complexity that might break)
      */
     static get defaultLibs() {
-        return '{"libs":[{"name":"First Lib","id":0,"text":["Adjective: "," Name: "," Noun: "," Adjective: "],"suggestions":["Adjective","Name","Name 1", "Adjective 1","Name 1","Noun","Adjective","Name 1"]},{"name":"Second lib","id":1,"text":["Adjective: "," Name: "," Noun: "," Adjective: "],"suggestions":["Adjective","Name for a text"]}],"stories":[{"name":"Lib story 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name"]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"suggestions":["Adjective","Name for a text"]}]}';
+        return '{"libs":[{"name":"First lib","id":0,"text":[""," builds a ",""," house. ",""," is a carpenter, and he is ","","."],"prompts":[{"Name 1":[0,4]},{"Adjective":[2]},{"Adjective":[6]}],"words":[]},{"name":"Second lib","id":1,"text":[""," builds a ",""," house. ",""," is a carpenter, and he is ","","."],"prompts":[{"Name 1":[0,4]},{"Adjective":[2]},{"Adjective":[6]}],"words":[]}],"stories":[{"name":"Lib story 1","id":0,"text":["Adjective: ",""," Name 1: ",""," Noun: ",""," Adjective: ",""," Name 1",""],"prompts":[{"Adjective":[1]},{"Name 1":[3,9]},{"Noun":[5]},{"Adjective":[7]}],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["Adjective: ",""," Name 1: ",""," Noun: ",""," Adjective: ",""," Name 1",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}]}]}';
     }
 
     /**
@@ -103,23 +102,23 @@ export default class LibManager {
         };
         for (let i = 0; i < json["libs"].length; i++) {
             if (json["libs"][i].words) {
-                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].suggestions, json["libs"][i].words));
+                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].prompts, json["libs"][i].words));
             } else {
-                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].suggestions));
+                dict["libs"].push(new Lib(json["libs"][i].name, json["libs"][i].id, json["libs"][i].text, json["libs"][i].prompts));
             }
         }
         for (let i = 0; i < json["stories"].length; i++) {
             if (json["stories"][i].words) {
-                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].suggestions, json["stories"][i].words));
+                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].prompts, json["stories"][i].words));
             } else {
-                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].suggestions));
+                dict["stories"].push(new Lib(json["stories"][i].name, json["stories"][i].id, json["stories"][i].text, json["stories"][i].prompts));
             }
         }
         for (let i = 0; i < json["yourLibs"].length; i++) {
             if (json["yourLibs"][i].words) {
-                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].suggestions, json["yourLibs"][i].words));
+                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].prompts, json["yourLibs"][i].words));
             } else {
-                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].suggestions));
+                dict["yourLibs"].push(new Lib(json["yourLibs"][i].name, json["yourLibs"][i].id, json["yourLibs"][i].text, json["yourLibs"][i].prompts));
             }
         }
         /*for (let i = 0; i < json.length; i++) {

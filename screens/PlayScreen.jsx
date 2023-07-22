@@ -27,7 +27,12 @@ function PlayScreen({ route }) {
 	const currentLib = LibManager.getLibByID(libId, type);
 
 	// Extract prompts from the current lib
-	const prompts = currentLib ? currentLib.suggestions : [];
+	const prompts = [];
+	if (currentLib.prompts) {
+		for (let i = 0; i < currentLib.prompts.length; i++) {
+			prompts.push(Object.keys(currentLib.prompts[i])[0]);
+		}
+	}
 
 	// Keep track of current prompt index, user responses and current input
 	const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
@@ -54,6 +59,10 @@ function PlayScreen({ route }) {
 		setResponses((prevResponses) => {
 			const newResponses = [...prevResponses];
 			newResponses[currentPromptIndex] = currentInput;
+			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
+				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
+				console.log(currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]]);
+			}
 			currentLib.words = newResponses;
 			return newResponses;
 		});
