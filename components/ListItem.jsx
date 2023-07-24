@@ -1,29 +1,39 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import globalStyles from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LibManager from '../scripts/lib_manager';
+import Dialog from './Dialog'; // Import the Dialog component
 
 export default function ListItem(props) {
     const { name, description, id, type, drawer, onClick, length, onDelete } = props;
     const navigation = useNavigation();
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false); // Step 1
 
     function deleteLib() {
-        onDelete(id);
+        setShowDeleteDialog(true); // Step 3: Show the delete confirmation dialog
     }
 
     function playLib(id, type) {
-        if(type == "stories") {
+        if (type === 'stories') {
             drawer.current.openDrawer();
-            onClick({id, name, type})
+            onClick({ id, name, type });
         } else {
             navigation.navigate('PlayScreen', { libId: id, type: type });
         }
     }
 
+    function showDeleteDialogHandler() {
+        setShowDeleteDialog(true); // Step 2: Show the delete confirmation dialog
+    }
+
+    function hideDeleteDialogHandler() {
+        setShowDeleteDialog(false); // Step 2: Hide the delete confirmation dialog
+    }
+
     return (
-        <TouchableOpacity onPress={() => playLib(id, type)}>
+        <TouchableWithoutFeedback onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
                     <Text style={globalStyles.fontLarge}>{name[0]}</Text>
@@ -32,12 +42,28 @@ export default function ListItem(props) {
                     <Text style={[globalStyles.fontMedium, globalStyles.bold]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
                     <View style={styles.progressBarContainer}>
-                        <View style={[styles.progressBar, {width: Dimensions.get('window').width * length}]}></View>
+                        <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
                     </View>
-                    <MaterialIcons style={{marginLeft: 12, color: "red"}} name="delete" size={34} onPress={deleteLib} />
                 </View>
+                <View style={styles.rightIcons}>
+                    <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
+                        <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
+                    </TouchableOpacity>
+                </View>
+                {/* Step 4: Conditionally render the delete confirmation dialog */}
+                {showDeleteDialog && (
+                    <Dialog
+                        title="Delete lib"
+                        text="Are you sure you want to delete this lib? Once delete it cannot be recovered."
+                        onCancel={hideDeleteDialogHandler}
+                        onConfirm={() => {
+                            onDelete(id);
+                            setShowDeleteDialog(false); // Hide the dialog after deletion
+                        }}
+                    />
+                )}
             </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -51,10 +77,18 @@ const styles = StyleSheet.create({
 
     textRow: {
         flexDirection: "column",
-        width: "80%"
-    }, 
+        width: "65%",
+        gap: 6
+    },
+
+    rightIcons: {
+        width: "10%",
+        // flexDirection: "column",
+        justifyContent: "center"
+    },
 
     letterCircle: {
+        width: "20%",
         padding: 10,
         backgroundColor: "#D1E8D5",
         borderRadius: 50,
@@ -66,12 +100,16 @@ const styles = StyleSheet.create({
 
     progressBarContainer: {
         height: 4,
-        width: Dimensions.get('window').width,
-        backgroundColor: "#D1E8D5"
+        width: "100%",
+        backgroundColor: "#D1E8D5",
     },
 
     progressBar: {
         backgroundColor: "#006D40",
         height: 4
-    }
+    },
+
+    delete: {
+
+    } 
 })
