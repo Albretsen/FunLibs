@@ -67,6 +67,7 @@ export default class Lib {
      * @returns Returns a readable story by combining the text with the user-inputted words
      */
     get display() {
+        console.log(this);
         return this.text.join("");
     }
 

@@ -53,7 +53,8 @@ export default class LibManager {
      */
     static storeLib(lib, key = "libs") {
         lib = { ...lib };
-        if (lib.id || lib.id == 0 && key === "libs") {
+        lib = new Lib(lib.name, lib.id, lib.text, lib.prompts);
+        if ((lib.id || lib.id == 0) && key === "libs") {
             LibManager.libs[key][parseInt(lib.id)] = lib;
             FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         } else {
