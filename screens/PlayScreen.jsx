@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '../libs.json';
 import globalStyles from '../styles/globalStyles';
@@ -111,13 +111,13 @@ function PlayScreen({ route }) {
 				/>
 				<ButtonPair firstLabel="Back" firstOnPress={handleBack} secondLabel="Next" secondOnPress={handleNext} bottomButtons={false} />
 				<Drawer ref={drawerRef} title="Finished Lib">
-					<View style={styles.drawerContainer}>
+					<ScrollView contentContainerStyle={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
 							<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 							<Text style={globalStyles.fontMedium}>{finishedLib}</Text>
 						</View>
-						<ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} />
-					</View>
+						<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} style={styles.bottomButtons}/>
+					</ScrollView>
 				</Drawer>
 			</View>
 			<View style={styles.bottomLeftContainer}>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "space-between",
 		borderRightWidth: 1,
-		borderColor: "#D1E8D5"
+		borderColor: "#D1E8D5",
 	},
 	drawerTop: {
 		marginHorizontal: 20,
@@ -190,6 +190,8 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 		borderTopWidth: 1,
 		borderColor: "gray",
+		gap: 16,
+		paddingBottom: 16
 	},
 	container: {
 		flex: 1,
