@@ -21,7 +21,7 @@ const globalStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        // justifyContent: 'center',
+        justifyContent: 'center',
         paddingTop: 1
     },
 
@@ -78,7 +78,7 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        paddingBottom: 30
+        paddingBottom: 30,
     }
 })
 

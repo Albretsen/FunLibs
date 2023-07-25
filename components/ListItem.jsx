@@ -7,12 +7,12 @@ import LibManager from '../scripts/lib_manager';
 import Dialog from './Dialog'; // Import the Dialog component
 
 export default function ListItem(props) {
-    const { name, description, id, type, drawer, onClick, length, onDelete } = props;
+    const { name, description, id, type, drawer, onClick, length, onDelete, showDelete } = props;
     const navigation = useNavigation();
-    const [showDeleteDialog, setShowDeleteDialog] = useState(false); // Step 1
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     function deleteLib() {
-        setShowDeleteDialog(true); // Step 3: Show the delete confirmation dialog
+        setShowDeleteDialog(true);
     }
 
     function playLib(id, type) {
@@ -25,11 +25,11 @@ export default function ListItem(props) {
     }
 
     function showDeleteDialogHandler() {
-        setShowDeleteDialog(true); // Step 2: Show the delete confirmation dialog
+        setShowDeleteDialog(true);
     }
 
     function hideDeleteDialogHandler() {
-        setShowDeleteDialog(false); // Step 2: Hide the delete confirmation dialog
+        setShowDeleteDialog(false);
     }
 
     return (
@@ -46,11 +46,13 @@ export default function ListItem(props) {
                     </View>
                 </View>
                 <View style={styles.rightIcons}>
-                    <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                        <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
-                    </TouchableOpacity>
+                    {showDelete && (
+                        <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
+                            <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
+                        </TouchableOpacity>
+                    )}
                 </View>
-                {/* Step 4: Conditionally render the delete confirmation dialog */}
+                {/* Conditionally render the delete confirmation dialog */}
                 {showDeleteDialog && (
                     <Dialog
                         title="Delete lib"
@@ -72,7 +74,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         gap: 10,
-        paddingTop: 20
+        paddingTop: 20,
+        justifyContent: "center"
     },
 
     textRow: {

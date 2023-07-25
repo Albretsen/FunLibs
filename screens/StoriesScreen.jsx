@@ -52,7 +52,7 @@ export default function StoriesScreen() {
             </View>
             <ScrollView style={globalStyles.listItemContainer}>
                 {listItems.map((item) => (
-                    <ListItem name={item.name} description={item.display} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)} onPress={deleteItem} length={item.percent} onDelete={deleteItem}></ListItem>
+                    <ListItem name={item.name} description={item.display} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)} onPress={deleteItem} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
                 ))}
             </ScrollView>
             <Drawer ref={drawerRef}>

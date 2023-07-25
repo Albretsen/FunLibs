@@ -5,12 +5,15 @@ import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
 import LibManager from "../scripts/lib_manager";
 import ToastContext from '../components/Toast/ToastContext';
+import { useNavigation } from '@react-navigation/native';
 // import { Test } from 'mocha';
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
     const [libTitle, setLibTitle] = useState("");
     const showToast = useContext(ToastContext);
+
+    const navigation = useNavigation();
 
     const saveLib = () => {
         // Might want to add some proper validation here,
@@ -23,6 +26,7 @@ export default function CreateLibScreen() {
             let lib = Lib.createLib(libText, libTitle);
             LibManager.storeLib(lib, "yourLibs");
             showToast('Lib saved', 'Your lib can be found under "Your libs" at the bottom of your screen.');
+            navigation.navigate('LibsHomeScreen', {initalTab: "Your Libs"});
         }
     }
 

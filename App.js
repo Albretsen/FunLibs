@@ -111,11 +111,12 @@ function HomeStackScreen({ navigation }) {
   );
 }
 
-function LibsHomeScreen() {
+function LibsHomeScreen({route}) {
+  const initialTab = route.params?.initialTab ?? "Libs";
   return (
     <Tab.Navigator
       swipeEnabled={true}
-      initialRouteName="Libs"
+      initialRouteName={initialTab}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
