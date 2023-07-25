@@ -24,8 +24,7 @@ function PlayScreen({ route }) {
 	const type = route.params.type;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	var currentLib = JSON.parse(JSON.stringify(LibManager.getLibByID(libId, type)));
-	currentLib = new Lib(currentLib.name, currentLib.id, currentLib.text, currentLib.prompts);
+	var currentLib = LibManager.getLibByID(libId, type);
 
 	// Extract prompts from the current lib
 	const prompts = [];
@@ -61,7 +60,6 @@ function PlayScreen({ route }) {
 			const newResponses = [...prevResponses];
 			newResponses[currentPromptIndex] = currentInput;
 			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
-				console.log(currentLib.text);
 				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
 			}
 			//currentLib.words = newResponses;
@@ -74,7 +72,6 @@ function PlayScreen({ route }) {
 			setCurrentPromptIndex(currentPromptIndex + 1);
 		} else {
 			drawerRef.current.openDrawer();
-			console.log(currentLib.display);
 			displayLib(() => {
 				return currentLib.display;
 			});

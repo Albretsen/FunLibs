@@ -60,7 +60,6 @@ export default class Lib {
             textResult.push(text.substring(lastIndex));
         }
 
-        console.log(JSON.stringify(new Lib(name, 0, textResult, promptResult)));
         return new Lib(name, 0, textResult, promptResult);
     }
     
@@ -68,6 +67,20 @@ export default class Lib {
      * @returns Returns a readable story by combining the text with the user-inputted words
      */
     get display() {
+        return this.text.join("");
+    }
+
+    /**
+     * @returns Returns a readable story by combining the text with the prompts
+     */
+    get display_with_prompts() {
+        for (let i = 0; i < this.prompts.length; i++) {
+            let key = Object.keys(this.prompts[i]);
+            for (let j = 0; j < this.prompts[i][key].length; j++) {
+                this.text[this.prompts[i][key][j]] = '"' + key + '"';
+            }
+        }
+
         return this.text.join("");
     }
 
