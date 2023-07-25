@@ -67,7 +67,14 @@ export default class Lib {
      * @returns Returns a readable story by combining the text with the user-inputted words
      */
     get display() {
-        console.log(this);
+        for (let i = 0; i < this.prompts.length; i++) {
+            let key = Object.keys(this.prompts[i]);
+            for (let j = 0; j < this.prompts[i][key].length; j++) {
+                console.log("THIS " + this.prompts[i][key][j]);
+                if (this.text[this.prompts[i][key][j]] == "") this.text[this.prompts[i][key][j]] = '"' + key + '"';
+            }
+        }
+
         return this.text.join("");
     }
 
