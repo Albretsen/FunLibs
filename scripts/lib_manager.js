@@ -52,7 +52,7 @@ export default class LibManager {
      * @param {The key for the file storage location} key 
      */
     static storeLib(lib, key = "libs") {
-        lib = { ...lib };
+        lib = JSON.parse(JSON.stringify(lib));
         lib = new Lib(lib.name, lib.id, lib.text, lib.prompts);
         if ((lib.id || lib.id == 0) && key === "libs") {
             LibManager.libs[key][parseInt(lib.id)] = lib;
