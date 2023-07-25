@@ -32,22 +32,24 @@ export default class Lib {
             lastIndex = regex.lastIndex;
 
             if (i !== 0) textResult.push(textBeforeSuggestion);
-            textResult.push("");
             if (isNum(suggestion.slice(-1))) {
                 let found = false;
                 for (let j = 0; j < promptResult.length; j++) {
                     try {
                         promptResult[j][suggestion].push(x*2);
+                        textResult.push(suggestion);
                         found = true;
                         break;
                     } catch { }
                 }
                 if (!found) { 
-                    promptResult[i] = { [suggestion]: [x*2] }; 
+                    promptResult[i] = { [suggestion]: [x*2] };
+                    textResult.push(suggestion); 
                     i++;
                 }
             } else {
                 promptResult[i] = { [suggestion]: [x*2] };
+                textResult.push(suggestion);
                 i++;
             }
             x++;

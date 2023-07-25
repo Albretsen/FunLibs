@@ -24,7 +24,8 @@ function PlayScreen({ route }) {
 	const type = route.params.type;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	const currentLib = LibManager.getLibByID(libId, type);
+	var currentLib = JSON.parse(JSON.stringify(LibManager.getLibByID(libId, type)));
+	currentLib = new Lib(currentLib.name, currentLib.id, currentLib.text, currentLib.prompts);
 
 	// Extract prompts from the current lib
 	const prompts = [];
@@ -48,7 +49,7 @@ function PlayScreen({ route }) {
 	const navigation = useNavigation();
 	const showToast = useContext(ToastContext);
 	const saveLib = () => {
-		LibManager.storeLib(LibManager.libs[type][libId], "stories");
+		LibManager.storeLib(currentLib, "stories");
 		drawerRef.current.closeDrawer();
 		navigation.navigate('LibsHomeScreen');
 		showToast('Story saved', 'Your story can be found under "Stories" at the bottom of your screen.');
@@ -60,10 +61,10 @@ function PlayScreen({ route }) {
 			const newResponses = [...prevResponses];
 			newResponses[currentPromptIndex] = currentInput;
 			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
+				console.log(currentLib.text);
 				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
-				console.log(currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]]);
 			}
-			currentLib.words = newResponses;
+			//currentLib.words = newResponses;
 			return newResponses;
 		});
 
@@ -73,6 +74,7 @@ function PlayScreen({ route }) {
 			setCurrentPromptIndex(currentPromptIndex + 1);
 		} else {
 			drawerRef.current.openDrawer();
+			console.log(currentLib.display);
 			displayLib(() => {
 				return currentLib.display;
 			});

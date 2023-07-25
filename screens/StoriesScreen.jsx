@@ -56,7 +56,8 @@ export default function StoriesScreen() {
                 ))}
             </ScrollView>
             <Drawer ref={drawerRef}>
-                {selectedItem ? <Text>{`Selected Item: ${selectedItem.display}`}</Text> : <Text>No item selected</Text>}
+                {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
+                {selectedItem ? <Text style={globalStyles.fontMedium}>{selectedItem.display}</Text> : <Text>No item selected</Text>}
             </Drawer>
         </View>
     );
