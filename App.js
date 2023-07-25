@@ -64,9 +64,10 @@ function HomeStackScreen({ navigation }) {
             shadowOpacity: 0, // remove shadow on iOS
             borderBottomWidth: 0, // for explicit border settings
           },
-          // headerLeft: () => (
-          //   <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={34} onPress={() => navigation.openDrawer()} />
-          // ),
+          headerLeft: () => (
+            // Size set to 0, effectively hiding the navigation menu, for now.
+            <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={0} onPress={() => navigation.openDrawer()} />
+          ),
           // headerRight: () => (
           //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
           // ),
@@ -84,9 +85,9 @@ function HomeStackScreen({ navigation }) {
             shadowOpacity: 0, // remove shadow on iOS
             borderBottomWidth: 0, // for explicit border settings
           },
-          headerRight: () => (
-            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          )
+          // headerRight: () => (
+          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          // )
         }}
       />
       <Stack.Screen
@@ -101,9 +102,9 @@ function HomeStackScreen({ navigation }) {
             shadowOpacity: 0, // remove shadow on iOS
             borderBottomWidth: 0, // for explicit border settings
           },
-          headerRight: () => (
-            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          )
+          // headerRight: () => (
+          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+          // )
         }}
       />
       {/* You can add more Stack.Screens here if you have more pages in your stack */}
