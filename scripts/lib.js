@@ -31,24 +31,24 @@ export default class Lib {
             const textBeforeSuggestion = text.substring(lastIndex, match.index);
             lastIndex = regex.lastIndex;
 
-            if (i !== 0) textResult.push(textBeforeSuggestion);
+            textResult.push(textBeforeSuggestion);
             if (isNum(suggestion.slice(-1))) {
                 let found = false;
                 for (let j = 0; j < promptResult.length; j++) {
                     try {
-                        promptResult[j][suggestion].push(x*2);
+                        promptResult[j][suggestion].push(x*2 + 1);
                         textResult.push(suggestion);
                         found = true;
                         break;
                     } catch { }
                 }
                 if (!found) { 
-                    promptResult[i] = { [suggestion]: [x*2] };
+                    promptResult[i] = { [suggestion]: [x*2 + 1] };
                     textResult.push(suggestion); 
                     i++;
                 }
             } else {
-                promptResult[i] = { [suggestion]: [x*2] };
+                promptResult[i] = { [suggestion]: [x*2 + 1] };
                 textResult.push(suggestion);
                 i++;
             }
@@ -70,7 +70,6 @@ export default class Lib {
         for (let i = 0; i < this.prompts.length; i++) {
             let key = Object.keys(this.prompts[i]);
             for (let j = 0; j < this.prompts[i][key].length; j++) {
-                console.log("THIS " + this.prompts[i][key][j]);
                 if (this.text[this.prompts[i][key][j]] == "") this.text[this.prompts[i][key][j]] = '"' + key + '"';
             }
         }

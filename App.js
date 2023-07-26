@@ -1,3 +1,4 @@
+//import 'expo-dev-client';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
 import PlayScreen from './screens/PlayScreen';
