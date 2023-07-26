@@ -5,12 +5,16 @@ import globalStyles from '../styles/globalStyles';
 export default function ButtonPair({ firstLabel, secondLabel, firstOnPress, secondOnPress, bottomButtons }) {
     return (
         <View style={[styles.buttonContainer, bottomButtons ? styles.bottomStyle : null]}>
-            <TouchableOpacity style={styles.button} onPress={firstOnPress}>
-                <Text style={[globalStyles.bold, globalStyles.fontMedium]}>{firstLabel}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={secondOnPress}>
+			{firstLabel != "hidden" && ( // Hide button if specified
+				<TouchableOpacity style={[styles.button, secondLabel == "hidden" ? styles.soleButton : null]} onPress={firstOnPress}>
+					<Text style={[globalStyles.bold, globalStyles.fontMedium]}>{firstLabel}</Text>
+				</TouchableOpacity>
+			)}
+			{secondLabel != "hidden" && (
+            <TouchableOpacity style={[styles.button, styles.buttonNext, firstLabel == "hidden" ? styles.soleButton : null]} onPress={secondOnPress}>
                 <Text style={[globalStyles.bold, globalStyles.fontMedium]}>{secondLabel}</Text>
             </TouchableOpacity>
+			)}
         </View>
     )
 }
@@ -45,4 +49,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#D1E8D5",
 		borderColor: "#D1E8D5",
 	},
+	soleButton: {
+		minWidth: 200,
+	}
 })

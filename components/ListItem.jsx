@@ -39,7 +39,7 @@ export default function ListItem(props) {
                     <Text style={globalStyles.fontLarge}>{name[0]}</Text>
                 </View>
                 <View style={styles.textRow}>
-                    <Text style={[globalStyles.fontMedium, globalStyles.bold]}>{name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
                     <View style={styles.progressBarContainer}>
                         <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
@@ -81,7 +81,8 @@ const styles = StyleSheet.create({
     textRow: {
         flexDirection: "column",
         width: "65%",
-        gap: 6
+        gap: 6,
+        // flex: 1,
     },
 
     rightIcons: {
@@ -111,8 +112,4 @@ const styles = StyleSheet.create({
         backgroundColor: "#006D40",
         height: 4
     },
-
-    delete: {
-
-    } 
 })
