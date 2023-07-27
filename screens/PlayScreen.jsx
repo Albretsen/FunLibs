@@ -113,7 +113,7 @@ function PlayScreen({ route }) {
 					<ScrollView contentContainerStyle={styles.drawerContainer}>
 						<View style={styles.drawerTop}>
 							<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
-							<Text style={globalStyles.fontMedium}>{finishedLib}</Text>
+							<Text style={[globalStyles.fontMedium, {marginTop: 16}]}>{finishedLib}</Text>
 						</View>
 						<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} style={styles.bottomButtons}/>
 					</ScrollView>

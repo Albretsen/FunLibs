@@ -56,13 +56,17 @@ export default function StoriesScreen() {
                 ))}
             </ScrollView>
             <Drawer ref={drawerRef}>
-                {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
-                {selectedItem ? <Text style={globalStyles.fontMedium}>{selectedItem.display}</Text> : <Text>No item selected</Text>}
+                <View style={styles.drawerContent}>
+                    {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
+                    {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16}]}>{selectedItem.display}</Text> : <Text>No item selected</Text>}
+                </View>
             </Drawer>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-
+	drawerContent: {
+		marginHorizontal: 20,
+	},
 })

@@ -65,7 +65,7 @@ export default function CreateLibScreen() {
                     onChangeText={text => setLibText(text)}
                 />
             </View>
-            <ButtonPair firstLabel="Cancel" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
+            <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
         </View>
     )
 }
