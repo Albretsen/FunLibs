@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import ToastContext from '../components/Toast/ToastContext';
 import { useEffect } from 'react';
 import AdManager from '../scripts/ad_manager';
+import BannerAdComponent from '../components/BannerAd';
 
 function PlayScreen({ route }) {
 
@@ -91,6 +92,9 @@ function PlayScreen({ route }) {
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
+			{Platform.OS === ("android" || "ios") && (
+				<BannerAdComponent />
+			)}
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{prompts[currentPromptIndex]}</Text>
 				<TextInput

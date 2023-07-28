@@ -18,10 +18,7 @@ import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js";
 import ToastProvider from './components/Toast/ToastProvider';
 import SplashScreen from './screens/SplashScreen';
-
-if (Platform.OS === ("android" || "ios")) {
-  import('./scripts/ad_manager.js')
-}
+import BannerAdComponent from './components/BannerAd.android';
 
 LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
@@ -168,7 +165,10 @@ function LibsHomeScreen({route}) {
 export default function App() {
   return (
     <ToastProvider>
-      <GestureHandlerRootView style={{flex: 1}}>
+      {/* {Platform.OS === ("android" || "ios") && (
+        <BannerAdComponent />
+      )} */}
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
             <Drawer.Screen name="Home" component={HomeStackScreen} />

@@ -22,7 +22,8 @@ const globalStyles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         // justifyContent: 'center',
-        paddingTop: 1
+        paddingTop: 1,
+        paddingBottom: 100,
     },
 
     containerWhitespace: {

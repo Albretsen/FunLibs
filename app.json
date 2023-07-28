@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "FunLibs",
+    "name": "Fun Libs",
     "slug": "FunLibs",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,6 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }",
       "package": "com.asgalb.FunLibs"
     },
     "web": {
@@ -35,6 +36,9 @@
     }
   },
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-1354741235649835~2567659565"
+    "android_app_id": "ca-app-pub-1354741235649835~2567659565",
+    "ios_app_id": "ca-app-pub-1354741235649835~4097765480",
+    "delay_app_measurement_init": true,
+    "user_tracking_usage_description": "This identifier will be used to deliver personalized ads to you."
   }
 }

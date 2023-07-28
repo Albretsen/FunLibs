@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import ButtonPair from '../components/ButtonPair';
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
 import LibManager from "../scripts/lib_manager";
 import ToastContext from '../components/Toast/ToastContext';
 import { useNavigation } from '@react-navigation/native';
+import BannerAdComponent from '../components/BannerAd';
 // import { Test } from 'mocha';
 
 export default function CreateLibScreen() {
@@ -32,7 +33,10 @@ export default function CreateLibScreen() {
 
     return(
         <View style={[globalStyles.screenStandard]}>
-            <View style={{marginHorizontal: 14, flex: 1}}>
+            {Platform.OS === ("android" || "ios") && (
+                <BannerAdComponent />
+            )}
+            <ScrollView style={{marginHorizontal: 14, flex: 1}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
                 </Text>
@@ -64,7 +68,7 @@ export default function CreateLibScreen() {
                     // numberOfLines={10}
                     onChangeText={text => setLibText(text)}
                 />
-            </View>
+            </ScrollView>
             <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
         </View>
     )

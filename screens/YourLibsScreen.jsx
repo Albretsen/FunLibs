@@ -9,6 +9,7 @@ import Drawer from '../components/Drawer';
 import ButtonPair from '../components/ButtonPair';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import ToastContext from '../components/Toast/ToastContext';
+import BannerAdComponent from '../components/BannerAd';
 
 export default function YourLibsScreen() {
   let type = "yourLibs";
@@ -58,6 +59,9 @@ export default function YourLibsScreen() {
 
   return (
     <View style={globalStyles.screenStandard}>
+      {Platform.OS === ("android" || "ios") && (
+        <BannerAdComponent />
+      )}
       <FixedButton/>
       <View style={globalStyles.titleContainer}>
         <Text>These are the libs that you have written. Click on a lib to play it! You can create a new lib by tapping the + icon in the bottom right corner.</Text>

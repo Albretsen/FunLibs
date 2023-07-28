@@ -8,6 +8,7 @@ import LibManager from '../scripts/lib_manager';
 import { useFocusEffect } from '@react-navigation/native';
 // ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS ADS 
 import AdManager from '../scripts/ad_manager';
+import BannerAdComponent from '../components/BannerAd';
 
 export default function LibsScreen() {
 	let type = "libs";
@@ -43,6 +44,9 @@ export default function LibsScreen() {
   
 	return (
 	  <View style={[globalStyles.screenStandard]}>
+		{Platform.OS === ("android" || "ios") && (
+        	<BannerAdComponent />
+      	)}
 		<FixedButton/>
 		<View style={globalStyles.titleContainer}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>

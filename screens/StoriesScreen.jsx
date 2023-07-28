@@ -7,6 +7,7 @@ import LibManager from '../scripts/lib_manager';
 import Lib from '../scripts/lib';
 import Drawer from '../components/Drawer';
 import { useFocusEffect } from '@react-navigation/native';
+import BannerAdComponent from '../components/BannerAd';
 
 export default function StoriesScreen() {
     let type = "stories";
@@ -46,6 +47,9 @@ export default function StoriesScreen() {
 
     return (
         <View style={globalStyles.screenStandard}>
+            {Platform.OS === ("android" || "ios") && (
+                <BannerAdComponent />
+            )}
             <FixedButton />
             <View style={globalStyles.titleContainer}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>

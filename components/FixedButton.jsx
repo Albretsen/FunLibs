@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: 'absolute',
-    bottom: 20, // Position from bottom
+    bottom: 80, // Position from bottom
     right: 20, // Position almost entirely to the right
     backgroundColor: "#D1E8D5",
     padding: 12,
