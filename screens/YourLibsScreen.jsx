@@ -59,9 +59,7 @@ export default function YourLibsScreen() {
 
   return (
     <View style={globalStyles.screenStandard}>
-      {Platform.OS === "android" || Platform.OS === "ios" && (
-        <BannerAdComponent />
-      )}
+      <BannerAdComponent />
       {/*<FixedButton/>*/}
       <View style={globalStyles.titleContainer}>
         <Text>These are the libs that you have written. Click on a lib to play it! You can create a new lib by tapping the + icon in the bottom right corner.</Text>

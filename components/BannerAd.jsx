@@ -1,13 +1,12 @@
 import { View } from "react-native";
 import { useState } from "react";
+import FixedButton from './FixedButton';
 
 export default function BannerAdComponent() {
-  const [adStatus, setAdStatus] = useState('loading');
+  const [buttonBottom, setButtonBottom] = useState(20);
 
     return(
-        <View>
-          <FixedButton adStatus={adStatus} />
-        </View>
+          <FixedButton buttonBottom={buttonBottom} />
     )
 }
 /**

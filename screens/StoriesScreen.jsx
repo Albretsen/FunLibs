@@ -47,9 +47,7 @@ export default function StoriesScreen() {
 
     return (
         <View style={globalStyles.screenStandard}>
-            {Platform.OS === "android" || Platform.OS === "ios" && (
-                <BannerAdComponent />
-            )}
+            <BannerAdComponent />
             {/*<FixedButton/>*/}
             <View style={globalStyles.titleContainer}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>
