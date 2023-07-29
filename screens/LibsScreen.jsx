@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, Platform } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
 import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
@@ -44,10 +44,10 @@ export default function LibsScreen() {
   
 	return (
 	  <View style={[globalStyles.screenStandard]}>
-		{Platform.OS === ("android" || "ios") && (
+		{Platform.OS === "android" || Platform.OS === "ios" && (
         	<BannerAdComponent />
       	)}
-		<FixedButton/>
+		{/*<FixedButton/>*/}
 		<View style={globalStyles.titleContainer}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>

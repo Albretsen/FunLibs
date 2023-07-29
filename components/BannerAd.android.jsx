@@ -1,37 +1,44 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import AdManager from '../scripts/ad_manager';
 import FixedButton from './FixedButton';
-import { useContext } from 'react';
+import { useState } from 'react';
 
-const adUnitId = AdManager.production ? 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy' : TestIds.BANNER;
+const adUnitId = AdManager.production ? 'ca-app-pub-1354741235649835/9424468100' : TestIds.BANNER;
 
 export default function BannerAdComponent() {
+    const [buttonBottom, setButtonBottom] = useState(80); // Default value
+
     const handleAdFailedToLoad = (error) => {
-        console.log('Ad failed to load:', error);
-        // You can perform additional actions here, such as showing a backup ad.
+        setButtonBottom(20);
     };
 
     const handleAdLoaded = () => {
-        console.log('Ad successfully loaded');
-        // You can perform additional actions here, such as showing the ad to the user.
+        setButtonBottom(80);
     };
 
-    return(
-        <View style={{position: 'absolute', bottom: 0, left: 0, zIndex: 200}}>
-            <BannerAd
-                unitId={adUnitId}
-                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-                //size={BannerAdSize.FULL_BANNER} // 60
-                requestOptions={{
-                    requestNonPersonalizedAdsOnly: true,
-                }}
-                onAdFailedToLoad={handleAdFailedToLoad}
-                onAdLoaded={handleAdLoaded}
-            />
-        </View>
-    )
+    // Memoize the BannerAd component to prevent re-creating it on each render
+    const memoizedBannerAd = useMemo(
+        () => (
+            <View style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 200 }}>
+                <BannerAd
+                    unitId={adUnitId}
+                    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                    //size={BannerAdSize.FULL_BANNER} // 60
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly,
+                    }}
+                    onAdFailedToLoad={handleAdFailedToLoad}
+                    onAdLoaded={handleAdLoaded}
+                />
+                <FixedButton buttonBottom={buttonBottom} />
+            </View>
+        ),
+        [] // Empty dependency array to ensure the BannerAd is created only once
+    );
+
+    return memoizedBannerAd;
 }
 /**
 

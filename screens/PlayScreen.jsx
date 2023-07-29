@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, Platform } from 'react-native';
 import * as Progress from 'react-native-progress';
 import data from '../libs.json';
 import globalStyles from '../styles/globalStyles';

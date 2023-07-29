@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Platform } from 'react-native';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import ListItem from '../components/ListItem';
 import globalStyles from "../styles/globalStyles";
@@ -47,10 +47,10 @@ export default function StoriesScreen() {
 
     return (
         <View style={globalStyles.screenStandard}>
-            {Platform.OS === ("android" || "ios") && (
+            {Platform.OS === "android" || Platform.OS === "ios" && (
                 <BannerAdComponent />
             )}
-            <FixedButton />
+            {/*<FixedButton/>*/}
             <View style={globalStyles.titleContainer}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>
             </View>

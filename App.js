@@ -18,7 +18,6 @@ import FileManager from "./scripts/file_manager.js";
 import LibManager from "./scripts/lib_manager.js";
 import ToastProvider from './components/Toast/ToastProvider';
 import SplashScreen from './screens/SplashScreen';
-import BannerAdComponent from './components/BannerAd.android';
 
 LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
