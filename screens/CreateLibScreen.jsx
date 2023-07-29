@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform } from 'react-native';
 import ButtonPair from '../components/ButtonPair';
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";

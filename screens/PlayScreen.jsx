@@ -64,10 +64,10 @@ function PlayScreen({ route }) {
 				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
 			}
 			//currentLib.words = newResponses;
+			console.log(LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0]));
 			return newResponses;
 		});
 
-		console.log(currentPromptIndex, prompts.length - 1)
 		if (currentPromptIndex < prompts.length - 1) {
 			// If there are more prompts, show the next one
 			setCurrentPromptIndex(currentPromptIndex + 1);
@@ -103,7 +103,7 @@ function PlayScreen({ route }) {
 					onChangeText={setCurrentInput}
 					placeholder={`Write your word here...`}
 				/>
-				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>Explanation of word here.</Text>
+				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
 				<Progress.Bar
 					progress={progress}
 					width={null}
