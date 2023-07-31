@@ -7,7 +7,7 @@ import LibManager from '../scripts/lib_manager';
 import Dialog from './Dialog'; // Import the Dialog component
 
 export default function ListItem(props) {
-    const { name, description, id, type, drawer, onClick, length, onDelete, showDelete } = props;
+    const { name, description, prompt_amount, id, type, drawer, onClick, length, onDelete, showDelete } = props;
     const navigation = useNavigation();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -42,7 +42,7 @@ export default function ListItem(props) {
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>23</Text>
+                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
                             <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
                         </View>
