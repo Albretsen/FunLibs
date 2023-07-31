@@ -51,7 +51,7 @@ export default function ListItem(props) {
                 {showDelete && (
                 <View style={styles.rightIcons}>
                     <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                        <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
+                        <MaterialIcons style={{color: '#5A5A5A'}} name="delete" size={34}  />
                     </TouchableOpacity> 
                 </View>
                 )}
