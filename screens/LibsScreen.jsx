@@ -44,7 +44,7 @@ export default function LibsScreen() {
   
 	return (
 	  <View style={[globalStyles.screenStandard]}>
-        <BannerAdComponent />    	
+        <BannerAdComponent />
 		{/*<FixedButton/>*/}
 		<View style={globalStyles.titleContainer}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>

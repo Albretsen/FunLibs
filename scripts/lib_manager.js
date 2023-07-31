@@ -73,7 +73,6 @@ export default class LibManager {
     }
 
     static getPromptExplanation(prompt) {
-        console.log(prompt);
         const explanations = {
             "adjective": "Adjective: describes something.",
             "verb": "Verb: shows action or being.",

@@ -64,7 +64,6 @@ function PlayScreen({ route }) {
 				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
 			}
 			//currentLib.words = newResponses;
-			console.log(LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0]));
 			return newResponses;
 		});
 

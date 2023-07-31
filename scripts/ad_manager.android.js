@@ -1,5 +1,5 @@
 import mobileAds from 'react-native-google-mobile-ads';
-import { InterstitialAd, AppOpenAd, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography  } from 'react-native-google-mobile-ads';
+import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography  } from 'react-native-google-mobile-ads';
 
 export default class AdManager {
   static production = false;
@@ -8,6 +8,10 @@ export default class AdManager {
   static interstitial;
   static interstitialID;
   static interstitialLoaded = false;
+
+  static rewarded;
+  static rewardedID;
+  static rewardedLoaded = false;
 
   static appOpenAd;
   static appOpenID;
@@ -18,6 +22,7 @@ export default class AdManager {
     mobileAds().initialize().then(adapterStatuses => {});
 
     AdManager.interstitialID = AdManager.production ? 'ca-app-pub-1354741235649835/4619107832' : TestIds.INTERSTITIAL;
+    AdManager.rewardedID = AdManager.production ?  'ca-app-pub-1354741235649835/6730355149' : TestIds.REWARDED_INTERSTITIAL;
     AdManager.appOpenID = AdManager.production ?  'ca-app-pub-1354741235649835/9985906585' : TestIds.APP_OPEN;
     //AdsConsent.reset();
     AdManager.consentInfo = await AdsConsent.requestInfoUpdate();
@@ -36,6 +41,23 @@ export default class AdManager {
 
     AdManager.loadAd("interstitial");
 
+    AdManager.rewarded = RewardedInterstitialAd.createForAdRequest(AdManager.rewardedID, {
+      requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly
+    });
+
+    const unsubscribeLoaded = AdManager.rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
+      AdManager.rewardedLoaded = true;
+    });
+
+    const unsubscribeEarned = AdManager.rewarded.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      reward => {
+        console.log('User earned reward of ', reward);
+      },
+    );
+
+    AdManager.rewarded.load();
+
     /* APP OPEN ADS NOT IMPLEMENTED YET
     AdManager.appOpenAd = AppOpenAd.createForAdRequest(AdManager.appOpenID, {
       requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly
@@ -52,8 +74,25 @@ export default class AdManager {
       case "interstitial":
         AdManager.interstitial.load();
         break;
+      case "rewarded":
+        AdManager.rewarded = RewardedInterstitialAd.createForAdRequest(AdManager.rewardedID, {
+          requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly
+        });
+    
+        const unsubscribeLoaded = AdManager.rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
+          AdManager.rewardedLoaded = true;
+        });
+    
+        const unsubscribeEarned = AdManager.rewarded.addAdEventListener(
+          RewardedAdEventType.EARNED_REWARD,
+          reward => {
+            console.log('User earned reward of ', reward);
+          },
+        );
+    
+        AdManager.rewarded.load();
       default:
-        console.log("Invalid type");
+        console.log("Invalid type --");
     }
   }
 
@@ -62,14 +101,22 @@ export default class AdManager {
 
     switch (type){
       case "interstitial":
-        console.log(AdManager.interstitialLoaded);
         if (AdManager.interstitialLoaded) {
           AdManager.interstitial.show();
           AdManager.interstitialLoaded = false;
         }
         break;
+      case "rewarded":
+        console.log("test 0");
+        if (AdManager.rewardedLoaded) {
+          console.log("test 1");
+          AdManager.rewarded.show();
+          console.log("test 2");
+          AdManager.rewardedLoaded = false;
+          AdManager.loadAd("rewarded");
+        }
       default:
-        console.log("Invalid type");
+        console.log("Invalid type -");
     }
   }
 }
