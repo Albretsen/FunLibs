@@ -10,7 +10,7 @@ import data from './libs.json';
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lib from './scripts/lib.js';
@@ -23,7 +23,7 @@ LibManager.initialize();
 //LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
 
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const getHeaderTitle = (route) => {
@@ -48,7 +48,9 @@ function HomeStackScreen({ navigation }) {
       <Stack.Screen 
         name="SplashScreen"
         component={SplashScreen}
-        options={{headerShown: false}}>
+        options={{
+          headerShown: false
+          }}>
       </Stack.Screen>
       <Stack.Screen
         name="LibsHomeScreen"
@@ -113,9 +115,10 @@ function LibsHomeScreen({route}) {
   const initialTab = route.params?.initialTab ?? "Libs";
   return (
     <Tab.Navigator
-      swipeEnabled={true}
+      tabBarPosition="bottom"
       initialRouteName={initialTab}
       screenOptions={({ route }) => ({
+        swipeEnabled: true,
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
