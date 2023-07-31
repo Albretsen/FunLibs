@@ -42,10 +42,10 @@ export default function ListItem(props) {
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
                             <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
                         </View>
+                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
                     </View>
                 </View>
                 {showDelete && (
