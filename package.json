@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "expo": "~48.0.18",
     "expo-dev-client": "~2.2.1",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "mocha": "^10.2.0",
     "npm": "^9.7.2",
@@ -26,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-native": "0.71.8",
     "react-native-drawer": "^2.5.1",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-google-mobile-ads": "^11.1.1",
     "react-native-progress": "^5.0.0",
@@ -37,8 +39,7 @@
     "react-native-web": "^0.18.12",
     "react-redux": "^8.1.1",
     "redux": "^4.2.1",
-    "unit.js": "^2.1.1",
-    "expo-splash-screen": "~0.18.2"
+    "unit.js": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

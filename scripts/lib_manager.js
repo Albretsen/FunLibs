@@ -1,5 +1,6 @@
 import FileManager from "../scripts/file_manager.js";
 import Lib from "../scripts/lib.js";
+import libs from '../assets/libs.json'; 
 
 export default class LibManager {
     static libs = {
@@ -69,7 +70,7 @@ export default class LibManager {
      * TO DO: Load from a JSON file (Not doing it now because it is added complexity that might break)
      */
     static get defaultLibs() {
-        return '{"libs":[{"name":"First lib","id":0,"text":[""," builds a ",""," house. ",""," is a carpenter, and he is ","","."],"prompts":[{"Name 1":[0,4]},{"Adjective":[2]},{"Adjective":[6]}],"words":[]},{"name":"Second lib","id":1,"text":[""," builds a ",""," house. ",""," is a carpenter, and he is ","","."],"prompts":[{"Name 1":[0,4]},{"Adjective":[2]},{"Adjective":[6]}],"words":[]}],"stories":[{"name":"Lib story 1","id":0,"text":["Adjective: ",""," Name 1: ",""," Noun: ",""," Adjective: ",""," Name 1",""],"prompts":[{"Adjective":[1]},{"Name 1":[3,9]},{"Noun":[5]},{"Adjective":[7]}],"words":["funny","Cool text"]},{"name":"Lib story 2","id":1,"text":["Adjective: ",""," Name 1: ",""," Noun: ",""," Adjective: ",""," Name 1",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}],"words":["funny","Stupid text"]}],"yourLibs":[{"name":"YourLib 1","id":0,"text":["This is a "," text. It is called ",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}]},{"name":"Your Lib 2","id":1,"text":["This is a "," text. It is called ",""],"prompts":[{"Adjective":[0]},{"Name 1":[1,4]},{"Noun":[2]},{"Adjective":[3]}]}]}';
+        return JSON.stringify(libs);
     }
 
     static getPromptExplanation(prompt) {
