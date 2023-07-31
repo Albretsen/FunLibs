@@ -34,7 +34,7 @@
  * @requires MaterialIcons from 'react-native-vector-icons/MaterialIcons'
  */
 
-import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect, Component } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -42,16 +42,23 @@ const Drawer = forwardRef((props, ref) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const slideAnim = useRef(new Animated.Value(Dimensions.get('window').width)).current;
+    const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
 
     const { title } = props;
 
     const animateDrawer = (isVisible) => {
-        Animated.timing(slideAnim, {
-            toValue: isVisible ? (0.15 * Dimensions.get("window").width) : Dimensions.get('window').width,
-            duration: 350,
-            useNativeDriver: false,
-        }).start(() => {
-            // This will be called once animation is done
+        Animated.parallel([
+            Animated.timing(slideAnim, {
+                toValue: isVisible ? (0.15 * Dimensions.get("window").width) : Dimensions.get('window').width,
+                duration: 350,
+                useNativeDriver: false,
+            }),
+            Animated.timing(fadeAnim, {
+                toValue: isVisible ? 1 : 0,
+                duration: 350,
+                useNativeDriver: false,
+            })
+        ]).start(() => {
             setIsModalVisible(isVisible);
         });
     };
@@ -60,7 +67,7 @@ const Drawer = forwardRef((props, ref) => {
         if (isVisible) {
             setIsModalVisible(true);
         }
-            animateDrawer(isVisible);
+        animateDrawer(isVisible);
     }, [isVisible]);
 
     useImperativeHandle(ref, () => ({
@@ -72,26 +79,33 @@ const Drawer = forwardRef((props, ref) => {
         }
     }));
 
-  return (
+    const backgroundColor = fadeAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['transparent', 'rgba(0, 0, 0, 0.5)'],
+    });
+
+    return (
         <Modal
             animationType="none"
             transparent={true}
             visible={isModalVisible}
             onRequestClose={() => setIsVisible(false)}
         >
-            <Animated.View style={{
-                flex: 1,
-                backgroundColor: 'white',
-                width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
-                transform: [{ translateX: slideAnim }],
-            }}>
-                <View style={styles.topBar}>
-                <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
-                    <MaterialIcons name="arrow-back" size={30} />
-                </TouchableOpacity>
-                    <Text style={styles.title}>{title}</Text>
-                </View>
-                {props.children}
+            <Animated.View style={{flex: 1, backgroundColor: backgroundColor}}>
+                <Animated.View style={{
+                    flex: 1,
+                    backgroundColor: 'white',
+                    width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
+                    transform: [{ translateX: slideAnim }],
+                }}>
+                    <View style={styles.topBar}>
+                        <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
+                            <MaterialIcons name="arrow-back" size={30} />
+                        </TouchableOpacity>
+                        <Text style={styles.title}>{title}</Text>
+                    </View>
+                    {props.children}
+                </Animated.View>
             </Animated.View>
         </Modal>
     );
