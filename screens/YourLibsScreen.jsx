@@ -66,7 +66,7 @@ export default function YourLibsScreen() {
       </View>
       <ScrollView style={globalStyles.listItemContainer}>
         {listItems.map((item) => (
-          <ListItem name={item.name} description={item.display_with_prompts} prompt_amount={item.prompts.length} id={item.id} type="yourLibs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
+          <ListItem name={item.name} description={item.display_with_prompts} prompt_amount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="yourLibs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
         ))}
       </ScrollView>
     </View>

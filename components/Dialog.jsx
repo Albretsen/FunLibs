@@ -78,7 +78,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "white",
-        fontSize: 18,
+        fontSize: 16,
+        lineHeight: 34,
+        fontWeight: 400,
+        letterSpacing: 0.5
     },
     title: {
         color: "white",

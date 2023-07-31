@@ -84,7 +84,7 @@ export default class Lib {
         for (let i = 0; i < this.prompts.length; i++) {
             let key = Object.keys(this.prompts[i]);
             for (let j = 0; j < this.prompts[i][key].length; j++) {
-                this.text[this.prompts[i][key][j]] = '"' + key + '"';
+                this.text[this.prompts[i][key][j]] = key.toString().toLowerCase();
             }
         }
 
