@@ -45,7 +45,7 @@ export default function ListItem(props) {
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
                             <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
                         </View>
-                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
+                        <Text style={{fontSize: 14, marginBottom: 4, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
                     </View>
                 </View>
                 {showDelete && (
