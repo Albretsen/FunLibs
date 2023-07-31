@@ -41,8 +41,11 @@ export default function ListItem(props) {
                 <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
-                    <View style={styles.progressBarContainer}>
-                        <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
+                    <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                        <Text style={{fontSize: 14, width: "12%", textAlign: "center"}}>23</Text>
+                        <View style={[styles.progressBarContainer, {width: "88%"}]}>
+                            <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
+                        </View>
                     </View>
                 </View>
                 {showDelete && (
@@ -103,7 +106,6 @@ const styles = StyleSheet.create({
 
     progressBarContainer: {
         height: 4,
-        width: "100%",
         backgroundColor: "#D1E8D5",
     },
 
