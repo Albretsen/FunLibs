@@ -65,7 +65,7 @@ export default function CreateLibScreen() {
                 <TextInput
                     style={[globalStyles.input, globalStyles.inputLarge, {flex: 1}]}
                     multiline={true}
-                    // numberOfLines={10}
+                    numberOfLines={10}
                     onChangeText={text => setLibText(text)}
                 />
             </ScrollView>

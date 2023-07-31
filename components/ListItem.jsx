@@ -38,20 +38,20 @@ export default function ListItem(props) {
                 <View style={styles.letterCircle}>
                     <Text style={globalStyles.fontLarge}>{name[0]}</Text>
                 </View>
-                <View style={styles.textRow}>
+                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
                     <View style={styles.progressBarContainer}>
                         <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
                     </View>
                 </View>
+                {showDelete && (
                 <View style={styles.rightIcons}>
-                    {showDelete && (
-                        <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                            <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
-                        </TouchableOpacity>
-                    )}
+                    <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
+                        <MaterialIcons style={{color: '#FF847B'}} name="delete" size={34}  />
+                    </TouchableOpacity> 
                 </View>
+                )}
                 {/* Conditionally render the delete confirmation dialog */}
                 {showDeleteDialog && (
                     <Dialog
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
     textRow: {
         flexDirection: "column",
-        width: "65%",
+        // width: "65%",
         gap: 6,
         // flex: 1,
     },
@@ -92,8 +92,7 @@ const styles = StyleSheet.create({
     },
 
     letterCircle: {
-        width: "20%",
-        padding: 10,
+        paddingBottom: 2, // Accounts for slight off-center letter
         backgroundColor: "#D1E8D5",
         borderRadius: 50,
         height: 50,

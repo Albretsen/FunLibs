@@ -94,6 +94,7 @@ function PlayScreen({ route }) {
 			{Platform.OS === ("android" || "ios") && (
 				<BannerAdComponent />
 			)}
+			<Text style={[globalStyles.fontLarge, globalStyles.bold, {textAlign: "left", width: "100%", paddingLeft: 20, marginBottom: 10}]}>{currentLib.name}</Text>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{prompts[currentPromptIndex]}</Text>
 				<TextInput
