@@ -45,6 +45,7 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
+        console.log(JSON.stringify(LibManager.libs["yourLibs"]))
     }
 
     /**
