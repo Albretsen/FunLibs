@@ -79,8 +79,10 @@ export default class LibManager {
             "adjective": "Adjective: describes something.",
             "verb": "Verb: shows action or being.",
             "noun": "Noun: name for a person, place, or thing.",
+            "proper noun": "Proper Noun: name for specific thigs, people and places.",
             "superlative": "Superlative: fastest, best, etc.",
-            "occupation": "Occupation: job title."
+            "occupation": "Occupation: job title.",
+            "profession": "Profession: job title."
         };
 
         // Regular expression to extract the first word from the input string
