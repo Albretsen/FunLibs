@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
 
 const globalStyles = StyleSheet.create({
     dropShadow: {
@@ -23,7 +24,8 @@ const globalStyles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent: 'center',
         paddingTop: 1,
-        paddingBottom: 100,
+        // paddingBottom: 100,
+        flexDirection: "column"
     },
 
     containerWhitespace: {
@@ -51,6 +53,7 @@ const globalStyles = StyleSheet.create({
         marginHorizontal: 20,
         alignItems: "center",
         textAlign: "center",
+        height: 50
         // paddingHorizontal: 20
     },
 
@@ -81,7 +84,12 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        paddingBottom: 30,
+        paddingBottom: 50,
+        // Tab bar height: 74
+        // Top text height: 50
+        // Top bar height: 64
+        // Plus 30 for some margin
+        maxHeight: fullHeight - (74 + 50 + 64 + 30)
     },
 
     drawerContainer: {

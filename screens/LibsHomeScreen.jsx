@@ -46,8 +46,8 @@ export default function LibsHomeScreen({route}) {
                 fontSize: 16
             },
             tabBarStyle: {
-                paddingVertical: 1,
-                paddingBottom: 10,
+                // paddingVertical: 1,
+                // paddingBottom: 10,
                 backgroundColor: "#F0F1EC",
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0, // remove shadow on iOS
