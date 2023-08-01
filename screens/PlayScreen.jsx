@@ -50,7 +50,7 @@ function PlayScreen({ route }) {
 		LibManager.storeLib(currentLib, "stories");
 		drawerRef.current.closeDrawer();
 		navigation.navigate("LibsHomeScreen");
-		showToast("Story saved", "Your story can be found under "Stories" at the bottom of your screen.");
+		showToast("Story saved", 'Your story can be found under "Stories" at the bottom of your screen.');
 	}
 
 	const handleNext = () => {

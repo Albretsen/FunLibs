@@ -47,7 +47,8 @@ function HomeStackScreen({ navigation }) {
         name="LibsHomeScreen"
         component={LibsHomeScreen}
         options={({ route }) => ({
-          headerTitle: getHeaderTitle(route),
+          // headerTitle: getHeaderTitle(route),
+          headerTitle: "Fun Libs",
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android
