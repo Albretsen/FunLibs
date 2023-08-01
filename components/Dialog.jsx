@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
-import globalStyles from '../styles/globalStyles';
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
+import globalStyles from "../styles/globalStyles";
 
 export default function Dialog(props) {
     const { text, title, onCancel, onConfirm } = props;
@@ -45,28 +45,28 @@ export default function Dialog(props) {
 const styles = StyleSheet.create({
     modalBackground: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.25)',
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.25)",
     },
     modalContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%'
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%"
     },
     modal: {
         height: "auto",
-        width: '80%',
-        backgroundColor: '#3B6470',
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        width: "80%",
+        backgroundColor: "#3B6470",
+        // justifyContent: "center",
+        // alignItems: "center",
         gap: 10,
         padding: 20,
         borderRadius: 16,
     },
     buttonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+        flexDirection: "row",
+        justifyContent: "flex-end",
         alignSelf: "flex-end",
         marginTop: 20,
     },
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     confirmButton: {
-        // backgroundColor: 'blue',
+        // backgroundColor: "blue",
     },
     buttonText: {
-        color: 'white',
+        color: "white",
         fontSize: 18
     },
 });

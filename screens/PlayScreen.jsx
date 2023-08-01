@@ -1,17 +1,15 @@
-import React, { useState, useRef, useContext } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, Platform } from 'react-native';
-import * as Progress from 'react-native-progress';
-import data from '../libs.json';
-import globalStyles from '../styles/globalStyles';
-import Lib from "../scripts/lib.js";
-import LibManager from '../scripts/lib_manager';
+import React, { useState, useRef, useContext } from "react";
+import { StyleSheet, View, Text, TextInput, Image, ScrollView, Platform } from "react-native";
+import * as Progress from "react-native-progress";
+import globalStyles from "../styles/globalStyles";
+import LibManager from "../scripts/lib_manager";
 import Drawer from "../components/Drawer";
-import ButtonPair from '../components/ButtonPair';
-import { useNavigation } from '@react-navigation/native';
-import ToastContext from '../components/Toast/ToastContext';
-import { useEffect } from 'react';
-import AdManager from '../scripts/ad_manager';
-import BannerAdComponent from '../components/BannerAd';
+import ButtonPair from "../components/ButtonPair";
+import { useNavigation } from "@react-navigation/native";
+import ToastContext from "../components/Toast/ToastContext";
+import { useEffect } from "react";
+import AdManager from "../scripts/ad_manager";
+import BannerAdComponent from "../components/BannerAd";
 
 function PlayScreen({ route }) {
 
@@ -38,7 +36,7 @@ function PlayScreen({ route }) {
 	// Keep track of current prompt index, user responses and current input
 	const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
 	const [responses, setResponses] = useState([]);
-	const [currentInput, setCurrentInput] = useState('');
+	const [currentInput, setCurrentInput] = useState("");
 	const [finishedLib, displayLib] = useState([]);
 	
 	const drawerRef = useRef(null);
@@ -51,8 +49,8 @@ function PlayScreen({ route }) {
 	const saveLib = () => {
 		LibManager.storeLib(currentLib, "stories");
 		drawerRef.current.closeDrawer();
-		navigation.navigate('LibsHomeScreen');
-		showToast('Story saved', 'Your story can be found under "Stories" at the bottom of your screen.');
+		navigation.navigate("LibsHomeScreen");
+		showToast("Story saved", "Your story can be found under "Stories" at the bottom of your screen.");
 	}
 
 	const handleNext = () => {
@@ -77,7 +75,7 @@ function PlayScreen({ route }) {
 			});
 		}
 		// Clear current input
-		setCurrentInput('');
+		setCurrentInput("");
 	};
 
 	const handleBack = () => {
@@ -107,8 +105,8 @@ function PlayScreen({ route }) {
 				<Progress.Bar
 					progress={progress}
 					width={null}
-					color='#006D40'
-					unfilledColor='#D1E8D5'
+					color="#006D40"
+					unfilledColor="#D1E8D5"
 					borderWidth={0}
 					borderRadius={0}
 				/>
@@ -126,7 +124,7 @@ function PlayScreen({ route }) {
 			<View style={styles.bottomLeftContainer}>
 				<Image
 				style={styles.image}
-				source={require('../assets/images/girl-with-balloon.svg')}
+				source={require("../assets/images/girl-with-balloon.svg")}
 				/>
 			</View>
 		</View>
@@ -180,10 +178,10 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: "#fff",
 	},
 	bottomLeftContainer: {
-		position: 'absolute',
+		position: "absolute",
 		bottom: 0,
 		left: 0,
 	},

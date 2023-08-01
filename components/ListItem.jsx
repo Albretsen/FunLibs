@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from 'react-native';
-import globalStyles from '../styles/globalStyles';
-import { useNavigation } from '@react-navigation/native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import LibManager from '../scripts/lib_manager';
-import Dialog from './Dialog'; // Import the Dialog component
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import globalStyles from "../styles/globalStyles";
+import { useNavigation } from "@react-navigation/native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Dialog from "./Dialog";
 
 export default function ListItem(props) {
-    const { name, description, prompt_amount, prompts, text, id, type, drawer, onClick, length, onDelete, showDelete } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, onDelete, showDelete } = props;
     const navigation = useNavigation();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -24,11 +23,11 @@ export default function ListItem(props) {
     }
 
     function playLib(id, type) {
-        if (type === 'stories') {
+        if (type === "stories") {
             drawer.current.openDrawer();
             onClick({ id, name, type });
         } else {
-            navigation.navigate('PlayScreen', { libId: id, type: type });
+            navigation.navigate("PlayScreen", { libId: id, type: type });
         }
     }
 
@@ -48,23 +47,22 @@ export default function ListItem(props) {
                     <Text style={globalStyles.fontLarge}>{name[0]}</Text>
                 </View>
                 <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{text.map((key, index) => (
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[globalStyles.fontMedium, {flexShrink: 1}]}>{text.map((key, index) => (
+                        // Description
                         <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
-                        // description
                     ))}</Text>
-                    {/* <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text> */}
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
-                            <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>
+                            <View style={[styles.progressBar, {width: (100 * length) + "%"}]}></View>
                         </View>
-                        <Text style={{fontSize: 14, marginBottom: 4, width: "12%", textAlign: "center"}}>{prompt_amount}</Text>
+                        <Text style={{fontSize: 14, marginBottom: 4, width: "12%", textAlign: "center"}}>{promptAmount}</Text>
                     </View>
                 </View>
                 {showDelete && (
                 <View style={styles.rightIcons}>
                     <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                        <MaterialIcons style={{color: '#5A5A5A'}} name="delete" size={34}  />
+                        <MaterialIcons style={{color: "#5A5A5A"}} name="delete" size={34}  />
                     </TouchableOpacity> 
                 </View>
                 )}

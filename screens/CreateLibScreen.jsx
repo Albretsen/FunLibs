@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform } from 'react-native';
-import ButtonPair from '../components/ButtonPair';
+import React, { useContext, useState } from "react";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform } from "react-native";
+import ButtonPair from "../components/ButtonPair";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
 import LibManager from "../scripts/lib_manager";
-import ToastContext from '../components/Toast/ToastContext';
-import { useNavigation } from '@react-navigation/native';
-import BannerAdComponent from '../components/BannerAd';
-// import { Test } from 'mocha';
+import ToastContext from "../components/Toast/ToastContext";
+import { useNavigation } from "@react-navigation/native";
+import BannerAdComponent from "../components/BannerAd";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -26,8 +25,8 @@ export default function CreateLibScreen() {
         } else {
             let lib = Lib.createLib(libText, libTitle);
             LibManager.storeLib(lib, "yourLibs");
-            showToast('Lib saved', 'Your lib can be found under "Your libs" at the bottom of your screen.');
-            navigation.navigate('LibsHomeScreen', {initalTab: "Your Libs"});
+            showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+            navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
         }
     }
 

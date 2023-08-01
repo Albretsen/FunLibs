@@ -1,44 +1,35 @@
-//import 'expo-dev-client';
-import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Header from './components/Header';
-import PlayScreen from './screens/PlayScreen';
-import LibsScreen from './screens/LibsScreen';
-import StoriesScreen from './screens/StoriesScreen';
-import YourLibsScreen from './screens/YourLibsScreen';
-import CreateLibScreen from './screens/CreateLibScreen';
-import data from './libs.json';
-import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Lib from './scripts/lib.js';
-import FileManager from "./scripts/file_manager.js";
+//import "expo-dev-client";
+import { StyleSheet } from "react-native";
+import PlayScreen from "./screens/PlayScreen";
+import LibsHomeScreen from "./screens/LibsHomeScreen";
+import CreateLibScreen from "./screens/CreateLibScreen";
+import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LibManager from "./scripts/lib_manager.js";
-import ToastProvider from './components/Toast/ToastProvider';
-import SplashScreen from './screens/SplashScreen';
+import ToastProvider from "./components/Toast/ToastProvider";
+import SplashScreen from "./screens/SplashScreen";
 
 LibManager.initialize();
-//LibManager.storeLib(new Lib("NEW LIB", null, ["Text"], "Suggestion"), "libs");
 
 const Drawer = createDrawerNavigator();
-const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const getHeaderTitle = (route) => {
-  // If the focused route is not found, use the screen's name
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Libs';
+  // If the focused route is not found, use the screen"s name
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Libs";
 
   switch (routeName) {
-    case 'Libs':
-      return 'Fun Libs';
-    case 'Stories':
-      return 'Stories';
-    case 'Your Libs':
-      return 'Your Libs';
+    case "Libs":
+      return "Fun Libs";
+    case "Stories":
+      return "Stories";
+    case "Your Libs":
+      return "Your Libs";
     default:
-      return 'Fun Libs';
+      return "Fun Libs";
   }
 };
 
@@ -65,7 +56,7 @@ function HomeStackScreen({ navigation }) {
           },
           headerLeft: () => (
             // Size set to 0, effectively hiding the navigation menu, for now.
-            <MaterialIcons style={{marginLeft: 12, color: "#1c1c1c"}} name="menu" size={0} onPress={() => navigation.openDrawer()} />
+            <MaterialIcons style={{marginLeft: 12, color: "white"}} name="menu" size={0} onPress={() => navigation.openDrawer()} />
           ),
           // headerRight: () => (
           //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
@@ -77,7 +68,7 @@ function HomeStackScreen({ navigation }) {
         component={PlayScreen}
         options={{
           // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
-          headerTitle: 'Fun Libs',
+          headerTitle: "Fun Libs",
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android
@@ -94,7 +85,7 @@ function HomeStackScreen({ navigation }) {
         component={CreateLibScreen}
         options={{
           // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
-          headerTitle: 'Fun Libs',
+          headerTitle: "Fun Libs",
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android
@@ -111,65 +102,9 @@ function HomeStackScreen({ navigation }) {
   );
 }
 
-function LibsHomeScreen({route}) {
-  const initialTab = route.params?.initialTab ?? "Libs";
-  return (
-    <Tab.Navigator
-      tabBarPosition="bottom"
-      initialRouteName={initialTab}
-      screenOptions={({ route }) => ({
-        swipeEnabled: true,
-        headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          iconName = focused ? "radio-button-checked" : "radio-button-unchecked";
-
-          // You can return any component that you like here!
-          return (
-            <View
-              style={{
-                height: 30, // or the size you want
-                width: 60, // or the size you want
-                backgroundColor: focused ? '#abc' : 'transparent', // Change #abc to your preferred color.
-                borderRadius: 16, // half of your size to make it circular
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <MaterialIcons name={iconName} size={18} color={focused ? '#49454F' : color} />
-            </View>
-          );
-        },
-        tabBarActiveTintColor: "gray",
-        tabBarInactiveTintColor: "gray",
-        tabBarLabelStyle: {
-          fontSize: 16
-        },
-        tabBarStyle: {
-          paddingVertical: 1,
-          paddingBottom: 10,
-          backgroundColor: "#F0F1EC",
-          elevation: 0, // remove shadow on Android
-          shadowOpacity: 0, // remove shadow on iOS
-          borderTopWidth: 0, // for explicit border settings
-          height: 74
-        }
-      })}
-    >
-      <Tab.Screen name="Libs" component={LibsScreen} />
-      <Tab.Screen name="Stories" component={StoriesScreen} />
-      <Tab.Screen name="Your Libs" component={YourLibsScreen} />
-    </Tab.Navigator>
-  );
-}
-
 export default function App() {
   return (
     <ToastProvider>
-      {/* {Platform.OS === ("android" || "ios") && (
-        <BannerAdComponent />
-      )} */}
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>

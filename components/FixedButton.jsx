@@ -1,15 +1,14 @@
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import globalStyles from '../styles/globalStyles';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import globalStyles from "../styles/globalStyles";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FixedButton({ onPress, buttonBottom }) {
   const navigation = useNavigation();
   
   const openCreate = () => {
-    // navigation.navigate('Your Libs', { openDrawer: true });
-    navigation.navigate('CreateLibScreen');
+    navigation.navigate("CreateLibScreen");
   }
 
   // Use openCreate if no onPress prop is provided
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 80, // Position from bottom
     right: 20, // Position almost entirely to the right
     backgroundColor: "#D1E8D5",

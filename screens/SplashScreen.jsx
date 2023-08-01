@@ -1,18 +1,16 @@
-import { ScrollView, StyleSheet, View, Text, Image, Dimensions } from 'react-native';
-import React, { useEffect, useState, useCallback } from 'react';
+import { StyleSheet, View, Image, Dimensions } from "react-native";
+import React, { useEffect } from "react";
 import globalStyles from "../styles/globalStyles";
-import LibManager from '../scripts/lib_manager';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import LibManager from "../scripts/lib_manager";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SplashScreen() {
     const navigation = useNavigation(); // Get the navigation prop via hook
 
     useEffect(() => {
         const checkDataAndNavigate = async () => {
-            await LibManager.initialize(); // Call your data loading function
-
-            navigation.navigate('LibsHomeScreen');
-            
+            await LibManager.initialize(); // Call data loading function
+            navigation.navigate("LibsHomeScreen");
         };
 
         checkDataAndNavigate();
@@ -23,8 +21,8 @@ export default function SplashScreen() {
             <View style={styles.container}>
 				<Image
 				style={styles.image}
-				source={require('../assets/images/splash.png')}
-                resizeMode='stretch'
+				source={require("../assets/images/splash.png")}
+                resizeMode="stretch"
 				/>
 			</View>
         </View>
@@ -37,9 +35,9 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        position: 'relative', // Ensure it covers the whole screen
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        position: "relative", // Ensure it covers the whole screen
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
     },
     image: {
         flex: 1,

@@ -12,8 +12,8 @@
  * @prop {object} ref - The ref object to interact with the Drawer, providing methods to open and close it.
  *
  * @example
- * import React, { useRef } from 'react';
- * import Drawer from './Drawer';
+ * import React, { useRef } from "react";
+ * import Drawer from "./Drawer";
  * 
  * const MyComponent = () => {
  *   const drawerRef = useRef();
@@ -29,19 +29,19 @@
  * }
  *
  * @requires React
- * @requires useState, useEffect, useRef, forwardRef, useImperativeHandle from 'react'
- * @requires Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity from 'react-native'
- * @requires MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+ * @requires useState, useEffect, useRef, forwardRef, useImperativeHandle from "react"
+ * @requires Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity from "react-native"
+ * @requires MaterialIcons from "react-native-vector-icons/MaterialIcons"
  */
 
-import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
-import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
+import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Drawer = forwardRef((props, ref) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const slideAnim = useRef(new Animated.Value(Dimensions.get('window').width)).current;
+    const slideAnim = useRef(new Animated.Value(Dimensions.get("window").width)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
 
     const { title } = props;
@@ -49,7 +49,7 @@ const Drawer = forwardRef((props, ref) => {
     const animateDrawer = (isVisible) => {
         Animated.parallel([
             Animated.timing(slideAnim, {
-                toValue: isVisible ? (0.15 * Dimensions.get("window").width) : Dimensions.get('window').width,
+                toValue: isVisible ? (0.15 * Dimensions.get("window").width) : Dimensions.get("window").width,
                 duration: 350,
                 useNativeDriver: false,
             }),
@@ -81,7 +81,7 @@ const Drawer = forwardRef((props, ref) => {
 
     const backgroundColor = fadeAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: ['transparent', 'rgba(0, 0, 0, 0.5)'],
+        outputRange: ["transparent", "rgba(0, 0, 0, 0.5)"],
     });
 
     return (
@@ -94,7 +94,7 @@ const Drawer = forwardRef((props, ref) => {
             <Animated.View style={{flex: 1, backgroundColor: backgroundColor}}>
                 <Animated.View style={{
                     flex: 1,
-                    backgroundColor: 'white',
+                    backgroundColor: "white",
                     width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
                     transform: [{ translateX: slideAnim }],
                 }}>
