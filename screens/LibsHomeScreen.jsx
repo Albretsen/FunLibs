@@ -29,14 +29,14 @@ export default function LibsHomeScreen({route}) {
                     style={{
                         height: 30,
                         width: 60,
-                        backgroundColor: focused ? "#abc" : "transparent",
+                        backgroundColor: focused ? "#D1E8D5" : "transparent",
                         borderRadius: 16,
                         justifyContent: "center",
                         alignItems: "center",
                         alignSelf: "center",
                     }}
                 >
-                    <MaterialIcons name={iconName} size={18} color={focused ? "#49454F" : color} />
+                    <MaterialIcons name={iconName} size={18} color={focused ? "#006D40" : color} />
                 </View>
                 );
             },
@@ -52,7 +52,10 @@ export default function LibsHomeScreen({route}) {
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0, // remove shadow on iOS
                 borderTopWidth: 0, // for explicit border settings
-                height: 74
+                height: 74,
+            },
+            tabBarIndicatorStyle: {
+                backgroundColor: "#006D40",
             }
             })}
         >
