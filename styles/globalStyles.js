@@ -76,6 +76,7 @@ const globalStyles = StyleSheet.create({
 
     inputLarge: {
         // padding: 10
+        ...(Platform.OS === 'android' && { textAlignVertical: 'top' }),
     },
 
     listItemContainer: {
