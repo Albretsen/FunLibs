@@ -114,12 +114,12 @@ function PlayScreen({ route }) {
 				/>
 				<ButtonPair firstLabel="Back" firstOnPress={handleBack} secondLabel="Next" secondOnPress={handleNext} bottomButtons={false} />
 				<Drawer ref={drawerRef} title="Finished Lib">
-					<ScrollView contentContainerStyle={styles.drawerContainer}>
-						<View style={styles.drawerTop}>
+					<ScrollView contentContainerStyle={globalStyles.drawerContainer}>
+						<View style={globalStyles.drawerTop}>
 							<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 							<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>{finishedLib}</Text>
 						</View>
-						<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true} style={styles.bottomButtons}/>
+						<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true}/>
 					</ScrollView>
 				</Drawer>
 			</View>
@@ -177,24 +177,6 @@ const styles = StyleSheet.create({
 	buttonNext: {
 		backgroundColor: "#D1E8D5",
 		borderColor: "#D1E8D5",
-	},
-	drawerContainer: {
-		flex: 1,
-		justifyContent: "space-between",
-		borderRightWidth: 1,
-		borderColor: "#D1E8D5",
-	},
-	drawerTop: {
-		marginHorizontal: 20,
-	},
-	drawerBottom: {
-		marginBottom: 10,
-		marginRight: 10,
-		paddingTop: 10,
-		borderTopWidth: 1,
-		borderColor: "gray",
-		gap: 16,
-		paddingBottom: 16
 	},
 	container: {
 		flex: 1,

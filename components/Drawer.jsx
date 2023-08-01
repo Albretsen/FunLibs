@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
         height: 75,
         flexDirection: "row",
         alignItems: "center",
-        gap: 10
+        gap: 10,
+        marginLeft: 10
     },
     title: {
         fontSize: 24

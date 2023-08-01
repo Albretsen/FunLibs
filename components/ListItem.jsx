@@ -7,9 +7,17 @@ import LibManager from '../scripts/lib_manager';
 import Dialog from './Dialog'; // Import the Dialog component
 
 export default function ListItem(props) {
-    const { name, description, prompt_amount, id, type, drawer, onClick, length, onDelete, showDelete } = props;
+    const { name, description, prompt_amount, prompts, text, id, type, drawer, onClick, length, onDelete, showDelete } = props;
     const navigation = useNavigation();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+    let promptFirst = false;
+    for (let i = 0; i < prompts.length; i++) {
+        let firstIndex = prompts[i][Object.keys(prompts[i])[0]][0];
+        if (firstIndex == 0) {
+            promptFirst = true;
+        }
+    }
 
     function deleteLib() {
         setShowDeleteDialog(true);
@@ -32,6 +40,7 @@ export default function ListItem(props) {
         setShowDeleteDialog(false);
     }
 
+    let promptOrText = promptFirst;
     return (
         <TouchableWithoutFeedback onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
@@ -40,7 +49,11 @@ export default function ListItem(props) {
                 </View>
                 <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{text.map((key, index) => (
+                        <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
+                        // description
+                    ))}</Text>
+                    {/* <Text numberOfLines={1} ellipsizeMode='tail' style={[globalStyles.fontMedium, {flexShrink: 1}]}>{description}</Text> */}
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
                             <View style={[styles.progressBar, {width: (100 * length) + '%'}]}></View>

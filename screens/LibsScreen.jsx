@@ -52,7 +52,7 @@ export default function LibsScreen() {
 		<StatusBar style="auto" />
 		<ScrollView style={globalStyles.listItemContainer}>
 		  {listItems.map((item) => (
-			<ListItem name={item.name} description={item.display_with_prompts} prompt_amount={item.prompts.length} id={item.id} type="libs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={false}></ListItem>
+			<ListItem name={item.name} description={item.display_with_prompts} prompt_amount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={false}></ListItem>
 		  ))}
 		</ScrollView>
 	  </View>

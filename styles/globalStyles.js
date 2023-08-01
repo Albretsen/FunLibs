@@ -82,7 +82,28 @@ const globalStyles = StyleSheet.create({
 
     listItemContainer: {
         paddingBottom: 30,
-    }
+    },
+
+    drawerContainer: {
+		flex: 1,
+		justifyContent: "space-between",
+		borderRightWidth: 1,
+		borderColor: "#D1E8D5",
+	},
+
+	drawerTop: {
+		marginHorizontal: 20,
+	},
+
+	drawerBottom: {
+		marginBottom: 10,
+		marginRight: 10,
+		paddingTop: 10,
+		borderTopWidth: 1,
+		borderColor: "gray",
+		gap: 16,
+		paddingBottom: 16
+	},
 })
 
 export default globalStyles;
