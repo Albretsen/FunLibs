@@ -27,9 +27,23 @@ function PlayScreen({ route }) {
 
 	// Extract prompts from the current lib
 	const prompts = [];
+	const displayPrompts = [];
 	if (currentLib.prompts) {
 		for (let i = 0; i < currentLib.prompts.length; i++) {
+			let prompt = Object.keys(currentLib.prompts[i])[0];
+			// Get the last character of the inputString
+			let lastChar = prompt.slice(-1);
+
+			// Check if the last character is a number
+			if (isNum(lastChar)) {
+				// Remove the last character from the inputString
+				prompt = prompt.slice(0, -1);
+				lastChar = prompt.slice(-1);
+				if (lastChar === " ") prompt = prompt.slice(0, -1);
+			}
 			prompts.push(Object.keys(currentLib.prompts[i])[0]);
+			displayPrompts.push(prompt);
+			console.log(prompt + " | " + Object.keys(currentLib.prompts[i])[0]);
 		}
 	}
 
@@ -94,7 +108,7 @@ function PlayScreen({ route }) {
 			)}
 			<Text style={[globalStyles.fontLarge, globalStyles.bold, {textAlign: "left", width: "100%", paddingLeft: 20, marginBottom: 10}]}>{currentLib.name}</Text>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
-				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{prompts[currentPromptIndex]}</Text>
+				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{displayPrompts[currentPromptIndex]}</Text>
 				<TextInput
 					style={[styles.input, globalStyles.fontMedium]}
 					value={currentInput}
@@ -190,3 +204,7 @@ const styles = StyleSheet.create({
 		height: 180,
 	},
 })
+
+function isNum(n) {
+    return /.*[0-9].*/.test(n);
+}
