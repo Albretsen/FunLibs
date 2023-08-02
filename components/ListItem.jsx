@@ -44,7 +44,7 @@ export default function ListItem(props) {
         <TouchableWithoutFeedback onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
-                    <Text style={globalStyles.fontLarge}>{name[0]}</Text>
+                    <Text style={[globalStyles.fontLarge, {color: "#006D40"}]}>{name[0]}</Text>
                 </View>
                 <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>

@@ -19,7 +19,7 @@ export default function FixedButton({ onPress, buttonBottom }) {
         style={styles.button}
         onPress={handlePress}
       > 
-        <MaterialIcons name="add" size={36} />
+        <MaterialIcons name="add" size={36} color={"#006D40"} />
       </TouchableOpacity>
     </View>
   );
