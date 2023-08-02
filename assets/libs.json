@@ -161,538 +161,8 @@
             "words": []
         },
         {
-            "name": "Chronicles of Planet X",
-            "id": 2,
-            "text": [
-                "In the year ",
-                "\"Four-digit number\"",
-                ", humanity had colonized the ",
-                "\"Adjective\"",
-                " planet of ",
-                "\"Fictional Planet Name\"",
-                ". Among the many curiosities of this new world was the ",
-                "\"Adjective\"",
-                " ",
-                "\"Animal\"",
-                ", a creature that would change the course of interstellar history.\n\nOne day, an astronaut named ",
-                "\"Proper Noun\"",
-                " was exploring the ",
-                "\"Adjective\"",
-                " landscape when they stumbled upon an ancient ",
-                "\"Noun\"",
-                ". They had seen many ",
-                "\"Plural Noun\"",
-                " in their time, but nothing like this.\n\nIntrigued, ",
-                "\"Proper Noun\"",
-                " picked up the ",
-                "\"Adjective\"",
-                " object and saw that it was inscribed with a series of ",
-                "\"Adjective\"",
-                " symbols. They seemed to be a map to a ",
-                "\"Adjective\"",
-                " ",
-                "\"Noun\"",
-                " hidden somewhere on the planet.\n\nWith their trusty robot sidekick, ",
-                "\"Fictional Character Name\"",
-                ", at their side, ",
-                "\"Proper Noun\"",
-                " embarked on an adventure that would take them across ",
-                "\"Adjective\"",
-                " terrains, through ",
-                "\"Adjective\"",
-                " ",
-                "\"Plural Noun\"",
-                ", and into the heart of the planet's ",
-                "\"Adjective\"",
-                " ",
-                "\"Noun\"",
-                ".\n\nLittle did they know, they were not alone. The ",
-                "\"Adjective\"",
-                " ",
-                "\"Profession\"",
-                " of the ",
-                "\"Fictional Organization Name\"",
-                " had been monitoring their actions, and they too were interested in the ",
-                "\"Adjective\"",
-                " ",
-                "\"Noun\"",
-                ".\n\nThe race was on. Would ",
-                "\"Proper Noun\"",
-                " and ",
-                "\"Fictional Character Name\"",
-                " find the ",
-                "\"Noun\"",
-                " first, or would the ",
-                "\"Adjective\"",
-                " ",
-                "\"Profession\"",
-                " beat them to it? The fate of the ",
-                "\"Adjective\"",
-                " ",
-                "\"Animal\"",
-                ", and potentially all of humanity, hung in the balance."
-            ],
-            "prompts": [
-                {
-                    "Four-digit number": [
-                        1
-                    ]
-                },
-                {
-                    "Adjective": [
-                        3
-                    ]
-                },
-                {
-                    "Fictional Planet Name": [
-                        5
-                    ]
-                },
-                {
-                    "Adjective": [
-                        7
-                    ]
-                },
-                {
-                    "Animal": [
-                        9
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        11
-                    ]
-                },
-                {
-                    "Adjective": [
-                        13
-                    ]
-                },
-                {
-                    "Noun": [
-                        15
-                    ]
-                },
-                {
-                    "Plural Noun": [
-                        17
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        19
-                    ]
-                },
-                {
-                    "Adjective": [
-                        21
-                    ]
-                },
-                {
-                    "Adjective": [
-                        23
-                    ]
-                },
-                {
-                    "Adjective": [
-                        25
-                    ]
-                },
-                {
-                    "Noun": [
-                        27
-                    ]
-                },
-                {
-                    "Fictional Character Name": [
-                        29
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        31
-                    ]
-                },
-                {
-                    "Adjective": [
-                        33
-                    ]
-                },
-                {
-                    "Adjective": [
-                        35
-                    ]
-                },
-                {
-                    "Plural Noun": [
-                        37
-                    ]
-                },
-                {
-                    "Adjective": [
-                        39
-                    ]
-                },
-                {
-                    "Noun": [
-                        41
-                    ]
-                },
-                {
-                    "Adjective": [
-                        43
-                    ]
-                },
-                {
-                    "Profession": [
-                        45
-                    ]
-                },
-                {
-                    "Fictional Organization Name": [
-                        47
-                    ]
-                },
-                {
-                    "Adjective": [
-                        49
-                    ]
-                },
-                {
-                    "Noun": [
-                        51
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        53
-                    ]
-                },
-                {
-                    "Fictional Character Name": [
-                        55
-                    ]
-                },
-                {
-                    "Noun": [
-                        57
-                    ]
-                },
-                {
-                    "Adjective": [
-                        59
-                    ]
-                },
-                {
-                    "Profession": [
-                        61
-                    ]
-                },
-                {
-                    "Adjective": [
-                        63
-                    ]
-                },
-                {
-                    "Animal": [
-                        65
-                    ]
-                }
-            ],
-            "words": []
-        },
-        {
-            "name": "Adventures at the Beach",
-            "id": 3,
-            "text": [
-                "On a ",
-                "\"Adjective\"",
-                " summer day, ",
-                "\"Proper Noun\"",
-                " decided to spend their time at the ",
-                "\"Adjective\"",
-                " beach of ",
-                "\"Fictional or Real Beach Name\"",
-                ". Their day was filled with ",
-                "\"Adjective\"",
-                " activities and ",
-                "\"Adjective\"",
-                " sea creatures.\n\nAs ",
-                "\"Proper Noun\"",
-                " walked along the shore, they felt the ",
-                "\"Adjective\"",
-                " sand between their toes. They spotted a ",
-                "\"Adjective\"",
-                " ",
-                "\"Noun\"",
-                " washed up by the ",
-                "\"Adjective\"",
-                " waves. Intrigued, they picked it up and noticed it had a strange ",
-                "\"Adjective\"",
-                " symbol on it.\n\nMeanwhile, ",
-                "\"Proper Noun's\"",
-                " friends, ",
-                "\"Proper Noun 2\"",
-                " and ",
-                "\"Proper Noun 3\"",
-                ", were having a blast in the ",
-                "\"Adjective\"",
-                " sea, playing with a ",
-                "\"Adjective\"",
-                " ",
-                "\"Sea Animal\"",
-                ". They called ",
-                "\"Proper Noun\"",
-                " over to see their ",
-                "\"Adjective\"",
-                " discovery.\n\nJust as they were marveling at the ",
-                "\"Adjective\"",
-                " ",
-                "\"Sea Animal\"",
-                ", a ",
-                "\"Adjective\"",
-                " ",
-                "\"Beach Activity\"",
-                " competition was announced by the ",
-                "\"Profession\"",
-                " from the ",
-                "\"Fictional or Real Organization Name\"",
-                ". They decided to join in for the fun.\n\n",
-                "\"Proper Noun\"",
-                ", ",
-                "\"Proper Noun 2\"",
-                ", and ",
-                "\"Proper Noun 3\"",
-                " teamed up and gave their best at the ",
-                "\"Adjective\"",
-                " ",
-                "\"Beach Activity\"",
-                ", leaving the crowd in a mix of ",
-                "\"Emotion\"",
-                " and ",
-                "\"Emotion\"",
-                ".\n\nAs the sun started to set, creating a ",
-                "\"Adjective\"",
-                " scenery, they built a ",
-                "\"Adjective\"",
-                " ",
-                "\"Beach related Noun\"",
-                ", laughing and sharing ",
-                "\"Adjective\"",
-                " ",
-                "\"Type of food\"",
-                " as they watched the ",
-                "\"Adjective\"",
-                " sun dip below the horizon.\nLittle did they know, this was only the beginning of their ",
-                "\"Adjective\"",
-                " adventures at the beach of ",
-                "\"Fictional or Real Beach Name\"",
-                "."
-            ],
-            "prompts": [
-                {
-                    "Adjective": [
-                        1
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        3
-                    ]
-                },
-                {
-                    "Adjective": [
-                        5
-                    ]
-                },
-                {
-                    "Fictional or Real Beach Name": [
-                        7
-                    ]
-                },
-                {
-                    "Adjective": [
-                        9
-                    ]
-                },
-                {
-                    "Adjective": [
-                        11
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        13
-                    ]
-                },
-                {
-                    "Adjective": [
-                        15
-                    ]
-                },
-                {
-                    "Adjective": [
-                        17
-                    ]
-                },
-                {
-                    "Noun": [
-                        19
-                    ]
-                },
-                {
-                    "Adjective": [
-                        21
-                    ]
-                },
-                {
-                    "Adjective": [
-                        23
-                    ]
-                },
-                {
-                    "Proper Noun's": [
-                        25
-                    ]
-                },
-                {
-                    "Proper Noun 2": [
-                        27,
-                        55
-                    ]
-                },
-                {
-                    "Proper Noun 3": [
-                        29,
-                        57
-                    ]
-                },
-                {
-                    "Adjective": [
-                        31
-                    ]
-                },
-                {
-                    "Adjective": [
-                        33
-                    ]
-                },
-                {
-                    "Sea Animal": [
-                        35
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        37
-                    ]
-                },
-                {
-                    "Adjective": [
-                        39
-                    ]
-                },
-                {
-                    "Adjective": [
-                        41
-                    ]
-                },
-                {
-                    "Sea Animal": [
-                        43
-                    ]
-                },
-                {
-                    "Adjective": [
-                        45
-                    ]
-                },
-                {
-                    "Beach Activity": [
-                        47
-                    ]
-                },
-                {
-                    "Profession": [
-                        49
-                    ]
-                },
-                {
-                    "Fictional or Real Organization Name": [
-                        51
-                    ]
-                },
-                {
-                    "Proper Noun": [
-                        53
-                    ]
-                },
-                {
-                    "Adjective": [
-                        59
-                    ]
-                },
-                {
-                    "Beach Activity": [
-                        61
-                    ]
-                },
-                {
-                    "Emotion": [
-                        63
-                    ]
-                },
-                {
-                    "Emotion": [
-                        65
-                    ]
-                },
-                {
-                    "Adjective": [
-                        67
-                    ]
-                },
-                {
-                    "Adjective": [
-                        69
-                    ]
-                },
-                {
-                    "Beach related Noun": [
-                        71
-                    ]
-                },
-                {
-                    "Adjective": [
-                        73
-                    ]
-                },
-                {
-                    "Type of food": [
-                        75
-                    ]
-                },
-                {
-                    "Adjective": [
-                        77
-                    ]
-                },
-                {
-                    "Adjective": [
-                        79
-                    ]
-                },
-                {
-                    "Fictional or Real Beach Name": [
-                        81
-                    ]
-                }
-            ],
-            "words": []
-        },
-        {
             "name": "Festivus",
-            "id": 4,
+            "id": 2,
             "text": [
                 "Once upon a time, in the whimsical land of ",
                 "Place 1",
@@ -917,23 +387,418 @@
                 }
             ],
             "words": []
-        }
-    ],
-    "stories": [
+        },
         {
-            "name": "Lib story 1",
-            "id": 0,
+            "name": "Superhero",
+            "id": 3,
             "text": [
-                "Adjective: ",
-                "",
-                " Name 1: ",
-                "",
-                " Noun: ",
-                "",
-                " Adjective: ",
-                "",
-                " Name 1",
-                ""
+                "In the lively city of ",
+                "city 1",
+                ", a hero named ",
+                "superhero 1",
+                " emerged! Wearing ",
+                "color",
+                " spandex and a cape that billowed like ",
+                "adjective",
+                " clouds, ",
+                "superhero 1",
+                " was ready to save the day.\n\nThe media nicknamed him ‘The ",
+                "adjective",
+                " Avenger’. But every hero needs a sidekick. Meet ",
+                "name 1",
+                " - ",
+                "superhero 1",
+                "s trusty companion. Together, they faced ",
+                "villain 1",
+                ", who turned landmarks into ",
+                "noun 1",
+                " statues. With ",
+                "superhero 1",
+                " and ",
+                "name 1",
+                " teaming up, they thwarted the villain's scheme.\n\n‘Fear not, citizens of ",
+                "city 1",
+                "! We'll stop this ",
+                "adjective",
+                " chaos!’ declared ",
+                "superhero 1",
+                " as they transformed the ",
+                "noun 1",
+                " statues back. The city rejoiced, and the mayor awarded them the ",
+                "adjective",
+                " Medal of Honor.\n\nFrom then on, ",
+                "superhero 1",
+                " and ",
+                "name 1",
+                " protected the city, spreading joy and ",
+                "adjective",
+                " courage. ",
+                "city 1",
+                " remained safe, thanks to ",
+                "superhero 1",
+                " and ",
+                "name 1",
+                ". Together, they conquered any ",
+                "noun",
+                " that threatened the city!"
+            ],
+            "prompts": [
+                {
+                    "City 1": [
+                        1,
+                        25,
+                        41
+                    ]
+                },
+                {
+                    "Superhero 1": [
+                        3,
+                        9,
+                        15,
+                        21,
+                        29,
+                        35,
+                        43
+                    ]
+                },
+                {
+                    "Color": [
+                        5
+                    ]
+                },
+                {
+                    "Adjective": [
+                        7
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Name 1": [
+                        13,
+                        23,
+                        37,
+                        45
+                    ]
+                },
+                {
+                    "Villain 1": [
+                        17
+                    ]
+                },
+                {
+                    "Noun 1": [
+                        19,
+                        31
+                    ]
+                },
+                {
+                    "Adjective": [
+                        27
+                    ]
+                },
+                {
+                    "Adjective": [
+                        33
+                    ]
+                },
+                {
+                    "Adjective": [
+                        39
+                    ]
+                },
+                {
+                    "Noun": [
+                        47
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "The Squirrel’s hat",
+            "id": 4,
+            "text": [
+                "In the heart of the ",
+                "city 1",
+                ", lives a super ",
+                "adjective",
+                " squirrel named ",
+                "name 1",
+                ". ",
+                "name 1",
+                " is known throughout the ",
+                "city 1",
+                " for his ",
+                "adjective",
+                " collection of ",
+                "adjective",
+                " hats. Every day, he goes to ",
+                "place",
+                " and searches for the ",
+                "adjective 1",
+                " ",
+                "material 1",
+                " to make his next masterpiece. One day, he found a particularly ",
+                "adjective 1",
+                " piece of ",
+                "material 1",
+                ". He was so excited that he ",
+                "verb (ending in -ed)",
+                " all the way home.\n\nOnce he got home, he immediately started working on his new ",
+                "noun",
+                " hat. It was going to be the most ",
+                "adjective 2",
+                " hat he had ever made. After several hours of hard work, he finally finished. He placed it on his head and looked in the mirror. The hat was indeed ",
+                "adjective 2",
+                ". He had never felt so ",
+                "emotion",
+                ".\n\nFrom that day forward, ",
+                "name 1",
+                " was known as the most ",
+                "adjective",
+                " squirrel in all of ",
+                "city 1",
+                ". His hat was so ",
+                "adjective",
+                " that even the ",
+                "animals",
+                " in ",
+                "city 1",
+                " wanted one. And that’s how ",
+                "name 1",
+                " became a legend."
+            ],
+            "prompts": [
+                {
+                    "City 1": [
+                        1,
+                        9,
+                        39,
+                        45
+                    ]
+                },
+                {
+                    "Adjective": [
+                        3
+                    ]
+                },
+                {
+                    "Name 1": [
+                        5,
+                        7,
+                        35,
+                        47
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Adjective": [
+                        13
+                    ]
+                },
+                {
+                    "Place": [
+                        15
+                    ]
+                },
+                {
+                    "Adjective 1": [
+                        17,
+                        21
+                    ]
+                },
+                {
+                    "Material 1": [
+                        19,
+                        23
+                    ]
+                },
+                {
+                    "Verb (ending in -ed)": [
+                        25
+                    ]
+                },
+                {
+                    "Noun": [
+                        27
+                    ]
+                },
+                {
+                    "Adjective 2": [
+                        29,
+                        31
+                    ]
+                },
+                {
+                    "Emotion": [
+                        33
+                    ]
+                },
+                {
+                    "Adjective": [
+                        37
+                    ]
+                },
+                {
+                    "Adjective": [
+                        41
+                    ]
+                },
+                {
+                    "Animals": [
+                        43
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "The Red Baron",
+            "id": 5,
+            "text": [
+                "In the world of racing, there's no one faster than ",
+                "name 1",
+                "! They're a legendary ",
+                "adjective",
+                " racer, known for their fearless maneuvers on the track. Whenever ",
+                "name 1",
+                " steps into their car, you can hear the engines roar with excitement.\n\nOne day, ",
+                "name 1",
+                " received an invitation to participate in the prestigious ",
+                "race name 1",
+                " event. They couldn't believe their luck! To prepare, they practiced day and night, pushing their limits to the extreme. Their favorite practice spot was a winding road with ",
+                "adjective",
+                " turns, perfect for honing their skills.\n\nAs the big day arrived, ",
+                "name 1",
+                " felt a mix of nervousness and excitement. All the top racers were there, including their biggest rival, ",
+                "name 2",
+                ". But ",
+                "name 1",
+                " wasn't one to back down from a challenge. When the green light flashed, they zoomed ahead like a ",
+                "noun 1",
+                ", leaving everyone in awe.\n\nThroughout the race, ",
+                "name 1",
+                " encountered many obstacles. From dodging banana peels to racing through a ",
+                "noun 2",
+                " zone, it was an exhilarating experience. But they persevered, always staying one step ahead of the competition.\n\nIn the end, ",
+                "name 1",
+                " crossed the finish line first, earning the title of the fastest racer in the world! The crowd erupted in cheers, and ",
+                "name 1",
+                " felt like a true champion. They celebrated their victory with a bottle of ",
+                "beverage",
+                ", spraying it in every direction like a ",
+                "noun 3",
+                ".\n\nFrom that day on, ",
+                "name 1",
+                " continued to dominate the racing world, earning the nickname ",
+                "nickname",
+                ". But they never forgot the joy of that memorable ",
+                "race name 1",
+                " victory. It was a day they would cherish forever, a testament to the power of passion and perseverance in the fast-paced world of racing."
+            ],
+            "prompts": [
+                {
+                    "Name 1": [
+                        1,
+                        5,
+                        7,
+                        13,
+                        17,
+                        21,
+                        25,
+                        27,
+                        33
+                    ]
+                },
+                {
+                    "Adjective": [
+                        3
+                    ]
+                },
+                {
+                    "Race Name 1": [
+                        9,
+                        37
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Name 2": [
+                        15
+                    ]
+                },
+                {
+                    "Noun 1": [
+                        19
+                    ]
+                },
+                {
+                    "Noun 2": [
+                        23
+                    ]
+                },
+                {
+                    "Beverage": [
+                        29
+                    ]
+                },
+                {
+                    "Noun 3": [
+                        31
+                    ]
+                },
+                {
+                    "Nickname": [
+                        35
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "When I were young",
+            "id": 6,
+            "text": [
+                "I dreamt I were ",
+                "adjective",
+                " once more\nOh, when every ",
+                "time of day",
+                " wasn’t a ",
+                "activity",
+                "\nLong days in the ",
+                "adjective",
+                " sun\nConcerned only with ",
+                "verb",
+                "\n\nI dreamt I were a ",
+                "adjective",
+                " again\nRarely ",
+                "verb (ending in -ing)",
+                ", just now and then\nWondering what the future held\nA feeling truly ",
+                "adjective",
+                "\n\nI looked up from my ",
+                "object",
+                "\nThe ",
+                "adjective",
+                " ",
+                "place",
+                " felt ",
+                "adjective",
+                "\nBut as I looked upon the ",
+                "items",
+                "\nI realized I was among ",
+                "a group of people"
             ],
             "prompts": [
                 {
@@ -942,13 +807,12 @@
                     ]
                 },
                 {
-                    "Name 1": [
-                        3,
-                        9
+                    "Time of day": [
+                        3
                     ]
                 },
                 {
-                    "Noun": [
+                    "Activity": [
                         5
                     ]
                 },
@@ -956,121 +820,988 @@
                     "Adjective": [
                         7
                     ]
-                }
-            ],
-            "words": [
-                "funny",
-                "Cool text"
-            ]
-        },
-        {
-            "name": "Lib story 2",
-            "id": 1,
-            "text": [
-                "Adjective: ",
-                "",
-                " Name 1: ",
-                "",
-                " Noun: ",
-                "",
-                " Adjective: ",
-                "",
-                " Name 1",
-                ""
-            ],
-            "prompts": [
+                },
                 {
-                    "Adjective": [
-                        0
+                    "Verb": [
+                        9
                     ]
                 },
                 {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Verb (ending in -ing)": [
+                        13
+                    ]
+                },
+                {
+                    "Adjective": [
+                        15
+                    ]
+                },
+                {
+                    "Object": [
+                        17
+                    ]
+                },
+                {
+                    "Adjective": [
+                        19
+                    ]
+                },
+                {
+                    "Place": [
+                        21
+                    ]
+                },
+                {
+                    "Adjective": [
+                        23
+                    ]
+                },
+                {
+                    "Items": [
+                        25
+                    ]
+                },
+                {
+                    "A group of people": [
+                        27
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "Vacation Shenanigans",
+            "id": 7,
+            "text": [
+                "",
+                "name 1",
+                " and ",
+                "name 2",
+                " were excitedly packing for their ",
+                "adjective",
+                " vacation. They couldn't wait to explore the ",
+                "adjective",
+                " ",
+                "place",
+                " and soak up the sun on the sandy beaches.\n\nUpon arrival, ",
+                "name 1",
+                " realized they forgot their ",
+                "noun",
+                " at home. A tragedy! ",
+                "name 2",
+                " couldn't stop laughing at the hilarious blunder. But they decided to turn this misfortune into an adventure.\n\nThe duo rented ",
+                "adjective",
+                " bicycles and went on a wild ride through the ",
+                "adjective",
+                " countryside. They passed by a ",
+                "noun",
+                " farm, where ",
+                "name 1",
+                " attempted to milk a cow – with amusing results!\n\nIn the evening, they joined a ",
+                "adjective",
+                " dance party at the town square. ",
+                "name 1",
+                " and ",
+                "name 2",
+                " showed off their best dance moves, drawing cheers and applause from the crowd.\n\nThe next day, they went on a ",
+                "adjective",
+                " boat tour, where they spotted a group of ",
+                "animal (plural)",
+                " swimming playfully alongside the boat. It was a breathtaking sight!\n\nDuring their vacation, ",
+                "name 1",
+                " and ",
+                "name 2",
+                " indulged in ",
+                "adjective",
+                " ice cream and took countless selfies to remember the fun times.\n\nTheir vacation might not have gone as planned, but the memories they made were priceless. ",
+                "name 1",
+                " and ",
+                "name 2",
+                " agreed that this was the best and most unforgettable vacation ever!"
+            ],
+            "prompts": [
+                {
                     "Name 1": [
                         1,
-                        4
+                        11,
+                        23,
+                        27,
+                        35,
+                        41
+                    ]
+                },
+                {
+                    "Name 2": [
+                        3,
+                        15,
+                        29,
+                        37,
+                        43
+                    ]
+                },
+                {
+                    "Adjective": [
+                        5
+                    ]
+                },
+                {
+                    "Adjective": [
+                        7
+                    ]
+                },
+                {
+                    "Place": [
+                        9
                     ]
                 },
                 {
                     "Noun": [
-                        2
+                        13
+                    ]
+                },
+                {
+                    "Adjective": [
+                        17
+                    ]
+                },
+                {
+                    "Adjective": [
+                        19
+                    ]
+                },
+                {
+                    "Noun": [
+                        21
+                    ]
+                },
+                {
+                    "Adjective": [
+                        25
+                    ]
+                },
+                {
+                    "Adjective": [
+                        31
+                    ]
+                },
+                {
+                    "Animal (Plural)": [
+                        33
+                    ]
+                },
+                {
+                    "Adjective": [
+                        39
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "Kitchen Chaos",
+            "id": 8,
+            "text": [
+                "Once upon a time, in a bustling little town, there was a renowned chef known as Chef ",
+                "name 1",
+                ". This extraordinary chef had a magical touch with ",
+                "adjective",
+                " ingredients, and their dishes were always a delightful surprise. One day, the mayor of the town, who was an enthusiastic foodie, challenged ",
+                "name 1",
+                " to create a new recipe using the most bizarre ",
+                "ingredient",
+                ".\n\n",
+                "name 1",
+                "s kitchen was a sight to behold. It was equipped with the latest ",
+                "adjective",
+                " gadgets and ",
+                "adjective",
+                " utensils. When Chef Supreme cooked, the whole kitchen turned into a colorful whirlwind of flavors and laughter. The secret behind their success was the ",
+                "music genre",
+                " dance they did while cooking, which they called the ‘Kitchen Shuffle with ",
+                "name 1",
+                ".’\n\nWith the mayor and the entire town eagerly waiting, ",
+                "name 1",
+                " got to work. They combined ",
+                "ingredient",
+                " with ",
+                "adjective",
+                " ",
+                "spice",
+                " and ",
+                "adjective",
+                " herbs. They even added a pinch of ",
+                "secret ingredient",
+                " magic, which was rumored to make everything taste extraordinary!\n\nAs the aroma of the unique dish filled the air, the townspeople couldn't contain their excitement. When it was time to taste, everyone's taste buds went on a wild adventure. The dish was an explosion of ",
+                "adjective",
+                " and ",
+                "adjective",
+                " flavors, leaving everyone in fits of giggles.\n\nFrom that day on, ",
+                "name 1",
+                " became a local legend. The town never had a dull day in the kitchen, and laughter filled the air whenever they cooked. And so, the tale of the Kitchen Chaos continued, with Chef ",
+                "name 1",
+                " enchanting everyone with their culinary magic and infectious sense of humor."
+            ],
+            "prompts": [
+                {
+                    "Name 1": [
+                        1,
+                        5,
+                        9,
+                        17,
+                        19,
+                        35,
+                        37
                     ]
                 },
                 {
                     "Adjective": [
                         3
                     ]
+                },
+                {
+                    "Ingredient": [
+                        7
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Adjective": [
+                        13
+                    ]
+                },
+                {
+                    "Music Genre": [
+                        15
+                    ]
+                },
+                {
+                    "Ingredient": [
+                        21
+                    ]
+                },
+                {
+                    "Adjective": [
+                        23
+                    ]
+                },
+                {
+                    "Spice": [
+                        25
+                    ]
+                },
+                {
+                    "Adjective": [
+                        27
+                    ]
+                },
+                {
+                    "Secret Ingredient": [
+                        29
+                    ]
+                },
+                {
+                    "Adjective": [
+                        31
+                    ]
+                },
+                {
+                    "Adjective": [
+                        33
+                    ]
                 }
             ],
-            "words": [
-                "funny",
-                "Stupid text"
-            ]
+            "words": []
+        },
+        {
+            "name": "An Extravagant Misadventure",
+            "id": 9,
+            "text": [
+                "In the whimsical town of ",
+                "town",
+                ", a ",
+                "adjective",
+                " robot named ",
+                "name 1",
+                " owned a famous ",
+                "type of shop",
+                ". ",
+                "name 1",
+                " was not an ordinary shopkeeper, as his shop sold ",
+                "adjective",
+                " ",
+                "plural object",
+                ". These were no ordinary ",
+                "plural object",
+                ", for each one had a secret power.\n\nOne day, a ",
+                "animal",
+                " named ",
+                "name 2",
+                " came into the shop, wanting to buy the most ",
+                "adjective",
+                " ",
+                "object",
+                ". ",
+                "name 1",
+                ", with a ",
+                "emotion",
+                " feeling, presented a ",
+                "color",
+                " ",
+                "object",
+                " that could make the ",
+                "animal",
+                " ",
+                "verb",
+                ". ",
+                "name 2",
+                " was so ",
+                "emotion",
+                " that he ",
+                "verb (ending in -ed)",
+                " around the shop.\n\nThe news of the magical ",
+                "object",
+                " spread across ",
+                "town",
+                ", and soon ",
+                "name 1",
+                "s shop was filled with curious customers. Even the town’s ",
+                "occupation",
+                ", ",
+                "name 3",
+                ", visited the shop, making ",
+                "name 1",
+                " the most ",
+                "adjective",
+                " robot in all of ",
+                "town",
+                "."
+            ],
+            "prompts": [
+                {
+                    "Town": [
+                        1
+                    ]
+                },
+                {
+                    "Adjective": [
+                        3
+                    ]
+                },
+                {
+                    "Name 1": [
+                        5,
+                        9,
+                        25,
+                        47,
+                        53
+                    ]
+                },
+                {
+                    "Type of Shop": [
+                        7
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Plural Object": [
+                        13
+                    ]
+                },
+                {
+                    "Plural Object": [
+                        15
+                    ]
+                },
+                {
+                    "Animal": [
+                        17
+                    ]
+                },
+                {
+                    "Name 2": [
+                        19,
+                        37
+                    ]
+                },
+                {
+                    "Adjective": [
+                        21
+                    ]
+                },
+                {
+                    "Object": [
+                        23
+                    ]
+                },
+                {
+                    "Emotion": [
+                        27
+                    ]
+                },
+                {
+                    "Color": [
+                        29
+                    ]
+                },
+                {
+                    "Object": [
+                        31
+                    ]
+                },
+                {
+                    "Animal": [
+                        33
+                    ]
+                },
+                {
+                    "Verb": [
+                        35
+                    ]
+                },
+                {
+                    "Emotion": [
+                        39
+                    ]
+                },
+                {
+                    "Verb (ending in -ed)": [
+                        41
+                    ]
+                },
+                {
+                    "Object": [
+                        43
+                    ]
+                },
+                {
+                    "Town": [
+                        45
+                    ]
+                },
+                {
+                    "Occupation": [
+                        49
+                    ]
+                },
+                {
+                    "Name 3": [
+                        51
+                    ]
+                },
+                {
+                    "Adjective": [
+                        55
+                    ]
+                },
+                {
+                    "Town": [
+                        57
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "Painfully Positive Parents",
+            "id": 10,
+            "text": [
+                "",
+                "name 1",
+                " woke up to another wacky day with their parents. The alarm blared, and ",
+                "name 1",
+                " wished for just five more minutes of sleep. But, oh no, their parents had other plans.\n\nFirst, their dad tried to make breakfast - a concoction of ",
+                "food",
+                ", ",
+                "ingredient",
+                ", and ",
+                "spice",
+                ". It tasted ",
+                "adjective",
+                "! ",
+                "name 1",
+                " opted for cereal instead.\n\nBut the real adventure began when their mom decided it was time for some family exercise. ",
+                "name 1",
+                " watched in disbelief as their parents donned leotards and started doing the chicken dance.\n\nLater, their parents proudly showed off their latest home videos, all about their little ",
+                "name 1",
+                " ",
+                "verb (-ing ending)",
+                " over and over again!\n\nNext, ",
+                "name 1",
+                " received a call, and their parents insisted on joining on speakerphone. The caller was greeted with an enthusiastic ‘Hello!’ from the entire family.\n\nFinally, ",
+                "name 1",
+                " pulled out their secret weapon, a giant ",
+                "noun",
+                ", which ",
+                "name 1",
+                " used to chase their parents around the house.\n\nPeace and quiet were restored at last, and ",
+                "name 1",
+                " had a good laugh. Despite the annoyance, they loved their quirky parents, who always knew how to bring a smile to their face."
+            ],
+            "prompts": [
+                {
+                    "Name 1": [
+                        1,
+                        3,
+                        13,
+                        15,
+                        17,
+                        21,
+                        23,
+                        27,
+                        29
+                    ]
+                },
+                {
+                    "Food": [
+                        5
+                    ]
+                },
+                {
+                    "Ingredient": [
+                        7
+                    ]
+                },
+                {
+                    "Spice": [
+                        9
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Verb (-ing ending)": [
+                        19
+                    ]
+                },
+                {
+                    "Noun": [
+                        25
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "The Great Musical Mishap",
+            "id": 11,
+            "text": [
+                "In the town of ",
+                "town",
+                ", there lived a ",
+                "adjective",
+                " musician named ",
+                "name 1",
+                ". ",
+                "name 1",
+                " was famous for playing the ",
+                "instrument",
+                ", which could sound ",
+                "adjective",
+                " or ",
+                "adjective",
+                " depending on the ",
+                "weather",
+                ".\n\nOne day, ",
+                "name 1",
+                " was invited to perform at the annual ",
+                "festival",
+                ". With ",
+                "emotion",
+                ", ",
+                "name 1",
+                " started to practice a ",
+                "adjective",
+                " tune on the ",
+                "instrument",
+                ". But to ",
+                "name 1",
+                "s surprise, every time he played the ",
+                "instrument",
+                ", it sounded like a ",
+                "animal",
+                "!\n\nPanicking, ",
+                "name 1",
+                " rushed to ",
+                "name 2",
+                ", the town ",
+                "occupation",
+                ", for help. With a ",
+                "adjective",
+                " solution, ",
+                "name 2",
+                " fixed the ",
+                "instrument",
+                ", and the ",
+                "animal",
+                " sound was no more. When ",
+                "name 1",
+                " finally performed at the ",
+                "festival",
+                ", the crowd was ",
+                "emotion",
+                ". From that day onwards, ",
+                "name 1",
+                " was not just a ",
+                "adjective",
+                " musician, but also a town hero!"
+            ],
+            "prompts": [
+                {
+                    "Town": [
+                        1
+                    ]
+                },
+                {
+                    "Adjective": [
+                        3
+                    ]
+                },
+                {
+                    "Name 1": [
+                        5,
+                        7,
+                        17,
+                        23,
+                        29,
+                        35,
+                        49,
+                        55
+                    ]
+                },
+                {
+                    "Instrument": [
+                        9
+                    ]
+                },
+                {
+                    "Adjective": [
+                        11
+                    ]
+                },
+                {
+                    "Adjective": [
+                        13
+                    ]
+                },
+                {
+                    "Weather": [
+                        15
+                    ]
+                },
+                {
+                    "Festival": [
+                        19
+                    ]
+                },
+                {
+                    "Emotion": [
+                        21
+                    ]
+                },
+                {
+                    "Adjective": [
+                        25
+                    ]
+                },
+                {
+                    "Instrument": [
+                        27
+                    ]
+                },
+                {
+                    "Instrument": [
+                        31
+                    ]
+                },
+                {
+                    "Animal": [
+                        33
+                    ]
+                },
+                {
+                    "Name 2": [
+                        37,
+                        43
+                    ]
+                },
+                {
+                    "Occupation": [
+                        39
+                    ]
+                },
+                {
+                    "Adjective": [
+                        41
+                    ]
+                },
+                {
+                    "Instrument": [
+                        45
+                    ]
+                },
+                {
+                    "Animal": [
+                        47
+                    ]
+                },
+                {
+                    "Festival": [
+                        51
+                    ]
+                },
+                {
+                    "Emotion": [
+                        53
+                    ]
+                },
+                {
+                    "Adjective": [
+                        57
+                    ]
+                }
+            ],
+            "words": []
+        },
+        {
+            "name": "Space Adventure",
+            "id": 12,
+            "text": [
+                "",
+                "Name 1",
+                ", a brilliant ",
+                "Occupation",
+                ", built a ",
+                "Adjective",
+                " spaceship powered by ",
+                "Plural Noun",
+                ". With trusty sidekick ",
+                "Name 2",
+                ", a quirky ",
+                "Occupation",
+                " with a passion for ",
+                "Adjective",
+                " ",
+                "Plural Noun",
+                ", they embarked on a space adventure.\n\nTheir first stop: the wacky planet of ",
+                "Noun",
+                ", where they met the peculiar ",
+                "Name 3",
+                " and their pet ",
+                "Animal",
+                " with ",
+                "Adjective",
+                " fur. A dance-off for the ",
+                "Adjective",
+                " ",
+                "Noun",
+                " ensued!\n\nAs they twirled and boogied, ",
+                "Name 1",
+                " laughed at ",
+                "Name 2",
+                ", trying their latest invention, the ",
+                "Adjective",
+                " ",
+                "Noun",
+                ". Chaos on the dance floor, but everyone loved it!\n\nNext: a floating ",
+                "Noun",
+                " with ",
+                "Adjective",
+                " ",
+                "Plural Noun",
+                " telling jokes. ",
+                "Name 1",
+                " and ",
+                "Name 2",
+                " joined in, sharing ",
+                "Adjective",
+                " puns. A parade in their honor!\n\nEn route home, they met ",
+                "Adjective",
+                " space pirates led by ",
+                "Name 4",
+                ", a fearsome ",
+                "Occupation",
+                " with a love for ",
+                "Plural Noun",
+                ". They challenged ",
+                "Name 4",
+                " to a ",
+                "Adjective",
+                " ",
+                "Plural Noun",
+                " contest. Surprisingly, ",
+                "Name 4",
+                " was a great sport, and they became friends.\n\n",
+                "Name 1",
+                " and ",
+                "Name 2",
+                " returned with joy and ",
+                "Adjective",
+                " souvenirs. Their space odyssey proved laughter and friendship unite the universe."
+            ],
+            "prompts": [
+                {
+                    "Name 1": [
+                        1,
+                        29,
+                        43,
+                        65
+                    ]
+                },
+                {
+                    "Occupation": [
+                        3
+                    ]
+                },
+                {
+                    "Adjective": [
+                        5
+                    ]
+                },
+                {
+                    "Plural Noun": [
+                        7
+                    ]
+                },
+                {
+                    "Name 2": [
+                        9,
+                        31,
+                        45,
+                        67
+                    ]
+                },
+                {
+                    "Occupation": [
+                        11
+                    ]
+                },
+                {
+                    "Adjective": [
+                        13
+                    ]
+                },
+                {
+                    "Plural Noun": [
+                        15
+                    ]
+                },
+                {
+                    "Noun": [
+                        17
+                    ]
+                },
+                {
+                    "Name 3": [
+                        19
+                    ]
+                },
+                {
+                    "Animal": [
+                        21
+                    ]
+                },
+                {
+                    "Adjective": [
+                        23
+                    ]
+                },
+                {
+                    "Adjective": [
+                        25
+                    ]
+                },
+                {
+                    "Noun": [
+                        27
+                    ]
+                },
+                {
+                    "Adjective": [
+                        33
+                    ]
+                },
+                {
+                    "Noun": [
+                        35
+                    ]
+                },
+                {
+                    "Noun": [
+                        37
+                    ]
+                },
+                {
+                    "Adjective": [
+                        39
+                    ]
+                },
+                {
+                    "Plural Noun": [
+                        41
+                    ]
+                },
+                {
+                    "Adjective": [
+                        47
+                    ]
+                },
+                {
+                    "Adjective": [
+                        49
+                    ]
+                },
+                {
+                    "Name 4": [
+                        51,
+                        57,
+                        63
+                    ]
+                },
+                {
+                    "Occupation": [
+                        53
+                    ]
+                },
+                {
+                    "Plural Noun": [
+                        55
+                    ]
+                },
+                {
+                    "Adjective": [
+                        59
+                    ]
+                },
+                {
+                    "Plural Noun": [
+                        61
+                    ]
+                },
+                {
+                    "Adjective": [
+                        69
+                    ]
+                }
+            ],
+            "words": []
         }
     ],
-    "yourLibs": [
-        {
-            "name": "YourLib 1",
-            "id": 0,
-            "text": [
-                "This is a ",
-                " text. It is called ",
-                ""
-            ],
-            "prompts": [
-                {
-                    "Adjective": [
-                        0
-                    ]
-                },
-                {
-                    "Name 1": [
-                        1,
-                        4
-                    ]
-                },
-                {
-                    "Noun": [
-                        2
-                    ]
-                },
-                {
-                    "Adjective": [
-                        3
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Your Lib 2",
-            "id": 1,
-            "text": [
-                "This is a ",
-                " text. It is called ",
-                ""
-            ],
-            "prompts": [
-                {
-                    "Adjective": [
-                        0
-                    ]
-                },
-                {
-                    "Name 1": [
-                        1,
-                        4
-                    ]
-                },
-                {
-                    "Noun": [
-                        2
-                    ]
-                },
-                {
-                    "Adjective": [
-                        3
-                    ]
-                }
-            ]
-        }
-    ]
+    "stories": [],
+    "yourLibs": []
 }

@@ -37,13 +37,14 @@ export default function LibsScreen() {
 	useFocusEffect(
 	  useCallback(() => {
 		setListItems([...LibManager.libs["libs"]]);
-		return () => {}; // Cleanup function if necessary
+		return () => {
+		}; // Cleanup function if necessary
 	  }, [])
 	);
   
 	return (
 	  <View style={[globalStyles.screenStandard]}>
-        <BannerAdComponent />
+        {/*<BannerAdComponent />*/}
 		<View style={globalStyles.titleContainer}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>

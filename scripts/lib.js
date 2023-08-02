@@ -84,7 +84,23 @@ export default class Lib {
         for (let i = 0; i < this.prompts.length; i++) {
             let key = Object.keys(this.prompts[i]);
             for (let j = 0; j < this.prompts[i][key].length; j++) {
-                this.text[this.prompts[i][key][j]] = key.toString().toLowerCase();
+                let prompt = key.toString();
+                if ((this.text[0] !== "")) {
+                    prompt = prompt.toLowerCase(); 
+                } else {
+                    if (i !== 0) prompt = prompt.toLowerCase();
+                }
+                // Get the last character of the inputString
+                let lastChar = prompt.slice(-1);
+
+                // Check if the last character is a number
+                if (isNum(lastChar)) {
+                    // Remove the last character from the inputString
+                    prompt = prompt.slice(0, -1);
+                    lastChar = prompt.slice(-1);
+                    if (lastChar === " ") prompt = prompt.slice(0, -1);
+                }
+                this.text[this.prompts[i][key][j]] = prompt;
             }
         }
 
