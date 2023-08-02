@@ -4,6 +4,8 @@ import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import AdManager from '../scripts/ad_manager';
 import FixedButton from './FixedButton';
 import { useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import { useFocusedScreen } from '../scripts/screen_context.js';
 
 const adUnitId = AdManager.production ? 'ca-app-pub-1354741235649835/9424468100' : TestIds.BANNER;
 
@@ -21,7 +23,7 @@ export default function BannerAdComponent() {
     // Memoize the BannerAd component to prevent re-creating it on each render
     const memoizedBannerAd = useMemo(
         () => (
-            <View style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 200 }}>
+            <View style={{ position: 'absolute', bottom: 74, left: 0, zIndex: 200 }}>
                 <BannerAd
                     unitId={adUnitId}
                     size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

@@ -11,6 +11,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LibManager from "./scripts/lib_manager.js";
 import ToastProvider from "./components/Toast/ToastProvider";
 import SplashScreen from "./screens/SplashScreen";
+import BannerAdComponent from "./components/BannerAd";
+import { View } from "react-native-web";
+import { useState } from "react";
 
 LibManager.initialize();
 
@@ -104,18 +107,21 @@ function HomeStackScreen({ navigation }) {
 }
 
 export default function App() {
+  const [bannerAdHeight, setBannerAdHeight] = useState(74);
+
   return (
-    <ToastProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-            <Drawer.Screen name="Home" component={HomeStackScreen} />
-            {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
-            {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </ToastProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* Place the BannerAdComponent outside of NavigationContainer */}
+      <NavigationContainer>
+        <BannerAdComponent bannerAdHeight/>
+        <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+          <Drawer.Screen name="Home" component={HomeStackScreen} />
+          {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
+          {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
+        </Drawer.Navigator>
+      </NavigationContainer>
+      <ToastProvider></ToastProvider>
+    </GestureHandlerRootView>
   );
 }
 

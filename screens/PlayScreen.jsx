@@ -43,7 +43,6 @@ function PlayScreen({ route }) {
 			}
 			prompts.push(Object.keys(currentLib.prompts[i])[0]);
 			displayPrompts.push(prompt);
-			console.log(prompt + " | " + Object.keys(currentLib.prompts[i])[0]);
 		}
 	}
 
