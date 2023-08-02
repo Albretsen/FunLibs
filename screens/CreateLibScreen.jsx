@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import ButtonPair from "../components/ButtonPair";
 import globalStyles from "../styles/globalStyles";
@@ -8,6 +8,8 @@ import LibManager from "../scripts/lib_manager";
 import ToastContext from "../components/Toast/ToastContext";
 import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -15,6 +17,15 @@ export default function CreateLibScreen() {
     const showToast = useContext(ToastContext);
 
     const navigation = useNavigation();
+
+    const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+          setCurrentScreenName("CreateLibScreen");
+        }
+      }, [isFocused]);
 
     const saveLib = () => {
         // Might want to add some proper validation here,
@@ -30,12 +41,13 @@ export default function CreateLibScreen() {
             navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
         }
     }
-
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0
+    console.log(keyboardVerticalOffset);
     return(
-        <View style={[globalStyles.screenStandard]}>
-            {Platform.OS === ("android" || "ios") && (
+        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard]}>
+            {/*{Platform.OS === ("android" || "ios") && (
                 <BannerAdComponent />
-            )}
+            )}*/}
             <ScrollView style={{marginHorizontal: 14, flex: 1}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
@@ -68,9 +80,11 @@ export default function CreateLibScreen() {
                     numberOfLines={10}
                     onChangeText={text => setLibText(text)}
                 />
+                <View style={{alignSelf: "center"}}>
+                    <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
+                </View>
             </ScrollView>
-            <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

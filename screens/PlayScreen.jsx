@@ -10,12 +10,23 @@ import ToastContext from "../components/Toast/ToastContext";
 import { useEffect } from "react";
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 function PlayScreen({ route }) {
 
 	useEffect(() => {
 		AdManager.showAd("interstitial");
 	});
+
+	const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+          setCurrentScreenName("PlayScreen");
+        }
+      }, [isFocused]);
 
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;

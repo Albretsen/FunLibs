@@ -11,9 +11,9 @@ export default function ButtonPair({ firstLabel, secondLabel, firstOnPress, seco
 				</TouchableOpacity>
 			)}
 			{secondLabel != "hidden" && (
-            <TouchableOpacity style={[styles.button, styles.buttonNext, firstLabel == "hidden" ? styles.soleButton : null]} onPress={secondOnPress}>
-                <Text style={[globalStyles.bold, globalStyles.fontMedium]}>{secondLabel}</Text>
-            </TouchableOpacity>
+				<TouchableOpacity style={[styles.button, styles.buttonNext, firstLabel == "hidden" ? styles.soleButton : null]} onPress={secondOnPress}>
+					<Text style={[globalStyles.bold, globalStyles.fontMedium]}>{secondLabel}</Text>
+				</TouchableOpacity>
 			)}
         </View>
     )

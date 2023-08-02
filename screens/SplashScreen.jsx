@@ -1,10 +1,21 @@
 import { StyleSheet, View, Image, Dimensions } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
 import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 export default function SplashScreen() {
+    const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+          setCurrentScreenName("SplashScreen");
+        }
+      }, [isFocused]);
+
     const navigation = useNavigation(); // Get the navigation prop via hook
 
     useEffect(() => {

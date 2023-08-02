@@ -13,7 +13,7 @@ import ToastProvider from "./components/Toast/ToastProvider";
 import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
 import { View } from "react-native-web";
-import { useState } from "react";
+import { useState, createContext } from "react";
 
 LibManager.initialize();
 
@@ -38,71 +38,83 @@ const getHeaderTitle = (route) => {
 
 function HomeStackScreen({ navigation }) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="SplashScreen"
-        component={SplashScreen}
-        options={{
-          headerShown: false
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{
+            headerShown: false
           }}>
-      </Stack.Screen>
-      <Stack.Screen
-        name="LibsHomeScreen"
-        component={LibsHomeScreen}
-        options={({ route }) => ({
-          // headerTitle: getHeaderTitle(route),
-          headerTitle: "Fun Libs",
-          headerTitleAlign: "center",
-          headerStyle: {
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-            borderBottomWidth: 0, // for explicit border settings
-          },
-          headerLeft: () => (
-            // Size set to 0, effectively hiding the navigation menu, for now.
-            <MaterialIcons style={{marginLeft: 12, color: "white"}} name="menu" size={0} onPress={() => navigation.openDrawer()} />
-          ),
-          // headerRight: () => (
-          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          // ),
-        })}
-      />
-      <Stack.Screen
-        name="PlayScreen"
-        component={PlayScreen}
-        options={{
-          // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
-          headerTitle: "Fun Libs",
-          headerTitleAlign: "center",
-          headerStyle: {
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-            borderBottomWidth: 0, // for explicit border settings
-          },
-          // headerRight: () => (
-          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          // )
-        }}
-      />
-      <Stack.Screen
-        name="CreateLibScreen"
-        component={CreateLibScreen}
-        options={{
-          // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
-          headerTitle: "Fun Libs",
-          headerTitleAlign: "center",
-          headerStyle: {
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-            borderBottomWidth: 0, // for explicit border settings
-          },
-          // headerRight: () => (
-          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          // )
-        }}
-      />
-      {/* You can add more Stack.Screens here if you have more pages in your stack */}
-    </Stack.Navigator>
+        </Stack.Screen>
+        <Stack.Screen
+          name="LibsHomeScreen"
+          component={LibsHomeScreen}
+          options={({ route }) => ({
+            // headerTitle: getHeaderTitle(route),
+            headerTitle: "Fun Libs",
+            headerTitleAlign: "center",
+            headerStyle: {
+              elevation: 0, // remove shadow on Android
+              shadowOpacity: 0, // remove shadow on iOS
+              borderBottomWidth: 0, // for explicit border settings
+            },
+            headerLeft: () => (
+              // Size set to 0, effectively hiding the navigation menu, for now.
+              <MaterialIcons style={{ marginLeft: 12, color: "white" }} name="menu" size={0} onPress={() => navigation.openDrawer()} />
+            ),
+            // headerRight: () => (
+            //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+            // ),
+          })}
+        />
+        <Stack.Screen
+          name="PlayScreen"
+          component={PlayScreen}
+          options={{
+            // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
+            headerTitle: "Fun Libs",
+            headerTitleAlign: "center",
+            headerStyle: {
+              elevation: 0, // remove shadow on Android
+              shadowOpacity: 0, // remove shadow on iOS
+              borderBottomWidth: 0, // for explicit border settings
+            },
+            // headerRight: () => (
+            //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+            // )
+          }}
+        />
+        <Stack.Screen
+          name="CreateLibScreen"
+          component={CreateLibScreen}
+          options={{
+            // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
+            headerTitle: "Fun Libs",
+            headerTitleAlign: "center",
+            headerStyle: {
+              elevation: 0, // remove shadow on Android
+              shadowOpacity: 0, // remove shadow on iOS
+              borderBottomWidth: 0, // for explicit border settings
+            },
+            // headerRight: () => (
+            //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+            // )
+          }}
+        />
+        {/* You can add more Stack.Screens here if you have more pages in your stack */}
+      </Stack.Navigator>
+  );
+}
+
+export const ScreenContext = createContext();
+
+export function ScreenProvider({ children }) {
+  const [currentScreenName, setCurrentScreenName] = useState(null);
+
+  return (
+    <ScreenContext.Provider value={{ currentScreenName, setCurrentScreenName }}>
+      {children}
+    </ScreenContext.Provider>
   );
 }
 
@@ -110,18 +122,21 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(74);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      {/* Place the BannerAdComponent outside of NavigationContainer */}
-      <NavigationContainer>
-        <BannerAdComponent bannerAdHeight/>
-        <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-          <Drawer.Screen name="Home" component={HomeStackScreen} />
-          {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
-          {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
-        </Drawer.Navigator>
-      </NavigationContainer>
-      <ToastProvider></ToastProvider>
-    </GestureHandlerRootView>
+    <ScreenProvider>
+      <ToastProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          {/* Place the BannerAdComponent outside of NavigationContainer */}
+          <NavigationContainer>
+            <BannerAdComponent bannerAdHeight />
+            <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+              <Drawer.Screen name="Home" component={HomeStackScreen} />
+              {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
+              {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
+            </Drawer.Navigator>
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </ToastProvider>
+  </ScreenProvider>
   );
 }
 

@@ -1,12 +1,23 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useRef, useCallback, useState, useEffect } from "react";
+import React, { useRef, useCallback, useState, useEffect, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
 import { useFocusEffect, useRoute } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 export default function YourLibsScreen() {
+	const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+          setCurrentScreenName("YourLibsScreen");
+        }
+    }, [isFocused]);
+
 	let type = "yourLibs";
 	const [listItems, setListItems] = useState(LibManager.libs[type]);
 

@@ -1,12 +1,30 @@
 import { View } from "react-native";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import FixedButton from './FixedButton';
+import { ScreenContext } from '../App';
 
 export default function BannerAdComponent() {
+  const { currentScreenName } = useContext(ScreenContext);
+  const [showFixedButton, setShowFixedButton] = useState(false);
   const [buttonBottom, setButtonBottom] = useState(20);
 
+  useEffect(() => {
+    console.log(currentScreenName);
+    if (["LibsScreen", "StoriesScreen", "YourLibsScreen"].includes(currentScreenName)) {
+        setShowFixedButton(true);
+    } else {
+        setShowFixedButton(false);
+        
+    }
+    console.log(showFixedButton);
+}, [currentScreenName])
+
     return(
+      <View>
+        {showFixedButton && (
           <FixedButton buttonBottom={buttonBottom} />
+        )}
+      </View>
     )
 }
 /**

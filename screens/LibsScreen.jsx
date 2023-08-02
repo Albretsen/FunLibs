@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View, Text } from "react-native";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import { StatusBar } from "expo-status-bar";
@@ -8,10 +8,21 @@ import { useFocusEffect } from "@react-navigation/native";
 // ADS
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 export default function LibsScreen() {
 	let type = "libs";
 	const [listItems, setListItems] = useState(LibManager.libs[type]);
+
+	const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+  
+    useEffect(() => {
+      if (isFocused) {
+        setCurrentScreenName('LibsScreen');
+      }
+    }, [isFocused]);
 
 	useEffect(() => {
 		let maxLength = -Infinity;

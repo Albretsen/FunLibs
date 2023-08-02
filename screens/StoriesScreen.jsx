@@ -1,13 +1,24 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
 import Drawer from "../components/Drawer";
 import { useFocusEffect } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
+import { useIsFocused } from '@react-navigation/native';
+import { ScreenContext } from "../App";
 
 export default function StoriesScreen() {
+	const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+          setCurrentScreenName("StoriesScreen");
+        }
+    }, [isFocused]);
+
     let type = "stories";
     const [listItems, setListItems] = useState(LibManager.libs[type]);
 
