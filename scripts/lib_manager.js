@@ -92,6 +92,26 @@ export default class LibManager {
         return explanations[keyword] || " ";
     }
 
+    static getPromptFill(prompt) {
+        if (prompt === "NaN" || prompt === null || prompt === "") return "";
+        const fill = {
+            "adjective": ["blue", "tacky"],
+            "verb": ["drink", "jump", "fly"],
+            "noun": ["cat", "hat"],
+            "proper noun": ["Hallvard", "Munsterbekken"],
+            "superlative": ["craziest", "largest"],
+            "occupation": ["accountant", "teacher"],
+            "profession": ["firewatch", "assistant to the regional manager"]
+        };
+    
+        // Regular expression to extract the first word from the input string
+        const keywordMatch = prompt.match(/^\w+/);
+        const keyword = keywordMatch ? keywordMatch[0].toLowerCase() : "";
+
+        if (fill[keyword] === undefined) return '"' + prompt + '"';
+        return fill[keyword][Math.floor(Math.random()*fill[keyword].length)] || " ";
+    }
+
     /**
      * 
      */
