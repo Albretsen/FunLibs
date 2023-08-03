@@ -79,16 +79,16 @@ export default class LibManager {
             "adjective": "Adjective: describes something.",
             "verb": "Verb: shows action or being.",
             "noun": "Noun: name for a person, place, or thing.",
-            "proper noun": "Proper Noun: name for specific thigs, people and places.",
+            "proper noun": "Proper Noun: name for specific things, people, and places.",
             "superlative": "Superlative: fastest, best, etc.",
             "occupation": "Occupation: job title.",
             "profession": "Profession: job title."
         };
-
+    
         // Regular expression to extract the first word from the input string
-        const keywordMatch = prompt.match(/\b\w+\b/);
+        const keywordMatch = prompt.match(/^\w+/);
         const keyword = keywordMatch ? keywordMatch[0].toLowerCase() : "";
-
+    
         return explanations[keyword] || " ";
     }
 
