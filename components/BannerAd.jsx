@@ -9,13 +9,12 @@ export default function BannerAdComponent() {
   const [buttonBottom, setButtonBottom] = useState(20);
 
   useEffect(() => {
-    console.log(currentScreenName);
     if (["LibsScreen", "StoriesScreen", "YourLibsScreen"].includes(currentScreenName)) {
       setShowFixedButton(true);
     } else {
       setShowFixedButton(false);
-
     }
+
     console.log(showFixedButton);
   }, [currentScreenName, showFixedButton])
 
