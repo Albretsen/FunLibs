@@ -11,21 +11,21 @@ export default function BannerAdComponent() {
   useEffect(() => {
     console.log(currentScreenName);
     if (["LibsScreen", "StoriesScreen", "YourLibsScreen"].includes(currentScreenName)) {
-        setShowFixedButton(true);
+      setShowFixedButton(true);
     } else {
-        setShowFixedButton(false);
-        
+      setShowFixedButton(false);
+
     }
     console.log(showFixedButton);
-}, [currentScreenName])
+  }, [currentScreenName, showFixedButton])
 
-    return(
-      <View>
-        {showFixedButton && (
-          <FixedButton buttonBottom={buttonBottom} />
-        )}
-      </View>
-    )
+  return (
+    <View>
+      {showFixedButton && (
+        <FixedButton buttonBottom={buttonBottom} />
+      )}
+    </View>
+  )
 }
 /**
 
