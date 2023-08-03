@@ -70,7 +70,7 @@ export default function ListItem(props) {
                 {showDeleteDialog && (
                     <Dialog
                         title="Delete lib"
-                        text="Are you sure you want to delete this lib? Once delete it cannot be recovered."
+                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
                         onCancel={hideDeleteDialogHandler}
                         onConfirm={() => {
                             onDelete(id);
