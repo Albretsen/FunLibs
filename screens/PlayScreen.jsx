@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import { StyleSheet, View, Text, TextInput, Image, ScrollView, Platform } from "react-native";
+import { StyleSheet, View, Text, TextInput, Image, Platform, ScrollView } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -12,6 +12,7 @@ import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+// import { ScrollView } from 'react-native-gesture-handler';
 
 function PlayScreen({ route }) {
 
@@ -114,9 +115,6 @@ function PlayScreen({ route }) {
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
-			{Platform.OS === ("android" || "ios") && (
-				<BannerAdComponent />
-			)}
 			<Text style={[globalStyles.fontLarge, globalStyles.bold, {textAlign: "left", width: "100%", paddingLeft: 20, marginBottom: 10}]}>{currentLib.name}</Text>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{displayPrompts[currentPromptIndex]}</Text>
@@ -136,15 +134,6 @@ function PlayScreen({ route }) {
 					borderRadius={0}
 				/>
 				<ButtonPair firstLabel="Back" firstOnPress={handleBack} secondLabel="Next" secondOnPress={handleNext} bottomButtons={false} />
-				<Drawer ref={drawerRef} title="Finished Lib">
-					<ScrollView contentContainerStyle={globalStyles.drawerContainer}>
-						<View style={globalStyles.drawerTop}>
-							<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
-							<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>{finishedLib}</Text>
-						</View>
-						<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true}/>
-					</ScrollView>
-				</Drawer>
 			</View>
 			<View style={styles.bottomLeftContainer}>
 				<Image
@@ -152,6 +141,15 @@ function PlayScreen({ route }) {
 				source={require("../assets/images/girl-with-balloon.svg")}
 				/>
 			</View>
+			<Drawer ref={drawerRef} title="Finished Lib">
+				<ScrollView>
+					<View style={globalStyles.drawerTop}>
+						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
+						<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>{finishedLib}</Text>
+					</View>
+					<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true}/>
+				</ScrollView>
+			</Drawer>
 		</View>
 	);
 }
