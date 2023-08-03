@@ -41,14 +41,17 @@ export default function CreateLibScreen() {
             navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
         }
     }
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
     console.log(keyboardVerticalOffset);
+
+    const ParentTag = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+
     return(
-        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard]}>
+        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
             {/*{Platform.OS === ("android" || "ios") && (
                 <BannerAdComponent />
             )}*/}
-            <ScrollView style={{marginHorizontal: 14, flex: 1}}>
+            <ScrollView style={{marginHorizontal: 14}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
                 </Text>
@@ -84,7 +87,7 @@ export default function CreateLibScreen() {
                     <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </ParentTag>
     )
 }
 

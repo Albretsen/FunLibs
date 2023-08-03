@@ -10,8 +10,12 @@ import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LibsScreen() {
+	//const navigation = useNavigation();
+	//navigation.navigate("CreateLibScreen")
+
 	let type = "libs";
 	const [listItems, setListItems] = useState(LibManager.libs[type]);
 

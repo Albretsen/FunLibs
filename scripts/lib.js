@@ -134,7 +134,7 @@ function fixArticles(txt) {
         var res = AvsAnSimple.query(input);
         var newArticle = res.replace(/^a/i, article.charAt(0));
         if (newArticle !== article) {
-            newArticle = "<span class='changed'>" + newArticle + "</span>";
+            newArticle = newArticle;
         }
         return newArticle + ' ' + following;
     });

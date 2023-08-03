@@ -94,6 +94,7 @@ const globalStyles = StyleSheet.create({
 
     drawerContainer: {
 		flex: 1,
+        flexGrow: 1,
 		justifyContent: "space-between",
 		borderRightWidth: 1,
 		borderColor: "#D1E8D5",
