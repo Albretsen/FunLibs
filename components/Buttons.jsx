@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import globalStyles from '../styles/globalStyles';
 
-export default function Buttons({ buttons, inDrawer, extendWidth }) {
+export default function Buttons({ buttons, inDrawer }) {
     return (
         <View style={[styles.buttonContainer, inDrawer ? styles.drawerBottom : null]}>
             {buttons.map((button, index) => (
                 <TouchableOpacity
-                    style={[styles.button, button.filled ? styles.filled : styles.unfilled, extendWidth ? styles.long : null]}
+                    style={[styles.button, button.filled ? styles.filled : styles.unfilled, button.extendWidth ? styles.long : null]}
                     key={index}
                     onPress={button.onPress}
                 >

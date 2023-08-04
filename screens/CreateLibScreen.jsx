@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
@@ -10,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import Buttons from "../components/Buttons";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -49,9 +48,6 @@ export default function CreateLibScreen() {
 
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
-            {/*{Platform.OS === ("android" || "ios") && (
-                <BannerAdComponent />
-            )}*/}
             <ScrollView style={{marginHorizontal: 14}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
@@ -89,10 +85,10 @@ export default function CreateLibScreen() {
                         buttons={
                             [{
                                 label: "Save",
-                                onPress: saveLib
+                                onPress: saveLib,
+                                extendWidth: true
                             }]
                         }
-                        extendWidth={true}
                     />
                 </View>
             </ScrollView>
