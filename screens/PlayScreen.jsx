@@ -4,7 +4,7 @@ import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
 import Drawer from "../components/Drawer";
-import ButtonPair from "../components/ButtonPair";
+import Buttons from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import ToastContext from "../components/Toast/ToastContext";
 import { useEffect } from "react";
@@ -12,7 +12,10 @@ import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-// import { ScrollView } from 'react-native-gesture-handler';
+
+function isNum(n) {
+    return /.*[0-9].*/.test(n);
+}
 
 function PlayScreen({ route }) {
 
@@ -84,8 +87,8 @@ function PlayScreen({ route }) {
 			const newResponses = [...prevResponses];
 			newResponses[currentPromptIndex] = currentInput;
 			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
-				//currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentLib;
-				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
+				//currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 			}
 			//currentLib.words = newResponses;
 			return newResponses;
@@ -133,7 +136,24 @@ function PlayScreen({ route }) {
 					borderWidth={0}
 					borderRadius={0}
 				/>
-				<ButtonPair firstLabel="Back" firstOnPress={handleBack} secondLabel="Next" secondOnPress={handleNext} bottomButtons={false} />
+				<Buttons
+					buttons={
+						[{
+							label: "Back",
+							onPress: handleBack,
+						},
+						{
+							label: "Autofill",
+							onPress: null,
+							filled: true
+						},
+						{
+							label: "Next",
+							onPress: handleNext,
+							filled: true
+						}]
+					}
+				/>
 			</View>
 			<View style={styles.bottomLeftContainer}>
 				<Image
@@ -147,8 +167,21 @@ function PlayScreen({ route }) {
 						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 						<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>{finishedLib}</Text>
 					</View>
-					<ButtonPair firstLabel="Cancel" firstOnPress={() => drawerRef.current.closeDrawer()} secondLabel="Save" secondOnPress={saveLib} bottomButtons={true}/>
 				</ScrollView>
+				<Buttons 
+						buttons={
+							[{
+								label: "Cancel",
+								onPress: () => drawerRef.current.closeDrawer(),
+							},
+							{
+								label: "Save",
+								onPress: saveLib,
+								filled: true
+							}]
+						}
+						inDrawer={true}
+					/>
 			</Drawer>
 		</View>
 	);
@@ -213,7 +246,3 @@ const styles = StyleSheet.create({
 		height: 180,
 	},
 })
-
-function isNum(n) {
-    return /.*[0-9].*/.test(n);
-}

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import ButtonPair from "../components/ButtonPair";
+import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
 import LibManager from "../scripts/lib_manager";
@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+import Buttons from "../components/Buttons";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -84,7 +85,15 @@ export default function CreateLibScreen() {
                     onChangeText={text => setLibText(text)}
                 />
                 <View style={{alignSelf: "center"}}>
-                    <ButtonPair firstLabel="hidden" secondLabel="Save" secondOnPress={saveLib} bottomButtons={false} />
+                    <Buttons
+                        buttons={
+                            [{
+                                label: "Save",
+                                onPress: saveLib
+                            }]
+                        }
+                        extendWidth={true}
+                    />
                 </View>
             </ScrollView>
         </ParentTag>
