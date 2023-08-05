@@ -86,7 +86,8 @@ export default function CreateLibScreen() {
                             [{
                                 label: "Save",
                                 onPress: saveLib,
-                                extendWidth: true
+                                extendWidth: true,
+                                filled: true
                             }]
                         }
                     />

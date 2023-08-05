@@ -81,13 +81,26 @@ function PlayScreen({ route }) {
 		showToast("Story saved", 'Your story can be found under "Stories" at the bottom of your screen.');
 	}
 
+	const autofill = () => {
+		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+		if (fill === "" || fill === null) {
+			console.log("EHERE:E:R"); 
+			return;
+		 }
+		setCurrentInput(fill);
+	};
+
 	const handleNext = () => {
 		// Add the current response to the responses array
 		setResponses((prevResponses) => {
 			const newResponses = [...prevResponses];
 			newResponses[currentPromptIndex] = currentInput;
 			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
-				currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
+				if (currentInput) {
+					currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
+				} else {
+					currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = Object.keys(currentLib.prompts[currentPromptIndex])[0];	
+				}
 				//currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 			}
 			//currentLib.words = newResponses;
@@ -100,7 +113,7 @@ function PlayScreen({ route }) {
 		} else {
 			drawerRef.current.openDrawer();
 			displayLib(() => {
-				return currentLib.display;
+				return currentLib.text;
 			});
 		}
 		// Clear current input
@@ -144,8 +157,8 @@ function PlayScreen({ route }) {
 						},
 						{
 							label: "Autofill",
-							onPress: null,
-							filled: true
+							onPress: autofill,
+							filled: true,
 						},
 						{
 							label: "Next",
@@ -165,7 +178,11 @@ function PlayScreen({ route }) {
 				<ScrollView>
 					<View style={globalStyles.drawerTop}>
 						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
-						<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>{finishedLib}</Text>
+						<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
+							{finishedLib.map((key, index) => (
+								<Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
+							))}
+						</Text>
 					</View>
 				</ScrollView>
 				<Buttons 

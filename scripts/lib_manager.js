@@ -123,7 +123,7 @@ export default class LibManager {
         const keywordMatch = prompt.match(/^\w+/);
         const keyword = keywordMatch ? keywordMatch[0].toLowerCase() : "";
 
-        if (fill[keyword] === undefined) return '"' + prompt + '"';
+        if (fill[keyword] === undefined) return "";
         return fill[keyword][Math.floor(Math.random()*fill[keyword].length)] || " ";
     }
 

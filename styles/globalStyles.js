@@ -89,7 +89,7 @@ const globalStyles = StyleSheet.create({
         // Top text height: 50
         // Top bar height: 64
         // Plus 30 for some margin
-        maxHeight: fullHeight - (74 + 50 + 64 + 30)
+        maxHeight: fullHeight - (74 + 50 + 64 + 30 + 50)
     },
 
     drawerContainer: {
