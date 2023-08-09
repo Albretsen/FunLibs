@@ -32,8 +32,8 @@ export default function SplashScreen() {
             <View style={styles.container}>
 				<Image
 				style={styles.image}
-				source={require("../assets/images/splash.png")}
-                resizeMode="stretch"
+				source={require("../assets/splash.png")}
+                resizeMode="cover"
 				/>
 			</View>
         </View>

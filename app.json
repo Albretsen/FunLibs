@@ -21,7 +21,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#ffffff"
       },
       "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }",
       "package": "com.asgalb.FunLibs"
