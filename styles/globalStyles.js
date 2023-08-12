@@ -53,7 +53,7 @@ const globalStyles = StyleSheet.create({
         marginHorizontal: 20,
         alignItems: "center",
         textAlign: "center",
-        height: 50
+        height: 60
         // paddingHorizontal: 20
     },
 
@@ -86,10 +86,10 @@ const globalStyles = StyleSheet.create({
     listItemContainer: {
         paddingBottom: 50,
         // Tab bar height: 74
-        // Top text height: 50
+        // Top text height: 60
         // Top bar height: 64
         // Plus 30 for some margin
-        maxHeight: fullHeight - (74 + 50 + 64 + 30 + 50)
+        maxHeight: fullHeight - (74 + 60 + 64 + 30 + 50)
     },
 
     drawerContainer: {
