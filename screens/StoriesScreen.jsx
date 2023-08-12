@@ -66,10 +66,14 @@ export default function StoriesScreen() {
                 ))}
             </ScrollView>
             <Drawer ref={drawerRef} title="Your story">
-                <ScrollView contentContainerStyle={globalStyles.drawerContainer}>
+                <ScrollView>
                     <View style={globalStyles.drawerTop}>
                         {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
-                        {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34, paddingBottom: 40}]}>{selectedItem.display}</Text> : <Text>No item selected</Text>}
+                        {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
+							{selectedItem.text.map((key, index) => (
+								<Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
+							))}
+						</Text> : <Text>No item selected</Text>}
                     </View>
                 </ScrollView>
             </Drawer>
