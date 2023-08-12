@@ -26,7 +26,7 @@
       },
       "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }",
       "package": "com.asgalb.FunLibs",
-      "versionCode": "2"
+      "versionCode": "3"
     },
     "web": {
       "favicon": "./assets/favicon.png"
