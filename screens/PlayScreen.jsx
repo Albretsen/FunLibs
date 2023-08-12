@@ -10,7 +10,7 @@ import ToastContext from "../components/Toast/ToastContext";
 import { useEffect } from "react";
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 
 function isNum(n) {
@@ -19,7 +19,7 @@ function isNum(n) {
 
 function PlayScreen({ route }) {
 
-	useEffect(() => {
+	useFocusEffect(() => {
 		AdManager.showAd("interstitial");
 	});
 

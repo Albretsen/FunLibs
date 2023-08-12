@@ -1,14 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import globalStyles from "../styles/globalStyles";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Dialog from "./Dialog";
+import _ from "lodash";
 
 export default function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, onDelete, showDelete } = props;
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
+
+    const debouncedNavigationRef = useRef(
+        _.debounce((id, type) => {
+            if (type === "stories") {
+                drawer.current.openDrawer();
+                onClick({ id, name, type });
+            } else {
+                navigation.navigate("PlayScreen", { libId: id, type: type });
+            }
+        }, 1)
+    );
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("state", (e) => {
+            if (listItemClickTimestamp) {
+                const timeSinceClick = Date.now() - listItemClickTimestamp;
+                if (timeSinceClick < 2000) {
+                    debouncedNavigationRef.current.cancel(); // Cancel debounced function
+                }
+            }
+        });
+    
+        return unsubscribe;
+    }, [navigation, listItemClickTimestamp]);
 
     let promptFirst = false;
     for (let i = 0; i < prompts.length; i++) {
@@ -23,11 +50,12 @@ export default function ListItem(props) {
     }
 
     function playLib(id, type) {
+        setListItemClickTimestamp(Date.now());
         if (type === "stories") {
             drawer.current.openDrawer();
             onClick({ id, name, type });
         } else {
-            navigation.navigate("PlayScreen", { libId: id, type: type });
+            debouncedNavigationRef.current(id, type);
         }
     }
 
