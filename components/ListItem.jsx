@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -69,7 +69,7 @@ export default function ListItem(props) {
 
     let promptOrText = promptFirst;
     return (
-        <TouchableWithoutFeedback onPress={() => playLib(id, type)}>
+        <TouchableOpacity onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
                     <Text style={[globalStyles.fontLarge, {color: "#006D40"}]}>{name[0]}</Text>
@@ -107,7 +107,7 @@ export default function ListItem(props) {
                     />
                 )}
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     );
 }
 
