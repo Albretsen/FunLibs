@@ -38,7 +38,6 @@ const globalStyles = StyleSheet.create({
 
     fontMedium: {
         fontSize: 18,
-        // fontFamily: "Roboto-Regular"
     },
 
     fontLarge: {
@@ -53,7 +52,8 @@ const globalStyles = StyleSheet.create({
         marginHorizontal: 20,
         alignItems: "center",
         textAlign: "center",
-        height: 60
+        height: 60,
+        ...(Platform.OS === "android" && { textAlignHorizontal: "center" }),
         // paddingHorizontal: 20
     },
 
@@ -71,14 +71,11 @@ const globalStyles = StyleSheet.create({
 
     inputSmall: {
         height: 50,
-        // Need to test this on emulator
         ...(Platform.OS === 'ios' && { paddingVertical: 10 }),
         ...(Platform.OS === 'android' && { textAlignVertical: 'center' }),
-        // padding: 10
     },
 
     inputLarge: {
-        // padding: 10
         height: 150,
         ...(Platform.OS === 'android' && { textAlignVertical: 'top' }),
     },

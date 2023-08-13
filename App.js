@@ -5,19 +5,16 @@ import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LibManager from "./scripts/lib_manager.js";
 import ToastProvider from "./components/Toast/ToastProvider";
 import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
-import { View } from "react-native-web";
 import { useState, createContext } from "react";
 
 LibManager.initialize();
 
-const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const getHeaderTitle = (route) => {
@@ -59,8 +56,8 @@ function HomeStackScreen({ navigation }) {
               borderBottomWidth: 0, // for explicit border settings
             },
             headerLeft: () => (
-              // Size set to 0, effectively hiding the navigation menu, for now.
-              <MaterialIcons style={{ marginLeft: 12, color: "white" }} name="menu" size={0} onPress={() => navigation.openDrawer()} />
+              null
+              // <MaterialIcons style={{ marginLeft: 12, color: "black" }} name="menu" size={36} onPress={() => navigation.openDrawer()} />
             ),
             // headerRight: () => (
             //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
@@ -128,11 +125,7 @@ export default function App() {
           {/* Place the BannerAdComponent outside of NavigationContainer */}
           <NavigationContainer>
             <BannerAdComponent bannerAdHeight />
-            <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-              <Drawer.Screen name="Home" component={HomeStackScreen} />
-              {/* <Drawer.Screen name="PlayScreen" component={PlayScreen} /> */}
-              {/* You can add more Drawer.Screens here if you have more pages in the drawer */}
-            </Drawer.Navigator>
+             <HomeStackScreen/>
           </NavigationContainer>
         </GestureHandlerRootView>
       </ToastProvider>

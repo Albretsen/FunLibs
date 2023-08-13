@@ -28,9 +28,9 @@ function PlayScreen({ route }) {
 
     useEffect(() => {
         if (isFocused) {
-          setCurrentScreenName("PlayScreen");
+        	setCurrentScreenName("PlayScreen");
         }
-      }, [isFocused]);
+    }, [isFocused]);
 
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
@@ -84,7 +84,6 @@ function PlayScreen({ route }) {
 	const autofill = () => {
 		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 		if (fill === "" || fill === null) {
-			console.log("EHERE:E:R"); 
 			return;
 		 }
 		setCurrentInput(fill);
@@ -98,8 +97,9 @@ function PlayScreen({ route }) {
 			for (let i = 0; i < currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]].length; i++) {
 				if (currentInput) {
 					currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = currentInput;
+					newResponses[currentPromptIndex] = currentInput;
 				} else {
-					currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = Object.keys(currentLib.prompts[currentPromptIndex])[0];	
+					currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = Object.keys(currentLib.prompts[currentPromptIndex])[0];
 				}
 				//currentLib.text[currentLib.prompts[currentPromptIndex][prompts[currentPromptIndex]][i]] = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 			}
@@ -125,6 +125,7 @@ function PlayScreen({ route }) {
 			// If there are previous prompts, show the previous one
 			setCurrentPromptIndex(currentPromptIndex - 1);
 			// Set current input to previous response
+			console.log(responses + " | " + responses[currentPromptIndex - 1]);
 			setCurrentInput(responses[currentPromptIndex - 1]);
 		}
 	};
