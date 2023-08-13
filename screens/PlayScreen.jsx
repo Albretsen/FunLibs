@@ -117,7 +117,11 @@ function PlayScreen({ route }) {
 			});
 		}
 		// Clear current input
-		setCurrentInput("");
+		if (responses[currentPromptIndex + 1]) {
+			setCurrentInput(responses[currentPromptIndex + 1]);
+		} else {
+			setCurrentInput("");
+		}
 	};
 
 	const handleBack = () => {
