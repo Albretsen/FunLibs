@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+import StyledInput from "../components/StyledInput";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -48,6 +49,10 @@ export default function CreateLibScreen() {
 
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
+
+            <StyledInput/>
+
+
             <ScrollView style={{marginHorizontal: 14}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}

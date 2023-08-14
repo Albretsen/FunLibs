@@ -12,6 +12,7 @@ import ToastProvider from "./components/Toast/ToastProvider";
 import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
+import FixedButton from "./components/FixedButton";
 
 LibManager.initialize();
 
@@ -126,6 +127,7 @@ export default function App() {
           <NavigationContainer>
             <BannerAdComponent bannerAdHeight />
              <HomeStackScreen/>
+             <FixedButton/>
           </NavigationContainer>
         </GestureHandlerRootView>
       </ToastProvider>
