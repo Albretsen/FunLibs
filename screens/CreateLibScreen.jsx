@@ -10,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import StyledInput from "../components/StyledInput";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -52,8 +51,6 @@ export default function CreateLibScreen() {
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
 
-            {/* <StyledInput/> */}
-
             <View style={{marginHorizontal: 14}}>
                 <TextInput
                     style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18}]}
@@ -67,17 +64,34 @@ export default function CreateLibScreen() {
                 <Buttons
                     buttons={
                         [{
+                            label: "Custom prompt",
+                            icon: "add",
+                            iconColor: "white"
+                        }]
+                    }
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    containerStyle={{justifyContent: "flex-start"}}
+                />
+
+                <Buttons
+                    buttons={
+                        [{
                             label: "Adjective",
-                            backgroundColor: buttonColor,
-                            textColor: "white",
                         },
                         {
                             label: "Verb",
-                            backgroundColor: buttonColor,
-                            textColor: "white",
-                        }
+                        },
+                        {
+                            label: "Noun",
+                        },
+                        {
+                            label: "Occupation",
+                        },
                         ]
                     }
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
             </View>
@@ -121,7 +135,7 @@ export default function CreateLibScreen() {
                             [{
                                 label: "Save",
                                 onPress: saveLib,
-                                extendWidth: true,
+                                style: {{minWidth: 200}}
                                 filled: true
                             }]
                         }

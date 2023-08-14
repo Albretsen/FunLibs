@@ -163,14 +163,15 @@ function PlayScreen({ route }) {
 						{
 							label: "Autofill",
 							onPress: autofill,
-							filled: true,
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
 						},
 						{
 							label: "Next",
 							onPress: handleNext,
-							filled: true
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
 						}]
 					}
+					labelStyle={{fontWeight: 600}}
 				/>
 			</View>
 			<View style={styles.bottomLeftContainer}>
@@ -191,19 +192,20 @@ function PlayScreen({ route }) {
 					</View>
 				</ScrollView>
 				<Buttons 
-						buttons={
-							[{
-								label: "Cancel",
-								onPress: () => drawerRef.current.closeDrawer(),
-							},
-							{
-								label: "Save",
-								onPress: saveLib,
-								filled: true
-							}]
-						}
-						containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
-					/>
+					buttons={
+						[{
+							label: "Cancel",
+							onPress: () => drawerRef.current.closeDrawer(),
+						},
+						{
+							label: "Save",
+							onPress: saveLib,
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+						}]
+					}
+					labelStyle={{fontWeight: 600}}
+					containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
+				/>
 			</Drawer>
 		</View>
 	);
