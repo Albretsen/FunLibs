@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
 import { useRef, useState, useCallback, useEffect, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -66,7 +66,7 @@ export default function StoriesScreen() {
                 ))}
             </ScrollView>
             <Drawer ref={drawerRef} title="Your story">
-                <ScrollView>
+                <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                     <View style={globalStyles.drawerTop}>
                         {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
                         {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>

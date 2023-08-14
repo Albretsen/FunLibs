@@ -77,6 +77,8 @@ const globalStyles = StyleSheet.create({
 
     inputLarge: {
         height: 150,
+        // borderWidth: 0,
+        borderColor: "white",
         ...(Platform.OS === 'android' && { textAlignVertical: 'top' }),
     },
 

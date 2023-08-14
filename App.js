@@ -1,5 +1,5 @@
 //import "expo-dev-client";
-import { StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import PlayScreen from "./screens/PlayScreen";
 import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
@@ -87,16 +87,18 @@ function HomeStackScreen({ navigation }) {
           component={CreateLibScreen}
           options={{
             // header: (props) => <Header {...props} leftIcon="Backbutton" navigation={navigation} />,
-            headerTitle: "Fun Libs",
+            headerTitle: "Create New Lib",
             headerTitleAlign: "center",
             headerStyle: {
               elevation: 0, // remove shadow on Android
               shadowOpacity: 0, // remove shadow on iOS
               borderBottomWidth: 0, // for explicit border settings
             },
-            // headerRight: () => (
-            //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-            // )
+            headerRight: () => (
+              <TouchableOpacity>
+                <Text style={{marginRight: 20, fontSize: 20, color: "#006D40", fontWeight: 600}}>Save</Text>
+              </TouchableOpacity>
+            )
           }}
         />
         {/* You can add more Stack.Screens here if you have more pages in your stack */}

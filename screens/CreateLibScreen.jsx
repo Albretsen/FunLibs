@@ -47,13 +47,43 @@ export default function CreateLibScreen() {
 
     const ParentTag = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
+    const buttonColor = "#006D40";
+
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
 
-            <StyledInput/>
+            {/* <StyledInput/> */}
+
+            <View style={{marginHorizontal: 14}}>
+                <TextInput
+                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18}]}
+                    multiline={true}
+                    numberOfLines={10}
+                    onChangeText={text => setLibText(text)}
+                    placeholder="Write your text here..."
+                    placeholderTextColor={"#9e9e9e"}
+                />
+
+                <Buttons
+                    buttons={
+                        [{
+                            label: "Adjective",
+                            backgroundColor: buttonColor,
+                            textColor: "white",
+                        },
+                        {
+                            label: "Verb",
+                            backgroundColor: buttonColor,
+                            textColor: "white",
+                        }
+                        ]
+                    }
+                    containerStyle={{justifyContent: "flex-start"}}
+                />
+            </View>
 
 
-            <ScrollView style={{marginHorizontal: 14}}>
+            {/* <ScrollView style={{marginHorizontal: 14}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
                 </Text>
@@ -97,7 +127,7 @@ export default function CreateLibScreen() {
                         }
                     />
                 </View>
-            </ScrollView>
+            </ScrollView> */}
         </ParentTag>
     )
 }
