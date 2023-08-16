@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";

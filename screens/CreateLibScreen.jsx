@@ -10,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import StyledInput from "../components/StyledInput";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -47,13 +46,58 @@ export default function CreateLibScreen() {
 
     const ParentTag = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
+    const buttonColor = "#006D40";
+
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
 
-            <StyledInput/>
+            <View style={{marginHorizontal: 14}}>
+                <TextInput
+                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18}]}
+                    multiline={true}
+                    numberOfLines={10}
+                    onChangeText={text => setLibText(text)}
+                    placeholder="Write your text here..."
+                    placeholderTextColor={"#9e9e9e"}
+                />
+
+                <Buttons
+                    buttons={
+                        [{
+                            label: "Custom prompt",
+                            icon: "add",
+                            iconColor: "white"
+                        }]
+                    }
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    containerStyle={{justifyContent: "flex-start"}}
+                />
+
+                <Buttons
+                    buttons={
+                        [{
+                            label: "Adjective",
+                        },
+                        {
+                            label: "Verb",
+                        },
+                        {
+                            label: "Noun",
+                        },
+                        {
+                            label: "Occupation",
+                        },
+                        ]
+                    }
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    containerStyle={{justifyContent: "flex-start"}}
+                />
+            </View>
 
 
-            <ScrollView style={{marginHorizontal: 14}}>
+            {/* <ScrollView style={{marginHorizontal: 14}}>
                 <Text style={styles.paragraph}>
                     {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
                 </Text>
@@ -91,13 +135,13 @@ export default function CreateLibScreen() {
                             [{
                                 label: "Save",
                                 onPress: saveLib,
-                                extendWidth: true,
+                                style: {{minWidth: 200}}
                                 filled: true
                             }]
                         }
                     />
                 </View>
-            </ScrollView>
+            </ScrollView> */}
         </ParentTag>
     )
 }

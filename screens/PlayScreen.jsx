@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import { StyleSheet, View, Text, TextInput, Image, Platform, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TextInput, Image, Platform, ScrollView, Dimensions } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -163,14 +163,15 @@ function PlayScreen({ route }) {
 						{
 							label: "Autofill",
 							onPress: autofill,
-							filled: true,
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
 						},
 						{
 							label: "Next",
 							onPress: handleNext,
-							filled: true
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
 						}]
 					}
+					labelStyle={{fontWeight: 600}}
 				/>
 			</View>
 			<View style={styles.bottomLeftContainer}>
@@ -180,7 +181,7 @@ function PlayScreen({ route }) {
 				/>
 			</View>
 			<Drawer ref={drawerRef} title="Finished Lib">
-				<ScrollView>
+				<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
 					<View style={globalStyles.drawerTop}>
 						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 						<Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
@@ -191,19 +192,20 @@ function PlayScreen({ route }) {
 					</View>
 				</ScrollView>
 				<Buttons 
-						buttons={
-							[{
-								label: "Cancel",
-								onPress: () => drawerRef.current.closeDrawer(),
-							},
-							{
-								label: "Save",
-								onPress: saveLib,
-								filled: true
-							}]
-						}
-						inDrawer={true}
-					/>
+					buttons={
+						[{
+							label: "Cancel",
+							onPress: () => drawerRef.current.closeDrawer(),
+						},
+						{
+							label: "Save",
+							onPress: saveLib,
+							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+						}]
+					}
+					labelStyle={{fontWeight: 600}}
+					containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
+				/>
 			</Drawer>
 		</View>
 	);
