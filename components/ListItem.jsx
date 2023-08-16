@@ -46,7 +46,8 @@ export default function ListItem(props) {
     }
 
     function deleteLib() {
-        setShowDeleteDialog(true);
+        // setShowDeleteDialog(true);
+        Dialog.openDialog()
     }
 
     function playLib(id, type) {
@@ -60,11 +61,13 @@ export default function ListItem(props) {
     }
 
     function showDeleteDialogHandler() {
-        setShowDeleteDialog(true);
+        // setShowDeleteDialog(true);
+        Dialog.openDialog();
     }
 
     function hideDeleteDialogHandler() {
-        setShowDeleteDialog(false);
+        // setShowDeleteDialog(false);
+        Dialog.closeDialog();
     }
 
     let promptOrText = promptFirst;
@@ -94,18 +97,15 @@ export default function ListItem(props) {
                     </TouchableOpacity> 
                 </View>
                 )}
-                {/* Conditionally render the delete confirmation dialog */}
-                {showDeleteDialog && (
-                    <Dialog
-                        title="Delete lib"
-                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
-                        onCancel={hideDeleteDialogHandler}
-                        onConfirm={() => {
-                            onDelete(id);
-                            setShowDeleteDialog(false); // Hide the dialog after deletion
-                        }}
-                    />
-                )}
+                <Dialog
+                    id="deleteDialog"
+                    title="Delete lib"
+                    text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
+                    onCancel={hideDeleteDialogHandler}
+                    onConfirm={() => {
+                        onDelete(id);
+                    }}
+                />
             </View>
         </TouchableOpacity>
     );

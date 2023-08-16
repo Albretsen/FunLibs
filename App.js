@@ -83,7 +83,7 @@ function HomeStackScreen({ navigation }) {
       <Stack.Screen
         name="CreateLibScreen"
         component={CreateLibScreen}
-        options={{
+        options={({ route }) => ({
           headerTitle: "Create New Lib",
           headerTitleAlign: "center",
           headerStyle: {
@@ -92,11 +92,11 @@ function HomeStackScreen({ navigation }) {
             borderBottomWidth: 0, // for explicit border settings
           },
           headerRight: () => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => route.params?.saveLib()}>
               <Text style={{marginRight: 20, fontSize: 20, color: "#006D40", fontWeight: 600}}>Save</Text>
             </TouchableOpacity>
           )
-        }}
+        })}
       />
       {/* You can add more Stack.Screens here if you have more pages in your stack */}
     </Stack.Navigator>

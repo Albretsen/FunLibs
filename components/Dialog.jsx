@@ -6,13 +6,21 @@ export default function Dialog(props) {
     const { text, title, onCancel, onConfirm } = props;
     const [modalVisible, setModalVisible] = useState(true);
 
-    function handleCancel() {
+    function openDialog() {
+        setModalVisible(true);
+    }
+
+    function closeDialog() {
         setModalVisible(false);
+    }
+
+    function handleCancel() {
+        closeDialog();
         onCancel();
     }
 
     function handleConfirm() {
-        setModalVisible(false);
+        openDialog();
         onConfirm();
     }
 
@@ -20,7 +28,7 @@ export default function Dialog(props) {
         <Modal
             transparent={true}
             visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
+            onRequestClose={closeDialog}
         >
             <View style={styles.modalBackground}>
                 <View style={styles.modalContainer}>

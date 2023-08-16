@@ -65,7 +65,7 @@ export default function Buttons({ buttons, containerStyle, buttonStyle, labelSty
 					{button.icon ?
 						<MaterialIcons
 							style={[
-								{marginTop: 3}, // Account for slight icon offset
+								// {marginTop: 3}, // Account for slight icon offset
 								button.iconColor ? {color: button.iconColor} : null
 							]}
 							name={button.icon}
