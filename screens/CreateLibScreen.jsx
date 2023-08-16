@@ -172,10 +172,9 @@ export default function CreateLibScreen() {
 
                 {showCustomPromptDialog && (
                     <Dialog
-                        title="Delete lib"
-                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
                         onCancel={closeCustomPromptDialog}
                         onConfirm={addCustomPrompt}
+                        confirmLabel="Add"
                     >
                         <TextInput
                             style={[globalStyles.input]}
@@ -189,13 +188,13 @@ export default function CreateLibScreen() {
                 )}
                 <Drawer ref={drawerRef} title="Your story">
                     <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
-                        <View style={globalStyles.drawerTop}>
+                        {/* <View style={globalStyles.drawerTop}>
                             {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
                                 {selectedItem.text.map((key, index) => (
                                     <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
                                 ))}
                             </Text> : <Text>No item selected</Text>}
-                        </View>
+                        </View> */}
                     </ScrollView>
                 </Drawer>
             </ScrollView>

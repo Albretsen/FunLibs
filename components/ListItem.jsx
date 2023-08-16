@@ -104,7 +104,10 @@ export default function ListItem(props) {
                             onDelete(id);
                             setShowDeleteDialog(false); // Hide the dialog after deletion
                         }}
-                    />
+                    >
+                        <Text style={styles.dialogTitle}>Delete lib</Text>
+                        <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
+                    </Dialog>
                 )}
             </View>
         </TouchableOpacity>
@@ -122,14 +125,10 @@ const styles = StyleSheet.create({
 
     textRow: {
         flexDirection: "column",
-        // width: "65%",
-        gap: 6,
-        // flex: 1,
     },
 
     rightIcons: {
         width: "10%",
-        // flexDirection: "column",
         justifyContent: "center"
     },
 
@@ -151,5 +150,18 @@ const styles = StyleSheet.create({
     progressBar: {
         backgroundColor: "#006D40",
         height: 4
+    },
+
+    // Dialog style
+    dialogText: {
+        color: "white",
+        fontSize: 16,
+        lineHeight: 34,
+        fontWeight: 400,
+        letterSpacing: 0.5
+    },
+    dialogTitle: {
+        color: "white",
+        fontSize: 24,
     },
 })
