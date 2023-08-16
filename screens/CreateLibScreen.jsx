@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import Buttons from "../components/Buttons";
@@ -10,11 +10,14 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+import Dialog from "../components/Dialog";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
     const [libTitle, setLibTitle] = useState("");
     const showToast = useContext(ToastContext);
+    const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+
 
     const navigation = useNavigation();
 
@@ -25,9 +28,16 @@ export default function CreateLibScreen() {
         if (isFocused) {
           setCurrentScreenName("CreateLibScreen");
         }
-      }, [isFocused]);
+    }, [isFocused]);
+
+    const { setParams } = useNavigation();
+
+    useEffect(() => {
+        setParams({ saveLib });
+    }, []);
 
     const saveLib = () => {
+        console.log("save pressed")
         // Might want to add some proper validation here,
         // such as validating that the lib has at least one prompt
         if(libTitle == "") {
@@ -48,17 +58,45 @@ export default function CreateLibScreen() {
 
     const buttonColor = "#006D40";
 
+    const libTextInputRef = useRef(null);
+
+    let addPrompt = (prompt) => {
+        const beforeCursor = libText.substring(0, cursorPosition.start);
+        const afterCursor = libText.substring(cursorPosition.start); // Note the change here
+        const updatedText = beforeCursor + prompt + afterCursor;
+        
+        const newCursorPosition = cursorPosition.start + prompt.length;
+    
+        if (libTextInputRef.current) {
+            libTextInputRef.current.setNativeProps({ 
+                text: updatedText,
+                selection: { start: newCursorPosition, end: newCursorPosition }
+            });
+        }
+        
+        setLibText(updatedText);
+    }
+
+    const [showCustomPromptDialog, setShowCustomPromptDialog] = useState(false);
+    
+        
+
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
 
-            <View style={{marginHorizontal: 14}}>
+            <ScrollView style={{marginHorizontal: 14}}
+                keyboardDismissMode="on-drag"
+                keyboardShouldPersistTaps={'always'}
+            >
                 <TextInput
-                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18}]}
+                    ref={libTextInputRef}
+                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 200}]}
                     multiline={true}
                     numberOfLines={10}
                     onChangeText={text => setLibText(text)}
                     placeholder="Write your text here..."
                     placeholderTextColor={"#9e9e9e"}
+                    onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
                 />
 
                 <Buttons
@@ -78,15 +116,27 @@ export default function CreateLibScreen() {
                     buttons={
                         [{
                             label: "Adjective",
+                            onPress: () => {
+                                addPrompt("Adjective");
+                            },
                         },
                         {
                             label: "Verb",
+                            onPress: () => {
+                                addPrompt("Verb");
+                            },
                         },
                         {
                             label: "Noun",
+                            onPress: () => {
+                                addPrompt("Noun");
+                            },
                         },
                         {
                             label: "Occupation",
+                            onPress: () => {
+                                addPrompt("Occupation");
+                            },
                         },
                         ]
                     }
@@ -94,54 +144,19 @@ export default function CreateLibScreen() {
                     labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
-            </View>
 
-
-            {/* <ScrollView style={{marginHorizontal: 14}}>
-                <Text style={styles.paragraph}>
-                    {"Write your text here. Use quotation marks for playable words like adjectives and nouns. Here's an example:"}
-                </Text>
-                <Text style={styles.paragraph}>
-                    {"They built an "}
-                    <Text style={styles.highlighted}>{"“adjective”"}</Text>
-                    {" house."}
-                </Text>
-                <Text style={styles.paragraph}>
-                    {"Add a number at the end for words you would like to repeat, like names:"}
-                </Text>
-                <Text style={styles.paragraph}>
-                    <Text style={styles.highlighted}>{"“Name 1”"}</Text>
-                    {" is building a table. "}
-                    <Text style={styles.highlighted}>{"“Name 1”"}</Text>
-                    {" is a carpenter."}
-                </Text>
-                <Text style={styles.label}>{"Lib title"}</Text>
-                <TextInput
-                    style={[globalStyles.input, globalStyles.inputSmall]}
-                    multiline={true}
-                    numberOfLines={1}
-                    onChangeText={text => setLibTitle(text)}
-                />
-                <Text style={styles.label}>{"Lib text"}</Text>
-                <TextInput
-                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1}]}
-                    multiline={true}
-                    numberOfLines={10}
-                    onChangeText={text => setLibText(text)}
-                />
-                <View style={{alignSelf: "center"}}>
-                    <Buttons
-                        buttons={
-                            [{
-                                label: "Save",
-                                onPress: saveLib,
-                                style: {{minWidth: 200}}
-                                filled: true
-                            }]
-                        }
+                {showCustomPromptDialog && (
+                    <Dialog
+                        title="Delete lib"
+                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
+                        onCancel={hideDeleteDialogHandler}
+                        onConfirm={() => {
+                            onDelete(id);
+                            setShowDeleteDialog(false); // Hide the dialog after deletion
+                        }}
                     />
-                </View>
-            </ScrollView> */}
+                )}
+            </ScrollView>
         </ParentTag>
     )
 }
