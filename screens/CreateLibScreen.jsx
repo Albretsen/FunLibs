@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -12,12 +11,12 @@ import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import Dialog from "../components/Dialog";
 import Drawer from "../components/Drawer";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
     const [libNameText, setLibNameText] = useState("");
     const [finishedLib, setFinishedLib] = useState(null);
-    const [libTitle, setLibTitle] = useState("");
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
 
@@ -109,10 +108,11 @@ export default function CreateLibScreen() {
                 selection: { start: newCursorPosition, end: newCursorPosition }
             });
         }
-        
-        console.log("setting stext toste " + updatedText);
+
         setLibText(updatedText);
     }
+
+    // Dialog-related functions
 
     let addCustomPrompt = () => {
         addPrompt(customPromptText);
@@ -137,7 +137,7 @@ export default function CreateLibScreen() {
                 keyboardShouldPersistTaps={'always'}
             >
                 <TextInput
-                    style={[globalStyles.input, globalStyles.inputSmall, {flex: 1, fontSize: 18}]}
+                    style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white"}]}
                     placeholder="Title"
                     placeholderTextColor={"#9e9e9e"}
                     onChangeText={text => setLibNameText(text)}
@@ -204,13 +204,26 @@ export default function CreateLibScreen() {
 
                 {showCustomPromptDialog && (
                     <Dialog
-                        title="Delete lib"
-                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
+                        modalStyle={{backgroundColor: "white"}}
                         onCancel={closeCustomPromptDialog}
                         onConfirm={addCustomPrompt}
+                        confirmLabel="Add"
+                        confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
+                        buttonStyle={globalStyles.buttonDefault}
+                        labelStyle={{color: "black"}}
+                        containerStyle={{gap: 0}}
                     >
+                        <View style={{flexDirection: "row", gap: 10, marginBottom: 10}}>
+                            <View style={styles.iconCircle}>
+                                <MaterialIcons style={{color: "white"}} name="add" size={28} />
+                            </View>
+                            <View>
+                                <Text style={[{fontSize: 20}, globalStyles.bold]}>Custom prompt</Text>
+                                <Text style={{fontSize: 18}}>Add a custom prompt</Text>
+                            </View>
+                        </View>
                         <TextInput
-                            style={[globalStyles.input]}
+                            style={[globalStyles.input, globalStyles.inputSmall, {paddingHorizontal: 14, marginVertical: 10, fontSize: 18}]}
                             numberOfLines={1}
                             placeholder="Your prompt..."
                             onChangeText={text => setCustomPromptText(text)}
@@ -235,7 +248,7 @@ export default function CreateLibScreen() {
                         buttons={[
                             {  
                                 label: "Cancel",
-                                onPress: "",
+                                onPress: () => drawerRef.current.closeDrawer()
                             },
                             { 
                                 label: "Confirm",
@@ -264,5 +277,14 @@ const styles = StyleSheet.create({
     paragraph: {
         marginBottom: 16,
         fontSize: 16,
+    },
+
+    iconCircle: {
+        borderRadius: 100,
+        height: 50,
+        width: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#006D40"
     }
 })

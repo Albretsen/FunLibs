@@ -1,9 +1,77 @@
+/**
+ * @component Dialog
+ * 
+ * @overview
+ * Provides a customizable modal dialog that can be used to prompt users
+ * for a decision, confirmation, or any other user interaction. The dialog can contain any type
+ * of content, including text, images, and interactive elements.
+ * 
+* @props
+ * - `onCancel` (Function): Function to be executed when the Cancel button is pressed. (Required)
+ * - `onConfirm` (Function): Function to be executed when the Confirm button is pressed. (Required)
+ * - `cancelLabel` (String): Label for the Cancel button. Default is "Cancel".
+ * - `confirmLabel` (String): Label for the Confirm button. Default is "Confirm".
+ * - `buttonStyle` (Object): Custom styles for the buttons (both Cancel and Confirm).
+ * - `labelStyle` (Object): Custom styles for the button labels (both Cancel and Confirm).
+ * - `cancelStyle` (Object): Custom styles for the Cancel button.
+ * - `confirmStyle` (Object): Custom styles for the Confirm button.
+ * - `modalStyle` (Object): Custom styles for the modal container.
+ * - `containerStyle` (Object): Custom styles for the content container within the modal.
+ * 
+ * @example
+ * ```
+ * import React, { useState } from "react";
+ * import { Text, Button } from "react-native";
+ * import Dialog from "../components/Dialog";
+ * 
+ * function ExampleComponent() {
+ *   const [showDialog, setShowDialog] = useState(false);
+ * 
+ *   const handleOpenDialog = () => {
+ *     setShowDialog(true);
+ *   };
+ * 
+ *   const handleCloseDialog = () => {
+ *     setShowDialog(false);
+ *   };
+ * 
+ *   const handleConfirmDialog = () => {
+ *     console.log("Dialog confirmed");
+ *     setShowDialog(false);
+ *   };
+ * 
+ *   return (
+ *     <>
+ *       <Button title="Open Dialog" onPress={handleOpenDialog} />
+ *       {showDialog && (
+ *         <Dialog
+ *           onCancel={handleCloseDialog}
+ *           onConfirm={handleConfirmDialog}
+ *           cancelLabel="No, Cancel"
+ *           confirmLabel="Yes, Confirm"
+ *           buttonStyle={{backgroundColor: 'blue', borderRadius: 5}}
+ *           labelStyle={{color: 'white', fontWeight: 'bold'}}
+ *           cancelStyle={{backgroundColor: 'red'}}
+ *           confirmStyle={{backgroundColor: 'green'}}
+ *           modalStyle={{padding: 20}}
+ *           containerStyle={{justifyContent: 'center'}}
+ *         >
+ *           <Text>Are you sure you want to proceed?</Text>
+ *         </Dialog>
+ *       )}
+ *     </>
+ *   );
+ * }
+ * ```
+ */
+
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
+import { StyleSheet, View, Modal } from "react-native";
 import globalStyles from "../styles/globalStyles";
+import Buttons from "./Buttons";
 
 export default function Dialog(props) {
-    const { onCancel, onConfirm, cancelLabel, confirmLabel, cancelStyle, confirmStyle, modalStyle } = props;
+    const { onCancel, onConfirm, cancelLabel, confirmLabel, buttonStyle, labelStyle, cancelStyle, confirmStyle, modalStyle, containerStyle } = props;
     const [modalVisible, setModalVisible] = useState(true);
 
     function openDialog() {
@@ -34,18 +102,23 @@ export default function Dialog(props) {
                 <View style={styles.modalContainer}>
                     <View style={[styles.contentContainer, modalStyle ? modalStyle : null]}>
                         {props.children}
-                        <View style={styles.buttonsContainer}>
-                            <TouchableOpacity style={cancelStyle ? cancelStyle : styles.button} onPress={handleCancel}>
-                                <Text style={[styles.buttonText, globalStyles.bold]}>
-                                    {cancelLabel ? cancelLabel : "Cancel"}
-                            </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={confirmStyle ? confirmStyle : styles.button} onPress={handleConfirm}>
-                                <Text style={[styles.buttonText, globalStyles.bold]}>
-                                    {confirmLabel ? confirmLabel : "Confirm"}
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Buttons
+                            buttons={[
+                                {
+                                    label: cancelLabel ? cancelLabel : "Cancel",
+                                    onPress: handleCancel,
+                                    buttonStyle: cancelStyle
+                                },
+                                {
+                                    label: confirmLabel ? confirmLabel : "Confirm",
+                                    onPress: handleConfirm,
+                                    buttonStyle: confirmStyle
+                                }
+                            ]}
+                            buttonStyle={[styles.button, buttonStyle]}
+                            labelStyle={[styles.buttonText, globalStyles.bold, labelStyle]}
+                            containerStyle={containerStyle}
+                        />
                     </View>
                 </View>
             </View>
@@ -71,18 +144,9 @@ const styles = StyleSheet.create({
         height: "auto",
         width: "80%",
         backgroundColor: "#3B6470",
-        // justifyContent: "center",
-        // alignItems: "center",
         gap: 10,
         padding: 20,
         borderRadius: 16,
-    },
-
-    buttonsContainer: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignSelf: "flex-end",
-        marginTop: 20,
     },
 
     button: {
@@ -90,34 +154,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         marginLeft: 10,
         borderRadius: 5,
-    },
-
-    button: {
-		borderRadius: 40,
-		backgroundColor: "white",
-		borderWidth: 1,
-		borderColor: "gray",
-		padding: 10,
-		paddingHorizontal: 20,
-		minWidth: 100,
-		height: 50,
-		alignItems: "center",
-		justifyContent: "center",
-		flexDirection: "row",
-		gap: 10
-	},
-
-    text: {
-        color: "white",
-        fontSize: 16,
-        lineHeight: 34,
-        fontWeight: 400,
-        letterSpacing: 0.5
-    },
-
-    title: {
-        color: "white",
-        fontSize: 24,
+        backgroundColor: "transparent"
     },
 
     buttonText: {

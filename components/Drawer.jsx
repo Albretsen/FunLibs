@@ -99,7 +99,6 @@ const Drawer = forwardRef((props, ref) => {
                             <Animated.View style={{
                                 flex: 1,
                                 backgroundColor: "white",
-                                // width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width),
                                 width: 200,
                                 transform: [{ translateX: slideAnim }],
                             }}>

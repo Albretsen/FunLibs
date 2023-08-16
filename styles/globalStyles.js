@@ -112,6 +112,30 @@ const globalStyles = StyleSheet.create({
 		gap: 16,
 		paddingBottom: 16
 	},
+
+    buttonDefault: {
+		borderRadius: 40,
+		backgroundColor: "white",
+		borderWidth: 1,
+		borderColor: "gray",
+		padding: 10,
+		paddingHorizontal: 20,
+		minWidth: 100,
+		height: 50,
+		alignItems: "center",
+		justifyContent: "center",
+		flexDirection: "row",
+		gap: 10
+	},
+
+	buttonContainerDefault: {
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		flexWrap: "wrap",
+		gap: 10,
+		marginTop: 10,
+        marginBottom: 10,
+	},
 })
 
 export default globalStyles;

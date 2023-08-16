@@ -90,15 +90,13 @@ export default function ListItem(props) {
                 {showDelete && (
                 <View style={styles.rightIcons}>
                     <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                        <MaterialIcons style={{color: "#5A5A5A"}} name="delete" size={34}  />
+                        <MaterialIcons style={{color: "#5A5A5A"}} name="delete" size={34} />
                     </TouchableOpacity> 
                 </View>
                 )}
                 {/* Conditionally render the delete confirmation dialog */}
                 {showDeleteDialog && (
                     <Dialog
-                        title="Delete lib"
-                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
                         onCancel={hideDeleteDialogHandler}
                         onConfirm={() => {
                             onDelete(id);
