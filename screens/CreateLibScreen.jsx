@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
@@ -11,6 +11,7 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import Dialog from "../components/Dialog";
+import Drawer from "../components/Drawer";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -18,6 +19,7 @@ export default function CreateLibScreen() {
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
 
+    const [customPromptText, setCustomPromptText] = useState("");
 
     const navigation = useNavigation();
 
@@ -36,20 +38,23 @@ export default function CreateLibScreen() {
         setParams({ saveLib });
     }, []);
 
+    const drawerRef = useRef();
+
     const saveLib = () => {
         console.log("save pressed")
+        drawerRef.current.openDrawer()
         // Might want to add some proper validation here,
         // such as validating that the lib has at least one prompt
-        if(libTitle == "") {
-            showToast("Missing title", "Please add a title to your lib!");
-        } else if(libText == "") {
-            showToast("Missing text", "Your lib has no text!");
-        } else {
-            let lib = Lib.createLib(libText, libTitle);
-            LibManager.storeLib(lib, "yourLibs");
-            showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
-            navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
-        }
+        // if(libTitle == "") {
+        //     showToast("Missing title", "Please add a title to your lib!");
+        // } else if(libText == "") {
+        //     showToast("Missing text", "Your lib has no text!");
+        // } else {
+            // let lib = Lib.createLib(libText, libTitle);
+            // LibManager.storeLib(lib, "yourLibs");
+            // showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+            // navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+        // }
     }
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
     console.log(keyboardVerticalOffset);
@@ -63,7 +68,7 @@ export default function CreateLibScreen() {
     let addPrompt = (prompt) => {
         const beforeCursor = libText.substring(0, cursorPosition.start);
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
-        const updatedText = beforeCursor + prompt + afterCursor;
+        const updatedText = beforeCursor + '"' + prompt + '"' + afterCursor;
         
         const newCursorPosition = cursorPosition.start + prompt.length;
     
@@ -77,9 +82,21 @@ export default function CreateLibScreen() {
         setLibText(updatedText);
     }
 
+    let addCustomPrompt = () => {
+        addPrompt(customPromptText);
+        closeCustomPromptDialog()
+    }
+
     const [showCustomPromptDialog, setShowCustomPromptDialog] = useState(false);
     
-        
+    let openCustomPromptDialog = () => {
+        console.log("pressed")
+        setShowCustomPromptDialog(true)
+    }
+
+    let closeCustomPromptDialog = () => {
+        setShowCustomPromptDialog(false)
+    }
 
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
@@ -88,6 +105,13 @@ export default function CreateLibScreen() {
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
+                <TextInput
+                    style={[globalStyles.input, globalStyles.inputSmall, {flex: 1, fontSize: 18}]}
+                    placeholder="Title"
+                    placeholderTextColor={"#9e9e9e"}
+                >
+
+                </TextInput>
                 <TextInput
                     ref={libTextInputRef}
                     style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 200}]}
@@ -104,7 +128,8 @@ export default function CreateLibScreen() {
                         [{
                             label: "Custom prompt",
                             icon: "add",
-                            iconColor: "white"
+                            iconColor: "white",
+                            onPress: openCustomPromptDialog
                         }]
                     }
                     buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
@@ -149,13 +174,30 @@ export default function CreateLibScreen() {
                     <Dialog
                         title="Delete lib"
                         text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
-                        onCancel={hideDeleteDialogHandler}
-                        onConfirm={() => {
-                            onDelete(id);
-                            setShowDeleteDialog(false); // Hide the dialog after deletion
-                        }}
-                    />
+                        onCancel={closeCustomPromptDialog}
+                        onConfirm={addCustomPrompt}
+                    >
+                        <TextInput
+                            style={[globalStyles.input]}
+                            numberOfLines={1}
+                            placeholder="Your prompt..."
+                            onChangeText={text => setCustomPromptText(text)}
+                        >
+                            
+                        </TextInput>
+                    </Dialog>
                 )}
+                <Drawer ref={drawerRef} title="Your story">
+                    <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
+                        <View style={globalStyles.drawerTop}>
+                            {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
+                                {selectedItem.text.map((key, index) => (
+                                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
+                                ))}
+                            </Text> : <Text>No item selected</Text>}
+                        </View>
+                    </ScrollView>
+                </Drawer>
             </ScrollView>
         </ParentTag>
     )

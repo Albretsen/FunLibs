@@ -35,6 +35,7 @@ export default function Dialog(props) {
                     <View style={styles.modal}>
                         <Text style={styles.title}>{title}</Text>
                         <Text style={styles.text}>{text}</Text>
+                        {props.children}
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity style={styles.button} onPress={handleCancel}>
                                 <Text style={[styles.buttonText, globalStyles.bold]}>Cancel</Text>
