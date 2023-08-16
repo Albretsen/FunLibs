@@ -82,7 +82,13 @@ export default class LibManager {
             "proper noun": "Proper Noun: name for specific things, people, and places.",
             "superlative": "Superlative: fastest, best, etc.",
             "occupation": "Occupation: job title.",
-            "profession": "Profession: job title."
+            "profession": "Profession: job title.",
+            "place": "A location: school, garden, etc.",
+            "name": "A name: John, Sizzle, Bubbles etc.",
+            "town": "The name of a small city: Townsville, Florence, etc.",
+            "weather": "The state of the weather at a particular time: rain, wind, etc.",
+            "emotion": "A feeling: sad, happy, cheerful, etc.",
+            "material": "What something is made of: sand, wood, etc."
         };
     
         // Regular expression to extract the first word from the input string
@@ -117,6 +123,8 @@ export default class LibManager {
             "body parts": ["hearts", "souls", "smiles", "twinkles", "sparkles", "giggles", "glitters", "grins", "hugs", "dances", "winks", "chuckles", "tummies", "glimmers", "twirls", "zests", "fizzes", "wiggles", "jiggles", "pinkies", "glistens", "flutters", "tickles", "waddles", "skips", "bounces", "nuzzles", "gazes", "sizzles", "blinks", "snickers", "wonders", "gustos", "gazes", "whispers", "glimpses"],
             "body part (plural)": ["hearts", "souls", "smiles", "twinkles", "sparkles", "giggles", "glitters", "grins", "hugs", "dances", "winks", "chuckles", "tummies", "glimmers", "twirls", "zests", "fizzes", "wiggles", "jiggles", "pinkies", "glistens", "flutters", "tickles", "waddles", "skips", "bounces", "nuzzles", "gazes", "sizzles", "blinks", "snickers", "wonders", "gustos", "gazes", "whispers", "glimpses"],
             "famous person": ["Willy Wonka", "Mary Poppins", "Frodo Baggins", "Elvis Presley", "Marilyn Monroe", "Mr. Bean", "Charlie Chaplin", "Fred Astaire", "Lucille Ball", "Charlie Brown", "Homer Simpson", "Wonder Woman", "Sherlock Holmes", "Yoda", "Indiana Jones", "Captain Jack Sparrow", "Superman", "Beyoncé", "Michael Jackson", "Albert Einstein", "Harry Potter", "Captain America", "Mickey Mouse", "Dumbledore", "Spider-Man", "James Bond", "Winnie the Pooh", "SpongeBob SquarePants", "Darth Vader", "Madonna", "Marie Curie", "Leonardo da Vinci", "Daffy Duck", "Oprah Winfrey"],
+            "weather": ["rain", "wind", "sun", "clouds", "cold", "dryness"],
+            "color": ["red", "blue", "orange", "yellow", "brown", "black", "white", "pink", "lime", "teal", "purple", "magenta", "gray"],
         };
     
         // Regular expression to extract the first word from the input string
