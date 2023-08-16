@@ -15,9 +15,22 @@ import Drawer from "../components/Drawer";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
+    const [libNameText, setLibNameText] = useState("");
+    const [finishedLib, setFinishedLib] = useState(null);
     const [libTitle, setLibTitle] = useState("");
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+
+    const libTextRef = useRef(libText);
+    const finishedLibRef = useRef(finishedLib);
+    const libNameTextRef = useRef(libNameText);
+
+    useEffect(() => {
+        libTextRef.current = libText;
+        finishedLibRef.current = finishedLib;
+        libNameTextRef.current = libNameText;
+    }, [libText, finishedLib, libNameText]);
+    
 
     const [customPromptText, setCustomPromptText] = useState("");
 
@@ -41,8 +54,18 @@ export default function CreateLibScreen() {
     const drawerRef = useRef();
 
     const saveLib = () => {
-        console.log("save pressed")
-        drawerRef.current.openDrawer()
+        if (!libNameTextRef.current) { 
+            showToast("Missing title", "Please add a title to your lib!");
+            return;
+        }
+        if (!libTextRef.current) { 
+            showToast("Missing text", "Please add some text to your lib!");
+            return;
+        } 
+        //console.log(libTextRef.current);
+        setFinishedLib(Lib.createLib(libTextRef.current));
+        //console.log(finishedLib)
+        drawerRef.current.openDrawer();
         // Might want to add some proper validation here,
         // such as validating that the lib has at least one prompt
         // if(libTitle == "") {
@@ -56,8 +79,16 @@ export default function CreateLibScreen() {
             // navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
         // }
     }
+
+    let confirmSaveLib = () => {
+        finishedLibRef.current.name = libNameTextRef.current;
+        if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
+
+        showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+    }
+
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
-    console.log(keyboardVerticalOffset);
 
     const ParentTag = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
@@ -70,7 +101,7 @@ export default function CreateLibScreen() {
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
         const updatedText = beforeCursor + '"' + prompt + '"' + afterCursor;
         
-        const newCursorPosition = cursorPosition.start + prompt.length;
+        const newCursorPosition = cursorPosition.start + prompt.length + 2;
     
         if (libTextInputRef.current) {
             libTextInputRef.current.setNativeProps({ 
@@ -79,6 +110,7 @@ export default function CreateLibScreen() {
             });
         }
         
+        console.log("setting stext toste " + updatedText);
         setLibText(updatedText);
     }
 
@@ -90,7 +122,6 @@ export default function CreateLibScreen() {
     const [showCustomPromptDialog, setShowCustomPromptDialog] = useState(false);
     
     let openCustomPromptDialog = () => {
-        console.log("pressed")
         setShowCustomPromptDialog(true)
     }
 
@@ -109,6 +140,7 @@ export default function CreateLibScreen() {
                     style={[globalStyles.input, globalStyles.inputSmall, {flex: 1, fontSize: 18}]}
                     placeholder="Title"
                     placeholderTextColor={"#9e9e9e"}
+                    onChangeText={text => setLibNameText(text)}
                 >
 
                 </TextInput>
@@ -172,9 +204,10 @@ export default function CreateLibScreen() {
 
                 {showCustomPromptDialog && (
                     <Dialog
+                        title="Delete lib"
+                        text="Are you sure you want to delete this lib? Once deleted it cannot be recovered."
                         onCancel={closeCustomPromptDialog}
                         onConfirm={addCustomPrompt}
-                        confirmLabel="Add"
                     >
                         <TextInput
                             style={[globalStyles.input]}
@@ -187,15 +220,32 @@ export default function CreateLibScreen() {
                     </Dialog>
                 )}
                 <Drawer ref={drawerRef} title="Your story">
+                    
                     <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
-                        {/* <View style={globalStyles.drawerTop}>
-                            {selectedItem ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
-                                {selectedItem.text.map((key, index) => (
+                        <View style={globalStyles.drawerTop}>
+                        <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
+                            {finishedLib ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
+                                {finishedLib.text.map((key, index) => (
                                     <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
                                 ))}
                             </Text> : <Text>No item selected</Text>}
-                        </View> */}
+                        </View>
                     </ScrollView>
+                    <Buttons
+                        buttons={[
+                            {  
+                                label: "Cancel",
+                                onPress: "",
+                            },
+                            { 
+                                label: "Confirm",
+                                onPress: confirmSaveLib,
+                                buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+                            }
+                        ]}
+                        labelStyle={{fontWeight: 600}}
+					    containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
+                    />
                 </Drawer>
             </ScrollView>
         </ParentTag>

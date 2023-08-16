@@ -14,8 +14,6 @@ export default function BannerAdComponent() {
     } else {
       setShowFixedButton(false);
     }
-
-    console.log(showFixedButton);
   }, [currentScreenName, showFixedButton])
 
   return (
