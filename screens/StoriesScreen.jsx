@@ -57,7 +57,7 @@ export default function StoriesScreen() {
     return (
         <View style={globalStyles.screenStandard}>
             {/*<BannerAdComponent />*/}
-            <View style={globalStyles.titleContainer}>
+            <View style={[globalStyles.titleContainer, {height: 40}]}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>
             </View>
             <ScrollView style={globalStyles.listItemContainer}>
