@@ -244,11 +244,7 @@ export default function CreateLibScreen() {
                     <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                         <View style={globalStyles.drawerTop}>
                         <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
-                            {finishedLib ? <Text style={[globalStyles.fontMedium, {marginTop: 16, lineHeight: 34}]}>
-                                {finishedLib.text.map((key, index) => (
-                                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
-                                ))}
-                            </Text> : <Text>No item selected</Text>}
+                            {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
                         </View>
                     </ScrollView>
                     <Buttons

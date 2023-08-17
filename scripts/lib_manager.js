@@ -1,6 +1,8 @@
 import FileManager from "../scripts/file_manager.js";
 import Lib from "../scripts/lib.js";
-import libs from '../assets/libs.json'; 
+import libs from '../assets/libs.json';
+import globalStyles from "../styles/globalStyles.js";
+import { Text } from "react-native";
 
 export default class LibManager {
     static libs = {
@@ -72,6 +74,16 @@ export default class LibManager {
      */
     static get defaultLibs() {
         return JSON.stringify(libs);
+    }
+
+    static displayInDrawer(text_) {
+        return (
+            <Text style={[globalStyles.fontMedium, { marginTop: 16, lineHeight: 34 }]}>
+                {text_.map((key, index) => (
+                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
+                ))}
+            </Text>
+        )
     }
 
     static getPromptExplanation(prompt) {
