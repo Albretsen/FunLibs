@@ -62,7 +62,14 @@ export default function CreateLibScreen() {
             return;
         } 
         //console.log(libTextRef.current);
+        let temp_finished_lib = Lib.createLib(libTextRef.current);
         setFinishedLib(Lib.createLib(libTextRef.current));
+
+        if (temp_finished_lib.prompts.length < 1) {
+            showToast("Missing prompts", "Please add some prompts to your lib!");
+            return;
+        }
+
         //console.log(finishedLib)
         drawerRef.current.openDrawer();
         // Might want to add some proper validation here,
