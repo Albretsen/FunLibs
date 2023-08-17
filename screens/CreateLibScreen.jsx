@@ -19,10 +19,12 @@ export default function CreateLibScreen() {
     const [finishedLib, setFinishedLib] = useState(null);
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+    const [newCursorPosition, setNewCursorPosition] = useState();
 
     const libTextRef = useRef(libText);
     const finishedLibRef = useRef(finishedLib);
     const libNameTextRef = useRef(libNameText);
+    const newCursorPositionRef = useRef(newCursorPosition);
 
     useEffect(() => {
         libTextRef.current = libText;
@@ -107,12 +109,11 @@ export default function CreateLibScreen() {
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
         const updatedText = beforeCursor + '"' + prompt + '"' + afterCursor;
         
-        const newCursorPosition = cursorPosition.start + prompt.length + 2;
+        newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
     
         if (libTextInputRef.current) {
             libTextInputRef.current.setNativeProps({ 
                 text: updatedText,
-                selection: { start: newCursorPosition, end: newCursorPosition }
             });
         }
 
@@ -160,6 +161,7 @@ export default function CreateLibScreen() {
                     placeholder="Write your text here..."
                     placeholderTextColor={"#9e9e9e"}
                     onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+                    selection={newCursorPosition}
                 />
 
                 <Buttons
