@@ -251,14 +251,14 @@ export default function CreateLibScreen() {
                     </ScrollView>
                     <Buttons
                         buttons={[
-                            {  
-                                label: "Cancel",
-                                onPress: () => drawerRef.current.closeDrawer()
-                            },
                             { 
                                 label: "Confirm",
                                 onPress: confirmSaveLib,
                                 buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+                            },
+                            {  
+                                label: "Cancel",
+                                onPress: () => drawerRef.current.closeDrawer()
                             }
                         ]}
                         labelStyle={{fontWeight: 600}}

@@ -202,15 +202,16 @@ function PlayScreen({ route }) {
 				</ScrollView>
 				<Buttons 
 					buttons={
-						[{
-							label: "Cancel",
-							onPress: () => drawerRef.current.closeDrawer(),
-						},
-						{
-							label: "Save",
-							onPress: saveLib,
-							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-						}]
+						[
+							{
+								label: "Save",
+								onPress: saveLib,
+								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
+							}
+							, {
+								label: "Cancel",
+								onPress: () => drawerRef.current.closeDrawer(),
+							}]
 					}
 					labelStyle={{fontWeight: 600}}
 					containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
