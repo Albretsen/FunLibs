@@ -94,6 +94,7 @@ export default function CreateLibScreen() {
         if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
 
         showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        drawerRef.current.closeDrawer()
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 

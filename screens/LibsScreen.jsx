@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text, BackHandler } from "react-native";
+import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler } from "react-native";
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -60,7 +60,7 @@ export default function LibsScreen() {
 	);
   
 	return (
-	  <View style={[globalStyles.screenStandard]}>
+	  <SafeAreaView style={[globalStyles.screenStandard]}>
         {/*<BannerAdComponent />*/}
 		<View style={[globalStyles.titleContainer, {height: 20}]}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
@@ -71,7 +71,7 @@ export default function LibsScreen() {
 				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={false}></ListItem>
 			))}
 		</ScrollView>
-	  </View>
+	  </SafeAreaView>
 	);
 }
   

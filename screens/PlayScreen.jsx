@@ -82,11 +82,15 @@ function PlayScreen({ route }) {
 	}
 
 	const autofill = () => {
-		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
-		if (fill === "" || fill === null) {
-			return "";
-		 }
-		setCurrentInput(fill);
+		if(fillAvailable) {
+			let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+			if (fill === "" || fill === null) {
+				return "";
+			}
+			setCurrentInput(fill);
+		} else {
+			showToast("Autofill unavailable", "Autofill is unavailable for this promt.")
+		}
 	};
 
 	const handleNext = () => {
@@ -135,17 +139,22 @@ function PlayScreen({ route }) {
 		promptFillCheck();
 	};
 
+	const [fillAvailable, setFillAvailable] = useState(true);
 	function promptFillCheck() {
 		// Check if prompt fill is available
 		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 		if (fill.length < 1) {
-			// PROMPT FILL NOT AVAILABLE
+			setFillAvailable(false);
 		} else {
-			// PROMPT FILL AVAILABLE
+			setFillAvailable(true);
 		}
 	}
 
-	promptFillCheck();
+	// Check prompt availability on first prompt when the screen is first opened
+	useEffect(() => {
+		promptFillCheck();
+    }, []);
+	// 
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
@@ -176,7 +185,8 @@ function PlayScreen({ route }) {
 						{
 							label: "Autofill",
 							onPress: autofill,
-							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+							buttonStyle: fillAvailable ? {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"} : null,
+							labelStyle: !fillAvailable ? {color: "gray"} : null
 						},
 						{
 							label: "Next",

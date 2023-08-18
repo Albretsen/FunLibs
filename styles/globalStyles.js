@@ -83,7 +83,7 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        paddingBottom: 50,
+        paddingBottom: 64,
         // Tab bar height: 74
         // Top text height: 60
         // Top bar height: 64
