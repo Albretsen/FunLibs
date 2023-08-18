@@ -84,7 +84,7 @@ function PlayScreen({ route }) {
 	const autofill = () => {
 		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 		if (fill === "" || fill === null) {
-			return;
+			return "";
 		 }
 		setCurrentInput(fill);
 	};
@@ -122,6 +122,7 @@ function PlayScreen({ route }) {
 		} else {
 			setCurrentInput("");
 		}
+		promptFillCheck();
 	};
 
 	const handleBack = () => {
@@ -129,10 +130,22 @@ function PlayScreen({ route }) {
 			// If there are previous prompts, show the previous one
 			setCurrentPromptIndex(currentPromptIndex - 1);
 			// Set current input to previous response
-			console.log(responses + " | " + responses[currentPromptIndex - 1]);
 			setCurrentInput(responses[currentPromptIndex - 1]);
 		}
+		promptFillCheck();
 	};
+
+	function promptFillCheck() {
+		// Check if prompt fill is available
+		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+		if (fill.length < 1) {
+			// PROMPT FILL NOT AVAILABLE
+		} else {
+			// PROMPT FILL AVAILABLE
+		}
+	}
+
+	promptFillCheck();
 
 	return (
 		<View style={[globalStyles.screenStandard]}>

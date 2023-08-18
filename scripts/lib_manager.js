@@ -117,7 +117,6 @@ export default class LibManager {
         // Use compromise to get the base form of the word
         prompt = prompt.replace(/[0-9]/g, '');
         const baseForm = nlp(prompt).out('root');
-        console.log(baseForm);
 
         let closestKey = "";
         let minDistance = Infinity;
@@ -165,6 +164,7 @@ export default class LibManager {
         };
 
         // Use compromise to get the base form of the word
+        prompt = prompt.replace(/[0-9]/g, '');
         const baseForm = nlp(prompt).out('root');
 
         let closestKey = "";
