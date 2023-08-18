@@ -107,6 +107,9 @@ const Drawer = forwardRef((props, ref) => {
                                         <MaterialIcons name="arrow-back" size={30} />
                                     </TouchableOpacity>
                                     <Text style={styles.title}>{title}</Text>
+                                    <TouchableOpacity>
+                                        <MaterialIcons name="share" size={30} />
+                                    </TouchableOpacity>
                                 </View>
                                 {props.children}
                             </Animated.View>
@@ -125,8 +128,10 @@ const styles = StyleSheet.create({
         height: 75,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between",
         gap: 10,
-        marginLeft: 10
+        marginHorizontal: 10,
+        width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20
     },
     title: {
         fontSize: 24
