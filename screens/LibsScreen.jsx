@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text, BackHandler } from "react-native";
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -21,12 +21,14 @@ export default function LibsScreen() {
 
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
-  
-    useEffect(() => {
-      if (isFocused) {
-        setCurrentScreenName('LibsScreen');
-      }
-    }, [isFocused]);
+
+	useEffect(() => {
+		if (isFocused) {
+			setCurrentScreenName('LibsScreen');
+			const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+			return () => backHandler.remove()
+		}
+	}, [isFocused]);
 
 	useEffect(() => {
 		let maxLength = -Infinity;
@@ -60,7 +62,7 @@ export default function LibsScreen() {
 	return (
 	  <View style={[globalStyles.screenStandard]}>
         {/*<BannerAdComponent />*/}
-		<View style={globalStyles.titleContainer}>
+		<View style={[globalStyles.titleContainer, {height: 20}]}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>
 		<StatusBar style="auto" />

@@ -35,7 +35,7 @@
  */
 
 import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
-import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
@@ -92,28 +92,26 @@ const Drawer = forwardRef((props, ref) => {
             visible={isModalVisible}
             onRequestClose={() => setIsVisible(false)}
         >
-            <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
-                <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
+            <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <TouchableWithoutFeedback onPress={() => { }}>
-                            <Animated.View style={{
-                                flex: 1,
-                                backgroundColor: "white",
-                                width: 200,
-                                transform: [{ translateX: slideAnim }],
-                            }}>
+                            <Animated.View
+                                style={{
+                                    flex: 1,
+                                    backgroundColor: "white",
+                                    width: 200,
+                                    transform: [{ translateX: slideAnim }],
+                                }}
+                            >
                                 <View style={styles.topBar}>
                                     <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
                                         <MaterialIcons name="arrow-back" size={30} />
                                     </TouchableOpacity>
                                     <Text style={styles.title}>{title}</Text>
                                 </View>
-                                {props.children}
+                                    {props.children}
                             </Animated.View>
-                        </TouchableWithoutFeedback>
                     </View>
                 </Animated.View>
-            </TouchableWithoutFeedback>
         </Modal>
     );
 });
@@ -126,7 +124,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
-        marginLeft: 10
+        marginLeft: 10,
+        // Push top section down to account for ios status bar
+        ...(Platform.OS === "ios" && {marginTop: 25})
     },
     title: {
         fontSize: 24

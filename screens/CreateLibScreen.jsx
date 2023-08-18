@@ -12,6 +12,7 @@ import { ScreenContext } from "../App";
 import Dialog from "../components/Dialog";
 import Drawer from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { TouchableOpacity } from "react-native-web";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -252,7 +253,7 @@ export default function CreateLibScreen() {
                     <Buttons
                         buttons={[
                             { 
-                                label: "Confirm",
+                                label: "Save",
                                 onPress: confirmSaveLib,
                                 buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
                             },

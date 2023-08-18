@@ -3,7 +3,7 @@ import Lib from "../scripts/lib.js";
 import libs from '../assets/libs.json';
 import globalStyles from "../styles/globalStyles.js";
 import { Text } from "react-native";
-import nlp from "compromise/three";
+import nlp from "compromise";
 
 export default class LibManager {
     static libs = {
