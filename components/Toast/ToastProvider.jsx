@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Toast from './Toast';
 import ToastContext from './ToastContext';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const ToastProvider = ({ children }) => {
   const [message, setMessage] = useState(null);

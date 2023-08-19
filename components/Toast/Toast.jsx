@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Animated, StyleSheet, Dimensions } from 'react-native';
+import { Text, Animated, StyleSheet, Dimensions, Platform } from 'react-native';
 import globalStyles from '../../styles/globalStyles';
 
 const Toast = ({ title, message }) => {

@@ -35,8 +35,9 @@
  */
 
 import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
-import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, SafeAreaView } from "react-native";
+import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 
 const Drawer = forwardRef((props, ref) => {
@@ -46,6 +47,15 @@ const Drawer = forwardRef((props, ref) => {
     const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
 
     const { title } = props;
+
+    const onSwipeHandler = (event) => {
+        if (event.nativeEvent.state === State.END) {
+            if (event.nativeEvent.translationX > 50) {
+                // If the swipe gesture has more than 50 units to the right, close the drawer
+                setIsVisible(false);
+            }
+        }
+    };
 
     const animateDrawer = (isVisible) => {
         Animated.parallel([
@@ -94,6 +104,10 @@ const Drawer = forwardRef((props, ref) => {
         >
             <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <PanGestureHandler
+                        onHandlerStateChange={onSwipeHandler}
+                        minDeltaX={10}
+                    >
                             <Animated.View
                                 style={{
                                     flex: 1,
@@ -110,6 +124,7 @@ const Drawer = forwardRef((props, ref) => {
                                 </View>
                                     {props.children}
                             </Animated.View>
+                        </PanGestureHandler>
                     </View>
                 </Animated.View>
         </Modal>

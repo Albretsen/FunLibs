@@ -175,8 +175,8 @@ export default function CreateLibScreen() {
                             onPress: openCustomPromptDialog
                         }]
                     }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
 
@@ -206,10 +206,34 @@ export default function CreateLibScreen() {
                                 addPrompt("Occupation");
                             },
                         },
+                        {
+                            label: "Name",
+                            onPress: () => {
+                                addPrompt("Name");
+                            },
+                        },
+                        {
+                            label: "Emotion",
+                            onPress: () => {
+                                addPrompt("Emotion");
+                            },
+                        },
+                        {
+                            label: "Place",
+                            onPress: () => {
+                                addPrompt("Place");
+                            },
+                        },
+                        {
+                            label: "Animal",
+                            onPress: () => {
+                                addPrompt("Animal");
+                            },
+                        },
                         ]
                     }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
 
