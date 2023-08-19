@@ -12,6 +12,7 @@ import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
+import FunLibsShare from "../scripts/share";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -180,7 +181,9 @@ function PlayScreen({ route }) {
 				source={require("../assets/images/girl-with-balloon.svg")}
 				/>
 			</View>
-			<Drawer ref={drawerRef} title="Finished Lib">
+			<Drawer ref={drawerRef} title="Finished Lib" onShare={() => {
+				FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+			}}>
 				<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
 					<View style={globalStyles.drawerTop}>
 						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
