@@ -2,7 +2,7 @@ import mobileAds from 'react-native-google-mobile-ads';
 import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography  } from 'react-native-google-mobile-ads';
 
 export default class AdManager {
-  static production = false;
+  static production = true;
   static requestNonPersonalizedAdsOnly = true;
 
   static interstitial;
