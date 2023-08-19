@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Toast from './Toast';
 import ToastContext from './ToastContext';
+import { KeyboardAvoidingView } from 'react-native';
 
 const ToastProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
@@ -18,7 +19,11 @@ const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={showToast}>
       {children}
-      {message && <Toast title={title} message={message} />}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'position' : undefined}
+      >
+        {message && <Toast title={title} message={message} />}
+      </KeyboardAvoidingView>
     </ToastContext.Provider>
   );
 };
