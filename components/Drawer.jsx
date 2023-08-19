@@ -46,7 +46,7 @@ const Drawer = forwardRef((props, ref) => {
     const slideAnim = useRef(new Animated.Value(Dimensions.get("window").width)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
 
-    const { title } = props;
+    const { title, onShare } = props;
 
     const onSwipeHandler = (event) => {
         if (event.nativeEvent.state === State.END) {
@@ -116,11 +116,16 @@ const Drawer = forwardRef((props, ref) => {
                                     transform: [{ translateX: slideAnim }],
                                 }}
                             >
-                                <View style={styles.topBar}>
+                                <View style={[styles.topBar, onShare ? {justifyContent: "space-between"} : {justifyContent: "flex-start"}]}>
                                     <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
                                         <MaterialIcons name="arrow-back" size={30} />
                                     </TouchableOpacity>
                                     <Text style={styles.title}>{title}</Text>
+                                    {onShare &&(
+                                        <TouchableOpacity onPress={onShare}>
+                                            <MaterialIcons name="share" size={30} />
+                                        </TouchableOpacity>
+                                    )}
                                 </View>
                                     {props.children}
                             </Animated.View>
