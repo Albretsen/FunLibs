@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +26,7 @@
       },
       "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }",
       "package": "com.asgalb.FunLibs",
-      "versionCode": "3"
+      "versionCode": "4"
     },
     "web": {
       "favicon": "./assets/favicon.png"
