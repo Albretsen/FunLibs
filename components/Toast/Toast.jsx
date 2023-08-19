@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { Text, Animated, StyleSheet, Dimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, Animated, StyleSheet, Dimensions, Platform } from 'react-native';
 import globalStyles from '../../styles/globalStyles';
 
 const Toast = ({ title, message }) => {
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,11 +19,13 @@ const Toast = ({ title, message }) => {
     }, 6000); // The message will be displayed for 6 seconds before starting the fade out
 
     // Cleanup function to clear the timeout when the component unmounts
-    return () => clearTimeout(timer);
+    return () => { 
+      clearTimeout(timer)
+    };
   }, [fadeAnim]);
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }, isKeyboardVisible ? {bottom: 10} : {bottom: 90}]}>
       <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text>
       <Text allowFontScaling style={[styles.text, {fontSize: 16}]}>{message}</Text>
     </Animated.View>
@@ -32,8 +35,7 @@ const Toast = ({ title, message }) => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 90,
-    // marginHorizontal: 25,
+    // bottom: 90,
     backgroundColor: '#3B6470',
     padding: 20,
     borderRadius: 12,

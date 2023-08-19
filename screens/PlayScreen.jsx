@@ -83,11 +83,15 @@ function PlayScreen({ route }) {
 	}
 
 	const autofill = () => {
-		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
-		if (fill === "" || fill === null) {
-			return;
-		 }
-		setCurrentInput(fill);
+		if(fillAvailable) {
+			let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+			if (fill === "" || fill === null) {
+				return "";
+			}
+			setCurrentInput(fill);
+		} else {
+			showToast("Autofill unavailable", "Autofill is unavailable for this promt.")
+		}
 	};
 
 	const handleNext = () => {
@@ -123,6 +127,7 @@ function PlayScreen({ route }) {
 		} else {
 			setCurrentInput("");
 		}
+		promptFillCheck();
 	};
 
 	const handleBack = () => {
@@ -130,10 +135,27 @@ function PlayScreen({ route }) {
 			// If there are previous prompts, show the previous one
 			setCurrentPromptIndex(currentPromptIndex - 1);
 			// Set current input to previous response
-			console.log(responses + " | " + responses[currentPromptIndex - 1]);
 			setCurrentInput(responses[currentPromptIndex - 1]);
 		}
+		promptFillCheck();
 	};
+
+	const [fillAvailable, setFillAvailable] = useState(true);
+	function promptFillCheck() {
+		// Check if prompt fill is available
+		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+		if (fill.length < 1) {
+			setFillAvailable(false);
+		} else {
+			setFillAvailable(true);
+		}
+	}
+
+	// Check prompt availability on first prompt when the screen is first opened
+	useEffect(() => {
+		promptFillCheck();
+    }, []);
+	// 
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
@@ -164,7 +186,8 @@ function PlayScreen({ route }) {
 						{
 							label: "Autofill",
 							onPress: autofill,
-							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+							buttonStyle: fillAvailable ? {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"} : null,
+							labelStyle: !fillAvailable ? {color: "gray"} : null
 						},
 						{
 							label: "Next",
@@ -192,15 +215,16 @@ function PlayScreen({ route }) {
 				</ScrollView>
 				<Buttons 
 					buttons={
-						[{
-							label: "Cancel",
-							onPress: () => drawerRef.current.closeDrawer(),
-						},
-						{
-							label: "Save",
-							onPress: saveLib,
-							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-						}]
+						[
+							{
+								label: "Save",
+								onPress: saveLib,
+								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
+							}
+							, {
+								label: "Cancel",
+								onPress: () => drawerRef.current.closeDrawer(),
+							}]
 					}
 					labelStyle={{fontWeight: 600}}
 					containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}

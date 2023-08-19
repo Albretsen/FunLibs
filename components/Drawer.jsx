@@ -35,8 +35,9 @@
  */
 
 import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
-import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 
 const Drawer = forwardRef((props, ref) => {
@@ -45,7 +46,16 @@ const Drawer = forwardRef((props, ref) => {
     const slideAnim = useRef(new Animated.Value(Dimensions.get("window").width)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
 
-    const { title, onShare } = props;
+    const { title } = props;
+
+    const onSwipeHandler = (event) => {
+        if (event.nativeEvent.state === State.END) {
+            if (event.nativeEvent.translationX > 50) {
+                // If the swipe gesture has more than 50 units to the right, close the drawer
+                setIsVisible(false);
+            }
+        }
+    };
 
     const animateDrawer = (isVisible) => {
         Animated.parallel([
@@ -92,33 +102,31 @@ const Drawer = forwardRef((props, ref) => {
             visible={isModalVisible}
             onRequestClose={() => setIsVisible(false)}
         >
-            <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
-                <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
+            <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <TouchableWithoutFeedback onPress={() => { }}>
-                            <Animated.View style={{
-                                flex: 1,
-                                backgroundColor: "white",
-                                width: 200,
-                                transform: [{ translateX: slideAnim }],
-                            }}>
-                                <View style={[styles.topBar, onShare ? {justifyContent: "space-between"} : {justifyContent: "flex-start"}]}>
+                    <PanGestureHandler
+                        onHandlerStateChange={onSwipeHandler}
+                        minDeltaX={10}
+                    >
+                            <Animated.View
+                                style={{
+                                    flex: 1,
+                                    backgroundColor: "white",
+                                    width: 200,
+                                    transform: [{ translateX: slideAnim }],
+                                }}
+                            >
+                                <View style={styles.topBar}>
                                     <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
                                         <MaterialIcons name="arrow-back" size={30} />
                                     </TouchableOpacity>
                                     <Text style={styles.title}>{title}</Text>
-                                    {onShare &&(
-                                        <TouchableOpacity onPress={onShare}>
-                                            <MaterialIcons name="share" size={30} />
-                                        </TouchableOpacity>
-                                    )}
                                 </View>
-                                {props.children}
+                                    {props.children}
                             </Animated.View>
-                        </TouchableWithoutFeedback>
+                        </PanGestureHandler>
                     </View>
                 </Animated.View>
-            </TouchableWithoutFeedback>
         </Modal>
     );
 });
@@ -130,10 +138,10 @@ const styles = StyleSheet.create({
         height: 75,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
         gap: 10,
-        marginHorizontal: 10,
-        width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20
+        marginLeft: 10,
+        // Push top section down to account for ios status bar
+        ...(Platform.OS === "ios" && {marginTop: 25})
     },
     title: {
         fontSize: 24

@@ -1,5 +1,5 @@
 //import "expo-dev-client";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import PlayScreen from "./screens/PlayScreen";
 import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
@@ -126,7 +126,9 @@ export default function App() {
           <NavigationContainer>
             <BannerAdComponent bannerAdHeight />
              <HomeStackScreen/>
+             {/* <View style={{marginTop: 100}}> */}
              <FixedButton/>
+             {/* </View> */}
           </NavigationContainer>
         </GestureHandlerRootView>
       </ToastProvider>

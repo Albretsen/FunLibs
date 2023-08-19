@@ -69,7 +69,7 @@ export default function Buttons({ buttons, containerStyle, buttonStyle, labelSty
 								button.iconColor ? {color: button.iconColor} : null
 							]}
 							name={button.icon}
-							size={28}
+							size={22}
 						/>
 					: null}
 

@@ -12,6 +12,7 @@ import { ScreenContext } from "../App";
 import Dialog from "../components/Dialog";
 import Drawer from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { TouchableOpacity } from "react-native-web";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -19,10 +20,12 @@ export default function CreateLibScreen() {
     const [finishedLib, setFinishedLib] = useState(null);
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+    const [newCursorPosition, setNewCursorPosition] = useState();
 
     const libTextRef = useRef(libText);
     const finishedLibRef = useRef(finishedLib);
     const libNameTextRef = useRef(libNameText);
+    const newCursorPositionRef = useRef(newCursorPosition);
 
     useEffect(() => {
         libTextRef.current = libText;
@@ -91,6 +94,7 @@ export default function CreateLibScreen() {
         if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
 
         showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        drawerRef.current.closeDrawer()
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 
@@ -107,12 +111,11 @@ export default function CreateLibScreen() {
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
         const updatedText = beforeCursor + '"' + prompt + '"' + afterCursor;
         
-        const newCursorPosition = cursorPosition.start + prompt.length + 2;
+        newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
     
         if (libTextInputRef.current) {
             libTextInputRef.current.setNativeProps({ 
                 text: updatedText,
-                selection: { start: newCursorPosition, end: newCursorPosition }
             });
         }
 
@@ -160,6 +163,7 @@ export default function CreateLibScreen() {
                     placeholder="Write your text here..."
                     placeholderTextColor={"#9e9e9e"}
                     onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+                    selection={newCursorPosition}
                 />
 
                 <Buttons
@@ -171,8 +175,8 @@ export default function CreateLibScreen() {
                             onPress: openCustomPromptDialog
                         }]
                     }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
 
@@ -202,10 +206,34 @@ export default function CreateLibScreen() {
                                 addPrompt("Occupation");
                             },
                         },
+                        {
+                            label: "Name",
+                            onPress: () => {
+                                addPrompt("Name");
+                            },
+                        },
+                        {
+                            label: "Emotion",
+                            onPress: () => {
+                                addPrompt("Emotion");
+                            },
+                        },
+                        {
+                            label: "Place",
+                            onPress: () => {
+                                addPrompt("Place");
+                            },
+                        },
+                        {
+                            label: "Animal",
+                            onPress: () => {
+                                addPrompt("Animal");
+                            },
+                        },
                         ]
                     }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 19}}
+                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
+                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
                     containerStyle={{justifyContent: "flex-start"}}
                 />
 
@@ -249,14 +277,14 @@ export default function CreateLibScreen() {
                     </ScrollView>
                     <Buttons
                         buttons={[
+                            { 
+                                label: "Save",
+                                onPress: confirmSaveLib,
+                                buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+                            },
                             {  
                                 label: "Cancel",
                                 onPress: () => drawerRef.current.closeDrawer()
-                            },
-                            { 
-                                label: "Confirm",
-                                onPress: confirmSaveLib,
-                                buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
                             }
                         ]}
                         labelStyle={{fontWeight: 600}}
