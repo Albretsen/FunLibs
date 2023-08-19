@@ -146,7 +146,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         gap: 10,
         marginHorizontal: 10,
-        width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20
+        width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20,
+        // Push top section down to account for ios status bar
+        ...(Platform.OS === "ios" && {marginTop: 25})
     },
     title: {
         fontSize: 24
