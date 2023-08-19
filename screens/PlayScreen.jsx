@@ -115,6 +115,7 @@ function PlayScreen({ route }) {
 		if (currentPromptIndex < prompts.length - 1) {
 			// If there are more prompts, show the next one
 			setCurrentPromptIndex(currentPromptIndex + 1);
+			promptFillCheck(currentPromptIndex + 1);
 		} else {
 			drawerRef.current.openDrawer();
 			displayLib(() => {
@@ -127,7 +128,6 @@ function PlayScreen({ route }) {
 		} else {
 			setCurrentInput("");
 		}
-		promptFillCheck();
 	};
 
 	const handleBack = () => {
@@ -137,13 +137,14 @@ function PlayScreen({ route }) {
 			// Set current input to previous response
 			setCurrentInput(responses[currentPromptIndex - 1]);
 		}
-		promptFillCheck();
+		promptFillCheck(currentPromptIndex - 1);
 	};
 
 	const [fillAvailable, setFillAvailable] = useState(true);
-	function promptFillCheck() {
+	function promptFillCheck(index) {
 		// Check if prompt fill is available
-		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
+		if (!index || index < 0) return;
+		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[index])[0]);
 		if (fill.length < 1) {
 			setFillAvailable(false);
 		} else {
@@ -153,7 +154,7 @@ function PlayScreen({ route }) {
 
 	// Check prompt availability on first prompt when the screen is first opened
 	useEffect(() => {
-		promptFillCheck();
+		promptFillCheck(currentPromptIndex);
     }, []);
 	// 
 
