@@ -235,6 +235,7 @@ export default function CreateLibScreen() {
                     buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
                     labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
                     containerStyle={{justifyContent: "flex-start"}}
+                    sideScroll={true}
                 />
 
                 {showCustomPromptDialog && (

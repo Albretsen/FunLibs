@@ -39,50 +39,54 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function Buttons({ buttons, containerStyle, buttonStyle, labelStyle }) {
+export default function Buttons({ buttons, containerStyle, buttonStyle, labelStyle, sideScroll }) {
+	let ParentTag = sideScroll ? ScrollView : View;
     return (
-        <View style={[
-			styles.buttonContainer,
-			containerStyle ? containerStyle : null
-		]}>
-            {buttons.map((button, index) => (
-                <TouchableOpacity
-                    style={[
-						styles.button,
-						// If buttonStyle is defined, it applies to all buttons
-						buttonStyle ? buttonStyle : null,
-						// Specific button styles applied last for precedence
-						button.buttonStyle ? button.buttonStyle : null,
-						// Give button less left padding if it has an icon
-						button.icon ? {paddingLeft: 16} : null
-					]}
-                    key={index}
-                    onPress={button.onPress}
-                >
-					{button.icon ?
-						<MaterialIcons
-							style={[
-								// {marginTop: 3}, // Account for slight icon offset
-								button.iconColor ? {color: button.iconColor} : null
-							]}
-							name={button.icon}
-							size={22}
-						/>
-					: null}
+		<ParentTag horizontal showsHorizontalScrollIndicator={false} contentStyle={containerStyle ? containerStyle : null}>
+			<View style={[
+				styles.buttonContainer,
+				containerStyle ? containerStyle : null,
+				sideScroll ? null : {flexWrap: "wrap"}
+			]}>
+				{buttons.map((button, index) => (
+					<TouchableOpacity
+						style={[
+							styles.button,
+							// If buttonStyle is defined, it applies to all buttons
+							buttonStyle ? buttonStyle : null,
+							// Specific button styles applied last for precedence
+							button.buttonStyle ? button.buttonStyle : null,
+							// Give button less left padding if it has an icon
+							button.icon ? {paddingLeft: 16} : null
+						]}
+						key={index}
+						onPress={button.onPress}
+					>
+						{button.icon ?
+							<MaterialIcons
+								style={[
+									// {marginTop: 3}, // Account for slight icon offset
+									button.iconColor ? {color: button.iconColor} : null
+								]}
+								name={button.icon}
+								size={22}
+							/>
+						: null}
 
-                    <Text style={[
-						styles.label,
-						labelStyle ? labelStyle : null,
-						button.labelStyle ? button.labelStyle : null
-					]}>
-						{button.label}
-					</Text>
-                </TouchableOpacity>
-            ))}
-        </View>
+						<Text style={[
+							styles.label,
+							labelStyle ? labelStyle : null,
+							button.labelStyle ? button.labelStyle : null
+						]}>
+							{button.label}
+						</Text>
+					</TouchableOpacity>
+				))}
+			</View>
+		</ParentTag>
     )
 }
 
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "flex-end",
-		flexWrap: "wrap",
+		// flexWrap: "wrap",
 		gap: 10,
 		marginTop: 10,
         marginBottom: 10,
