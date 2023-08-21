@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
 import React, { useRef, useCallback, useState, useEffect, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -71,7 +71,7 @@ export default function YourLibsScreen() {
 					These are the libs that you have written. Click on a lib to play it! You can create a new lib by tapping the + icon in the bottom right corner.
 				</Text>
 			</View>
-			<ScrollView style={globalStyles.listItemContainer}>
+			<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 60 + 64 + 60)}]}>
 				{listItems.map((item) => (
 					<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="yourLibs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
 				))}

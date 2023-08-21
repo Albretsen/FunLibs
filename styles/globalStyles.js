@@ -83,12 +83,12 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        paddingBottom: 64,
+        paddingBottom: 50,
         // Tab bar height: 74
         // Top text height: 60
         // Top bar height: 64
         // Plus 30 for some margin
-        maxHeight: fullHeight - (74 + 60 + 64 + 30 + 50)
+        maxHeight: fullHeight - (74 + 60 + 64 + 30),
     },
 
     drawerContainer: {

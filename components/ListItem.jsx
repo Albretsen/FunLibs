@@ -72,20 +72,20 @@ export default function ListItem(props) {
         <TouchableOpacity onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <View style={styles.letterCircle}>
-                    <Text style={[globalStyles.fontLarge, {color: "#006D40"}]}>{name[0]}</Text>
+                    <Text style={[{color: "#21005D", fontSize: 20}]}>{name[0]}</Text>
                 </View>
-                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%"}]}>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[globalStyles.fontMedium, globalStyles.bold, styles.title]}>{name}</Text>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[globalStyles.fontMedium, {flexShrink: 1}]}>{text.map((key, index) => (
+                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%", gap: 4}]}>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 18, color: "#1D1B20"}]}>{name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
                         // Description
                         <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
                     ))}</Text>
-                    <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                    {/* <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                         <View style={[styles.progressBarContainer, {width: "88%"}]}>
                             <View style={[styles.progressBar, {width: (100 * length) + "%"}]}></View>
                         </View>
                         <Text style={{fontSize: 14, marginBottom: 4, width: "12%", textAlign: "center"}}> </Text>
-                    </View>
+                    </View> */}
                 </View>
                 {showDelete && (
                 <View style={styles.rightIcons}>
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 10,
         paddingTop: 20,
-        justifyContent: "center"
+        justifyContent: "center",
+        marginBottom: 10
     },
 
     textRow: {
@@ -134,10 +135,11 @@ const styles = StyleSheet.create({
         paddingBottom: 2, // Accounts for slight off-center letter
         backgroundColor: "#D1E8D5",
         borderRadius: 50,
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         justifyContent: "center",
         alignItems: "center",
+        alignSelf: "center"
     },
 
     progressBarContainer: {

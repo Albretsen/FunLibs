@@ -126,37 +126,51 @@ export default function CreateLibScreen() {
 
     let addCustomPrompt = () => {
         addPrompt(customPromptText);
-        closeCustomPromptDialog()
+        closeCustomPromptDialog();
     }
 
     const [showCustomPromptDialog, setShowCustomPromptDialog] = useState(false);
     
     let openCustomPromptDialog = () => {
-        setShowCustomPromptDialog(true)
+        setShowCustomPromptDialog(true);
     }
 
     let closeCustomPromptDialog = () => {
-        setShowCustomPromptDialog(false)
+        setShowCustomPromptDialog(false);
+    }
+
+    const [showInfoDialog, setShowInfoDialog] = useState(false)
+
+    let openInfoDialog = () => {
+        setShowInfoDialog(true);
+    }
+
+    let closeInfoDialog = () => {
+        setShowInfoDialog(false);
     }
 
     return(
-        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 100} : null]}>
+        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 60} : null]}>
 
             <ScrollView style={{marginHorizontal: 14}}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
-                <TextInput
-                    style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white"}]}
-                    placeholder="Title"
-                    placeholderTextColor={"#9e9e9e"}
-                    onChangeText={text => setLibNameText(text)}
-                >
+                <View style={{flexDirection: "row", alignItems: "center"}}>
+                    <TextInput
+                        style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40}]}
+                        placeholder="Title"
+                        placeholderTextColor={"#9e9e9e"}
+                        onChangeText={text => setLibNameText(text)}
+                    />
+                    <TouchableOpacity onPress={openInfoDialog}>
+                        <MaterialIcons style={{color: "#006d40"}} name="help" size={28} />
+                    </TouchableOpacity>
+                </View>
 
-                </TextInput>
                 <TextInput
                     ref={libTextInputRef}
-                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 200}]}
+                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 140}]}
                     multiline={true}
                     numberOfLines={10}
                     onChangeText={text => setLibText(text)}
@@ -234,7 +248,7 @@ export default function CreateLibScreen() {
                     }
                     buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
                     labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
-                    containerStyle={{justifyContent: "flex-start"}}
+                    containerStyle={{justifyContent: "flex-start", marginBottom: 0}}
                     sideScroll={true}
                 />
 
@@ -266,6 +280,35 @@ export default function CreateLibScreen() {
                         >
                             
                         </TextInput>
+                    </Dialog>
+                )}
+                {showInfoDialog && (
+                    <Dialog
+                        modalStyle={{backgroundColor: "white"}}
+                        onCancel={closeInfoDialog}
+                        onConfirm={closeInfoDialog}
+                        confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
+                        buttonStyle={globalStyles.buttonDefault}
+                        labelStyle={{color: "black"}}
+                        containerStyle={{gap: 0}}
+                    >
+                        <Text style={styles.paragraph}>
+                            {"Write your lib by adding prompts using the suggestion buttons. Prompts use parentheses, and you can add these yourself if you prefer. Here's an example:"}
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            {"They built an "}
+                            <Text style={styles.highlighted}>{"(adjective)"}</Text>
+                            {" house."}
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            {"Add a number at the end for words you would like to repeat, like names:"}
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            <Text style={styles.highlighted}>{"(Name 1)"}</Text>
+                            {" is building a table. "}
+                            <Text style={styles.highlighted}>{"(Name 1)"}</Text>
+                            {" is a carpenter."}
+                        </Text>
                     </Dialog>
                 )}
                 <Drawer ref={drawerRef} title="Your story">

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler } from "react-native";
+import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions } from "react-native";
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -66,7 +66,7 @@ export default function LibsScreen() {
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>
 		<StatusBar style="auto" />
-		<ScrollView style={globalStyles.listItemContainer}>
+		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 20 + 64 + 60)}]}>
 			{listItems.map((item) => (
 				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={false}></ListItem>
 			))}

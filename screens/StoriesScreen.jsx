@@ -61,7 +61,7 @@ export default function StoriesScreen() {
             <View style={[globalStyles.titleContainer, {height: 40}]}>
                 <Text>These are the stories you have created by playing libs. Click on one to read it again.</Text>
             </View>
-            <ScrollView style={globalStyles.listItemContainer}>
+            <ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 40 + 64 + 60)}]}>
                 {listItems.map((item) => (
                     <ListItem name={item.name} promptAmount={item.prompts.length} description={item.display} prompts={item.prompts} text={item.text} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)} onPress={deleteItem} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
                 ))}
