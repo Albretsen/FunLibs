@@ -1,5 +1,5 @@
 //import "expo-dev-client";
-import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, View, Image } from "react-native";
 import PlayScreen from "./screens/PlayScreen";
 import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
@@ -47,8 +47,15 @@ function HomeStackScreen({ navigation }) {
         name="LibsHomeScreen"
         component={LibsHomeScreen}
         options={({ route }) => ({
-          // headerTitle: getHeaderTitle(route),
-          headerTitle: "Fun Libs",
+          headerTitle: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
+              <Image
+                source={require("./assets/images/heart.svg")}
+                style={{ width: 21, height: 20 }}
+              />
+            </View>
+          ),
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android

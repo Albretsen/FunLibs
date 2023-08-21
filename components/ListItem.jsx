@@ -74,8 +74,8 @@ export default function ListItem(props) {
                 <View style={styles.letterCircle}>
                     <Text style={[{color: "#21005D", fontSize: 20}]}>{name[0]}</Text>
                 </View>
-                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%", gap: 4}]}>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 18, color: "#1D1B20"}]}>{name}</Text>
+                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%", gap: 3}]}>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 18, color: "#505050", fontWeight: 500}]}>{name}</Text>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
                         // Description
                         <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
@@ -116,10 +116,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
-        gap: 10,
+        gap: 15,
         paddingTop: 20,
         justifyContent: "center",
-        marginBottom: 10
+        marginBottom: 16,
+        // Gray background
+        // backgroundColor: "#F0F6F1",
+        // borderRadius: 16
+        // paddingBottom: 20,
     },
 
     textRow: {
