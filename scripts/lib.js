@@ -21,7 +21,7 @@ export default class Lib {
     static createLib(text, name) {
         const textResult = [];
         const promptResult = [];
-        const regex = /"([^"]+)"/g;
+        const regex = /\(([^)]+)\)/g;
 
         let match;
         let lastIndex = 0;
@@ -72,7 +72,7 @@ export default class Lib {
         for (let i = 0; i < this.prompts.length; i++) {
             let key = Object.keys(this.prompts[i]);
             for (let j = 0; j < this.prompts[i][key].length; j++) {
-                if (this.text[this.prompts[i][key][j]] == "") this.text[this.prompts[i][key][j]] = '"' + key + '"';
+                if (this.text[this.prompts[i][key][j]] == "") this.text[this.prompts[i][key][j]] = '(' + key + ')';
             }
         }
 

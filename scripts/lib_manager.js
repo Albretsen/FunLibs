@@ -81,7 +81,7 @@ export default class LibManager {
         // 1. Merge the array into one text
         let mergedText = "";
         for (let i = 0; i < text_.length; i++) {
-            (i + 1) % 2 === 0 ? mergedText += '"' + text_[i] + '"' : mergedText += text_[i];
+            (i + 1) % 2 === 0 ? mergedText += '(' + text_[i] + ')' : mergedText += text_[i];
         }
 
         mergedText = fixArticles(mergedText);

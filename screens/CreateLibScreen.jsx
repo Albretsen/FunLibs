@@ -109,7 +109,7 @@ export default function CreateLibScreen() {
     let addPrompt = (prompt) => {
         const beforeCursor = libText.substring(0, cursorPosition.start);
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
-        const updatedText = beforeCursor + '"' + prompt + '"' + afterCursor;
+        const updatedText = beforeCursor + '(' + prompt + ')' + afterCursor;
         
         newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
     

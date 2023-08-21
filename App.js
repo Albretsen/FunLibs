@@ -126,9 +126,7 @@ export default function App() {
           <NavigationContainer>
             <BannerAdComponent bannerAdHeight />
              <HomeStackScreen/>
-             {/* <View style={{marginTop: 100}}> */}
-             {/* <FixedButton/> */}
-             {/* </View> */}
+             <FixedButton/>
           </NavigationContainer>
         </GestureHandlerRootView>
       </ToastProvider>

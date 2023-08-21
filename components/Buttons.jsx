@@ -45,7 +45,12 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 export default function Buttons({ buttons, containerStyle, buttonStyle, labelStyle, sideScroll }) {
 	let ParentTag = sideScroll ? ScrollView : View;
     return (
-		<ParentTag horizontal showsHorizontalScrollIndicator={false} contentStyle={containerStyle ? containerStyle : null}>
+		<ParentTag 
+			keyboardDismissMode="none"
+			keyboardShouldPersistTaps={'always'}
+			horizontal
+			showsHorizontalScrollIndicator={false}
+			contentStyle={containerStyle ? containerStyle : null}>
 			<View style={[
 				styles.buttonContainer,
 				containerStyle ? containerStyle : null,
