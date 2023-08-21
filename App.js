@@ -75,7 +75,15 @@ function HomeStackScreen({ navigation }) {
         name="PlayScreen"
         component={PlayScreen}
         options={{
-          headerTitle: "Fun Libs",
+          headerTitle: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
+              <Image
+                source={require("./assets/images/heart.svg")}
+                style={{ width: 21, height: 20 }}
+              />
+            </View>
+          ),
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0, // remove shadow on Android
