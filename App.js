@@ -126,7 +126,7 @@ export default function App() {
           <NavigationContainer>
             <BannerAdComponent bannerAdHeight />
              <HomeStackScreen/>
-             {/* <FixedButton/> */}
+             <FixedButton/>
           </NavigationContainer>
         </GestureHandlerRootView>
       </ToastProvider>
