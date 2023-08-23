@@ -12,6 +12,7 @@ import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
 import FixedButton from "./components/FixedButton";
+import { Provider } from "react-native-paper";
 
 LibManager.initialize();
 
@@ -134,18 +135,20 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(74);
 
   return (
-    <ScreenProvider>
-      <ToastProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          {/* Place the BannerAdComponent outside of NavigationContainer */}
-          <NavigationContainer>
-            <BannerAdComponent bannerAdHeight />
-             <HomeStackScreen/>
-             <FixedButton/>
-          </NavigationContainer>
-        </GestureHandlerRootView>
-      </ToastProvider>
-  </ScreenProvider>
+    <Provider> {/* React Native Paper provider */}
+      <ScreenProvider>
+        <ToastProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            {/* Place the BannerAdComponent outside of NavigationContainer */}
+            <NavigationContainer>
+              <BannerAdComponent bannerAdHeight />
+              <HomeStackScreen/>
+              <FixedButton/>
+            </NavigationContainer>
+          </GestureHandlerRootView>
+        </ToastProvider>
+    </ScreenProvider>
+  </Provider>
   );
 }
 

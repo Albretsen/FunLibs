@@ -11,6 +11,7 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import { useNavigation } from "@react-navigation/native";
+import Dropdown from "../components/Dropdown";
 
 export default function LibsScreen() {
 	//const navigation = useNavigation();
@@ -65,6 +66,20 @@ export default function LibsScreen() {
 		<View style={[globalStyles.titleContainer, {height: 20}]}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
         </View>
+		<Dropdown options={[
+			{
+				name: "Featured"
+			},
+			{
+				name: "Adventure",
+			},
+			{
+				name: "Casual",
+			},
+			{
+				name: "Space",
+			},
+		]}/>
 		<StatusBar style="auto" />
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 20 + 64 + 60)}]}>
 			{listItems.map((item) => (
