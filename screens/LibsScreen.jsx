@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions } from "react-native";
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import { StatusBar } from "expo-status-bar";
@@ -12,6 +12,10 @@ import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import { useNavigation } from "@react-navigation/native";
 import Dropdown from "../components/Dropdown";
+import BottomSheet from '@gorhom/bottom-sheet';
+import Buttons from "../components/Buttons";
+import CustomBackground from "../components/CustomBackground";
+import { Divider } from '@rneui/themed';
 
 export default function LibsScreen() {
 	//const navigation = useNavigation();
@@ -59,9 +63,18 @@ export default function LibsScreen() {
 		}; // Cleanup function if necessary
 	  }, [])
 	);
+
+	const bottomSheetRef = useRef(null);
+
+	const handleOpenBottomSheet = () => {
+	  bottomSheetRef.current?.snapToIndex(2);  // Or any other index, based on snapPoints array
+	};
   
 	return (
 	  <SafeAreaView style={[globalStyles.screenStandard]}>
+		<TouchableOpacity onPress={handleOpenBottomSheet}>
+			<Text>Open</Text>
+		</TouchableOpacity>
         {/*<BannerAdComponent />*/}
 		<View style={[globalStyles.titleContainer, {height: 20}]}>
             <Text>Welcome to Fun Libs! Pick a lib you want to play!</Text>
@@ -86,6 +99,42 @@ export default function LibsScreen() {
 				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} onDelete={deleteItem} showDelete={false}></ListItem>
 			))}
 		</ScrollView>
+		<BottomSheet
+			ref={bottomSheetRef}
+			index={-1}
+			snapPoints={['25%', '50%', '75%']}
+			enablePanDownToClose={true}
+			style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
+			backgroundComponent={CustomBackground}
+			containerStyle={{}}
+		>
+			<View>
+				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
+				<Buttons 
+					buttons={[
+						{
+							label: "Official",
+							icon: "done",
+							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+						},
+						{
+							label: "All"
+						},
+						{
+							label: "My favorites"
+						},
+						{
+							label: "My content"
+						},
+
+					]}
+					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+					containerStyle={{justifyContent: "flex-start", gap: 20}}
+					labelStyle={{fontSize: 17, fontWeight: 500}}
+				/>
+				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+			</View>
+      	</BottomSheet>
 	  </SafeAreaView>
 	);
 }
