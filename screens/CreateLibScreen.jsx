@@ -57,11 +57,11 @@ export default function CreateLibScreen() {
 
     const saveLib = () => {
         if (!libNameTextRef.current) { 
-            showToast("Missing title", "Please add a title to your lib!");
+            showToast("Please add a title to your lib!");
             return;
         }
         if (!libTextRef.current) { 
-            showToast("Missing text", "Please add some text to your lib!");
+            showToast("Please add some text to your lib!");
             return;
         } 
         //console.log(libTextRef.current);
@@ -69,31 +69,18 @@ export default function CreateLibScreen() {
         setFinishedLib(Lib.createLib(libTextRef.current));
 
         if (temp_finished_lib.prompts.length < 1) {
-            showToast("Missing prompts", "Please add some prompts to your lib!");
+            showToast("Please add some prompts to your lib!");
             return;
         }
 
-        //console.log(finishedLib)
         drawerRef.current.openDrawer();
-        // Might want to add some proper validation here,
-        // such as validating that the lib has at least one prompt
-        // if(libTitle == "") {
-        //     showToast("Missing title", "Please add a title to your lib!");
-        // } else if(libText == "") {
-        //     showToast("Missing text", "Your lib has no text!");
-        // } else {
-            // let lib = Lib.createLib(libText, libTitle);
-            // LibManager.storeLib(lib, "yourLibs");
-            // showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
-            // navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
-        // }
     }
 
     let confirmSaveLib = () => {
         finishedLibRef.current.name = libNameTextRef.current;
         if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
 
-        showToast("Lib saved", 'Your lib can be found under "Your libs" at the bottom of your screen.');
+        showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
         drawerRef.current.closeDrawer()
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }

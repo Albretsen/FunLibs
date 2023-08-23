@@ -79,7 +79,7 @@ function PlayScreen({ route }) {
 		LibManager.storeLib(currentLib, "stories");
 		drawerRef.current.closeDrawer();
 		navigation.navigate("LibsHomeScreen");
-		showToast("Story saved", 'Your story can be found under "Stories" at the bottom of your screen.');
+		showToast('Your story can be found under "Stories" at the bottom of your screen.');
 	}
 
 	const autofill = () => {
@@ -90,7 +90,7 @@ function PlayScreen({ route }) {
 			}
 			setCurrentInput(fill);
 		} else {
-			showToast("Autofill unavailable", "Autofill is unavailable for this promt.")
+			showToast("Autofill is unavailable for this promt.")
 		}
 	};
 

@@ -32,6 +32,10 @@ const globalStyles = StyleSheet.create({
         width: fullWidth - fullWidth / 16,
     },
 
+    defaultFont: {
+        fontFamily: "Roboto-Regular",
+    },
+
     fontSmall: {
         fontSize: 15
     },
