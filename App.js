@@ -15,9 +15,6 @@ import FixedButton from "./components/FixedButton";
 import { Provider } from "react-native-paper";
 import FirebaseManager from "./scripts/firebase_manager";
 
-//FirebaseManager.SignInWithEmailAndPassword("test@email.com", "123456");
-FirebaseManager.ReadDataFromDatabase("users")
-
 LibManager.initialize();
 
 const Stack = createStackNavigator();

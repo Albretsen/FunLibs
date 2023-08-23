@@ -99,6 +99,8 @@ export default class FirebaseManager {
         lastVisibleDoc = null,
         pageSize = 10
     ) {
+        Analytics.log("Reading from Database");
+
         let q = collection(db, collection_);
 
         // Filtering by "official" field
@@ -165,7 +167,13 @@ export default class FirebaseManager {
             q = query(q, startAfter(lastVisibleDoc));
         }
 
-        const result = await getDocs(q);
+        const result = "";
+        try {
+            result = await getDocs(q);
+        } catch (error) {
+            Analytics.log("Database read error " + error);
+            return null;
+        }
 
         Analytics.log("Read data from database");
         result.forEach((doc) => {
