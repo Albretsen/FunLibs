@@ -66,9 +66,13 @@ export default function StoriesScreen() {
                     <ListItem name={item.name} promptAmount={item.prompts.length} description={item.display} prompts={item.prompts} text={item.text} id={item.id} type="stories" drawer={drawerRef} key={item.id} onClick={() => handleListItemClick(item)} onPress={deleteItem} length={item.percent} onDelete={deleteItem} showDelete={true}></ListItem>
                 ))}
             </ScrollView>
-            <Drawer ref={drawerRef} title="Your story" onShare={() => {
-				FunLibsShare.Share(selectedItem.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
-			}}>
+            <Drawer
+                ref={drawerRef}
+                title="Your story"
+                onShare={() => {
+				    FunLibsShare.Share(selectedItem.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+                }
+            }>
                 <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                     <View style={globalStyles.drawerTop}>
                         {selectedItem ? <Text style={globalStyles.fontLarge}>{selectedItem.name}</Text> : <Text>No item selected</Text>}
