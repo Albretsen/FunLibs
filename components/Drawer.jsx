@@ -41,12 +41,15 @@ import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 
 const Drawer = forwardRef((props, ref) => {
+    const { side = "right", title, onShare } = props;
+    const windowWidth = Dimensions.get("window").width;
+    const drawerWidth = Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)
+    const initialSlideValue = side === "left" ? -drawerWidth : windowWidth;
+
     const [isVisible, setIsVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const slideAnim = useRef(new Animated.Value(Dimensions.get("window").width)).current;
-    const fadeAnim = useRef(new Animated.Value(0)).current; // Add this line
-
-    const { title, onShare } = props;
+    const slideAnim = useRef(new Animated.Value(initialSlideValue)).current;
+    const fadeAnim = useRef(new Animated.Value(0)).current;
 
     const onSwipeHandler = (event) => {
         if (event.nativeEvent.state === State.END) {
@@ -58,9 +61,15 @@ const Drawer = forwardRef((props, ref) => {
     };
 
     const animateDrawer = (isVisible) => {
+        let targetValue;
+        if (side === "right") {
+            targetValue = isVisible ? (windowWidth - drawerWidth) : windowWidth;
+        } else {
+            targetValue = isVisible ? 0 : -drawerWidth;
+        }
         Animated.parallel([
             Animated.timing(slideAnim, {
-                toValue: isVisible ? (0.15 * Dimensions.get("window").width) : Dimensions.get("window").width,
+                toValue: targetValue,
                 duration: 350,
                 useNativeDriver: false,
             }),
@@ -103,32 +112,32 @@ const Drawer = forwardRef((props, ref) => {
             onRequestClose={() => setIsVisible(false)}
         >
             <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
                     <PanGestureHandler
                         onHandlerStateChange={onSwipeHandler}
                         minDeltaX={10}
                     >
-                            <Animated.View
-                                style={{
-                                    flex: 1,
-                                    backgroundColor: "white",
-                                    width: 200,
-                                    transform: [{ translateX: slideAnim }],
-                                }}
-                            >
-                                <View style={[styles.topBar, onShare ? {justifyContent: "space-between"} : {justifyContent: "flex-start"}]}>
-                                    <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
-                                        <MaterialIcons name="arrow-back" size={30} />
+                        <Animated.View
+                            style={{
+                                // flex: 1,
+                                backgroundColor: "white",
+                                width: drawerWidth,
+                                transform: [{ translateX: slideAnim }],
+                            }}
+                        >
+                            <View style={[styles.topBar, onShare ? {justifyContent: "space-between"} : {justifyContent: "flex-start"}]}>
+                                <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
+                                    <MaterialIcons name="arrow-back" size={30} />
+                                </TouchableOpacity>
+                                <Text style={styles.title}>{title}</Text>
+                                {onShare &&(
+                                    <TouchableOpacity onPress={onShare}>
+                                        <MaterialIcons name="share" size={30} />
                                     </TouchableOpacity>
-                                    <Text style={styles.title}>{title}</Text>
-                                    {onShare &&(
-                                        <TouchableOpacity onPress={onShare}>
-                                            <MaterialIcons name="share" size={30} />
-                                        </TouchableOpacity>
-                                    )}
-                                </View>
-                                    {props.children}
-                            </Animated.View>
+                                )}
+                            </View>
+                            {props.children}
+                        </Animated.View>
                         </PanGestureHandler>
                     </View>
                 </Animated.View>
