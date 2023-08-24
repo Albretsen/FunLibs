@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser  } from "firebase/auth";
 import Analytics from './analytics';
 
@@ -240,7 +240,7 @@ export default class FirebaseManager {
             q = query(q, startAfter(lastVisibleDoc));
         }
 
-        const result = null;
+        let result = null;
         try {
             result = await getDocs(q);
         } catch (error) {
@@ -250,7 +250,7 @@ export default class FirebaseManager {
 
         Analytics.log("Read data from database");
         result.forEach((doc) => {
-            Analytics.log(`${doc.id} => ${doc.data()}`);
+            Analytics.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
@@ -307,5 +307,36 @@ export default class FirebaseManager {
             throw error;
         }
     }
+
+    static async generateMockData(numAccounts, numPostsPerAccount) {
+        for (let i = 0; i < numAccounts; i++) {
+            const mockEmail = `mockUser${i}@example.com`;
+            const mockPassword = `123456`;
+
+            // Create mock account
+            await this.CreateUserWithEmailAndPassword(mockEmail, mockPassword);
+
+            // Create mock posts for the account
+            for (let j = 0; j < numPostsPerAccount; j++) {
+                const mockPostData = this._generateMockPostData();
+                await this.AddDocumentToCollection("posts", mockPostData); // Assuming "posts" is the collection name for posts
+            }
+        }
+    }
+
+    static _generateMockPostData() {
+        // Generate random data for a mock post
+        // This is just a basic example, you can expand this to fit your data model
+        return {
+            title: `Mock Post ${Math.random().toString(36).substr(2, 5)}`,
+            content: `This is a mock post content ${Math.random().toString(36).substr(2, 10)}`,
+            likes: Math.floor(Math.random() * 100),
+            date: new Date(),
+            official: Math.random() > 0.5
+        };
+    }
 }
+
+//FirebaseManager.generateMockData(5, 5);
+//FirebaseManager.ReadDataFromDatabase("posts");
 
