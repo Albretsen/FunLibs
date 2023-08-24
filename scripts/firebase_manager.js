@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword  } from "firebase/auth";
 import Analytics from './analytics';
 
 const firebaseConfig = {
@@ -64,7 +64,8 @@ export default class FirebaseManager {
         });
     }
 
-    static async fetchUserData(uid) {
+    static async fetchUserData() {
+        const uid = this.currenUserData.auth.uid;
         try {
             const userDoc = await getDocs(doc(db, "users", uid)); // Assuming "users" is the collection name where user data is stored
             if (userDoc.exists()) {
@@ -82,6 +83,17 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
             this.currentUserData = null; // Reset the field to null in case of an error
+        }
+    }
+
+    static async updatePassword(newPassword) {
+        const user = this.currenUserData.auth;
+        try {
+            await updatePassword(user, newPassword);
+            Analytics.log("Password updated successfully for user " + user.uid);
+        } catch (error) {
+            Analytics.log("Error updating password: " + error.message);
+            throw error; // Re-throw the error so it can be caught and handled by the caller
         }
     }
 
