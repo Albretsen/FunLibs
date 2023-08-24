@@ -86,8 +86,6 @@ export default function ListItem(props) {
                 {icon && (
                 <View style={styles.rightIcons}>
                     <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={iconPress}>
-                        {/* <MaterialIcons style={{color: "#5A5A5A"}} name={icon} size={34} />
-                         */}
                          {/* Using image for icon because outlined version of icon was needed */}
                         <Image
                             style={{height: 25, width: 28}}

@@ -12,7 +12,6 @@ import ToastProvider from "./components/Toast/ToastProvider";
 import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
-import FixedButton from "./components/FixedButton";
 import { Provider } from "react-native-paper";
 import FirebaseManager from "./scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
