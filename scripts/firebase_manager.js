@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, FieldPath } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 
@@ -22,16 +22,35 @@ const db = getFirestore(app);
 export default class FirebaseManager {
     static currentUserData = null;
 
-    static CreateUserWithEmailAndPassword(email, password) {
-        createUserWithEmailAndPassword(auth, email, password)
+    static async CreateUserWithEmailAndPassword(email, password) {
+        await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                this.currentUserData = user;
                 Analytics.log("Created user " + JSON.stringify(user.uid));
             })
             .catch((error) => {
                 Analytics.log("Error creating user " + JSON.stringify(error.message));
             });
+    }
+
+    static async CreateUser(signUpMethod, email, password, username, avatarID) {
+        switch (signUpMethod) {
+            case "email":
+                await this.CreateUserWithEmailAndPassword(email, password);
+                await this.AddDocumentToCollection("users", {
+                    email: email,
+                    username: username,
+                    avatarID: avatarID
+                }, 
+                this.currentUserData.uid);
+                Analytics.log("Successfully created user");
+                break;
+            default:
+                Analytics.log("Could not find signUpMethod");
+                break;
+        }
     }
 
     static SignInWithEmailAndPassword(email, password) {
@@ -40,6 +59,7 @@ export default class FirebaseManager {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                this.currentUserData = user;
                 Analytics.log("Signed in as " + JSON.stringify(user.uid));
             })
             .catch((error) => {
@@ -152,9 +172,13 @@ export default class FirebaseManager {
         }
     }
 
-    static async AddDocumentToCollection(collection_, data) {
+    static async AddDocumentToCollection(collection_, data, id) {
         try {
-            const docRef = await addDoc(collection(db, collection_), data);
+            if (id) {
+                await setDoc(doc(db, collection_, id), data);
+            } else {
+                await addDoc(collection(db, collection_), data);
+            }
             Analytics.log("Added document to " + collection_ + "\nData: " + JSON.stringify(data));
         } catch (error) {
             Analytics.log("Error adding document to " + collection_ + "\nError: " + error);
@@ -185,9 +209,9 @@ export default class FirebaseManager {
     static async ReadDataFromDatabase(
         collection_,
         filterOptions = {
-            official: true,
+            official: undefined,
             docIds: undefined,
-            sortBy: "newest",
+            sortBy: undefined,
             dateRange: undefined
         },
         lastVisibleDoc = null,
@@ -208,7 +232,7 @@ export default class FirebaseManager {
 
         // Filtering by document IDs
         if (filterOptions.docIds && filterOptions.docIds.length > 0) {
-            q = query(q, where(firebase.firestore.FieldPath.documentId(), "in", filterOptions.docIds));
+            q = query(q, where("__name__", "in", filterOptions.docIds));
         }
 
         // Sorting options
@@ -272,12 +296,15 @@ export default class FirebaseManager {
         }
 
         Analytics.log("Read data from database");
+        let resultArray = []
         result.forEach((doc) => {
-            Analytics.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+            let documentData = doc.data();
+            documentData.id = doc.id;  // Add the document ID to the data
+            resultArray.push(documentData);
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
-        return lastDoc;
+        return resultArray;
     }
 
     /**
@@ -367,4 +394,6 @@ FirebaseManager.OnAuthStateChanged();
 //FirebaseManager.ReadDataFromDatabase("posts");
 //FirebaseManager.SignInWithEmailAndPassword("test@email.com", "123456");
 //FirebaseManager.SignOut();
+
+//FirebaseManager.CreateUser("email", "official@funlibs.com", "123456", "Official", "13");
 

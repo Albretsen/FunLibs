@@ -3,6 +3,7 @@ import { View } from "react-native";
 import LibsScreen from "./LibsScreen_new";
 import StoriesScreen from "./StoriesScreen";
 import YourLibsScreen from "./YourLibsScreen";
+import CreateLibScreen from "./CreateLibScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
@@ -60,8 +61,9 @@ export default function LibsHomeScreen({route}) {
             })}
         >
             <Tab.Screen name="Libs" component={LibsScreen} />
-            <Tab.Screen name="Stories" component={StoriesScreen} />
-            <Tab.Screen name="Your Libs" component={YourLibsScreen} />
+            <Tab.Screen name="Create" component={CreateLibScreen} />
+            {/* <Tab.Screen name="Stories" component={StoriesScreen} />
+            <Tab.Screen name="Your Libs" component={YourLibsScreen} /> */}
         </Tab.Navigator>
     );
 }

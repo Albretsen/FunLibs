@@ -16,54 +16,56 @@ import CustomBackground from "../components/CustomBackground";
 import { Divider } from '@rneui/themed';
 import FilterToggle from "../components/FilterToggle";
 import { SegmentedButtons } from "react-native-paper";
+import FirebaseManager from "../scripts/firebase_manager";
 
 export default function LibsScreen() {
-	let type = "libs";
-	const [listItems, setListItems] = useState(LibManager.libs[type]);
+	const [listObjects, setListObjects] = useState([]);
 
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
 
 	useEffect(() => {
+		async function loadListObjectsFromDatabase() {
+			let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts");
+			let users = [];
+			temp_listObjects.forEach(object => {
+				if (!users.includes(object.user)) {
+					users.push(object.user);
+				}
+			});
+			users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
+			
+			for (let i = 0; i < temp_listObjects.length; i++) {
+				// Find the user from the users array with the same ID as the current object.user field.
+				let matchingUser = users.find(user => user.id === temp_listObjects[i].user);
+				if (matchingUser) {
+					temp_listObjects[i].username = matchingUser.username; // This adds the user details to the object
+					temp_listObjects[i].avatarID = matchingUser.avatarID;
+				}
+			}
+
+			setListObjects(temp_listObjects);	
+		}
+
+        loadListObjectsFromDatabase();
+    }, []);
+
+	useEffect(() => {
 		if (isFocused) {
 			setCurrentScreenName('LibsScreen');
 			const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
-
 			return () => backHandler.remove()
 		}
 	}, [isFocused]);
 
-	useEffect(() => {
-		let maxLength = -Infinity;
-		for (let i = 0; i < LibManager.libs[type].length; i++) {
-			if (LibManager.libs[type][i].prompts.length > maxLength) maxLength = LibManager.libs[type][i].prompts.length;
-		}
-
-		for (let i = 0; i < LibManager.libs[type].length; i++) {
-			LibManager.libs[type][i].percent = LibManager.libs[type][i].prompts.length / maxLength;
-		}
-
-		try {			
-			// ADS		 
-			AdManager.loadAd("interstitial");
-		} catch {}
-	})
-
-	const deleteItem = (id) => {
-		LibManager.deleteLib(id, type);
-		setListItems([...LibManager.libs["libs"]]);
-	};
-
 	useFocusEffect(
 	  useCallback(() => {
-		setListItems([...LibManager.libs["libs"]]);
-
         setTimeout(() => {
             bottomSheetRef?.current?.close();
           }, 10);
 
 		return () => {
-		}; // Cleanup function if necessary
+		};
 	  }, [])
 	);
 
@@ -111,8 +113,8 @@ export default function LibsScreen() {
             <FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} />
         </View>
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
-			{listItems.map((item) => (
-				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} icon="favorite" iconPress={null}></ListItem>
+			{listObjects.map((item) => (
+				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} icon="favorite" iconPress={null} username={item.username} likes={item.likes} avatarID={item.avatarID}></ListItem>
 			))}
 		</ScrollView>
 		<BottomSheet
@@ -145,6 +147,52 @@ export default function LibsScreen() {
 							label: "My content"
 						},
 
+					]}
+					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+					containerStyle={{justifyContent: "flex-start", gap: 20}}
+					labelStyle={{fontSize: 17, fontWeight: 500}}
+				/>
+				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
+				<Buttons 
+					buttons={[
+						{
+							label: "Top",
+							icon: "done",
+							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+						},
+						{
+							label: "Trending"
+						},
+						{
+							label: "Newest"
+						},
+					]}
+					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+					containerStyle={{justifyContent: "flex-start", gap: 20}}
+					labelStyle={{fontSize: 17, fontWeight: 500}}
+				/>
+				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
+				<Buttons 
+					buttons={[
+						{
+							label: "All time",
+							icon: "done",
+							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+						},
+						{
+							label: "Today"
+						},
+						{
+							label: "This week"
+						},
+						{
+							label: "This month"
+						},
+						{
+							label: "This year"
+						},
 					]}
 					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 					containerStyle={{justifyContent: "flex-start", gap: 20}}

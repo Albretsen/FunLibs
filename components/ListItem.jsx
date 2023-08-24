@@ -7,7 +7,7 @@ import Dialog from "./Dialog";
 import _ from "lodash";
 
 export default function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes} = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -73,7 +73,7 @@ export default function ListItem(props) {
             <View style={[styles.container, globalStyles.containerWhitespace]}>
                 <Image
                     style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-                    source={require("../assets/images/avatars/" + (Math.round(Math.random() * 29) + 1) + ".png")}
+                    source={require("../assets/images/avatars/" + avatarID + ".png")}
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>
@@ -81,7 +81,7 @@ export default function ListItem(props) {
                         // Description
                         <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
                     ))}</Text> */}
-                    <Text style={[{fontSize: 13, color: "#49454F"}]}>by Asgeir Albertson | 24 likes</Text>
+                    <Text style={[{fontSize: 13, color: "#49454F"}]}>by {username} | {likes} likes</Text>
                 </View>
                 {icon && (
                 <View style={styles.rightIcons}>
