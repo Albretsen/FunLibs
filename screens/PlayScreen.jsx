@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import { StyleSheet, View, Text, TextInput, Image, Platform, ScrollView, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Image, Platform, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -13,6 +13,7 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
+import { TextInput, IconButton } from "react-native-paper";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -156,19 +157,40 @@ function PlayScreen({ route }) {
 	useEffect(() => {
 		promptFillCheck(currentPromptIndex);
     }, []);
-	// 
+	
+	const handleIconClick = () => {
+		console.log('Icon clicked!');
+		// Your function logic here
+	  };
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
 			<Text style={[globalStyles.fontLarge, globalStyles.bold, {textAlign: "left", width: "100%", paddingLeft: 20, marginBottom: 10}]}>{currentLib.name}</Text>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{displayPrompts[currentPromptIndex]}</Text>
-				<TextInput
+				{/* <TextInput
 					style={[styles.input, globalStyles.fontMedium]}
 					value={currentInput}
 					onChangeText={setCurrentInput}
 					placeholder={`Write your word here...`}
-				/>
+				/> */}
+				<View style={{position: "relative"}}>
+					<TextInput
+						label="Write your word here..."
+						value={currentInput}
+						onChangeText={setCurrentInput}
+						mode="outlined"
+						style={{ color: 'green' }} // For input text color
+						theme={{
+						  colors: {
+							primary: '#49454F', // For the outline color
+						  },
+						}}
+					/>
+					<TouchableOpacity onPress={autofill} style={{position: "absolute", right: 15, top: 20}}>
+						<Text style={{color: "#5C9BEB", fontSize: 15}}>Fill</Text>
+					</TouchableOpacity>
+				</View>
 				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
 				<Progress.Bar
 					progress={progress}

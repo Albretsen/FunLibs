@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -7,7 +7,7 @@ import Dialog from "./Dialog";
 import _ from "lodash";
 
 export default function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, onDelete, showDelete } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -71,27 +71,29 @@ export default function ListItem(props) {
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>
             <View style={[styles.container, globalStyles.containerWhitespace]}>
-                <View style={styles.letterCircle}>
-                    <Text style={[{color: "#21005D", fontSize: 20}]}>{name[0]}</Text>
-                </View>
-                <View style={[styles.textRow, {width: showDelete ? "65%" : "75%", gap: 3}]}>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 18, color: "#505050", fontWeight: 500}]}>{name}</Text>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
+                <Image
+                    style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
+                    source={require("../assets/images/avatars/" + (Math.round(Math.random() * 29) + 1) + ".png")}
+                />
+                <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>
+                    {/* <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
                         // Description
                         <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
-                    ))}</Text>
-                    {/* <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                        <View style={[styles.progressBarContainer, {width: "88%"}]}>
-                            <View style={[styles.progressBar, {width: (100 * length) + "%"}]}></View>
-                        </View>
-                        <Text style={{fontSize: 14, marginBottom: 4, width: "12%", textAlign: "center"}}> </Text>
-                    </View> */}
+                    ))}</Text> */}
+                    <Text style={[{fontSize: 13, color: "#49454F"}]}>by Asgeir Albertson | 24 likes</Text>
                 </View>
-                {showDelete && (
+                {icon && (
                 <View style={styles.rightIcons}>
-                    <TouchableOpacity style={styles.delete} onPress={showDeleteDialogHandler}>
-                        <MaterialIcons style={{color: "#5A5A5A"}} name="delete" size={34} />
-                    </TouchableOpacity> 
+                    <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={iconPress}>
+                        {/* <MaterialIcons style={{color: "#5A5A5A"}} name={icon} size={34} />
+                         */}
+                         {/* Using image for icon because outlined version of icon was needed */}
+                        <Image
+                            style={{height: 25, width: 28}}
+                            source={require("../assets/images/icons/favorite-outlined.png")}
+                        />
+                    </TouchableOpacity>
                 </View>
                 )}
                 {/* Conditionally render the delete confirmation dialog */}
@@ -120,10 +122,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         justifyContent: "center",
         marginBottom: 16,
-        // Gray background
-        // backgroundColor: "#F0F6F1",
-        // borderRadius: 16
-        // paddingBottom: 20,
     },
 
     textRow: {
@@ -131,19 +129,7 @@ const styles = StyleSheet.create({
     },
 
     rightIcons: {
-        width: "10%",
-        justifyContent: "center"
-    },
-
-    letterCircle: {
-        paddingBottom: 2, // Accounts for slight off-center letter
-        backgroundColor: "#D1E8D5",
-        borderRadius: 50,
-        height: 40,
-        width: 40,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
+        width: "12%",
     },
 
     progressBarContainer: {

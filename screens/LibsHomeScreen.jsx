@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { View } from "react-native";
-import LibsScreen from "./LibsScreen";
+import LibsScreen from "./LibsScreen_new";
 import StoriesScreen from "./StoriesScreen";
 import YourLibsScreen from "./YourLibsScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";

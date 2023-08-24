@@ -29,7 +29,7 @@ const globalStyles = StyleSheet.create({
     },
 
     containerWhitespace: {
-        width: fullWidth - fullWidth / 16,
+        width: fullWidth - fullWidth / 10,
     },
 
     defaultFont: {

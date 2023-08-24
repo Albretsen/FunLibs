@@ -5,6 +5,7 @@ import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import LibManager from "./scripts/lib_manager.js";
 import ToastProvider from "./components/Toast/ToastProvider";
@@ -14,10 +15,13 @@ import { useState, createContext } from "react";
 import FixedButton from "./components/FixedButton";
 import { Provider } from "react-native-paper";
 import FirebaseManager from "./scripts/firebase_manager";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import CustomDrawerContent from "./components/CustomDrawerContent";
 
 LibManager.initialize();
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const getHeaderTitle = (route) => {
   // If the focused route is not found, use the screen"s name
@@ -65,8 +69,7 @@ function HomeStackScreen({ navigation }) {
             borderBottomWidth: 0, // for explicit border settings
           },
           headerLeft: () => (
-            null
-            // <MaterialIcons style={{ marginLeft: 12, color: "black" }} name="menu" size={36} onPress={() => navigation.openDrawer()} />
+            <MaterialIcons style={{ marginLeft: 12, color: "black" }} name="menu" size={36} onPress={() => navigation.openDrawer()} />
           ),
           // headerRight: () => (
           //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
@@ -139,14 +142,30 @@ export default function App() {
     <Provider> {/* React Native Paper provider */}
       <ScreenProvider>
         <ToastProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            {/* Place the BannerAdComponent outside of NavigationContainer */}
-            <NavigationContainer>
+          <NavigationContainer>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Drawer.Navigator
+                drawerContent={(props) => <CustomDrawerContent {...props} />}
+                screenOptions={{
+                  drawerStyle: {
+                    borderTopRightRadius: 15, 
+                    borderBottomRightRadius: 15,
+                  }
+                }}
+                >
+                <Drawer.Screen
+                  name="Home"
+                  component={HomeStackScreen}
+                  options={{headerShown: false}}
+                />
+              </Drawer.Navigator>
+              {/* <HomeStackScreen/> */}
+              {/* Place the BannerAdComponent outside of NavigationContainer */}
               <BannerAdComponent bannerAdHeight />
-              <HomeStackScreen/>
-              <FixedButton/>
-            </NavigationContainer>
-          </GestureHandlerRootView>
+              {/* !Remove before production! */}
+              {/* <FixedButton/> */}
+            </GestureHandlerRootView>
+          </NavigationContainer>
         </ToastProvider>
     </ScreenProvider>
   </Provider>

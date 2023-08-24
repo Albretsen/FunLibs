@@ -5,14 +5,17 @@ import Animated, {
 } from "react-native-reanimated";
 
 const CustomBackground = ({ style, animatedIndex }) => {
-  const containerAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
+  const containerAnimatedStyle = useAnimatedStyle(() => {
+    const currentBgColor = interpolateColor(
       animatedIndex.value,
-      [0, 1],
-      ["#ffffff", "#F0F1EC"]
-    ),
-    borderRadius: 30,
-  }));
+      [-1, 0],
+      ['transparent', "#F0F1EC"]
+    );
+    return {
+      backgroundColor: currentBgColor,
+      borderRadius: 30,
+    };
+  });
 
   const containerStyle = useMemo(
     () => [style, containerAnimatedStyle],
