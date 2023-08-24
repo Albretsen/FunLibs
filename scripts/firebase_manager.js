@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword  } from "firebase/auth";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword  } from "firebase/auth";
 import Analytics from './analytics';
 
 const firebaseConfig = {
@@ -20,7 +20,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default class FirebaseManager {
-    static currenUserData = null;
+    static currentUserData = null;
 
     static CreateUserWithEmailAndPassword(email, password) {
         createUserWithEmailAndPassword(auth, email, password)
@@ -65,7 +65,8 @@ export default class FirebaseManager {
     }
 
     static async fetchUserData() {
-        const uid = this.currenUserData.auth.uid;
+        let uid = null;
+        if (this.currentUesrData.auth) uid = this.currentUserData.auth.uid;
         try {
             const userDoc = await getDocs(doc(db, "users", uid)); // Assuming "users" is the collection name where user data is stored
             if (userDoc.exists()) {
@@ -87,7 +88,7 @@ export default class FirebaseManager {
     }
 
     static async updatePassword(newPassword) {
-        const user = this.currenUserData.auth;
+        const user = this.currentUserData.auth;
         try {
             await updatePassword(user, newPassword);
             Analytics.log("Password updated successfully for user " + user.uid);
@@ -208,7 +209,7 @@ export default class FirebaseManager {
             q = query(q, startAfter(lastVisibleDoc));
         }
 
-        const result = "";
+        const result = null;
         try {
             result = await getDocs(q);
         } catch (error) {
