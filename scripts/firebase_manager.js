@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword  } from "firebase/auth";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser  } from "firebase/auth";
 import Analytics from './analytics';
 
 const firebaseConfig = {
@@ -95,6 +95,37 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error updating password: " + error.message);
             throw error; // Re-throw the error so it can be caught and handled by the caller
+        }
+    }
+
+    static async DeleteUser() {
+        const user = this.currentUserData.auth;
+    
+        if (!user) {
+            Analytics.log("No user is currently signed in. Cannot delete.");
+            return;
+        }
+    
+        const uid = user.uid;
+    
+        // 1. Delete user data from Firestore
+        try {
+            // Assuming the user's data is stored in a collection named "users" with their UID as the document ID.
+            const userDocRef = doc(db, "users", uid);
+            await deleteDoc(userDocRef);
+            Analytics.log(`Deleted user data from Firestore for UID: ${uid}`);
+        } catch (error) {
+            Analytics.log(`Error deleting user data from Firestore: ${error.message}`);
+            throw error;
+        }
+    
+        // 2. Delete the Firebase Auth user
+        try {
+            await deleteUser(user);
+            Analytics.log(`Deleted Firebase Auth user with UID: ${uid}`);
+        } catch (error) {
+            Analytics.log(`Error deleting Firebase Auth user: ${error.message}`);
+            throw error;
         }
     }
 
