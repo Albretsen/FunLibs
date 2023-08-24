@@ -94,12 +94,14 @@ export default class FirebaseManager {
         collection_,
         filterOptions = {
             official: true,
-            sortBy: "newest"
+            docIds: undefined,
+            sortBy: "newest",
+            dateRange: undefined
         },
         lastVisibleDoc = null,
         pageSize = 10
     ) {
-        Analytics.log("Reading from Database");
+        Analytics.log("Reading from Database with filterOptions: " + JSON.stringify(filterOptions));
 
         let q = collection(db, collection_);
 
@@ -124,7 +126,9 @@ export default class FirebaseManager {
                     q = query(q, orderBy("likes", "desc"));
                     break;
                 case "trending":
-                    q = query(q, orderBy("weighted_likes", "desc"));
+                    //q = query(q, orderBy("weighted_likes", "desc"));
+                    q = query(q, orderBy("likes", "desc"));
+                    Analytics.log("Weighted sorting has been DISABLED\nSorting by Top instead")
                     break;
                 case "newest":
                     q = query(q, orderBy("date", "desc"));
@@ -182,6 +186,57 @@ export default class FirebaseManager {
 
         const lastDoc = result.docs[result.docs.length - 1];
         return lastDoc;
+    }
+
+    /**
+     * Updates values in a Firestore document.
+     * 
+     * @param {string} collection_ - The name of the Firestore collection containing the document.
+     * @param {string} docId - The ID of the document to update.
+     * @param {Object} updateData - An object containing the fields and their new values to update.
+     * @param {Object} [arrayUpdates] - An object containing fields with arrays that you want to add values to.
+     * 
+     * @returns {Promise<void>} - Returns a promise that resolves when the update is complete.
+     * 
+     * @example
+     * // Overwriting fields:
+     * await FirebaseManager.UpdateDocument("yourCollectionName", "yourDocumentId", { official: true, likes: 10 });
+     * 
+     * // Adding to an array field:
+     * await FirebaseManager.UpdateDocument("yourCollectionName", "yourDocumentId", {}, { tags: ["newTag"] });
+     */
+    static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}) {
+        Analytics.log(`Updating document ${docId} in collection ${collection_} with data: ${JSON.stringify(updateData)}`);
+
+        const docRef = doc(db, collection_, docId);
+
+        // Begin the update batch
+        const batch = writeBatch(db);
+
+        // Apply field overwrites
+        if (Object.keys(updateData).length > 0) {
+            batch.update(docRef, updateData);
+        }
+
+        // Apply array updates
+        for (const [field, values] of Object.entries(arrayUpdates)) {
+            if (Array.isArray(values)) {
+                batch.update(docRef, {
+                    [field]: arrayUnion(...values)
+                });
+            } else {
+                Analytics.log(`Expected array for field ${field}, but got ${typeof values}. Skipping this update.`);
+            }
+        }
+
+        // Commit the batch
+        try {
+            await batch.commit();
+            Analytics.log(`Document ${docId} updated successfully.`);
+        } catch (error) {
+            Analytics.log(`Error updating document ${docId}: ${error}`);
+            throw error;
+        }
     }
 }
 
