@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 
 const firebaseConfig = {
@@ -35,6 +35,7 @@ export default class FirebaseManager {
     }
 
     static SignInWithEmailAndPassword(email, password) {
+        FirebaseManager.SetAuthPersistenceToLocal();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
@@ -52,6 +53,7 @@ export default class FirebaseManager {
             if (user) {
                 // User is signed in
                 const uid = user.uid;
+                this.currentUserData = user;
                 Analytics.log("Auth stated changed to Signed in for " + uid);
 
                 // Fetch user data from Firestore and store in currentUserData
@@ -66,7 +68,7 @@ export default class FirebaseManager {
 
     static async fetchUserData() {
         let uid = null;
-        if (this.currentUesrData.auth) uid = this.currentUserData.auth.uid;
+        if (this.currentUserData.auth) uid = this.currentUserData.auth.uid;
         try {
             const userDoc = await getDocs(doc(db, "users", uid)); // Assuming "users" is the collection name where user data is stored
             if (userDoc.exists()) {
@@ -96,6 +98,27 @@ export default class FirebaseManager {
             Analytics.log("Error updating password: " + error.message);
             throw error; // Re-throw the error so it can be caught and handled by the caller
         }
+    }
+
+    static SetAuthPersistenceToLocal() {
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                Analytics.log("Auth persistence set to LOCAL");
+                //return signInWithEmailAndPassword(auth, email, password);
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                const errorMessage = error.message;
+                Analytics.log("Error setting local persistence on auth: " + errorMessage);
+            });
+    }
+
+    static SignOut() {
+        signOut(auth).then(() => {
+            Analytics.log("Signout method called");
+        }).catch((error) => {
+            Analytics.log("Error signing out: " + error);
+        });
     }
 
     static async DeleteUser() {
@@ -337,6 +360,11 @@ export default class FirebaseManager {
     }
 }
 
+// Sets auth state listener
+FirebaseManager.OnAuthStateChanged();
+
 //FirebaseManager.generateMockData(5, 5);
 //FirebaseManager.ReadDataFromDatabase("posts");
+//FirebaseManager.SignInWithEmailAndPassword("test@email.com", "123456");
+//FirebaseManager.SignOut();
 
