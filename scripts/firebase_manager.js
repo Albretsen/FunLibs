@@ -20,6 +20,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default class FirebaseManager {
+    static currenUserData = null;
+
     static CreateUserWithEmailAndPassword(email, password) {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -46,18 +48,41 @@ export default class FirebaseManager {
     }
 
     static OnAuthStateChanged() {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
+                // User is signed in
                 const uid = user.uid;
                 Analytics.log("Auth stated changed to Signed in for " + uid);
+
+                // Fetch user data from Firestore and store in currentUserData
+                await this.fetchUserData(uid);
             } else {
                 // User is signed out
-                const uid = user.uid;
-                Analytics.log("Auth stated changed to Signed out for " + uid);
+                this.currentUserData = null; // Reset the field to null
+                Analytics.log("Auth stated changed to Signed out");
             }
         });
+    }
+
+    static async fetchUserData(uid) {
+        try {
+            const userDoc = await getDocs(doc(db, "users", uid)); // Assuming "users" is the collection name where user data is stored
+            if (userDoc.exists()) {
+                this.currentUserData = {
+                    auth: auth.currentUser, // Store the auth user
+                    firestoreData: userDoc.data() // Store the user's Firestore data
+                };
+            } else {
+                // Handle the case where the user does not have a Firestore document
+                this.currentUserData = {
+                    auth: auth.currentUser,
+                    firestoreData: null
+                };
+            }
+        } catch (error) {
+            Analytics.log("Error fetching user data: " + error);
+            this.currentUserData = null; // Reset the field to null in case of an error
+        }
     }
 
     static async AddDocumentToCollection(collection_, data) {
