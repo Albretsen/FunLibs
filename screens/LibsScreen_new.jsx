@@ -85,13 +85,13 @@ export default function LibsScreen() {
             <SegmentedButtons
                 value={value}
                 onValueChange={setValue}
-                style={{width: 200}}
+                style={{width: 190}}
                 density="small"
                 theme={{
                     colors: {
-                    primary: '#49454F',
-                    outline: "#79747E",
-                    secondaryContainer: "#D1E8D5"
+                        primary: '#49454F',
+                        outline: "#79747E",
+                        secondaryContainer: "#D1E8D5"
                     },
                 }}
                 buttons={[

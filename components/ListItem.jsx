@@ -77,17 +77,11 @@ export default function ListItem(props) {
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>
-                    {/* <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
-                        // Description
-                        <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
-                    ))}</Text> */}
-                    <Text style={[{fontSize: 13, color: "#49454F"}]}>by Asgeir Albertson | 24 likes</Text>
+                    <Text style={[{fontSize: 13, color: "#6f6b75"}]}>by Asgeir Albertson | 24 likes</Text>
                 </View>
                 {icon && (
                 <View style={styles.rightIcons}>
                     <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={iconPress}>
-                        {/* <MaterialIcons style={{color: "#5A5A5A"}} name={icon} size={34} />
-                         */}
                          {/* Using image for icon because outlined version of icon was needed */}
                         <Image
                             style={{height: 25, width: 28}}
