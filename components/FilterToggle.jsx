@@ -1,14 +1,33 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Menu } from 'react-native-paper';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function FilterToggle({ options, open, close }) {
+export default function FilterToggle({ open, close, isOpen }) {
     const [visible, setVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('');
 
     const rotateAnim = useRef(new Animated.Value(0)).current;
+
+    function animate(value) {
+        Animated.timing(rotateAnim, {
+            toValue: value,
+            duration: 150,
+            useNativeDriver: true,
+        }).start();
+    }
+
+    useEffect(() => {
+        if (isOpen) {
+          // Animation for opening
+          animate(1);
+          setVisible(true);
+        } else {
+          // Animation for closing
+          animate(0);
+          setVisible(false);
+        }
+      }, [isOpen]);
 
     const openMenu = () => {
         if(visible) {
@@ -16,34 +35,20 @@ export default function FilterToggle({ options, open, close }) {
         } else {
             open();
             setVisible(true);
-            Animated.timing(rotateAnim, {
-                toValue: 1,
-                duration: 150,
-                useNativeDriver: true,
-            }).start();
+            animate(1);
         }
     };
     
     const closeMenu = () => {
         close();
         setVisible(false);
-        Animated.timing(rotateAnim, {
-            toValue: 0,
-            duration: 150,
-            useNativeDriver: true,
-        }).start();
+        animate(0);
     }
 
     const rotation = rotateAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '180deg']
     });
-    
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        closeMenu();
-    }
 
     return (
         <View style={styles.container}>
@@ -56,7 +61,7 @@ export default function FilterToggle({ options, open, close }) {
                 </Text>
                 <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                     <MaterialIcons
-                        name="expand-less"
+                        name="expand-more"
                         size={18}
                     />
                 </Animated.View>
@@ -66,8 +71,5 @@ export default function FilterToggle({ options, open, close }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        // alignSelf: "flex-start",
-        // marginLeft: 34
-    },
+
 })

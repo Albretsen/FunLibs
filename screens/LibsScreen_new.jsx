@@ -10,13 +10,14 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import Dropdown from "../components/Dropdown";
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import Buttons from "../components/Buttons";
 import CustomBackground from "../components/CustomBackground";
 import { Divider } from '@rneui/themed';
 import FilterToggle from "../components/FilterToggle";
 import { SegmentedButtons } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
+import { ScrollView as GestureScrollView } from "react-native-gesture-handler";
 
 export default function LibsScreen() {
 	const [listObjects, setListObjects] = useState([]);
@@ -73,13 +74,26 @@ export default function LibsScreen() {
 
 	const handleOpenBottomSheet = () => {
 	  bottomSheetRef.current?.snapToIndex(3);  // Or any other index, based on snapPoints array
+	  setIsBottomSheetOpen(true);
 	};
 
     const handleCloseBottomSheet = () => {
         bottomSheetRef.current?.close();
+		setIsBottomSheetOpen(false)
     };
 
+	const handleBottomSheetChange = useCallback((index) => {
+		console.log('handleSheetChanges', index);
+		if(index <= 0) { // Would be -1, but needs to account for first snap point being 1% due to hack fix
+			setIsBottomSheetOpen(false);
+		} else {
+			setIsBottomSheetOpen(true);
+		}
+	  }, []);
+
     const [value, setValue] = React.useState('play');
+
+	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   
 	return (
 	  <SafeAreaView style={[globalStyles.screenStandard]}>
@@ -110,7 +124,7 @@ export default function LibsScreen() {
                     }
                 ]}
             />
-            <FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} />
+            <FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen}/>
         </View>
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
 			{listObjects.map((item) => (
@@ -123,11 +137,21 @@ export default function LibsScreen() {
             // Bug causes bottom sheet to reappear on navigation
             // Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
             // 10ms
-			snapPoints={['1%', '25%', '50%', '75%', '100%']}
+			snapPoints={['1%', '25%', '50%', '80%', '100%']}
 			enablePanDownToClose={true}
 			style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
 			backgroundComponent={CustomBackground}
+			onChange={handleBottomSheetChange}
+			onAnimate={(fromIndex, toIndex) => {
+				if (toIndex === -1) {
+				  console.log('The bottom sheet is hidden');
+				} else {
+				  console.log('The bottom sheet is shown');
+				}
+			  }}
 		>
+			{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
+			{/* <BottomSheetScrollView> */}
 			<View>
 				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
 				<Buttons 
@@ -200,6 +224,7 @@ export default function LibsScreen() {
 				/>
 				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
 			</View>
+			{/* </BottomSheetScrollView> */}
       	</BottomSheet>
 	  </SafeAreaView>
 	);
