@@ -187,9 +187,11 @@ function PlayScreen({ route }) {
 						  },
 						}}
 					/>
-					<TouchableOpacity onPress={autofill} style={{position: "absolute", right: 15, top: 20}}>
-						<Text style={{color: "#5C9BEB", fontSize: 15}}>Fill</Text>
-					</TouchableOpacity>
+					{fillAvailable && ( // Render only if autofill is available
+						<TouchableOpacity onPress={autofill} style={{position: "absolute", right: 15, top: 20}}>
+							<Text style={{color: "#5C9BEB", fontSize: 15}}>Fill</Text>
+						</TouchableOpacity>
+					)}
 				</View>
 				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
 				<Progress.Bar
@@ -205,12 +207,6 @@ function PlayScreen({ route }) {
 						[{
 							label: "Back",
 							onPress: handleBack,
-						},
-						{
-							label: "Autofill",
-							onPress: autofill,
-							buttonStyle: fillAvailable ? {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"} : null,
-							labelStyle: !fillAvailable ? {color: "gray"} : null
 						},
 						{
 							label: "Next",

@@ -18,9 +18,9 @@ export default function BannerAdComponent() {
 
   return (
     <View>
-      {showFixedButton && (
+      {/* {showFixedButton && (
         <FixedButton buttonBottom={buttonBottom} />
-      )}
+      )} */}
     </View>
   )
 }

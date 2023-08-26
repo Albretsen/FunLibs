@@ -55,9 +55,9 @@ export default function BannerAdComponent() {
                     onAdFailedToLoad={handleAdFailedToLoad}
                     onAdLoaded={handleAdLoaded}
                 />)}
-                {showFixedButton && (
+                {/* {showFixedButton && (
                     <FixedButton buttonBottom={buttonBottom} />
-                )}
+                )} */}
             </View>
         ),
         [adHeight, showFixedButton] // Empty dependency array to ensure the BannerAd is created only once
