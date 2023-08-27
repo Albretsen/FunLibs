@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { StyleSheet, View, Text, Image, Platform, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
@@ -6,14 +6,13 @@ import LibManager from "../scripts/lib_manager";
 import { useDrawer } from "../components/Drawer";
 import Buttons from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
-import ToastContext from "../components/Toast/ToastContext";
-import { useEffect } from "react";
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
 import { TextInput, IconButton } from "react-native-paper";
+import ToastContext from "../components/Toast/ToastContext";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -93,6 +92,15 @@ function PlayScreen({ route }) {
 		}
 	};
 
+	const [shouldOpenDrawer, setShouldOpenDrawer] = useState(false);
+
+	useEffect(() => {
+		if (shouldOpenDrawer) {
+		  openDrawer(finishedLibDrawerContent);
+		  setShouldOpenDrawer(false);  // Reset the flag
+		}
+	  }, [shouldOpenDrawer, finishedLibDrawerContent]);
+
 	const handleNext = () => {
 		// Add the current response to the responses array
 		setResponses((prevResponses) => {
@@ -116,7 +124,7 @@ function PlayScreen({ route }) {
 			setCurrentPromptIndex(currentPromptIndex + 1);
 			promptFillCheck(currentPromptIndex + 1);
 		} else {
-			openDrawer(finishedLibDrawerContent);
+			setShouldOpenDrawer(true);
 			displayLib(() => {
 				return currentLib.text;
 			});
@@ -167,14 +175,12 @@ function PlayScreen({ route }) {
 		// <Drawer ref={drawerRef} title="Finished Lib" onShare={() => {
 		// 	FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
 		// }}>
-		<View>
 			<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
 				<View style={globalStyles.drawerTop}>
 					<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 					{LibManager.displayInDrawer(finishedLib)}
 				</View>
-			</ScrollView>
-			<Buttons
+				<Buttons
 				buttons={
 					[
 						{
@@ -191,7 +197,7 @@ function PlayScreen({ route }) {
 				labelStyle={{fontWeight: 600}}
 				containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
 			/>
-		</View>
+			</ScrollView>
 	)
 
 	return (
