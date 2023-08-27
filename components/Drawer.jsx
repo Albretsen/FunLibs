@@ -1,151 +1,147 @@
-/**
- * @component
- * @name Drawer
- * 
- * @description
- * An animated drawer component that can be shown and hidden. It is a modal that slides from the right side of the screen.
- * The component where it is used must have const drawerRef = useRef();
- * drawerRef.current.openDrawer() is called to show the drawer
- *
- * @prop {object} props - The props for the Drawer component.
- * @prop {ReactNode} props.children - The children components to render inside the Drawer.
- * @prop {object} ref - The ref object to interact with the Drawer, providing methods to open and close it.
- *
- * @example
- * import React, { useRef } from "react";
- * import Drawer from "./Drawer";
- * 
- * const MyComponent = () => {
- *   const drawerRef = useRef();
- *
- *   return (
- *     <>
- *       <button onClick={() => drawerRef.current.openDrawer()}>Open Drawer</button>
- *       <Drawer ref={drawerRef}>
- *         <p>This is content inside the drawer.</p>
- *       </Drawer>
- *     </>
- *   );
- * }
- *
- * @requires React
- * @requires useState, useEffect, useRef, forwardRef, useImperativeHandle from "react"
- * @requires Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity from "react-native"
- * @requires MaterialIcons from "react-native-vector-icons/MaterialIcons"
- */
-
-import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
-import { Animated, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
+import React, { Animated, Easing, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
+import { forwardRef, useEffect, useRef, useState, useImperativeHandle, createContext, useContext } from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 
-
 const Drawer = forwardRef((props, ref) => {
-    const { side = "right", title, onShare } = props;
+    const { isVisible, closeDrawer, children, side = "right", title, onShare } = props;
     const windowWidth = Dimensions.get("window").width;
-    const drawerWidth = Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)
+    const drawerWidth = Dimensions.get("window").width - (0.1 * Dimensions.get("window").width);
     const initialSlideValue = side === "left" ? -drawerWidth : windowWidth;
 
-    const [isVisible, setIsVisible] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const slideAnim = useRef(new Animated.Value(initialSlideValue)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     const onSwipeHandler = (event) => {
         if (event.nativeEvent.state === State.END) {
             if (event.nativeEvent.translationX > 50) {
-                // If the swipe gesture has more than 50 units to the right, close the drawer
-                setIsVisible(false);
+                closeDrawer();
             }
         }
     };
 
-    const animateDrawer = (isVisible) => {
-        let targetValue;
-        if (side === "right") {
-            targetValue = isVisible ? (windowWidth - drawerWidth) : windowWidth;
-        } else {
-            targetValue = isVisible ? 0 : -drawerWidth;
-        }
+    const animateDrawer = (visible, callback) => {
+        const targetValue = side === "right"
+        ? (visible ? (windowWidth - (drawerWidth - 0)) : windowWidth)
+        : (visible ? 0 : -drawerWidth);
+      
+        const targetFadeValue = visible ? 1 : 0;
+      
         Animated.parallel([
             Animated.timing(slideAnim, {
                 toValue: targetValue,
-                duration: 350,
-                useNativeDriver: false,
+                duration: 400,
+                easing: Easing.out(Easing.cubic),
+                useNativeDriver: true
             }),
             Animated.timing(fadeAnim, {
-                toValue: isVisible ? 1 : 0,
+                toValue: targetFadeValue,
                 duration: 350,
-                useNativeDriver: false,
+                useNativeDriver: false
             })
-        ]).start(() => {
-            setIsModalVisible(isVisible);
-        });
+        ]).start(callback);
     };
+      
 
     useEffect(() => {
-        if (isVisible) {
-            setIsModalVisible(true);
-        }
+        // Reset the position before animating
+        slideAnim.setValue(initialSlideValue);
         animateDrawer(isVisible);
     }, [isVisible]);
 
     useImperativeHandle(ref, () => ({
         openDrawer: () => {
-            setIsVisible(true);
+            animateDrawer(true);
         },
-        closeDrawer: () => {
-            setIsVisible(false);
+        closeDrawer: (callback) => {
+            animateDrawer(false, callback);
         }
     }));
 
     const backgroundColor = fadeAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: ["transparent", "rgba(0, 0, 0, 0.5)"],
+        outputRange: ["transparent", "rgba(0, 0, 0, 0.4)"],
     });
 
     return (
         <Modal
             animationType="none"
             transparent={true}
-            visible={isModalVisible}
-            onRequestClose={() => setIsVisible(false)}
+            visible={isVisible}
+            onRequestClose={closeDrawer}
         >
-            <Animated.View style={{ flex: 1, backgroundColor: backgroundColor }}>
+            <Animated.View style={{ flex: 1, backgroundColor }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
+                    {/* Mask view which when clicked closes the drawer, appears outside of the drawer */}
+                    <TouchableOpacity style={{ flex: 1 }} onPress={closeDrawer}></TouchableOpacity>
                     <PanGestureHandler
                         onHandlerStateChange={onSwipeHandler}
                         minDeltaX={10}
                     >
                         <Animated.View
+                            onStartShouldSetResponder={() => true}
                             style={{
-                                // flex: 1,
+                                borderRadius: 10,
                                 backgroundColor: "white",
                                 width: drawerWidth,
-                                transform: [{ translateX: slideAnim }],
+                                transform: [{ translateX: slideAnim }]
                             }}
                         >
-                            <View style={[styles.topBar, onShare ? {justifyContent: "space-between"} : {justifyContent: "flex-start"}]}>
-                                <TouchableOpacity onPress={() => ref.current.closeDrawer()}>
-                                    <MaterialIcons name="arrow-back" size={30} />
+                            <View style={[styles.topBar, onShare ? { justifyContent: "space-between" } : { justifyContent: "flex-start" }]}>
+                                <TouchableOpacity onPress={closeDrawer}>
+                                <MaterialIcons name="arrow-back" size={30} />
                                 </TouchableOpacity>
                                 <Text style={styles.title}>{title}</Text>
-                                {onShare &&(
-                                    <TouchableOpacity onPress={onShare}>
-                                        <MaterialIcons name="share" size={30} />
-                                    </TouchableOpacity>
+                                {onShare && (
+                                <TouchableOpacity onPress={onShare}>
+                                    <MaterialIcons name="share" size={30} />
+                                </TouchableOpacity>
                                 )}
                             </View>
-                            {props.children}
+                            {children}
                         </Animated.View>
-                        </PanGestureHandler>
-                    </View>
-                </Animated.View>
+                    </PanGestureHandler>
+                </View>
+            </Animated.View>
         </Modal>
     );
 });
 
-export default Drawer;
+
+const DrawerContext = createContext();
+
+export const useDrawer = () => {
+    const context = useContext(DrawerContext);
+    if (!context) {
+        throw new Error("useDrawer must be used within a DrawerProvider");
+    }
+    return context;
+};
+
+export const DrawerProvider = ({ children }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [drawerContent, setDrawerContent] = useState(null);
+    const drawerRef = useRef();
+
+    const openDrawer = (content) => {
+        setDrawerContent(content);
+        setIsVisible(true);
+    };
+
+    const closeDrawer = () => {
+        drawerRef.current.closeDrawer(() => setIsVisible(false));
+    };
+
+    return (
+        <DrawerContext.Provider value={{ openDrawer, closeDrawer, drawerRef }}>
+            {children}
+            <Drawer ref={drawerRef} isVisible={isVisible} closeDrawer={closeDrawer}>
+            {drawerContent}
+            </Drawer>
+        </DrawerContext.Provider>
+    );
+};
+
 
 const styles = StyleSheet.create({
     topBar: {
@@ -156,10 +152,9 @@ const styles = StyleSheet.create({
         gap: 10,
         marginHorizontal: 10,
         width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20,
-        // Push top section down to account for ios status bar
-        ...(Platform.OS === "ios" && {marginTop: 25})
+        ...(Platform.OS === "ios" && { marginTop: 25 })
     },
     title: {
-        fontSize: 24
+        fontSize: 24,
     }
-})
+});

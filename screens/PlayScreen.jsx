@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, Platform, ScrollView, Dimensions, Toucha
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
-import Drawer from "../components/Drawer";
+import { useDrawer } from "../components/Drawer";
 import Buttons from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import ToastContext from "../components/Toast/ToastContext";
@@ -68,8 +68,6 @@ function PlayScreen({ route }) {
 	const [responses, setResponses] = useState([]);
 	const [currentInput, setCurrentInput] = useState("");
 	const [finishedLib, displayLib] = useState([]);
-	
-	const drawerRef = useRef(null);
 
 	// Calculate progress
 	const progress = (currentPromptIndex + 1) / prompts.length;
@@ -118,7 +116,7 @@ function PlayScreen({ route }) {
 			setCurrentPromptIndex(currentPromptIndex + 1);
 			promptFillCheck(currentPromptIndex + 1);
 		} else {
-			drawerRef.current.openDrawer();
+			openDrawer(finishedLibDrawerContent);
 			displayLib(() => {
 				return currentLib.text;
 			});
@@ -161,7 +159,40 @@ function PlayScreen({ route }) {
 	const handleIconClick = () => {
 		console.log('Icon clicked!');
 		// Your function logic here
-	  };
+	};
+
+	const { openDrawer, drawerRef } = useDrawer();
+
+	const finishedLibDrawerContent = (
+		// <Drawer ref={drawerRef} title="Finished Lib" onShare={() => {
+		// 	FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+		// }}>
+		<View>
+			<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
+				<View style={globalStyles.drawerTop}>
+					<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
+					{LibManager.displayInDrawer(finishedLib)}
+				</View>
+			</ScrollView>
+			<Buttons
+				buttons={
+					[
+						{
+							label: "Save",
+							onPress: saveLib,
+							buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
+						},
+						{
+							label: "Cancel",
+							onPress: () => drawerRef.current.closeDrawer(),
+						}
+					]
+				}
+				labelStyle={{fontWeight: 600}}
+				containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
+			/>
+		</View>
+	)
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
@@ -223,32 +254,6 @@ function PlayScreen({ route }) {
 				source={require("../assets/images/girl-with-balloon.svg")}
 				/>
 			</View>
-			<Drawer ref={drawerRef} title="Finished Lib" onShare={() => {
-				FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
-			}}>
-				<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
-					<View style={globalStyles.drawerTop}>
-						<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
-						{LibManager.displayInDrawer(finishedLib)}
-					</View>
-				</ScrollView>
-				<Buttons 
-					buttons={
-						[
-							{
-								label: "Save",
-								onPress: saveLib,
-								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
-							}
-							, {
-								label: "Cancel",
-								onPress: () => drawerRef.current.closeDrawer(),
-							}]
-					}
-					labelStyle={{fontWeight: 600}}
-					containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
-				/>
-			</Drawer>
 		</View>
 	);
 }

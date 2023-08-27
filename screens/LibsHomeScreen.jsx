@@ -16,7 +16,7 @@ export default function LibsHomeScreen({route}) {
             initialRouteName={initialTab}
             screenOptions={({ route }) => ({
                 swipeEnabled: true,
-                headerShown: false,
+                headerShown: true,
                 tabBarActiveTintColor: "gray",
                 tabBarInactiveTintColor: "gray",
                 tabBarLabelStyle: {
@@ -36,7 +36,7 @@ export default function LibsHomeScreen({route}) {
         >
             <Tab.Screen 
                 name="Home"
-                component={LibsScreen} 
+                component={LibsScreen}
                 options={{
                     tabBarLabel: ({ color }) => (
                         <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Home</Text>
@@ -47,7 +47,7 @@ export default function LibsHomeScreen({route}) {
                                 <MaterialIcons name="home" size={22} color={focused ? "black" : color} />
                             </View>
                         );
-                    }
+                    },
                 }}
             />
             <Tab.Screen

@@ -1,5 +1,6 @@
 //import "expo-dev-client";
 import { Text, TouchableOpacity, StyleSheet, View, Image } from "react-native";
+import { useRef } from "react";
 import PlayScreen from "./screens/PlayScreen";
 import LibsHomeScreen from "./screens/LibsHomeScreen";
 import CreateLibScreen from "./screens/CreateLibScreen";
@@ -16,11 +17,12 @@ import { Provider } from "react-native-paper";
 import FirebaseManager from "./scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import CustomDrawerContent from "./components/CustomDrawerContent";
+import { DrawerProvider, useDrawer } from "./components/Drawer";
 
 LibManager.initialize();
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+const DrawerNav = createDrawerNavigator();
 
 const getHeaderTitle = (route) => {
   // If the focused route is not found, use the screen"s name
@@ -39,6 +41,9 @@ const getHeaderTitle = (route) => {
 };
 
 function HomeStackScreen({ navigation }) {
+
+  const { openDrawer } = useDrawer();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -70,9 +75,13 @@ function HomeStackScreen({ navigation }) {
           headerLeft: () => (
             <MaterialIcons style={{ marginLeft: 12, color: "black" }} name="menu" size={36} onPress={() => navigation.openDrawer()} />
           ),
-          // headerRight: () => (
-          //   <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
-          // ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => (openDrawer(
+              <Text>Test</Text>
+            ))}>
+            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+              </TouchableOpacity>
+          ),
         })}
       />
       <Stack.Screen
@@ -99,7 +108,7 @@ function HomeStackScreen({ navigation }) {
           // )
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="CreateLibScreen"
         component={CreateLibScreen}
         options={({ route }) => ({
@@ -116,7 +125,7 @@ function HomeStackScreen({ navigation }) {
             </TouchableOpacity>
           )
         })}
-      />
+      /> */}
       {/* You can add more Stack.Screens here if you have more pages in your stack */}
     </Stack.Navigator>
   );
@@ -141,30 +150,30 @@ export default function App() {
     <Provider> {/* React Native Paper provider */}
       <ScreenProvider>
         <ToastProvider>
-          <NavigationContainer>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} />}
-                screenOptions={{
-                  drawerStyle: {
-                    borderTopRightRadius: 15, 
-                    borderBottomRightRadius: 15,
-                  }
-                }}
-                >
-                <Drawer.Screen
-                  name="Home"
-                  component={HomeStackScreen}
-                  options={{headerShown: false}}
-                />
-              </Drawer.Navigator>
-              {/* <HomeStackScreen/> */}
-              {/* Place the BannerAdComponent outside of NavigationContainer */}
-              <BannerAdComponent bannerAdHeight />
-              {/* !Remove before production! */}
-              {/* <FixedButton/> */}
-            </GestureHandlerRootView>
-          </NavigationContainer>
+          <DrawerProvider>
+            <NavigationContainer>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <DrawerNav.Navigator
+                  drawerContent={(props) => <CustomDrawerContent {...props} />}
+                  screenOptions={{
+                    drawerStyle: {
+                      borderTopRightRadius: 15, 
+                      borderBottomRightRadius: 15,
+                    }
+                  }}
+                  >
+                  <DrawerNav.Screen
+                    name="Home"
+                    component={HomeStackScreen}
+                    options={{headerShown: false}}
+                  />
+                </DrawerNav.Navigator>
+                {/* <HomeStackScreen/> */}
+                {/* Place the BannerAdComponent outside of NavigationContainer */}
+                <BannerAdComponent bannerAdHeight />
+              </GestureHandlerRootView>
+            </NavigationContainer>
+          </DrawerProvider>
         </ToastProvider>
     </ScreenProvider>
   </Provider>

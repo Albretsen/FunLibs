@@ -10,9 +10,9 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import Dialog from "../components/Dialog";
-import Drawer from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native-web";
+import { useDrawer } from "../components/Drawer";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -33,7 +33,6 @@ export default function CreateLibScreen() {
         libNameTextRef.current = libNameText;
     }, [libText, finishedLib, libNameText]);
     
-
     const [customPromptText, setCustomPromptText] = useState("");
 
     const navigation = useNavigation();
@@ -53,7 +52,14 @@ export default function CreateLibScreen() {
         setParams({ saveLib });
     }, []);
 
-    const drawerRef = useRef();
+    // Gets called whenever finishedLib is changed
+    // finishedLib is only changed when the save button is tapped
+    // so this works
+    useEffect(() => {
+        if (finishedLib) {
+            openDrawer(saveDrawerContent);
+        }
+    }, [finishedLib]);
 
     const saveLib = () => {
         if (!libNameTextRef.current) { 
@@ -73,7 +79,7 @@ export default function CreateLibScreen() {
             return;
         }
 
-        drawerRef.current.openDrawer();
+        // openDrawer(saveDrawerContent);
     }
 
     let confirmSaveLib = () => {
@@ -81,7 +87,7 @@ export default function CreateLibScreen() {
         if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
 
         showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
-        drawerRef.current.closeDrawer()
+        drawerRef.current.closeDrawer();
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 
@@ -136,6 +142,36 @@ export default function CreateLibScreen() {
         setShowInfoDialog(false);
     }
 
+    // Drawer 
+
+    const { openDrawer, drawerRef } = useDrawer();
+
+    const saveDrawerContent = (
+        <View>      
+            <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
+                <View style={globalStyles.drawerTop}>
+                <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
+                    {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
+                </View>
+            </ScrollView>
+            <Buttons
+                buttons={[
+                    { 
+                        label: "Save",
+                        onPress: confirmSaveLib,
+                        buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+                    },
+                    {  
+                        label: "Cancel",
+                        onPress: () => drawerRef.current.closeDrawer()
+                    }
+                ]}
+                labelStyle={{fontWeight: 600}}
+                containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
+            />
+        </View>
+    )
+
     return(
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 60} : null]}>
 
@@ -143,6 +179,9 @@ export default function CreateLibScreen() {
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
+                <TouchableOpacity onPress={saveLib}>
+                    <Text>Save</Text>
+                </TouchableOpacity>
                 <View style={{flexDirection: "row", alignItems: "center"}}>
                     <TextInput
                         style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40}]}
@@ -298,30 +337,6 @@ export default function CreateLibScreen() {
                         </Text>
                     </Dialog>
                 )}
-                <Drawer ref={drawerRef} title="Your story">
-                    
-                    <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
-                        <View style={globalStyles.drawerTop}>
-                        <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
-                            {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
-                        </View>
-                    </ScrollView>
-                    <Buttons
-                        buttons={[
-                            { 
-                                label: "Save",
-                                onPress: confirmSaveLib,
-                                buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-                            },
-                            {  
-                                label: "Cancel",
-                                onPress: () => drawerRef.current.closeDrawer()
-                            }
-                        ]}
-                        labelStyle={{fontWeight: 600}}
-					    containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
-                    />
-                </Drawer>
             </ScrollView>
         </ParentTag>
     )
