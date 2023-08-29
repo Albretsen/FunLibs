@@ -123,16 +123,26 @@ const Drawer = forwardRef((props, ref) => {
                                                 )}
                                             </>
                                         )}
-                                        <Text style={[styles.title, {flex: 1}, header.titleStyle ? header.titleStyle : null]}>{header.title ? header.title: null}</Text>
+                                        {header.middleComponent ? header.middleComponent : (
+                                            <Text style={[
+                                                styles.title,
+                                                {flex: 1},
+                                                header.titleStyle ? header.titleStyle : null
+                                            ]}>
+                                                {header.title ? header.title: null}
+                                            </Text>
+                                        )}
                                         {header.rightComponent ? header.rightComponent : (
                                             <>
                                                 {closeSide.right ? (
                                                     <CloseComponent iconName={closeSide.rightIcon ? closeSide.rightIcon : "close"} />
-                                                ) : (
-                                                <TouchableOpacity onPress={onShare}>
-                                                    <MaterialIcons name="share" size={30} />
-                                                </TouchableOpacity>
-                                                )}
+                                                ) : null
+                                                // (
+                                                // <TouchableOpacity onPress={onShare}>
+                                                //     <MaterialIcons name="share" size={30} />
+                                                // </TouchableOpacity>
+                                                // )
+                                                }
                                             </>
                                         )}
                                     </View>

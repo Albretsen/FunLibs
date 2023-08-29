@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Dialog from "./Dialog";
 import _ from "lodash";
 

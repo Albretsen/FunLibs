@@ -13,6 +13,7 @@ import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
 import { TextInput, IconButton } from "react-native-paper";
 import ToastContext from "../components/Toast/ToastContext";
+import DrawerActions from "../components/drawerActions";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -96,8 +97,20 @@ function PlayScreen({ route }) {
 
 	useEffect(() => {
 		if (shouldOpenDrawer) {
-		  openDrawer({component: finishedLibDrawerContent});
-		  setShouldOpenDrawer(false);  // Reset the flag
+			openDrawer(
+				{
+					component: finishedLibDrawerContent,
+					header: {
+						middleComponent: (
+							<View style={{flex: 1}}>
+								<Text style={{fontSize: 18}}>{currentLib.name}</Text>
+								<Text style={{fontSize: 14}}>By You</Text>
+							</View>
+						)
+					}
+				}
+			);
+			setShouldOpenDrawer(false);  // Reset the flag
 		}
 	  }, [shouldOpenDrawer, finishedLibDrawerContent]);
 
@@ -172,15 +185,14 @@ function PlayScreen({ route }) {
 	const { openDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
-		// <Drawer ref={drawerRef} title="Finished Lib" onShare={() => {
-		// 	FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
-		// }}>
-			<ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
+			// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}
+		<>
+			<ScrollView>
 				<View style={globalStyles.drawerTop}>
-					<Text style={globalStyles.fontLarge}>{currentLib.name}</Text>
 					{LibManager.displayInDrawer(finishedLib)}
 				</View>
-				<Buttons
+			</ScrollView>
+			<Buttons
 				buttons={
 					[
 						{
@@ -197,7 +209,15 @@ function PlayScreen({ route }) {
 				labelStyle={{fontWeight: 600}}
 				containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
 			/>
-			</ScrollView>
+			<DrawerActions
+				onPublish={null}
+				onShare={() => {
+					FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+				}}
+				onSave={saveLib}
+				onFavorite={null}
+			/>
+		</>
 	)
 
 	return (
