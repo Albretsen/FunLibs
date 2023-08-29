@@ -57,7 +57,9 @@ export default function CreateLibScreen() {
     // so this works
     useEffect(() => {
         if (finishedLib) {
-            openDrawer(saveDrawerContent);
+            openDrawer({
+                component: saveDrawerContent
+            });
         }
     }, [finishedLib]);
 
@@ -78,8 +80,6 @@ export default function CreateLibScreen() {
             showToast("Please add some prompts to your lib!");
             return;
         }
-
-        // openDrawer(saveDrawerContent);
     }
 
     let confirmSaveLib = () => {

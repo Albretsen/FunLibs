@@ -96,7 +96,7 @@ function PlayScreen({ route }) {
 
 	useEffect(() => {
 		if (shouldOpenDrawer) {
-		  openDrawer(finishedLibDrawerContent);
+		  openDrawer({component: finishedLibDrawerContent});
 		  setShouldOpenDrawer(false);  // Reset the flag
 		}
 	  }, [shouldOpenDrawer, finishedLibDrawerContent]);
@@ -202,18 +202,20 @@ function PlayScreen({ route }) {
 
 	return (
 		<View style={[globalStyles.screenStandard]}>
-			<Text style={[globalStyles.fontLarge, globalStyles.bold, {textAlign: "left", width: "100%", paddingLeft: 20, marginBottom: 10}]}>{currentLib.name}</Text>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
-				<Text style={[globalStyles.fontMedium, styles.leftPadding]}>{displayPrompts[currentPromptIndex]}</Text>
-				{/* <TextInput
-					style={[styles.input, globalStyles.fontMedium]}
-					value={currentInput}
-					onChangeText={setCurrentInput}
-					placeholder={`Write your word here...`}
-				/> */}
+				<View style={{flexDirection: "row", gap: 15}}>
+					<Image
+						style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center", justifyContent: "center"}}
+						source={require("../assets/images/avatars/" + 3 + ".png")}
+					/>
+					<View style={[{width: "75%", gap: 0, flexDirection: "column",}]}>
+						<Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, color: "#505050", fontWeight: 500}]}>{currentLib.name}</Text>
+						<Text style={[{fontSize: 13, color: "#49454F"}]}>by username | likes likes</Text>
+					</View>
+				</View>
 				<View style={{position: "relative"}}>
 					<TextInput
-						label="Write your word here..."
+						label={displayPrompts[currentPromptIndex]}
 						value={currentInput}
 						onChangeText={setCurrentInput}
 						mode="outlined"

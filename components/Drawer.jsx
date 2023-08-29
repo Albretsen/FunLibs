@@ -4,13 +4,16 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 const Drawer = forwardRef((props, ref) => {
-    const { isVisible, closeDrawer, children, side = "right", title, onShare } = props;
+    const { isVisible, closeDrawer, component, header = {}, side = "right", onShare, width = 85, containerStyle, closeButton = true, closeSide = {left: true} } = props;
     const windowWidth = Dimensions.get("window").width;
-    const drawerWidth = Dimensions.get("window").width - (0.1 * Dimensions.get("window").width);
-    const initialSlideValue = side === "left" ? -drawerWidth : windowWidth;
+    const drawerWidth = (parseInt(width) / 100) * windowWidth;
+    const maskWidth = windowWidth - drawerWidth;
+    const initialSlideValue = side === "left" ? -windowWidth : windowWidth;
 
     const slideAnim = useRef(new Animated.Value(initialSlideValue)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    // if()
 
     const onSwipeHandler = (event) => {
         if (event.nativeEvent.state === State.END) {
@@ -22,15 +25,15 @@ const Drawer = forwardRef((props, ref) => {
 
     const animateDrawer = (visible, callback) => {
         const targetValue = side === "right"
-        ? (visible ? (windowWidth - (drawerWidth - 0)) : windowWidth)
-        : (visible ? 0 : -drawerWidth);
+        ? (visible ? 0 : windowWidth)
+        : (visible ? 0 : -windowWidth);
       
         const targetFadeValue = visible ? 1 : 0;
       
         Animated.parallel([
             Animated.timing(slideAnim, {
                 toValue: targetValue,
-                duration: 400,
+                duration: 350,
                 easing: Easing.out(Easing.cubic),
                 useNativeDriver: true
             }),
@@ -63,6 +66,14 @@ const Drawer = forwardRef((props, ref) => {
         outputRange: ["transparent", "rgba(0, 0, 0, 0.4)"],
     });
 
+    const CloseComponent = ({ iconName }) => {
+        return(
+            <TouchableOpacity onPress={closeDrawer}>
+                <MaterialIcons name={iconName} size={30} />
+            </TouchableOpacity>
+        )
+    }
+
     return (
         <Modal
             animationType="none"
@@ -71,40 +82,84 @@ const Drawer = forwardRef((props, ref) => {
             onRequestClose={closeDrawer}
         >
             <Animated.View style={{ flex: 1, backgroundColor }}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row'}}>
                     {/* Mask view which when clicked closes the drawer, appears outside of the drawer */}
-                    <TouchableOpacity style={{ flex: 1 }} onPress={closeDrawer}></TouchableOpacity>
+                    <TouchableOpacity style={{ width: maskWidth }} onPress={closeDrawer} />
                     <PanGestureHandler
                         onHandlerStateChange={onSwipeHandler}
                         minDeltaX={10}
                     >
                         <Animated.View
                             onStartShouldSetResponder={() => true}
-                            style={{
-                                borderRadius: 10,
-                                backgroundColor: "white",
-                                width: drawerWidth,
-                                transform: [{ translateX: slideAnim }]
-                            }}
+                            style={[
+                                {
+                                    borderBottomLeftRadius: 16,
+                                    borderTopLeftRadius: 16,
+                                    backgroundColor: "white",
+                                    width: drawerWidth,
+                                    transform: [{ translateX: slideAnim }],
+                                },
+                                containerStyle ? containerStyle : null
+                            ]
+                        }
                         >
-                            <View style={[styles.topBar, onShare ? { justifyContent: "space-between" } : { justifyContent: "flex-start" }]}>
-                                <TouchableOpacity onPress={closeDrawer}>
-                                <MaterialIcons name="arrow-back" size={30} />
-                                </TouchableOpacity>
-                                <Text style={styles.title}>{title}</Text>
-                                {onShare && (
-                                <TouchableOpacity onPress={onShare}>
-                                    <MaterialIcons name="share" size={30} />
-                                </TouchableOpacity>
-                                )}
-                            </View>
-                            {children}
+                            {/* If a custom header component has been defined, render it instead */}
+                            {/* Else, render default header */}
+                            {header &&
+                                header.component ? (
+                                    <View style={{flex: 1}}>
+                                        {header.component}
+                                    </View>
+                                    ) : (
+                                    <View style={[
+                                        styles.header,
+                                        header.headerStyle ? header.headerStyle : null,
+                                        header.rightComponent ? { justifyContent: "space-between" } : { justifyContent: "flex-start" }
+                                    ]}>
+                                        {header.leftComponent ? header.leftComponent : (
+                                            <>
+                                                {closeSide.left && (
+                                                    <CloseComponent iconName={closeSide.leftIcon ? closeSide.leftIcon : "close"} />
+                                                )}
+                                            </>
+                                        )}
+                                        <Text style={[styles.title, {flex: 1}, header.titleStyle ? header.titleStyle : null]}>{header.title ? header.title: null}</Text>
+                                        {header.rightComponent ? header.rightComponent : (
+                                            <>
+                                                {closeSide.right ? (
+                                                    <CloseComponent iconName={closeSide.rightIcon ? closeSide.rightIcon : "close"} />
+                                                ) : (
+                                                <TouchableOpacity onPress={onShare}>
+                                                    <MaterialIcons name="share" size={30} />
+                                                </TouchableOpacity>
+                                                )}
+                                            </>
+                                        )}
+                                    </View>
+                                )
+                            }
+                            {component}
                         </Animated.View>
                     </PanGestureHandler>
                 </View>
             </Animated.View>
         </Modal>
     );
+});
+
+const styles = StyleSheet.create({
+    header: {
+        height: 65,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        marginHorizontal: 10,
+        // Account for iOS status bar
+        ...(Platform.OS === "ios" && { marginTop: 25 })
+    },
+    title: {
+        fontSize: 24,
+    }
 });
 
 
@@ -120,13 +175,15 @@ export const useDrawer = () => {
 
 export const DrawerProvider = ({ children }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [drawerContent, setDrawerContent] = useState(null);
+    const [drawerProps, setDrawerProps] = useState({});
     const drawerRef = useRef();
 
-    const openDrawer = (content) => {
-        setDrawerContent(content);
+    const openDrawer = (props = {}) => {
+        setDrawerProps(props);
         setIsVisible(true);
     };
+
+    console.log(drawerProps, "test")
 
     const closeDrawer = () => {
         drawerRef.current.closeDrawer(() => setIsVisible(false));
@@ -135,26 +192,14 @@ export const DrawerProvider = ({ children }) => {
     return (
         <DrawerContext.Provider value={{ openDrawer, closeDrawer, drawerRef }}>
             {children}
-            <Drawer ref={drawerRef} isVisible={isVisible} closeDrawer={closeDrawer}>
-            {drawerContent}
+            <Drawer
+                ref={drawerRef}
+                isVisible={isVisible}
+                closeDrawer={closeDrawer}
+                {...drawerProps}
+            >
+                {drawerProps.content}
             </Drawer>
         </DrawerContext.Provider>
     );
 };
-
-
-const styles = StyleSheet.create({
-    topBar: {
-        height: 75,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 10,
-        marginHorizontal: 10,
-        width: (Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)) - 20,
-        ...(Platform.OS === "ios" && { marginTop: 25 })
-    },
-    title: {
-        fontSize: 24,
-    }
-});
