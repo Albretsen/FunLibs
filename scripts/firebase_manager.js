@@ -194,6 +194,7 @@ export default class FirebaseManager {
      * @param {Array<string>} [filterOptions.docIds] - An array of document IDs to filter by.
      * @param {string} [filterOptions.sortBy] - Determines the sorting of the results. Can be "likes", "trending", or "newest".
      * @param {string} [filterOptions.dateRange] - Filters documents based on date ranges. Can be "allTime", "today", "thisWeek", "thisMonth", or "thisYear".
+     * @param {boolean} [filterOptions.playable] - If set, fetches documents where "playable" matches the provided value.
      * @param {firebase.firestore.DocumentSnapshot} [lastVisibleDoc=null] - The last document from the previous query, used for pagination.
      * @param {number} [pageSize=10] - The number of documents to retrieve in a single query (pagination size).
      * 
@@ -212,7 +213,8 @@ export default class FirebaseManager {
             official: undefined,
             docIds: undefined,
             sortBy: undefined,
-            dateRange: undefined
+            dateRange: undefined,
+            playable: undefined
         },
         lastVisibleDoc = null,
         pageSize = 10
@@ -228,6 +230,11 @@ export default class FirebaseManager {
             } else {
                 q = query(q, where("official", "in", [false, null]));
             }
+        }
+
+        // Filtering by "playable" field
+        if (filterOptions.playable !== undefined) {
+            q = query(q, where("playable", "==", filterOptions.playable));
         }
 
         // Filtering by document IDs
