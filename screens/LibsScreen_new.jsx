@@ -25,11 +25,7 @@ export default function LibsScreen() {
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
 
-	async function loadListObjectsFromDatabase(playReadValue_) {
-		let filterOptions = {
-			playable: playReadValue_
-		}
-
+	async function loadListObjectsFromDatabase(filterOptions = {}) {
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		let users = [];
 		temp_listObjects.forEach(object => {
@@ -49,7 +45,6 @@ export default function LibsScreen() {
 		}
 
 		LibManager.libs = temp_listObjects;
-		console.log(temp_listObjects);
 		setListObjects(temp_listObjects);	
 	}
 
@@ -101,10 +96,24 @@ export default function LibsScreen() {
 
 	const playReadToggle = (newValue) => {
 		setPlayReadValue(newValue);
-		loadListObjectsFromDatabase(newValue);
+		updateFilterOptions();
 	};
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
+	const [selectedCategory, setSelectedCategory] = useState("Official");
+	const [selectedSortBy, setSelectedSortBy] = useState("likes");
+	const [selectedDate, setSelectedDate] = useState("allTime");
+
+	const updateFilterOptions = () => {
+		let filterOptions = {
+			official: selectedCategory === "Official",
+			sortBy: selectedSortBy,
+			dateRange: selectedDate,
+			playable: playReadValue
+		};
+		loadListObjectsFromDatabase(filterOptions);
+	}
   
 	return (
 	  <SafeAreaView style={[globalStyles.screenStandard]}>
@@ -184,17 +193,27 @@ export default function LibsScreen() {
 					buttons={[
 						{
 							label: "Official",
-							icon: "done",
-							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+							icon: selectedCategory === "Official" ? "done" : null,
+							buttonStyle: selectedCategory === "Official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedCategory("Official"); updateFilterOptions(); }
 						},
 						{
-							label: "All"
+							label: "All",
+							icon: selectedCategory === "All" ? "done" : null,
+							buttonStyle: selectedCategory === "All" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedCategory("All"); updateFilterOptions(); }
 						},
 						{
-							label: "My favorites"
+							label: "My favorites",
+							icon: selectedCategory === "My favorites" ? "done" : null,
+							buttonStyle: selectedCategory === "My favorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(); }
 						},
 						{
-							label: "My content"
+							label: "My content",
+							icon: selectedCategory === "My content" ? "done" : null,
+							buttonStyle: selectedCategory === "My content" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedCategory("My content"); updateFilterOptions(); }
 						},
 
 					]}
@@ -208,15 +227,22 @@ export default function LibsScreen() {
 					buttons={[
 						{
 							label: "Top",
-							icon: "done",
-							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+							icon: selectedSortBy === "likes" ? "done" : null,
+							buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(); }
 						},
 						{
-							label: "Trending"
+							label: "Trending",
+							icon: selectedSortBy === "trending" ? "done" : null,
+							buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(); }
 						},
 						{
-							label: "Newest"
-						},
+							label: "Newest",
+							icon: selectedSortBy === "newest" ? "done" : null,
+							buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(); }
+						}
 					]}
 					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 					containerStyle={{justifyContent: "flex-start", gap: 20}}
@@ -228,20 +254,33 @@ export default function LibsScreen() {
 					buttons={[
 						{
 							label: "All time",
-							icon: "done",
-							buttonStyle: {borderColor: "transparent", backgroundColor: "#D1E8D5"}
+							icon: selectedDate === "allTime" ? "done" : null,
+							buttonStyle: selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedDate("allTime"); updateFilterOptions(); }
 						},
 						{
-							label: "Today"
+							label: "Today",
+							icon: selectedDate === "today" ? "done" : null,
+							buttonStyle: selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedDate("today"); updateFilterOptions(); }
 						},
 						{
-							label: "This week"
+							label: "This week",
+							icon: selectedDate === "thisWeek" ? "done" : null,
+							buttonStyle: selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(); }
 						},
 						{
-							label: "This month"
+							label: "This month",
+							icon: selectedDate === "thisMonth" ? "done" : null,
+							buttonStyle: selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(); }
 						},
 						{
-							label: "This year"
+							label: "This year",
+							icon: selectedDate === "thisYear" ? "done" : null,
+							buttonStyle: selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+							onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(); }
 						},
 					]}
 					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
