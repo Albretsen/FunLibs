@@ -73,13 +73,47 @@ function HomeStackScreen({ navigation }) {
             borderBottomWidth: 0, // for explicit border settings
           },
           headerLeft: () => (
-            <MaterialIcons style={{ marginLeft: 12, color: "black" }} name="menu" size={36} onPress={() => navigation.openDrawer()} />
+            <MaterialIcons style={{ marginLeft: 12, color: "49454F" }} name="menu" size={28} onPress={() => navigation.openDrawer()} />
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={() => (openDrawer(
-              <Text>Test</Text>
-            ))}>
-            <MaterialIcons style={{marginRight: 12, color: "#1c1c1c"}} name="account-circle" size={26} />
+            <TouchableOpacity onPress={() => (
+              openDrawer(
+                {
+                  header: {
+                    // component: <Text>Header</Text>,
+                    headerStyle: {marginHorizontal: 0, marginTop: 10},
+                    leftComponent: (
+                      <Image
+                        style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
+                        source={require("./assets/images/avatars/2.png")}
+                      />
+                    ),
+                    title: "Username",
+                    titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
+                  },
+                  component: (
+                    <View style={{gap: 35, marginTop: 10}}>
+                      <Text style={{fontSize: 15, fontWeight: 500, color: "#49454F", marginBottom: 5}}>Security</Text>
+                      <TouchableOpacity>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change username</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change avatar</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Reset password</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Sign out</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ),
+                  closeSide: {left: false, right: true, leftIcon: "arrow-back"},
+                  containerStyle: {paddingHorizontal: 26}
+                }
+              )
+            )}>
+            <MaterialIcons style={{marginRight: 12, color: "#49454F"}} name="account-circle" size={22} />
               </TouchableOpacity>
           ),
         })}
