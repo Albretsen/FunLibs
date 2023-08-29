@@ -25,29 +25,35 @@ export default function LibsScreen() {
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
 
-	useEffect(() => {
-		async function loadListObjectsFromDatabase() {
-			let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts");
-			let users = [];
-			temp_listObjects.forEach(object => {
-				if (!users.includes(object.user)) {
-					users.push(object.user);
-				}
-			});
-			users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
-			
-			for (let i = 0; i < temp_listObjects.length; i++) {
-				// Find the user from the users array with the same ID as the current object.user field.
-				let matchingUser = users.find(user => user.id === temp_listObjects[i].user);
-				if (matchingUser) {
-					temp_listObjects[i].username = matchingUser.username; // This adds the user details to the object
-					temp_listObjects[i].avatarID = matchingUser.avatarID;
-				}
-			}
-
-			setListObjects(temp_listObjects);	
+	async function loadListObjectsFromDatabase(playReadValue_) {
+		let filterOptions = {
+			playable: playReadValue_
 		}
 
+		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
+		let users = [];
+		temp_listObjects.forEach(object => {
+			if (!users.includes(object.user)) {
+				users.push(object.user);
+			}
+		});
+		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
+		
+		for (let i = 0; i < temp_listObjects.length; i++) {
+			// Find the user from the users array with the same ID as the current object.user field.
+			let matchingUser = users.find(user => user.id === temp_listObjects[i].user);
+			if (matchingUser) {
+				temp_listObjects[i].username = matchingUser.username; // This adds the user details to the object
+				temp_listObjects[i].avatarID = matchingUser.avatarID;
+			}
+		}
+
+		LibManager.libs = temp_listObjects;
+		console.log(temp_listObjects);
+		setListObjects(temp_listObjects);	
+	}
+
+	useEffect(() => {
         loadListObjectsFromDatabase();
     }, []);
 
@@ -91,7 +97,12 @@ export default function LibsScreen() {
 		}
 	  }, []);
 
-    const [value, setValue] = React.useState('play');
+    const [playReadValue, setPlayReadValue] = React.useState(true);
+
+	const playReadToggle = (newValue) => {
+		setPlayReadValue(newValue);
+		loadListObjectsFromDatabase(newValue);
+	};
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   
@@ -99,8 +110,8 @@ export default function LibsScreen() {
 	  <SafeAreaView style={[globalStyles.screenStandard]}>
         <View style={[{flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20}]}>
             <SegmentedButtons
-                value={value}
-                onValueChange={setValue}
+                value={playReadValue}
+                onValueChange={playReadToggle}
                 style={{width: 190}}
                 density="small"
                 theme={{
@@ -113,13 +124,13 @@ export default function LibsScreen() {
                 buttons={[
                     {
                         label: "Play",
-                        value: "play",
+                        value: true,
                         showSelectedCheck: true
                         
                     },
                     {
                         label: "Read",
-                        value: "read",
+                        value: false,
                         showSelectedCheck: true,
                     }
                 ]}
@@ -128,7 +139,22 @@ export default function LibsScreen() {
         </View>
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
 			{listObjects.map((item) => (
-				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} icon="favorite" iconPress={null} username={item.username} likes={item.likes} avatarID={item.avatarID}></ListItem>
+				<ListItem
+					name={item.name}
+					description={item.display_with_prompts}
+					promptAmount={item.prompts.length}
+					prompts={item.prompts}
+					text={item.text}
+					id={item.id}
+					type="libs"
+					key={item.id}
+					length={item.percent}
+					icon="favorite"
+					iconPress={null}
+					username={item.username}
+					likes={item.likes}
+					avatarID={item.avatarID}>
+				</ListItem>
 			))}
 		</ScrollView>
 		<BottomSheet
