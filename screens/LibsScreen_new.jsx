@@ -45,6 +45,7 @@ export default function LibsScreen() {
 				}
 			}
 
+			LibManager.libs = temp_listObjects;
 			setListObjects(temp_listObjects);	
 		}
 
@@ -128,7 +129,22 @@ export default function LibsScreen() {
         </View>
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
 			{listObjects.map((item) => (
-				<ListItem name={item.name} description={item.display_with_prompts} promptAmount={item.prompts.length} prompts={item.prompts} text={item.text} id={item.id} type="libs" key={item.id} length={item.percent} icon="favorite" iconPress={null} username={item.username} likes={item.likes} avatarID={item.avatarID}></ListItem>
+				<ListItem
+					name={item.name}
+					description={item.display_with_prompts}
+					promptAmount={item.prompts.length}
+					prompts={item.prompts}
+					text={item.text}
+					id={item.id}
+					type="libs"
+					key={item.id}
+					length={item.percent}
+					icon="favorite"
+					iconPress={null}
+					username={item.username}
+					likes={item.likes}
+					avatarID={item.avatarID}>
+				</ListItem>
 			))}
 		</ScrollView>
 		<BottomSheet

@@ -7,24 +7,10 @@ import nlp from "compromise";
 import FirebaseManager from "./firebase_manager.js";
 
 export default class LibManager {
-    static libs = {
-        "libs": [{
-            "name": "Loading libs...",
-            "id": 0,
-            "text": [
-                "Adjective: ",
-                " Name 1: ",
-                " Noun: ",
-                " Adjective: ",
-                " Name 1"
-            ],
-            "words": [
-                "funny",
-                "Cool text"
-            ],
-            "prompts": [{"Adjective": [0]}, {"Name 1": [1, 4]}, {"Noun": [2]}, {"Adjective": [3]}]
-        }]
-    }
+    /**
+     * The libs that are locally available
+     */
+    static libs = {}
 
     static async initialize() {
         await LibManager.loadLibsToMemory();
@@ -212,7 +198,7 @@ export default class LibManager {
     }
 
     static getLibByID(id, key = "libs") {
-        let lib = LibManager.libs[key][parseInt(id)];
+        const lib = LibManager.libs.find(item => item.id === id);
         return lib;
     }
 
