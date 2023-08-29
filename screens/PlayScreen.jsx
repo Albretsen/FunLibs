@@ -192,30 +192,13 @@ function PlayScreen({ route }) {
 					{LibManager.displayInDrawer(finishedLib)}
 				</View>
 			</ScrollView>
-			<Buttons
-				buttons={
-					[
-						{
-							label: "Save",
-							onPress: saveLib,
-							buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
-						},
-						{
-							label: "Cancel",
-							onPress: () => drawerRef.current.closeDrawer(),
-						}
-					]
-				}
-				labelStyle={{fontWeight: 600}}
-				containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
-			/>
 			<DrawerActions
 				onPublish={null}
 				onShare={() => {
 					FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
 				}}
 				onSave={saveLib}
-				onFavorite={null}
+				onFavorite={() => console.log("Add functionality for favorite!")}
 			/>
 		</>
 	)

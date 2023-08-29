@@ -10,9 +10,10 @@ export default function DrawerActions(props) {
             flexDirection: "row",
             paddingLeft: 20,
             paddingVertical: 10,
+            paddingBottom: 30,
             borderTopWidth: 1,
             borderColor: "#cccccc",
-            justifyContent: "space-evenly"
+            justifyContent: "space-around"
         }}>
             <TouchableOpacity
                 style={{alignItems: "center"}}
@@ -20,7 +21,7 @@ export default function DrawerActions(props) {
             >
                 <MaterialIcons
                     style={{color: "#49454F"}}
-                    name="publish"
+                    name="file-upload"
                     size={26}
                 />
                 <Text style={{fontSize: 15}}>Publish</Text>
@@ -42,7 +43,7 @@ export default function DrawerActions(props) {
             >
                 <MaterialIcons
                     style={{color: "#49454F"}}
-                    name="download"
+                    name="file-download"
                     size={26}
                 />
                 <Text style={{fontSize: 15}}>Save</Text>

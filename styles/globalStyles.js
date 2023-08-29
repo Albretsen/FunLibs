@@ -105,16 +105,7 @@ const globalStyles = StyleSheet.create({
 
 	drawerTop: {
 		marginHorizontal: 20,
-	},
-
-	drawerBottom: {
-		marginBottom: 10,
-		marginRight: 10,
-		paddingTop: 10,
-		borderTopWidth: 1,
-		borderColor: "gray",
-		gap: 16,
-		paddingBottom: 16
+        marginBottom: 10
 	},
 
     buttonDefault: {
