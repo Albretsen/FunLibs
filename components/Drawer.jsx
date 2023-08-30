@@ -13,8 +13,6 @@ const Drawer = forwardRef((props, ref) => {
     const slideAnim = useRef(new Animated.Value(initialSlideValue)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
-    // if()
-
     const onSwipeHandler = (event) => {
         if (event.nativeEvent.state === State.END) {
             if (event.nativeEvent.translationX > 50) {
@@ -25,8 +23,8 @@ const Drawer = forwardRef((props, ref) => {
 
     const animateDrawer = (visible, callback) => {
         const targetValue = side === "right"
-        ? (visible ? 0 : windowWidth)
-        : (visible ? 0 : -windowWidth);
+        ? (visible ? 0 : drawerWidth)
+        : (visible ? 0 : -drawerWidth);
       
         const targetFadeValue = visible ? 1 : 0;
       
@@ -137,11 +135,6 @@ const Drawer = forwardRef((props, ref) => {
                                                 {closeSide.right ? (
                                                     <CloseComponent iconName={closeSide.rightIcon ? closeSide.rightIcon : "close"} />
                                                 ) : null
-                                                // (
-                                                // <TouchableOpacity onPress={onShare}>
-                                                //     <MaterialIcons name="share" size={30} />
-                                                // </TouchableOpacity>
-                                                // )
                                                 }
                                             </>
                                         )}
@@ -193,8 +186,6 @@ export const DrawerProvider = ({ children }) => {
         setIsVisible(true);
     };
 
-    console.log(drawerProps, "test")
-
     const closeDrawer = () => {
         drawerRef.current.closeDrawer(() => setIsVisible(false));
     };
@@ -204,6 +195,7 @@ export const DrawerProvider = ({ children }) => {
             {children}
             <Drawer
                 ref={drawerRef}
+                side="right"
                 isVisible={isVisible}
                 closeDrawer={closeDrawer}
                 {...drawerProps}
