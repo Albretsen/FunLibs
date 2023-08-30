@@ -13,7 +13,7 @@ import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
 import { TextInput, IconButton } from "react-native-paper";
 import ToastContext from "../components/Toast/ToastContext";
-import DrawerActions from "../components/drawerActions";
+import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
 
 function isNum(n) {

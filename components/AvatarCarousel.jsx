@@ -1,38 +1,54 @@
-import React, { useState } from 'react';
-import { View, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Image, Dimensions, Animated } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
-const AvatarCarousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0); // You can set this to the index of 'x image' you want
+const AvatarCarousel = ({ initialActiveIndex = 29 }) => {
+  const scrollAnim = useRef(new Animated.Value(initialActiveIndex * 100)).current;
 
-  const avatars = [
-    { uri: "../assets/images/avatars/0.png" },
-    { uri: "../assets/images/avatars/1.png" },
-    { uri: "../assets/images/avatars/2.png" },
-    { uri: "../assets/images/avatars/3.png" },
-    { uri: "../assets/images/avatars/4.png" },
-    { uri: "../assets/images/avatars/5.png" },
-  ];
+  const avatars = Array.from({ length: 30 }, (_, index) => ({
+    uri: require(`../assets/images/avatars/${index}.png`),  // Assuming you have these images in your assets folder
+  }));
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
+    const inputRange = [
+      (index - 1) * 100,
+      index * 100,
+      (index + 1) * 100,
+    ];
+
+    const outputRange = [0.7, 1, 0.7];
+    const scale = scrollAnim.interpolate({
+      inputRange,
+      outputRange,
+      extrapolate: 'clamp',
+    });
+
     return (
-      <View>
-        <Image source={item} style={{ width: 100, height: 100 }} />
-      </View>
+      <Animated.View style={{ transform: [{ scale }], opacity: 1 }}>
+        <Image source={item.uri} style={{ width: 100, height: 100 }} />
+      </Animated.View>
     );
   };
 
+  const handleSnapToItem = (index) => {
+    console.log("Snapped to item:", index);
+  }
+
   return (
     <Carousel
-      layout={'default'}
       data={avatars}
       renderItem={renderItem}
-      sliderWidth={300}
+      sliderWidth={Dimensions.get("window").width}
       itemWidth={100}
-      onSnapToItem={(index) => setActiveIndex(index)}
-      firstItem={activeIndex}
+      firstItem={initialActiveIndex}
+      onSnapToItem={handleSnapToItem}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { x: scrollAnim } } }],
+        { useNativeDriver: true }
+      )}
+      scrollEventThrottle={16}
     />
   );
 };
 
-export default AvatarCarousel
+export default AvatarCarousel;
