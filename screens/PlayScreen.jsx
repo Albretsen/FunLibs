@@ -209,11 +209,11 @@ function PlayScreen({ route }) {
 				<View style={{flexDirection: "row", gap: 15}}>
 					<Image
 						style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center", justifyContent: "center"}}
-						source={require("../assets/images/avatars/" + 3 + ".png")}
+						source={require("../assets/images/avatars/" + currentLib.avatarID + ".png")}
 					/>
 					<View style={[{width: "75%", gap: 0, flexDirection: "column",}]}>
 						<Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, color: "#505050", fontWeight: 500}]}>{currentLib.name}</Text>
-						<Text style={[{fontSize: 13, color: "#49454F"}]}>by username | likes likes</Text>
+						<Text style={[{fontSize: 13, color: "#49454F"}]}>{currentLib.username} | {currentLib.likes} likes</Text>
 					</View>
 				</View>
 				<View style={{position: "relative"}}>
