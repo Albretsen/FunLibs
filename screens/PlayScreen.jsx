@@ -14,6 +14,7 @@ import FunLibsShare from "../scripts/share";
 import { TextInput, IconButton } from "react-native-paper";
 import ToastContext from "../components/Toast/ToastContext";
 import DrawerActions from "../components/drawerActions";
+import FirebaseManager from "../scripts/firebase_manager";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -74,12 +75,6 @@ function PlayScreen({ route }) {
 
 	const navigation = useNavigation();
 	const showToast = useContext(ToastContext);
-	const saveLib = () => {
-		LibManager.storeLib(currentLib, "stories");
-		drawerRef.current.closeDrawer();
-		navigation.navigate("LibsHomeScreen");
-		showToast('Your story can be found under "Stories" at the bottom of your screen.');
-	}
 
 	const autofill = () => {
 		if(fillAvailable) {
@@ -182,6 +177,29 @@ function PlayScreen({ route }) {
 		// Your function logic here
 	};
 
+	const onPublish = () => {
+		console.log('Publish');
+	};
+
+	const onShare = () => {
+		FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+	};
+
+	const onSave = () => {
+		currentLib.user = FirebaseManager.currentUserData.auth.uid;
+		currentLib.published = false;
+		currentLib.playable = false;
+		currentLib.date = new Date();
+		FirebaseManager.AddDocumentToCollection("posts", currentLib);
+		drawerRef.current.closeDrawer();
+		navigation.navigate("LibsHomeScreen");
+		showToast('Your story can be found under "Read" at the top of your screen');
+	}
+
+	const onFavorite = () => {
+		console.log("Favorite");
+	};
+
 	const { openDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
@@ -193,12 +211,10 @@ function PlayScreen({ route }) {
 				</View>
 			</ScrollView>
 			<DrawerActions
-				onPublish={null}
-				onShare={() => {
-					FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
-				}}
-				onSave={saveLib}
-				onFavorite={() => console.log("Add functionality for favorite!")}
+				onPublish={onPublish}
+				onShare={onShare}
+				onSave={onSave}
+				onFavorite={onFavorite}
 			/>
 		</>
 	)
