@@ -4,6 +4,7 @@ import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
 import _ from "lodash";
+import LibManager from "../scripts/lib_manager";
 
 export default function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes} = props;
@@ -14,11 +15,12 @@ export default function ListItem(props) {
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
-            if (type === "stories") {
+            let currentLib = LibManager.getLibByID(id);
+            if (currentLib.playable) {
+                navigation.navigate("PlayScreen", { libId: id, type: type });
+            } else {
                 drawer.current.openDrawer();
                 onClick({ id, name, type });
-            } else {
-                navigation.navigate("PlayScreen", { libId: id, type: type });
             }
         }, 1)
     );
