@@ -96,7 +96,7 @@ export default function LibsScreen() {
 
 	const playReadToggle = (newValue) => {
 		setPlayReadValue(newValue);
-		updateFilterOptions();
+		updateFilterOptions(newValue);
 	};
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -105,12 +105,12 @@ export default function LibsScreen() {
 	const [selectedSortBy, setSelectedSortBy] = useState("likes");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
-	const updateFilterOptions = () => {
+	const updateFilterOptions = (newValue) => {
 		let filterOptions = {
 			official: selectedCategory === "Official",
 			sortBy: selectedSortBy,
 			dateRange: selectedDate,
-			playable: playReadValue
+			playable: newValue
 		};
 		loadListObjectsFromDatabase(filterOptions);
 	}
