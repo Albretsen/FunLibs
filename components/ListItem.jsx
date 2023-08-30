@@ -5,9 +5,10 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
 import _ from "lodash";
 import LibManager from "../scripts/lib_manager";
+import { Animated } from "react-native";
 
 export default function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes} = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes, index} = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -69,19 +70,31 @@ export default function ListItem(props) {
     }
 
     let promptOrText = promptFirst;
+
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+      Animated.sequence([
+        Animated.delay(index * 50), // delay by index * 50ms, staggering the load animation
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 400,
+          useNativeDriver: true,
+        })
+      ]).start();
+    }, [index]);
+
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>
-            <View style={[styles.container, globalStyles.containerWhitespace]}>
+            <Animated.View
+                style={[styles.container, globalStyles.containerWhitespace, {opacity: fadeAnim}]}
+            >
                 <Image
                     style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
                     source={require("../assets/images/avatars/" + avatarID + ".png")}
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>
-                    {/* <Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, flexShrink: 1, color: "#49454F"}]}>{text.map((key, index) => (
-                        // Description
-                        <Text key={key + index} style={(index + (promptOrText ? 0 : 1)) % 2 === 0 ? {fontStyle: "italic", color: "#006D40"} : null}>{key}</Text>
-                    ))}</Text> */}
                     <Text style={[{fontSize: 13, color: "#49454F"}]}>by {username} | {likes} likes</Text>
                 </View>
                 {icon && (
@@ -108,7 +121,7 @@ export default function ListItem(props) {
                         <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
                     </Dialog>
                 )}
-            </View>
+            </Animated.View>
         </TouchableOpacity>
     );
 }

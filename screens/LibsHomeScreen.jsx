@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import LibsScreen from "./LibsScreen_new";
 import CreateLibScreen from "./CreateLibScreen";
+import TestScreen from "./TestScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
@@ -61,6 +62,22 @@ export default function LibsHomeScreen({route}) {
                         return (
                             <View style={[styles.iconContainer, {backgroundColor: focused ? "#D1E8D5" : "transparent"}]}>
                                 <MaterialIcons name="edit" size={22} color={focused ? "black" : color} />
+                            </View>
+                        );
+                    }
+                }}
+            />
+            <Tab.Screen
+                name="Testing"
+                component={TestScreen}
+                options={{
+                    tabBarLabel: ({ color }) => (
+                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Testing</Text>
+                    ),
+                    tabBarIcon: ({ focused, color }) => {
+                        return (
+                            <View style={[styles.iconContainer, {backgroundColor: focused ? "#D1E8D5" : "transparent"}]}>
+                                <MaterialIcons name="bug-report" size={22} color={focused ? "black" : color} />
                             </View>
                         );
                     }

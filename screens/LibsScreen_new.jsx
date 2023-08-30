@@ -151,7 +151,7 @@ export default function LibsScreen() {
             <FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen}/>
         </View>
 		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
-			{listObjects.map((item) => (
+			{listObjects.map((item, index) => (
 				<ListItem
 					name={item.name}
 					description={item.display_with_prompts}
@@ -166,8 +166,9 @@ export default function LibsScreen() {
 					iconPress={null}
 					username={item.username}
 					likes={item.likes}
-					avatarID={item.avatarID}>
-				</ListItem>
+					avatarID={item.avatarID}
+					index={index}
+				/>
 			))}
 		</ScrollView>
 		<BottomSheet
