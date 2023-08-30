@@ -28,11 +28,15 @@ export default function LibsScreen() {
 	async function loadListObjectsFromDatabase(filterOptions = {}) {
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		let users = [];
-		temp_listObjects.forEach(object => {
-			if (!users.includes(object.user)) {
-				users.push(object.user);
-			}
-		});
+		if (temp_listObjects) {
+			temp_listObjects.forEach(object => {
+				if (!users.includes(object.user)) {
+					users.push(object.user);
+				}
+			});
+		} else {
+			temp_listObjects = [];
+		}
 		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
 		
 		for (let i = 0; i < temp_listObjects.length; i++) {
@@ -96,7 +100,7 @@ export default function LibsScreen() {
 
 	const playReadToggle = (newValue) => {
 		setPlayReadValue(newValue);
-		updateFilterOptions();
+		updateFilterOptions(newValue);
 	};
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -105,12 +109,12 @@ export default function LibsScreen() {
 	const [selectedSortBy, setSelectedSortBy] = useState("likes");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
-	const updateFilterOptions = () => {
+	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory.toLowerCase(), sortByValue = selectedSortBy, dateValue = selectedDate) => {
 		let filterOptions = {
-			official: selectedCategory === "Official",
-			sortBy: selectedSortBy,
-			dateRange: selectedDate,
-			playable: playReadValue
+			category: categoryValue,
+			sortBy: sortByValue,
+			dateRange: dateValue,
+			playable: playableValue
 		};
 		loadListObjectsFromDatabase(filterOptions);
 	}
@@ -195,25 +199,25 @@ export default function LibsScreen() {
 							label: "Official",
 							icon: selectedCategory === "Official" ? "done" : null,
 							buttonStyle: selectedCategory === "Official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("Official"); updateFilterOptions(); }
+							onPress: () => { setSelectedCategory("Official"); updateFilterOptions(playReadValue, "official"); }
 						},
 						{
 							label: "All",
 							icon: selectedCategory === "All" ? "done" : null,
 							buttonStyle: selectedCategory === "All" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("All"); updateFilterOptions(); }
+							onPress: () => { setSelectedCategory("All"); updateFilterOptions(playReadValue, "All"); }
 						},
 						{
 							label: "My favorites",
 							icon: selectedCategory === "My favorites" ? "done" : null,
 							buttonStyle: selectedCategory === "My favorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(); }
+							onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(playReadValue, "My favorites"); }
 						},
 						{
 							label: "My content",
 							icon: selectedCategory === "My content" ? "done" : null,
 							buttonStyle: selectedCategory === "My content" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("My content"); updateFilterOptions(); }
+							onPress: () => { setSelectedCategory("My content"); updateFilterOptions(playReadValue, "My content"); }
 						},
 
 					]}
@@ -229,19 +233,19 @@ export default function LibsScreen() {
 							label: "Top",
 							icon: selectedSortBy === "likes" ? "done" : null,
 							buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(); }
+							onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
 						},
 						{
 							label: "Trending",
 							icon: selectedSortBy === "trending" ? "done" : null,
 							buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(); }
+							onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
 						},
 						{
 							label: "Newest",
 							icon: selectedSortBy === "newest" ? "done" : null,
 							buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(); }
+							onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
 						}
 					]}
 					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
@@ -256,31 +260,31 @@ export default function LibsScreen() {
 							label: "All time",
 							icon: selectedDate === "allTime" ? "done" : null,
 							buttonStyle: selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("allTime"); updateFilterOptions(); }
+							onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
 						},
 						{
 							label: "Today",
 							icon: selectedDate === "today" ? "done" : null,
 							buttonStyle: selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("today"); updateFilterOptions(); }
+							onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
 						},
 						{
 							label: "This week",
 							icon: selectedDate === "thisWeek" ? "done" : null,
 							buttonStyle: selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(); }
+							onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
 						},
 						{
 							label: "This month",
 							icon: selectedDate === "thisMonth" ? "done" : null,
 							buttonStyle: selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(); }
+							onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
 						},
 						{
 							label: "This year",
 							icon: selectedDate === "thisYear" ? "done" : null,
 							buttonStyle: selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(); }
+							onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
 						},
 					]}
 					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}

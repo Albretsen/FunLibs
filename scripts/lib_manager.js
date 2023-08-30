@@ -35,19 +35,6 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
-        // for (let i = 0; i < LibManager.libs["libs"].length; i++) {
-        //     let libClass = LibManager.libs["libs"][i];
-        //     let lib = {};
-        //     lib.name = libClass.name;
-        //     lib.user = "HOv8K8Z1Q6bUuGxENrPrleECIWe2";
-        //     lib.text = libClass.text;
-        //     lib.prompts = libClass.prompts;
-        //     lib.likes = Math.round(Math.random() * 100);
-        //     lib.official = true;
-        //     lib.playable = true;
-        //     lib.date = getRandomDateFromLastYear();
-        //     FirebaseManager.AddDocumentToCollection("posts", lib);
-        // }
         //console.log(JSON.stringify(LibManager.libs["libs"]));
     }
 

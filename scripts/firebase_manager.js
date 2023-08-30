@@ -22,6 +22,10 @@ const db = getFirestore(app);
 export default class FirebaseManager {
     static currentUserData = null;
 
+    static getCurrentUserData() {
+        return this.currentUserData;
+    }
+
     static async CreateUserWithEmailAndPassword(email, password) {
         await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -74,6 +78,7 @@ export default class FirebaseManager {
                 // User is signed in
                 const uid = user.uid;
                 this.currentUserData = user;
+                console.log(JSON.stringify(this.currentUserData));
                 Analytics.log("Auth stated changed to Signed in for " + uid);
 
                 // Fetch user data from Firestore and store in currentUserData
@@ -88,16 +93,15 @@ export default class FirebaseManager {
 
     static async fetchUserData() {
         let uid = null;
-        if (this.currentUserData.auth) uid = this.currentUserData.auth.uid;
+        if (this.currentUserData && this.currentUserData.auth) {
+            uid = this.currentUserData.auth.uid;
+        }
         try {
-            const userDoc = await getDocs(doc(db, "users", uid)); // Assuming "users" is the collection name where user data is stored
-            if (userDoc.exists()) {
-                this.currentUserData = {
-                    auth: auth.currentUser, // Store the auth user
-                    firestoreData: userDoc.data() // Store the user's Firestore data
-                };
+            if (uid) {
+                const userDoc = await getDocs(doc(db, "users", uid));
+                // ...rest of the code
             } else {
-                // Handle the case where the user does not have a Firestore document
+                // Handle the case where uid is null or undefined
                 this.currentUserData = {
                     auth: auth.currentUser,
                     firestoreData: null
@@ -105,7 +109,7 @@ export default class FirebaseManager {
             }
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
-            this.currentUserData = null; // Reset the field to null in case of an error
+            this.currentUserData = null;
         }
     }
 
@@ -172,7 +176,7 @@ export default class FirebaseManager {
         }
     }
 
-    static async AddDocumentToCollection(collection_, data, id) {
+    static async AddDocumentToCollection(collection_, data, id = null) {
         try {
             if (id) {
                 await setDoc(doc(db, collection_, id), data);
@@ -210,7 +214,7 @@ export default class FirebaseManager {
     static async ReadDataFromDatabase(
         collection_,
         filterOptions = {
-            official: undefined,
+            category: "all",
             docIds: undefined,
             sortBy: undefined,
             dateRange: undefined,
@@ -223,13 +227,22 @@ export default class FirebaseManager {
 
         let q = collection(db, collection_);
 
-        // Filtering by "official" field
-        if (filterOptions.official !== undefined) {
-            if (filterOptions.official) {
+        switch (filterOptions.category) {
+            case "official":
                 q = query(q, where("official", "==", true));
-            } else {
-                q = query(q, where("official", "in", [false, null]));
-            }
+                break;
+            case "all":
+                // Do nothing
+                break;
+            case "myFavorites":
+                // Boilerplate for "myFavorites" - You can add the functionality later.
+                // e.g., q = query(q, where("favorite", "==", true)); // Replace with your condition
+                break;
+            case "myContent":
+                q = query(q, where("username", "==", this.currentUserData.auth.uid));
+                break;
+            default:
+                break;
         }
 
         // Filtering by "playable" field
@@ -242,46 +255,48 @@ export default class FirebaseManager {
             q = query(q, where("__name__", "in", filterOptions.docIds));
         }
 
-        // Sorting options
+        // Date range calculations
+        const now = new Date();
+        let startDate;
+
+        switch (filterOptions.dateRange) {
+            case "today":
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                break;
+            case "thisWeek":
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                break;
+            case "thisMonth":
+                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                break;
+            case "thisYear":
+                startDate = new Date(now.getFullYear(), 0, 1);
+                break;
+            case "allTime":
+            default:
+                startDate = null;
+                break;
+        }
+
+        if (startDate) {
+            q = query(q, where("date", ">=", startDate));
+            q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
+        }
+
+        // Adjusted sorting options
         if (filterOptions.sortBy) {
             switch (filterOptions.sortBy) {
                 case "likes":
                     q = query(q, orderBy("likes", "desc"));
                     break;
                 case "trending":
-                    //q = query(q, orderBy("weighted_likes", "desc"));
                     q = query(q, orderBy("likes", "desc"));
                     Analytics.log("Weighted sorting has been DISABLED\nSorting by Top instead")
                     break;
                 case "newest":
-                    q = query(q, orderBy("date", "desc"));
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // Date range options
-        const currentDate = new Date();
-        if (filterOptions.dateRange) {
-            switch (filterOptions.dateRange) {
-                case "today":
-                    const startOfDay = new Date(currentDate);
-                    startOfDay.setHours(0, 0, 0, 0);
-                    q = query(q, where("date", ">=", startOfDay));
-                    break;
-                case "thisWeek":
-                    const startOfWeek = new Date(currentDate);
-                    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-                    q = query(q, where("date", ">=", startOfWeek));
-                    break;
-                case "thisMonth":
-                    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-                    q = query(q, where("date", ">=", startOfMonth));
-                    break;
-                case "thisYear":
-                    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
-                    q = query(q, where("date", ">=", startOfYear));
+                    if (!startDate) {  // Only add this if we haven't ordered by date already
+                        q = query(q, orderBy("date", "desc"));
+                    }
                     break;
                 default:
                     break;
