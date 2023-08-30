@@ -75,7 +75,7 @@ index 5c021cf..44aa287 100644
          tappableDots: PropTypes.bool,
          vertical: PropTypes.bool,
 diff --git a/node_modules/react-native-snap-carousel/src/pagination/PaginationDot.js b/node_modules/react-native-snap-carousel/src/pagination/PaginationDot.js
-index e59d196..3b42c4f 100644
+index e59d196..3770c03 100644
 --- a/node_modules/react-native-snap-carousel/src/pagination/PaginationDot.js
 +++ b/node_modules/react-native-snap-carousel/src/pagination/PaginationDot.js
 @@ -1,5 +1,5 @@
@@ -90,7 +90,7 @@ index e59d196..3b42c4f 100644
          carouselRef: PropTypes.object,
          color: PropTypes.string,
 -        containerStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
-+        containerStyle: VPropTypes.oneOfType([PropTypes.object, PropTypes.array]),
++        containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
          inactiveColor: PropTypes.string,
 -        inactiveStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
 +        inactiveStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
