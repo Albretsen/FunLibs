@@ -12,7 +12,7 @@ import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
 import { TextInput, IconButton } from "react-native-paper";
-import ToastContext from "../components/Toast/ToastContext";
+import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
 

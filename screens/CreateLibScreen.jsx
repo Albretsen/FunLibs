@@ -4,7 +4,7 @@ import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
 import LibManager from "../scripts/lib_manager";
-import ToastContext from "../components/Toast/ToastContext";
+import { ToastContext } from "../components/Toast";
 import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';

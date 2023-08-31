@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import LibManager from "./scripts/lib_manager.js";
-import ToastProvider from "./components/Toast/ToastProvider";
+import { ToastProvider } from "./components/Toast";
 import SplashScreen from "./screens/SplashScreen";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
