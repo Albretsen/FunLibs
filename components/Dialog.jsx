@@ -1,125 +1,47 @@
-/**
- * @component Dialog
- * 
- * @overview
- * Provides a customizable modal dialog that can be used to prompt users
- * for a decision, confirmation, or any other user interaction. The dialog can contain any type
- * of content, including text, images, and interactive elements.
- * 
-* @props
- * - `onCancel` (Function): Function to be executed when the Cancel button is pressed. (Required)
- * - `onConfirm` (Function): Function to be executed when the Confirm button is pressed. (Required)
- * - `cancelLabel` (String): Label for the Cancel button. Default is "Cancel".
- * - `confirmLabel` (String): Label for the Confirm button. Default is "Confirm".
- * - `buttonStyle` (Object): Custom styles for the buttons (both Cancel and Confirm).
- * - `labelStyle` (Object): Custom styles for the button labels (both Cancel and Confirm).
- * - `cancelStyle` (Object): Custom styles for the Cancel button.
- * - `confirmStyle` (Object): Custom styles for the Confirm button.
- * - `modalStyle` (Object): Custom styles for the modal container.
- * - `containerStyle` (Object): Custom styles for the content container within the modal.
- * 
- * @example
- * ```
- * import React, { useState } from "react";
- * import { Text, Button } from "react-native";
- * import Dialog from "../components/Dialog";
- * 
- * function ExampleComponent() {
- *   const [showDialog, setShowDialog] = useState(false);
- * 
- *   const handleOpenDialog = () => {
- *     setShowDialog(true);
- *   };
- * 
- *   const handleCloseDialog = () => {
- *     setShowDialog(false);
- *   };
- * 
- *   const handleConfirmDialog = () => {
- *     console.log("Dialog confirmed");
- *     setShowDialog(false);
- *   };
- * 
- *   return (
- *     <>
- *       <Button title="Open Dialog" onPress={handleOpenDialog} />
- *       {showDialog && (
- *         <Dialog
- *           onCancel={handleCloseDialog}
- *           onConfirm={handleConfirmDialog}
- *           cancelLabel="No, Cancel"
- *           confirmLabel="Yes, Confirm"
- *           buttonStyle={{backgroundColor: 'blue', borderRadius: 5}}
- *           labelStyle={{color: 'white', fontWeight: 'bold'}}
- *           cancelStyle={{backgroundColor: 'red'}}
- *           confirmStyle={{backgroundColor: 'green'}}
- *           modalStyle={{padding: 20}}
- *           containerStyle={{justifyContent: 'center'}}
- *         >
- *           <Text>Are you sure you want to proceed?</Text>
- *         </Dialog>
- *       )}
- *     </>
- *   );
- * }
- * ```
- */
-
-import React, { useState } from "react";
-import { StyleSheet, View, Modal } from "react-native";
-import globalStyles from "../styles/globalStyles";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Modal, View, StyleSheet } from "react-native";
 import Buttons from "./Buttons";
 
-export default function Dialog(props) {
-    const { onCancel, onConfirm, cancelLabel, confirmLabel, buttonStyle, labelStyle, cancelStyle, confirmStyle, modalStyle, containerStyle } = props;
-    const [modalVisible, setModalVisible] = useState(true);
+function Dialog(props) {
+  const { onCancel, onConfirm, closeDialog } = props;
 
-    function openDialog() {
-        setModalVisible(true);
-    }
+  const handleCancel = () => {
+    closeDialog();
+    onCancel();
+  };
 
-    function closeDialog() {
-        setModalVisible(false);
-    }
+  const handleConfirm = () => {
+    closeDialog();
+    onConfirm();
+  };
 
-    function handleCancel() {
-        closeDialog();
-        onCancel();
-    }
-
-    function handleConfirm() {
-        openDialog();
-        onConfirm();
-    }
-
-    return (
+  return (
         <Modal
             transparent={true}
-            visible={modalVisible}
+            visible={true}
             onRequestClose={closeDialog}
         >
             <View style={styles.modalBackground}>
-                <View style={styles.modalContainer}>
-                    <View style={[styles.contentContainer, modalStyle ? modalStyle : null]}>
-                        {props.children}
-                        <Buttons
-                            buttons={[
-                                {
-                                    label: cancelLabel ? cancelLabel : "Cancel",
-                                    onPress: handleCancel,
-                                    buttonStyle: cancelStyle
-                                },
-                                {
-                                    label: confirmLabel ? confirmLabel : "Confirm",
-                                    onPress: handleConfirm,
-                                    buttonStyle: confirmStyle
-                                }
-                            ]}
-                            buttonStyle={[styles.button, buttonStyle]}
-                            labelStyle={[styles.buttonText, globalStyles.bold, labelStyle]}
-                            containerStyle={containerStyle}
-                        />
-                    </View>
+                <View style={[styles.modalContainer]}>
+					<View style={styles.contentContainer}>
+						{props.children}
+						<Buttons
+							buttons={[
+								{
+									label: props.cancelLabel || "Cancel",
+									onPress: handleCancel,
+									buttonStyle: {paddingLeft: 5}
+								},
+								{
+									label: props.confirmLabel || "Confirm",
+									onPress: handleConfirm,
+								},
+							]}
+							buttonStyle={{borderWidth: 0, backgroundColor: "transparent", height: 14, justifyContent: "flex-start", paddingRight: 10, minWidth: 10}}
+							containerStyle={{justifyContent: "flex-start", marginTop: 0, gap: 0}}
+							labelStyle={{color: "#006D40", fontWeight: 600}}
+						/>
+					</View>
                 </View>
             </View>
         </Modal>
@@ -143,7 +65,7 @@ const styles = StyleSheet.create({
     contentContainer: {
         height: "auto",
         width: "80%",
-        backgroundColor: "#3B6470",
+        backgroundColor: "#F0F1EC",
         gap: 10,
         padding: 20,
         borderRadius: 16,
@@ -162,3 +84,55 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
 });
+
+const DialogContext = createContext();
+
+export const useDialog = () => {
+  return useContext(DialogContext);
+};
+
+export const DialogProvider = ({ children }) => {
+	const [dialogs, setDialogs] = useState({});
+
+	const openDialog = (id = 'default', props) => {
+		setDialogs(prevDialogs => ({
+			...prevDialogs,
+			[id]: props,
+		}));
+	};
+
+	const closeDialog = (id = 'default') => {
+		setDialogs(prevDialogs => {
+			const newDialogs = { ...prevDialogs };
+			delete newDialogs[id];
+			return newDialogs;
+		});
+	};
+
+	return (
+		<DialogContext.Provider value={{ openDialog, closeDialog }}>
+			{children}
+			{Object.keys(dialogs).map(id => (
+				<Dialog key={id} {...dialogs[id]} closeDialog={() => closeDialog(id)} />
+			))}
+		</DialogContext.Provider>
+	);
+};
+
+export const DialogTrigger = ({ id = 'default', show, ...props }) => {
+	const { openDialog, closeDialog } = useDialog();
+	const [lastShow, setLastShow] = useState(show);
+
+	useEffect(() => {
+		if (show && !lastShow) {
+			openDialog(id, props);
+		} else if (!show && lastShow) {
+			closeDialog(id);
+		}
+			setLastShow(show);
+	}, [show, props]);
+
+	return null;
+};
+
+export default DialogProvider;

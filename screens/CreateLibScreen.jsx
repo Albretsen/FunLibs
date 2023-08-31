@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import Dialog from "../components/Dialog";
+import { DialogTrigger } from "../components/Dialog";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native-web";
 import { useDrawer } from "../components/Drawer";
@@ -119,28 +119,10 @@ export default function CreateLibScreen() {
 
     let addCustomPrompt = () => {
         addPrompt(customPromptText);
-        closeCustomPromptDialog();
     }
 
-    const [showCustomPromptDialog, setShowCustomPromptDialog] = useState(false);
-    
-    let openCustomPromptDialog = () => {
-        setShowCustomPromptDialog(true);
-    }
-
-    let closeCustomPromptDialog = () => {
-        setShowCustomPromptDialog(false);
-    }
-
-    const [showInfoDialog, setShowInfoDialog] = useState(false)
-
-    let openInfoDialog = () => {
-        setShowInfoDialog(true);
-    }
-
-    let closeInfoDialog = () => {
-        setShowInfoDialog(false);
-    }
+    const [showDialogCustom, setShowDialogCustom] = useState(false);
+    const [showDialogInfo, setShowDialogInfo] = useState(false);
 
     // Drawer 
 
@@ -189,7 +171,7 @@ export default function CreateLibScreen() {
                         placeholderTextColor={"#9e9e9e"}
                         onChangeText={text => setLibNameText(text)}
                     />
-                    <TouchableOpacity onPress={openInfoDialog}>
+                    <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
                         <MaterialIcons style={{color: "#006d40"}} name="help" size={28} />
                     </TouchableOpacity>
                 </View>
@@ -212,7 +194,7 @@ export default function CreateLibScreen() {
                             label: "Custom prompt",
                             icon: "add",
                             iconColor: "white",
-                            onPress: openCustomPromptDialog
+                            onPress: () => setShowDialogCustom(true)
                         }]
                     }
                     buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
@@ -278,65 +260,62 @@ export default function CreateLibScreen() {
                     sideScroll={true}
                 />
 
-                {showCustomPromptDialog && (
-                    <Dialog
-                        modalStyle={{backgroundColor: "white"}}
-                        onCancel={closeCustomPromptDialog}
-                        onConfirm={addCustomPrompt}
-                        confirmLabel="Add"
-                        confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
-                        buttonStyle={globalStyles.buttonDefault}
-                        labelStyle={{color: "black"}}
-                        containerStyle={{gap: 0}}
-                    >
-                        <View style={{flexDirection: "row", gap: 10, marginBottom: 10}}>
-                            <View style={styles.iconCircle}>
-                                <MaterialIcons style={{color: "white"}} name="add" size={28} />
-                            </View>
-                            <View>
-                                <Text style={[{fontSize: 20}, globalStyles.bold]}>Custom prompt</Text>
-                                <Text style={{fontSize: 18}}>Add a custom prompt</Text>
-                            </View>
+                <DialogTrigger
+                    id="dialogCustom"
+                    show={showDialogCustom}
+                    onCancel={() => setShowDialogCustom(false)}
+                    onConfirm={() => {
+                        addCustomPrompt();
+                        setShowDialogCustom(false);
+                    }}
+                    confirmLabel="Add"
+                    cancelLabel="Cancel"
+                    // modalStyle={{backgroundColor: "white"}}
+                    // confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
+                    // buttonStyle={globalStyles.buttonDefault}
+                    // labelStyle={{color: "black"}}
+                    // containerStyle={{gap: 0}}
+                >
+                    <View style={{flexDirection: "row", gap: 10, marginBottom: 10}}>
+                        <View style={styles.iconCircle}>
+                            <MaterialIcons style={{color: "white"}} name="add" size={28} />
                         </View>
-                        <TextInput
-                            style={[globalStyles.input, globalStyles.inputSmall, {paddingHorizontal: 14, marginVertical: 10, fontSize: 18}]}
-                            numberOfLines={1}
-                            placeholder="Your prompt..."
-                            onChangeText={text => setCustomPromptText(text)}
-                        >
-                            
-                        </TextInput>
-                    </Dialog>
-                )}
-                {showInfoDialog && (
-                    <Dialog
-                        modalStyle={{backgroundColor: "white"}}
-                        onCancel={closeInfoDialog}
-                        onConfirm={closeInfoDialog}
-                        confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
-                        buttonStyle={globalStyles.buttonDefault}
-                        labelStyle={{color: "black"}}
-                        containerStyle={{gap: 0}}
-                    >
-                        <Text style={styles.paragraph}>
-                            {"Write your lib by adding prompts using the suggestion buttons. Prompts use parentheses, and you can add these yourself if you prefer. Here's an example:"}
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {"They built an "}
-                            <Text style={styles.highlighted}>{"(adjective)"}</Text>
-                            {" house."}
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {"Add a number at the end for words you would like to repeat, like names:"}
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            <Text style={styles.highlighted}>{"(Name 1)"}</Text>
-                            {" is building a table. "}
-                            <Text style={styles.highlighted}>{"(Name 1)"}</Text>
-                            {" is a carpenter."}
-                        </Text>
-                    </Dialog>
-                )}
+                        <View>
+                            <Text style={[{fontSize: 20}, globalStyles.bold]}>Custom prompt</Text>
+                            <Text style={{fontSize: 18}}>Add a custom prompt</Text>
+                        </View>
+                    </View>
+                    <TextInput
+                        style={[globalStyles.input, globalStyles.inputSmall, {paddingHorizontal: 14, marginVertical: 10, fontSize: 18}]}
+                        numberOfLines={1}
+                        placeholder="Your prompt..."
+                        onChangeText={text => setCustomPromptText(text)}
+                    />
+                </DialogTrigger>
+                <DialogTrigger
+                    id="dialogInfo"
+                    show={showDialogInfo}
+                    onCancel={() => setShowDialogInfo(false)}
+                    onConfirm={() => setShowDialogInfo(false)}
+                >
+                    <Text style={styles.paragraph}>
+                        {"Write your lib by adding prompts using the suggestion buttons. Prompts use parentheses, and you can add these yourself if you prefer. Here's an example:"}
+                    </Text>
+                    <Text style={styles.paragraph}>
+                        {"They built an "}
+                        <Text style={styles.highlighted}>{"(adjective)"}</Text>
+                        {" house."}
+                    </Text>
+                    <Text style={styles.paragraph}>
+                        {"Add a number at the end for words you would like to repeat, like names:"}
+                    </Text>
+                    <Text style={styles.paragraph}>
+                        <Text style={styles.highlighted}>{"(Name 1)"}</Text>
+                        {" is building a table. "}
+                        <Text style={styles.highlighted}>{"(Name 1)"}</Text>
+                        {" is a carpenter."}
+                    </Text>
+                </DialogTrigger>
             </ScrollView>
         </ParentTag>
     )

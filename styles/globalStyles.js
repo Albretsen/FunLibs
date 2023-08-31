@@ -133,10 +133,10 @@ const globalStyles = StyleSheet.create({
 	},
 
     shadow: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowColor: '#CACACA',
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.8,
-        shadowRadius: 2,  
+        shadowRadius: 20,  
         elevation: 5, // for Android
     }
 })
