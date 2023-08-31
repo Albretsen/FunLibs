@@ -184,6 +184,7 @@ export const DrawerProvider = ({ children }) => {
     const openDrawer = (props = {}) => {
         setDrawerProps(props);
         setIsVisible(true);
+        console.log("Test")
     };
 
     const closeDrawer = () => {

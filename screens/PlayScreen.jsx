@@ -1,5 +1,5 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
-import { StyleSheet, View, Text, Image, Platform, ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -11,7 +11,7 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
-import { TextInput, IconButton } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -20,7 +20,7 @@ function isNum(n) {
     return /.*[0-9].*/.test(n);
 }
 
-function PlayScreen({ route }) {
+export default function PlayScreen({ route }) {
 
 	useFocusEffect(() => {
 		AdManager.showAd("interstitial");
@@ -238,11 +238,10 @@ function PlayScreen({ route }) {
 						value={currentInput}
 						onChangeText={setCurrentInput}
 						mode="outlined"
-						style={{ color: 'green' }} // For input text color
 						theme={{
-						  colors: {
-							primary: '#49454F', // For the outline color
-						  },
+							colors: {
+								primary: '#49454F', // For the outline color
+							},
 						}}
 					/>
 					{fillAvailable && ( // Render only if autofill is available
@@ -284,8 +283,6 @@ function PlayScreen({ route }) {
 		</View>
 	);
 }
-
-export default PlayScreen;
 
 const styles = StyleSheet.create({
 	promptContainer: {
