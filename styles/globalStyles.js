@@ -32,6 +32,10 @@ const globalStyles = StyleSheet.create({
         width: fullWidth - fullWidth / 10,
     },
 
+    containerBigWhitespace: {
+        width: fullWidth - fullWidth / 6,
+    },
+
     defaultFont: {
         fontFamily: "Roboto-Regular",
     },

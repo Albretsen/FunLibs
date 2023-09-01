@@ -10,7 +10,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Stack = createStackNavigator();
 
 export default function AppScreenStack({ navigation }) {
-    const { openDrawer } = useDrawer();
+    const { openDrawer, closeDrawer } = useDrawer();
   
     return (
 		<Stack.Navigator>
@@ -79,6 +79,13 @@ export default function AppScreenStack({ navigation }) {
 										<TouchableOpacity>
 											<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Sign out</Text>
 										</TouchableOpacity>
+										<TouchableOpacity 
+											onPress={() => {
+												navigation.navigate("SignInScreen"),
+												closeDrawer()
+											}}>
+											<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Sign in</Text>
+										</TouchableOpacity>
 									</View>
 								),
 								closeSide: {left: false, right: true, leftIcon: "arrow-back"},
@@ -114,7 +121,15 @@ export default function AppScreenStack({ navigation }) {
 			<Stack.Screen
 				name="SignInScreen"
 				component={SignInScreen}
-				headerShown={false}
+				options={{
+					headerTitle: "",
+					headerStyle: {
+						elevation: 0, // remove shadow on Android
+						shadowOpacity: 0, // remove shadow on iOS
+						borderBottomWidth: 0, // for explicit border settings
+					},
+				}}
+				
 			/>
 		</Stack.Navigator>
 	);
