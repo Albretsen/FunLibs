@@ -142,6 +142,35 @@ const globalStyles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 20,  
         elevation: 5, // for Android
+    },
+
+    form: {
+        gap: 25
+    },
+
+    formButton: {
+        borderRadius: 50,
+        backgroundColor: "#D1E8D5",
+        padding: 12
+    },
+
+    formButtonLabel: {
+        alignSelf: "center",
+        fontSize: 15,
+        fontWeight: 600,
+    },
+
+    formBottomText: {
+        position: "absolute",
+        bottom: 10,
+        alignSelf: "center",
+        color: "#8f8f8f",
+        fontSize: 15,
+        letterSpacing: 1
+    },
+
+    formBottomTextHighlight: {
+        color: "#3975EA"
     }
 })
 
