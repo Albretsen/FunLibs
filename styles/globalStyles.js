@@ -164,6 +164,7 @@ const globalStyles = StyleSheet.create({
         position: "absolute",
         bottom: 10,
         alignSelf: "center",
+        textAlign: "center",
         color: "#8f8f8f",
         fontSize: 15,
         letterSpacing: 1
@@ -171,6 +172,13 @@ const globalStyles = StyleSheet.create({
 
     formBottomTextHighlight: {
         color: "#3975EA"
+    },
+
+    // For icons placed within a material paper outlined input field
+    inputRightIcon: {
+        position: "absolute",
+        right: 15,
+        top: 20
     }
 })
 

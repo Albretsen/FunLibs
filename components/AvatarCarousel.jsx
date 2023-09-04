@@ -1,13 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Image, Dimensions, Animated } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
-const AvatarCarousel = ({ initialActiveIndex = 29 }) => {
+const AvatarCarousel = ({ initialActiveIndex = 1 }) => {
 	const scrollAnim = useRef(new Animated.Value(initialActiveIndex * 100)).current;
 
-	const avatars = Array.from({ length: 30 }, (_, index) => ({
+	let avatars = Array.from({ length: 30 }, (_, index) => ({
 		uri: require(`../assets/images/avatars/${index}.png`),
 	}));
+
+	// avatars.splice(14, 0, {uri: require(`../assets/images/avatars/no-avatar.png`)});
+
+	avatars.unshift({uri: require(`../assets/images/avatars/carousel-padding.png`)});
+	avatars.push({uri: require(`../assets/images/avatars/carousel-padding.png`)});
 
 	const renderItem = ({ item, index }) => {
 		const inputRange = [
@@ -24,12 +29,12 @@ const AvatarCarousel = ({ initialActiveIndex = 29 }) => {
 		});
 
 		return (
-			<Animated.View style={{ transform: [{ scale }], opacity: 1 }}>
-				<Image source={item.uri} style={{ width: 100, height: 100 }} />
-			</Animated.View>
+		  <Animated.View style={{ transform: [{ scale }], opacity: 1 }}>
+			<Image source={item.uri} style={{ width: 100, height: 100 }} />
+		  </Animated.View>
 		);
 	};
-
+	
 	const handleSnapToItem = (index) => {
 		console.log("Snapped to item:", index);
 	}

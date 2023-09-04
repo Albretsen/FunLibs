@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import LibsHomeScreen from "./LibsHomeScreen";
 import SignInScreen from "./SignInScreen";
+import NewAccountScreen from "./NewAccountScreen";
 import SplashScreen from "./SplashScreen";
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -129,7 +130,18 @@ export default function AppScreenStack({ navigation }) {
 						borderBottomWidth: 0, // for explicit border settings
 					},
 				}}
-				
+			/>
+			<Stack.Screen
+				name="NewAccountScreen"
+				component={NewAccountScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: {
+						elevation: 0, // remove shadow on Android
+						shadowOpacity: 0, // remove shadow on iOS
+						borderBottomWidth: 0, // for explicit border settings
+					},
+				}}
 			/>
 		</Stack.Navigator>
 	);

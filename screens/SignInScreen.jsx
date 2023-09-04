@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function SignInScreen() {
     const [email, setEmail] = useState("")
@@ -19,21 +20,26 @@ export default function SignInScreen() {
                         mode="outlined"
                         theme={{colors:{primary: '#49454F'}}}
                     />
-                    <TextInput
-                        label="Password"
-                        secureTextEntry={passwordVisible}
-                        value={password}
-                        onChangeText={password => setPassword(password)}
-                        mode="outlined"
-                        right={
-                            <TextInput.Icon
-                                color="#49454F"
-                                name={passwordVisible ? "eye" : "eye-off"}
-                                onPress={() => setPasswordVisible(!passwordVisible)}
-                            />
-                        }
-                        theme={{colors:{primary: '#49454F'}}}
-                    />
+                    <View style={{position: "relative"}}>
+                        <TextInput
+                            label="Password"
+                            secureTextEntry={passwordVisible}
+                            value={password}
+                            onChangeText={password => setPassword(password)}
+                            mode="outlined"
+                            theme={{colors:{primary: '#49454F'}}}
+                            style={{paddingRight: 30}}
+                        />
+						<TouchableOpacity 
+                            onPress={() => setPasswordVisible(!passwordVisible)}
+                            style={globalStyles.inputRightIcon}
+                        >
+                            <MaterialIcons
+								name={passwordVisible ? "visibility" : "visibility-off"}
+								size={22}
+							/>
+						</TouchableOpacity>
+                    </View>
                     <TouchableOpacity style={globalStyles.formButton}>
                         <Text style={globalStyles.formButtonLabel}>Sign in</Text>
                     </TouchableOpacity>
