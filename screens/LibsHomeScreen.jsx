@@ -16,7 +16,7 @@ export default function LibsHomeScreen({route}) {
             tabBarPosition="bottom"
             initialRouteName={initialTab}
             screenOptions={({ route }) => ({
-                swipeEnabled: false, //Temporary disable for debugging
+                swipeEnabled: true, //Temporary disable for debugging
                 headerShown: true,
                 tabBarActiveTintColor: "gray",
                 tabBarInactiveTintColor: "gray",
@@ -67,7 +67,7 @@ export default function LibsHomeScreen({route}) {
                     }
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Testing"
                 component={TestScreen}
                 options={{
@@ -82,7 +82,7 @@ export default function LibsHomeScreen({route}) {
                         );
                     }
                 }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 }

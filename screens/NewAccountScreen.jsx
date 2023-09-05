@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -13,9 +13,9 @@ export default function NewAccountScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
     return(
-        <View style={[ {alignItems: "center", backgroundColor: '#fff', height: "100%"}]}>
-            <View style={[globalStyles.containerBigWhitespace, {marginTop: 40, marginBottom: 10}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Create New Account</Text>
+        <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
+            <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center"}]}>Create New Account</Text>
                 <View style={globalStyles.form}>
                     <TextInput
                         label="Username"
@@ -23,6 +23,7 @@ export default function NewAccountScreen() {
                         onChangeText={username => setUsername(username)}
                         mode="outlined"
                         theme={{colors:{primary: '#49454F'}}}
+                        style={globalStyles.bigWhitespace}
                     />
                     <TextInput
                         label="Email"
@@ -30,6 +31,7 @@ export default function NewAccountScreen() {
                         onChangeText={email => setEmail(email)}
                         mode="outlined"
                         theme={{colors:{primary: '#49454F'}}}
+                        style={globalStyles.bigWhitespace}
                     />
                     <View style={{position: "relative"}}>
                         <TextInput
@@ -39,7 +41,7 @@ export default function NewAccountScreen() {
                             onChangeText={password => setPassword(password)}
                             mode="outlined"
                             theme={{colors:{primary: '#49454F'}}}
-                            style={{paddingRight: 30}}
+                            style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
                         />
 						<TouchableOpacity 
                             onPress={() => setPasswordVisible(!passwordVisible)}
@@ -59,7 +61,7 @@ export default function NewAccountScreen() {
                             onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
                             mode="outlined"
                             theme={{colors:{primary: '#49454F'}}}
-                            style={{paddingRight: 30}}
+                            style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
                         />
 						<TouchableOpacity 
                             onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
@@ -71,18 +73,14 @@ export default function NewAccountScreen() {
 							/>
 						</TouchableOpacity>
                     </View>
-                </View>
-            </View>
-            <View style={{flexGrow: 0, marginVertical: 30}}>
-                <AvatarCarousel initialActiveIndex={15}/>
-            </View>
-            <View style={[globalStyles.containerBigWhitespace]}>
-                <View style={globalStyles.form}>
-                    <TouchableOpacity style={globalStyles.formButton}>
-                        <Text style={globalStyles.formButtonLabel}>Create</Text>
+                    <View style={{flexGrow: 0, marginVertical: 30}}>
+                        <AvatarCarousel initialActiveIndex={15}/>
+                    </View>
+                    <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]}>
+                        <Text style={[globalStyles.formButtonLabel]}>Create</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
             <Text style={globalStyles.formBottomText}>
                 Don't have an account? 
                 <TouchableOpacity>

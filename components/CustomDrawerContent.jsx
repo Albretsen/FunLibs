@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const CustomDrawerContent = ({ navigation, state }) => {
-    console.log(state.routes)
     return (
         <View style={styles.container}>
         <TouchableOpacity

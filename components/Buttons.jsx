@@ -65,7 +65,9 @@ export default function Buttons({ buttons, containerStyle, buttonStyle, labelSty
 							// Specific button styles applied last for precedence
 							button.buttonStyle ? button.buttonStyle : null,
 							// Give button less left padding if it has an icon
-							button.icon ? {paddingLeft: 16} : null
+							button.icon ? {paddingLeft: 16} : null,
+							// Allow the possibility of having the icon on either side
+							button.iconSide == "right" ? {flexDirection: "row-reverse"} : null,
 						]}
 						key={index}
 						onPress={button.onPress}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		flexDirection: "row",
-		gap: 10
+		gap: 10,
 	},
 
 	label: {

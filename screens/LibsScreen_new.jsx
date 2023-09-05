@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions } from "react-native";
 import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -9,15 +9,13 @@ import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import Dropdown from "../components/Dropdown";
 import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import Buttons from "../components/Buttons";
 import CustomBackground from "../components/CustomBackground";
 import { Divider } from '@rneui/themed';
 import FilterToggle from "../components/FilterToggle";
-import { SegmentedButtons } from "react-native-paper";
+import { SegmentedButtons, ActivityIndicator } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
-import { ScrollView as GestureScrollView } from "react-native-gesture-handler";
 
 export default function LibsScreen() {
 	const [listObjects, setListObjects] = useState([]);
@@ -25,7 +23,10 @@ export default function LibsScreen() {
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	async function loadListObjectsFromDatabase(filterOptions = {}) {
+		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		let users = [];
 		if (temp_listObjects) {
@@ -49,12 +50,15 @@ export default function LibsScreen() {
 		}
 
 		LibManager.libs = temp_listObjects;
-		setListObjects(temp_listObjects);	
+		setListObjects(temp_listObjects);
+		setIsLoading(false);
 	}
 
 	useEffect(() => {
-        loadListObjectsFromDatabase();
-    }, []);
+		(async () => {
+			await loadListObjectsFromDatabase();
+		})();
+	}, []);
 
 	useEffect(() => {
 		if (isFocused) {
@@ -120,183 +124,189 @@ export default function LibsScreen() {
 	}
   
 	return (
-	  <SafeAreaView style={[globalStyles.screenStandard]}>
-        <View style={[{flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20}]}>
-            <SegmentedButtons
-                value={playReadValue}
-                onValueChange={playReadToggle}
-                style={{width: 190}}
-                density="small"
-                theme={{
-                    colors: {
-                        primary: '#49454F',
-                        outline: "#79747E",
-                        secondaryContainer: "#D1E8D5"
-                    },
-                }}
-                buttons={[
-                    {
-                        label: "Play",
-                        value: true,
-                        showSelectedCheck: true
-                        
-                    },
-                    {
-                        label: "Read",
-                        value: false,
-                        showSelectedCheck: true,
-                    }
-                ]}
-            />
-            <FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen}/>
-        </View>
-		<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
-			{listObjects.map((item, index) => (
-				<ListItem
-					name={item.name}
-					description={item.display_with_prompts}
-					promptAmount={item.prompts.length}
-					prompts={item.prompts}
-					text={item.text}
-					id={item.id}
-					type="libs"
-					key={item.id}
-					length={item.percent}
-					icon="favorite"
-					iconPress={null}
-					username={item.username}
-					likes={item.likes}
-					avatarID={item.avatarID}
-					index={index}
-				/>
-			))}
-		</ScrollView>
-		<BottomSheet
-			ref={bottomSheetRef}
-			index={-1}
-            // Bug causes bottom sheet to reappear on navigation
-            // Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
-            // 10ms
-			snapPoints={['1%', '25%', '50%', '80%', '100%']}
-			enablePanDownToClose={true}
-			style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
-			backgroundComponent={CustomBackground}
-			onChange={handleBottomSheetChange}
-			onAnimate={(fromIndex, toIndex) => {
-				if (toIndex === -1) {
-				  console.log('The bottom sheet is hidden');
-				} else {
-				  console.log('The bottom sheet is shown');
-				}
-			  }}
-		>
-			{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
-			{/* <BottomSheetScrollView> */}
-			<View>
-				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
-				<Buttons 
+	  	<SafeAreaView style={[globalStyles.screenStandard]}>
+			<View style={[{flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20}]}>
+				<SegmentedButtons
+					value={playReadValue}
+					onValueChange={playReadToggle}
+					style={{width: 190}}
+					density="small"
+					theme={{
+						colors: {
+							primary: '#49454F',
+							outline: "#79747E",
+							secondaryContainer: "#D1E8D5"
+						},
+					}}
 					buttons={[
 						{
-							label: "Official",
-							icon: selectedCategory === "Official" ? "done" : null,
-							buttonStyle: selectedCategory === "Official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("Official"); updateFilterOptions(playReadValue, "official"); }
+							label: "Play",
+							value: true,
+							showSelectedCheck: true
+							
 						},
 						{
-							label: "All",
-							icon: selectedCategory === "All" ? "done" : null,
-							buttonStyle: selectedCategory === "All" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("All"); updateFilterOptions(playReadValue, "All"); }
-						},
-						{
-							label: "My favorites",
-							icon: selectedCategory === "My favorites" ? "done" : null,
-							buttonStyle: selectedCategory === "My favorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(playReadValue, "My favorites"); }
-						},
-						{
-							label: "My content",
-							icon: selectedCategory === "My content" ? "done" : null,
-							buttonStyle: selectedCategory === "My content" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedCategory("My content"); updateFilterOptions(playReadValue, "My content"); }
-						},
-
-					]}
-					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
-					containerStyle={{justifyContent: "flex-start", gap: 20}}
-					labelStyle={{fontSize: 17, fontWeight: 500}}
-				/>
-				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
-				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
-				<Buttons 
-					buttons={[
-						{
-							label: "Top",
-							icon: selectedSortBy === "likes" ? "done" : null,
-							buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
-						},
-						{
-							label: "Trending",
-							icon: selectedSortBy === "trending" ? "done" : null,
-							buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
-						},
-						{
-							label: "Newest",
-							icon: selectedSortBy === "newest" ? "done" : null,
-							buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
+							label: "Read",
+							value: false,
+							showSelectedCheck: true,
 						}
 					]}
-					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
-					containerStyle={{justifyContent: "flex-start", gap: 20}}
-					labelStyle={{fontSize: 17, fontWeight: 500}}
 				/>
-				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
-				<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
-				<Buttons 
-					buttons={[
-						{
-							label: "All time",
-							icon: selectedDate === "allTime" ? "done" : null,
-							buttonStyle: selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
-						},
-						{
-							label: "Today",
-							icon: selectedDate === "today" ? "done" : null,
-							buttonStyle: selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
-						},
-						{
-							label: "This week",
-							icon: selectedDate === "thisWeek" ? "done" : null,
-							buttonStyle: selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
-						},
-						{
-							label: "This month",
-							icon: selectedDate === "thisMonth" ? "done" : null,
-							buttonStyle: selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
-						},
-						{
-							label: "This year",
-							icon: selectedDate === "thisYear" ? "done" : null,
-							buttonStyle: selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-							onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
-						},
-					]}
-					buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
-					containerStyle={{justifyContent: "flex-start", gap: 20}}
-					labelStyle={{fontSize: 17, fontWeight: 500}}
-				/>
-				<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+				<FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen}/>
 			</View>
-			{/* </BottomSheetScrollView> */}
-      	</BottomSheet>
-	  </SafeAreaView>
+			{isLoading ? (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
+					<ActivityIndicator animating={true} color="#006D40" size="large" />
+				</View>
+        	) : (<>
+				<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
+					{listObjects.map((item, index) => (
+						<ListItem
+							name={item.name}
+							description={item.display_with_prompts}
+							promptAmount={item.prompts.length}
+							prompts={item.prompts}
+							text={item.text}
+							id={item.id}
+							type="libs"
+							key={item.id}
+							length={item.percent}
+							icon="favorite"
+							iconPress={null}
+							username={item.username}
+							likes={item.likes}
+							avatarID={item.avatarID}
+							index={index}
+						/>
+					))}
+				</ScrollView>
+				<BottomSheet
+					ref={bottomSheetRef}
+					index={-1}
+					// Bug causes bottom sheet to reappear on navigation
+					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
+					// 10ms
+					snapPoints={['1%', '25%', '50%', '80%', '100%']}
+					enablePanDownToClose={true}
+					style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
+					backgroundComponent={CustomBackground}
+					onChange={handleBottomSheetChange}
+					onAnimate={(fromIndex, toIndex) => {
+						if (toIndex === -1) {
+						console.log('The bottom sheet is hidden');
+						} else {
+						console.log('The bottom sheet is shown');
+						}
+					}}
+				>
+					{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
+					{/* <BottomSheetScrollView> */}
+					<View>
+						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
+						<Buttons 
+							buttons={[
+								{
+									label: "Official",
+									icon: selectedCategory === "Official" ? "done" : null,
+									buttonStyle: selectedCategory === "Official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("Official"); updateFilterOptions(playReadValue, "official"); }
+								},
+								{
+									label: "All",
+									icon: selectedCategory === "All" ? "done" : null,
+									buttonStyle: selectedCategory === "All" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("All"); updateFilterOptions(playReadValue, "All"); }
+								},
+								{
+									label: "My favorites",
+									icon: selectedCategory === "My favorites" ? "done" : null,
+									buttonStyle: selectedCategory === "My favorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(playReadValue, "My favorites"); }
+								},
+								{
+									label: "My content",
+									icon: selectedCategory === "My content" ? "done" : null,
+									buttonStyle: selectedCategory === "My content" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("My content"); updateFilterOptions(playReadValue, "My content"); }
+								},
+
+							]}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+							containerStyle={{justifyContent: "flex-start", gap: 20}}
+							labelStyle={{fontSize: 17, fontWeight: 500}}
+						/>
+						<Divider color="#CAC4D0" style={{marginVertical: 10}} />
+						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
+						<Buttons 
+							buttons={[
+								{
+									label: "Top",
+									icon: selectedSortBy === "likes" ? "done" : null,
+									buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
+								},
+								{
+									label: "Trending",
+									icon: selectedSortBy === "trending" ? "done" : null,
+									buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
+								},
+								{
+									label: "Newest",
+									icon: selectedSortBy === "newest" ? "done" : null,
+									buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
+								}
+							]}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+							containerStyle={{justifyContent: "flex-start", gap: 20}}
+							labelStyle={{fontSize: 17, fontWeight: 500}}
+						/>
+						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
+						<Buttons 
+							buttons={[
+								{
+									label: "All time",
+									icon: selectedDate === "allTime" ? "done" : null,
+									buttonStyle: selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
+								},
+								{
+									label: "Today",
+									icon: selectedDate === "today" ? "done" : null,
+									buttonStyle: selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
+								},
+								{
+									label: "This week",
+									icon: selectedDate === "thisWeek" ? "done" : null,
+									buttonStyle: selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
+								},
+								{
+									label: "This month",
+									icon: selectedDate === "thisMonth" ? "done" : null,
+									buttonStyle: selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
+								},
+								{
+									label: "This year",
+									icon: selectedDate === "thisYear" ? "done" : null,
+									buttonStyle: selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
+								},
+							]}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+							containerStyle={{justifyContent: "flex-start", gap: 20}}
+							labelStyle={{fontSize: 17, fontWeight: 500}}
+						/>
+						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+					</View>
+					{/* </BottomSheetScrollView> */}
+				</BottomSheet>
+			</>)}
+	  	</SafeAreaView>
 	);
 }
   

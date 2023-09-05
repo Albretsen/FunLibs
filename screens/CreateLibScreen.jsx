@@ -13,6 +13,7 @@ import { DialogTrigger } from "../components/Dialog";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native-web";
 import { useDrawer } from "../components/Drawer";
+import { Divider } from '@rneui/themed';
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -161,9 +162,6 @@ export default function CreateLibScreen() {
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
-                <TouchableOpacity onPress={saveLib}>
-                    <Text>Save</Text>
-                </TouchableOpacity>
                 <View style={{flexDirection: "row", alignItems: "center"}}>
                     <TextInput
                         style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40}]}
@@ -178,7 +176,7 @@ export default function CreateLibScreen() {
 
                 <TextInput
                     ref={libTextInputRef}
-                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 140}]}
+                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 140, flexGrow: 0.75}]}
                     multiline={true}
                     numberOfLines={10}
                     onChangeText={text => setLibText(text)}
@@ -187,77 +185,92 @@ export default function CreateLibScreen() {
                     onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
                     selection={newCursorPosition}
                 />
-
+                <Divider color="#CAC4D0" style={{marginVertical: 10}} />
+                <View style={{flexGrow: 0}}>
                 <Buttons
                     buttons={
                         [{
-                            label: "Custom prompt",
+                            label: "Custom",
                             icon: "add",
-                            iconColor: "white",
                             onPress: () => setShowDialogCustom(true)
-                        }]
-                    }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
-                    containerStyle={{justifyContent: "flex-start"}}
-                />
-
-                <Buttons
-                    buttons={
-                        [{
+                        },
+                        {
                             label: "Adjective",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Adjective");
                             },
                         },
                         {
                             label: "Verb",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Verb");
                             },
                         },
                         {
                             label: "Noun",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Noun");
                             },
                         },
                         {
                             label: "Occupation",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Occupation");
                             },
                         },
                         {
                             label: "Name",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Name");
                             },
                         },
                         {
                             label: "Emotion",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Emotion");
                             },
                         },
                         {
                             label: "Place",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Place");
                             },
                         },
                         {
                             label: "Animal",
+                            icon: "add",
                             onPress: () => {
                                 addPrompt("Animal");
                             },
                         },
                         ]
                     }
-                    buttonStyle={{backgroundColor: buttonColor, paddingHorizontal: 26, height: 45}}
-                    labelStyle={{color: "white", fontWeight: 500, fontSize: 16}}
-                    containerStyle={{justifyContent: "flex-start", marginBottom: 0}}
+                    buttonStyle={{borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 40}}
+                    containerStyle={{justifyContent: "flex-start"}}
+                    labelStyle={{fontSize: 17, fontWeight: 500}}
                     sideScroll={true}
+                />
+                </View>
+
+                <Buttons
+                    buttons={
+                        [{
+                            label: "Next",
+                            icon: "arrow-forward",
+                            iconSide: "right",
+                            onPress: saveLib
+                        }]
+                    }
+                    buttonStyle={{borderRadius: 50, borderColor: "transparent", backgroundColor: "#D1E8D5", minWidth: 120, height: 50}}
+                    containerStyle={{justifyContent: "flex-end"}}
+                    labelStyle={{fontSize: 17, fontWeight: 500}}
                 />
 
                 <DialogTrigger

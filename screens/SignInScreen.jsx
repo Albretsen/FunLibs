@@ -10,7 +10,7 @@ export default function SignInScreen() {
     const [passwordVisible, setPasswordVisible] = useState(true);
     return(
         <View style={[globalStyles.screenStandard]}>
-            <View style={[globalStyles.containerBigWhitespace, {marginTop: 40, height: Dimensions.get("window").height - 128}]}>
+            <View style={[globalStyles.bigWhitespace, {marginTop: 40, height: Dimensions.get("window").height - 128}]}>
                 <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Sign in</Text>
                 <View style={globalStyles.form}>
                     <TextInput

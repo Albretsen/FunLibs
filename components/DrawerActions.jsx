@@ -10,7 +10,8 @@ export default function DrawerActions(props) {
             flexDirection: "row",
             paddingLeft: 20,
             paddingVertical: 10,
-            paddingBottom: 30,
+            paddingBottom: 25,
+            paddingTop: 25,
             borderTopWidth: 1,
             borderColor: "#cccccc",
             justifyContent: "space-around"

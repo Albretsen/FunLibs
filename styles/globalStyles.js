@@ -32,7 +32,7 @@ const globalStyles = StyleSheet.create({
         width: fullWidth - fullWidth / 10,
     },
 
-    containerBigWhitespace: {
+    bigWhitespace: {
         width: fullWidth - fullWidth / 6,
     },
 
@@ -145,7 +145,8 @@ const globalStyles = StyleSheet.create({
     },
 
     form: {
-        gap: 25
+        gap: 25,
+        alignItems: "center"
     },
 
     formButton: {
