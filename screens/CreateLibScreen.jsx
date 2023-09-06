@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -11,7 +11,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import { DialogTrigger } from "../components/Dialog";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "react-native-web";
 import { useDrawer } from "../components/Drawer";
 import { Divider } from '@rneui/themed';
 

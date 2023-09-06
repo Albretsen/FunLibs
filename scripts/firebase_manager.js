@@ -448,7 +448,7 @@ FirebaseManager.OnAuthStateChanged();
 
 //FirebaseManager.generateMockData(5, 5);
 //FirebaseManager.ReadDataFromDatabase("posts");
-//FirebaseManager.SignInWithEmailAndPassword("test@email.com", "123456");
+FirebaseManager.SignInWithEmailAndPassword("official@funlibs.com", "123456");
 //FirebaseManager.SignOut();
 
 //FirebaseManager.CreateUser("email", "official@funlibs.com", "123456", "Official", "13");
