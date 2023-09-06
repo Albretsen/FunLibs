@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, HelperText } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AvatarCarousel from "../components/AvatarCarousel";
+import { useNavigation } from "@react-navigation/native";
+import FirebaseManager from "../scripts/firebase_manager";
 
 export default function NewAccountScreen() {
     const [username, setUsername] = useState("");
@@ -12,6 +14,28 @@ export default function NewAccountScreen() {
     const [passwordVisible, setPasswordVisible] = useState(true);
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
+    const [avatarIndex, setAvatarIndex] = useState(0); // Use a state to hold the current avatar index
+
+    const handleAvatarChange = (index) => {
+        index -= 1; // Correct for padding in carousel
+        setAvatarIndex(index);
+        console.log("Avatar changed to:", index);
+        // Here, you can do anything with the new avatar index
+    }
+
+    const createAccount = () => {
+        FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
+            .then(user => {
+                navigation.navigate("LibsHomeScreen");
+            })
+            .catch(errorMessage => {
+                console.error("Error signing in: ", errorMessage);
+                // Handle the error here, e.g. show an error message to the user
+            });
+    }
+
+    const navigation = useNavigation();
+
     return(
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
@@ -23,7 +47,7 @@ export default function NewAccountScreen() {
                         onChangeText={username => setUsername(username)}
                         mode="outlined"
                         theme={{colors:{primary: '#49454F'}}}
-                        style={globalStyles.bigWhitespace}
+                        style={[globalStyles.bigWhitespace]}
                     />
                     <TextInput
                         label="Email"
@@ -74,9 +98,9 @@ export default function NewAccountScreen() {
 						</TouchableOpacity>
                     </View>
                     <View style={{flexGrow: 0, marginVertical: 30}}>
-                        <AvatarCarousel initialActiveIndex={15}/>
+                        <AvatarCarousel initialActiveIndex={15} onAvatarChange={handleAvatarChange}/>
                     </View>
-                    <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]}>
+                    <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>
                     </TouchableOpacity>
                 </View>

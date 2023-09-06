@@ -3,7 +3,7 @@ import { Image, Dimensions, Animated } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import FirebaseManager from '../scripts/firebase_manager';
 
-const AvatarCarousel = ({ initialActiveIndex = 1 }) => {
+const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange }) => {
 	const scrollAnim = useRef(new Animated.Value(initialActiveIndex * 100)).current;
 
 	let avatars = Array.from({ length: 30 }, (_, index) => ({
@@ -38,6 +38,7 @@ const AvatarCarousel = ({ initialActiveIndex = 1 }) => {
 	
 	const handleSnapToItem = (index) => {
 		console.log("Snapped to item:", index);
+		if (onAvatarChange) onAvatarChange(index);
 	}
 
 	return (

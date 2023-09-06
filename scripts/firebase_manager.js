@@ -41,36 +41,49 @@ export default class FirebaseManager {
     }
 
     static async CreateUser(signUpMethod, email, password, username, avatarID) {
-        switch (signUpMethod) {
-            case "email":
-                await this.CreateUserWithEmailAndPassword(email, password);
-                await this.AddDocumentToCollection("users", {
-                    email: email,
-                    username: username,
-                    avatarID: avatarID
-                }, 
-                this.currentUserData.uid);
-                Analytics.log("Successfully created user");
-                break;
-            default:
-                Analytics.log("Could not find signUpMethod");
-                break;
-        }
+        return new Promise(async (resolve, reject) => {
+            try {
+                switch (signUpMethod) {
+                    case "email":
+                        const user = await this.CreateUserWithEmailAndPassword(email, password);
+                        await this.AddDocumentToCollection("users", {
+                            email: email,
+                            username: username,
+                            avatarID: avatarID
+                        }, 
+                        this.currentUserData.uid);
+                        Analytics.log("Successfully created user");
+                        resolve(user);
+                        break;
+                    default:
+                        const error = "Could not find signUpMethod";
+                        Analytics.log(error);
+                        reject(error);
+                        break;
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     static SignInWithEmailAndPassword(email, password) {
-        FirebaseManager.SetAuthPersistenceToLocal();
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                this.currentUserData = user;
-                Analytics.log("Signed in as " + JSON.stringify(user.uid));
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                Analytics.log("Error signing in " + errorMessage);
-            });
+        return new Promise((resolve, reject) => {
+            FirebaseManager.SetAuthPersistenceToLocal();
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    this.currentUserData = user;
+                    Analytics.log("Signed in as " + JSON.stringify(user.uid));
+                    resolve(user); // or resolve('Signed in successfully')
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    Analytics.log("Error signing in " + errorMessage);
+                    reject(errorMessage);  // Reject promise with error message
+                });
+        });
     }
 
     static OnAuthStateChanged() {
