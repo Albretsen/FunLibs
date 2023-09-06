@@ -50,7 +50,7 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(74);
 
   return (
-    <Provider> {/* React Native Paper provider */}
+    <Provider>
       <ScreenProvider>
         <ToastProvider>
           <DialogProvider>
@@ -72,9 +72,7 @@ export default function App() {
                       options={{headerShown: false}}
                     />
                   </DrawerNav.Navigator>
-                  {/* <HomeStackScreen/> */}
-                  {/* Place the BannerAdComponent outside of NavigationContainer */}
-                  <BannerAdComponent bannerAdHeight />
+                  <BannerAdComponent/>
                 </GestureHandlerRootView>
               </NavigationContainer>
             </DrawerProvider>

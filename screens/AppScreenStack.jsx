@@ -43,7 +43,7 @@ export default function AppScreenStack({ navigation }) {
 						borderBottomWidth: 0, // for explicit border settings
 					},
 					headerLeft: () => (
-						<MaterialIcons style={{ marginLeft: 12, color: "49454F" }} name="menu" size={28} onPress={() => navigation.openDrawer()} />
+						<MaterialIcons style={{ marginLeft: 12, color: "#49454F" }} name="menu" size={28} onPress={() => navigation.openDrawer()} />
 					),
 					headerRight: () => (
 						<TouchableOpacity onPress={() => (
