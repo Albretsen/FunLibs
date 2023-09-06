@@ -126,6 +126,7 @@ export default function LibsScreen() {
 			playable: playableValue
 		};
 		loadListObjectsFromDatabase(filterOptions);
+		setIsBottomSheetOpen(false);
 	}
   
 	return (
@@ -230,9 +231,9 @@ export default function LibsScreen() {
 								},
 								{
 									label: "My content",
-									icon: selectedCategory === "My content" ? "done" : null,
-									buttonStyle: selectedCategory === "My content" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedCategory("My content"); updateFilterOptions(playReadValue, "My content"); }
+									icon: selectedCategory === "myContent" ? "done" : null,
+									buttonStyle: selectedCategory === "myContent" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("myContent"); updateFilterOptions(playReadValue, "myContent"); }
 								},
 
 							]}

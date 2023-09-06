@@ -171,11 +171,6 @@ export default function PlayScreen({ route }) {
 	useEffect(() => {
 		promptFillCheck(currentPromptIndex);
     }, []);
-	
-	const handleIconClick = () => {
-		console.log('Icon clicked!');
-		// Your function logic here
-	};
 
 	const onPublish = () => {
 		console.log('Publish');
@@ -186,12 +181,18 @@ export default function PlayScreen({ route }) {
 	};
 
 	const onSave = () => {
+		if (FirebaseManager.currentUserData) {
+			console.log("LOGGED IN!!!!");
+		} else {
+			console.log("NOT LOGGED IN");
+		}
+		return;
 		currentLib.user = FirebaseManager.currentUserData.auth.uid;
 		currentLib.published = false;
 		currentLib.playable = false;
 		currentLib.date = new Date();
 		FirebaseManager.AddDocumentToCollection("posts", currentLib);
-		drawerRef.current.closeDrawer();
+		closeDrawer();
 		navigation.navigate("LibsHomeScreen");
 		showToast('Your story can be found under "Read" at the top of your screen');
 	}
@@ -200,7 +201,7 @@ export default function PlayScreen({ route }) {
 		console.log("Favorite");
 	};
 
-	const { openDrawer, drawerRef } = useDrawer();
+	const { openDrawer, closeDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
 			// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}

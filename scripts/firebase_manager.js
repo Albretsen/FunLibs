@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, FieldPath } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
+import FileManager from './file_manager';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAEKGpKMMy7guqWHnp6y-KJr5ll9kRFbBc",
@@ -239,15 +240,27 @@ export default class FirebaseManager {
                 // e.g., q = query(q, where("favorite", "==", true)); // Replace with your condition
                 break;
             case "myContent":
-                q = query(q, where("username", "==", this.currentUserData.auth.uid));
+                console.log("DOING MY CONTENT PATH");
+                let result = await FileManager._retrieveData("my_content");
+                console.log("RESULT: " + result);
+                return JSON.parse(result);
+                //q = query(q, where("username", "==", this.currentUserData.auth.uid));
                 break;
             default:
+                console.log("DOING MY DEFAULT PATH");
                 break;
         }
 
         // Filtering by "playable" field
         if (filterOptions.playable !== undefined) {
-            q = query(q, where("playable", "==", filterOptions.playable));
+            if (filterOptions.playable) {
+                q = query(q, where("playable", "==", filterOptions.playable));
+            } else {
+                console.log("SHOW LOCAL READ!!!!!");
+                let result = await FileManager._retrieveData("read");
+                console.log("RESULT: " + result);
+                return JSON.parse(result);
+            }
         }
 
         // Filtering by document IDs
@@ -448,7 +461,7 @@ FirebaseManager.OnAuthStateChanged();
 
 //FirebaseManager.generateMockData(5, 5);
 //FirebaseManager.ReadDataFromDatabase("posts");
-FirebaseManager.SignInWithEmailAndPassword("official@funlibs.com", "123456");
+//FirebaseManager.SignInWithEmailAndPassword("official@funlibs.com", "123456");
 //FirebaseManager.SignOut();
 
 //FirebaseManager.CreateUser("email", "official@funlibs.com", "123456", "Official", "13");

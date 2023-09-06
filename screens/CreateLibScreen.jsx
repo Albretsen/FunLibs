@@ -13,6 +13,9 @@ import { DialogTrigger } from "../components/Dialog";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useDrawer } from "../components/Drawer";
 import { Divider } from '@rneui/themed';
+import DrawerActions from "../components/DrawerActions";
+import FileManager from "../scripts/file_manager";
+import FirebaseManager from "../scripts/firebase_manager";
 
 export default function CreateLibScreen() {
     const [libText, setLibText] = useState("");
@@ -84,10 +87,28 @@ export default function CreateLibScreen() {
 
     let confirmSaveLib = () => {
         finishedLibRef.current.name = libNameTextRef.current;
-        if (finishedLibRef.current) LibManager.storeLib(finishedLibRef.current, "yourLibs");
-
+        finishedLibRef.current.user = FirebaseManager.currentUserData.auth.uid;
+		finishedLibRef.current.published = false;
+		finishedLibRef.current.playable = true;
+		finishedLibRef.current.date = new Date();
+        finishedLibRef.current.likes = 0;
+        let readArray = []
+        if (finishedLibRef.current) {
+            let result = FileManager._retrieveData("my_content");
+            if (Object.keys(result).length >= 1) {
+                readArray = JSON.parse(result);
+            }
+            readArray.push(finishedLibRef.current);
+        }
+        FileManager._storeData("my_content", JSON.stringify(readArray));
         showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
-        drawerRef.current.closeDrawer();
+        closeDrawer();
+        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+    }
+
+    let declineSaveLib = () => {
+        showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
+        closeDrawer();
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 
@@ -123,35 +144,27 @@ export default function CreateLibScreen() {
 
     const [showDialogCustom, setShowDialogCustom] = useState(false);
     const [showDialogInfo, setShowDialogInfo] = useState(false);
+    const [showDialogPublish, setShowDialogPublish] = useState(false);
 
     // Drawer 
 
-    const { openDrawer, drawerRef } = useDrawer();
+    const { openDrawer, drawerRef, closeDrawer } = useDrawer();
 
     const saveDrawerContent = (
-        <View>      
+        <>      
             <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                 <View style={globalStyles.drawerTop}>
                 <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
                     {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
                 </View>
             </ScrollView>
-            <Buttons
-                buttons={[
-                    { 
-                        label: "Save",
-                        onPress: confirmSaveLib,
-                        buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-                    },
-                    {  
-                        label: "Cancel",
-                        onPress: () => drawerRef.current.closeDrawer()
-                    }
-                ]}
-                labelStyle={{fontWeight: 600}}
-                containerStyle={{paddingLeft: 20, paddingVertical: 10, borderTopWidth: 1, borderColor: "#cccccc", justifyContent: "flex-start"}}
-            />
-        </View>
+            <DrawerActions
+				// onPublish={onPublish}
+				// onShare={onShare}
+				onSave={confirmSaveLib}
+				// onFavorite={onFavorite}
+			/>
+        </>
     )
 
     return(
@@ -326,6 +339,24 @@ export default function CreateLibScreen() {
                         {" is building a table. "}
                         <Text style={styles.highlighted}>{"(Name 1)"}</Text>
                         {" is a carpenter."}
+                    </Text>
+                </DialogTrigger>
+                <DialogTrigger
+                    id="dialogPublish"
+                    show={showDialogPublish}
+                    onCancel={() => {
+                        setShowDialogPublish(false),
+                        declineSaveLib()
+                    }}
+                    onConfirm={() => {
+                        // Publish lib function here
+                        setShowDialogPublish(false);
+                    }}
+                    confirmLabel="Publish"
+                    cancelLabel="Cancel"
+                >
+                    <Text style={styles.paragraph}>
+                        {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}
                     </Text>
                 </DialogTrigger>
             </ScrollView>

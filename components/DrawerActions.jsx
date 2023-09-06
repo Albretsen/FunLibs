@@ -16,29 +16,7 @@ export default function DrawerActions(props) {
             borderColor: "#cccccc",
             justifyContent: "space-around"
         }}>
-            <TouchableOpacity
-                style={{alignItems: "center"}}
-                onPress={onPublish}
-            >
-                <MaterialIcons
-                    style={{color: "#49454F"}}
-                    name="file-upload"
-                    size={26}
-                />
-                <Text style={{fontSize: 15}}>Publish</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={{alignItems: "center"}}
-                onPress={onShare}
-            >
-                <MaterialIcons
-                    style={{color: "#49454F"}}
-                    name="share"
-                    size={26}
-                />
-                <Text style={{fontSize: 15}}>Share</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+            {onSave && (<TouchableOpacity
                 style={{alignItems: "center"}}
                 onPress={onSave}
             >
@@ -48,7 +26,18 @@ export default function DrawerActions(props) {
                     size={26}
                 />
                 <Text style={{fontSize: 15}}>Save</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>)}
+            {onShare && (<TouchableOpacity
+                style={{alignItems: "center"}}
+                onPress={onShare}
+            >
+                <MaterialIcons
+                    style={{color: "#49454F"}}
+                    name="share"
+                    size={26}
+                />
+                <Text style={{fontSize: 15}}>Share</Text>
+            </TouchableOpacity>)}
             {onFavorite && (
                 <TouchableOpacity
                     style={{alignItems: "center"}}
