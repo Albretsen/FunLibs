@@ -25,11 +25,11 @@ export default function BannerAdComponent() {
     }, [currentScreenName])
 
     const handleAdFailedToLoad = (error) => {
-        setButtonBottom(20);
+        //setButtonBottom(20);
     };
 
     const handleAdLoaded = () => {
-        setButtonBottom(80);
+        //setButtonBottom(80);
     };
 
     // Memoize the BannerAd component to prevent re-creating it on each render
