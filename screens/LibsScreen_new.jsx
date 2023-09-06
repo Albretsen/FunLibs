@@ -16,6 +16,7 @@ import { Divider } from '@rneui/themed';
 import FilterToggle from "../components/FilterToggle";
 import { SegmentedButtons, ActivityIndicator } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
+import Analytics from "../scripts/analytics";
 
 export default function LibsScreen() {
 	const [listObjects, setListObjects] = useState([]);
@@ -28,6 +29,10 @@ export default function LibsScreen() {
 	async function loadListObjectsFromDatabase(filterOptions = {}) {
 		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
+		if (temp_listObjects.length < 1) {
+			Analytics.log("No documents found");
+			return;
+		}
 		let users = [];
 		if (temp_listObjects) {
 			temp_listObjects.forEach(object => {
@@ -303,7 +308,6 @@ export default function LibsScreen() {
 						/>
 						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
 					</View>
-					{/* </BottomSheetScrollView> */}
 				</BottomSheet>
 			</>)}
 	  	</SafeAreaView>

@@ -1,5 +1,3 @@
-import { View } from "react-native-web";
-
 export default class Lib {
     words;
 

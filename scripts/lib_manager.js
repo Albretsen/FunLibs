@@ -23,10 +23,10 @@ export default class LibManager {
     static async getLibs(key = "libs") {
         let libs = await FileManager._retrieveData(key);
         if (libs != null || libs != undefined) {
-            return LibManager.libJsonToJSObjectWithLib(JSON.parse(libs));
+            return JSON.parse(libs);
         } else {
-            //FileManager._storeData(key, LibManager.defaultLibs);
-            return LibManager.libJsonToJSObjectWithLib(JSON.parse(LibManager.defaultLibs));
+            FileManager._storeData(key, LibManager.defaultLibs);
+            return JSON.parse(LibManager.defaultLibs);
         }
     }
 
@@ -35,6 +35,8 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
+        //let result = await FileManager._retrieveData("libs");
+        //console.log(JSON.stringify(JSON.parse(result)["libs"]));
         return;
         console.log(JSON.stringify(LibManager.libs["libs"]));
         let length = LibManager.libs["libs"].length;
