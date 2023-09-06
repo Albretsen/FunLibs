@@ -25,7 +25,7 @@ export default class LibManager {
         if (libs != null || libs != undefined) {
             return LibManager.libJsonToJSObjectWithLib(JSON.parse(libs));
         } else {
-            FileManager._storeData(key, LibManager.defaultLibs);
+            //FileManager._storeData(key, LibManager.defaultLibs);
             return LibManager.libJsonToJSObjectWithLib(JSON.parse(LibManager.defaultLibs));
         }
     }
@@ -35,7 +35,25 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
-        //console.log(JSON.stringify(LibManager.libs["libs"]));
+        return;
+        console.log(JSON.stringify(LibManager.libs["libs"]));
+        let length = LibManager.libs["libs"].length;
+        for (let i = 0; i < length; i++) {
+            let libClass = LibManager.libs["libs"][i];
+            let lib = {};
+            lib.name = libClass.name;
+            lib.user = "HOv8K8Z1Q6bUuGxENrPrleECIWe2";
+            lib.text = libClass.text;
+            lib.prompts = libClass.prompts;
+            lib.likes = Math.round(Math.random() * 100);
+            lib.official = true;
+            lib.playable = true;
+            lib.date = getRandomDateFromLastYear();
+            LibManager.libs["libs"][i] = lib;
+            //FirebaseManager.AddDocumentToCollection("posts", lib);
+        }
+
+        FileManager._storeData("libs", JSON.stringify(LibManager.libs));
     }
 
     /**
@@ -45,7 +63,7 @@ export default class LibManager {
      */
     static storeLib(lib, key = "libs") {
         lib = JSON.parse(JSON.stringify(lib));
-        lib = new Lib(lib.name, lib.id, lib.text, lib.prompts);
+        //lib = new Lib(lib.name, lib.id, lib.text, lib.prompts);
         if ((lib.id || lib.id == 0) && key === "libs") {
             LibManager.libs[key][parseInt(lib.id)] = lib;
             FileManager._storeData("libs", JSON.stringify(LibManager.libs));

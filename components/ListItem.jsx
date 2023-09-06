@@ -6,6 +6,7 @@ import Dialog from "./Dialog";
 import _ from "lodash";
 import LibManager from "../scripts/lib_manager";
 import { Animated } from "react-native";
+import FirebaseManager from "../scripts/firebase_manager";
 
 export default function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes, index} = props;
@@ -91,7 +92,7 @@ export default function ListItem(props) {
             >
                 <Image
                     style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-                    source={require("../assets/images/avatars/" + avatarID + ".png")}
+                    source={FirebaseManager.avatars[avatarID]}
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>

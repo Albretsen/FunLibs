@@ -225,7 +225,7 @@ export default function PlayScreen({ route }) {
 				<View style={{flexDirection: "row", gap: 15}}>
 					<Image
 						style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center", justifyContent: "center"}}
-						source={require("../assets/images/avatars/" + currentLib.avatarID + ".png")}
+						source={FirebaseManager.avatars[currentLib.avatarID]} 
 					/>
 					<View style={[{width: "75%", gap: 0, flexDirection: "column",}]}>
 						<Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, color: "#505050", fontWeight: 500}]}>{currentLib.name}</Text>

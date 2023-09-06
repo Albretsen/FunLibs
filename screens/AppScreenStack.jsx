@@ -7,6 +7,7 @@ import NewAccountScreen from "./NewAccountScreen";
 import SplashScreen from "./SplashScreen";
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FirebaseManager from "../scripts/firebase_manager";
 
 const Stack = createStackNavigator();
 
@@ -53,7 +54,7 @@ export default function AppScreenStack({ navigation }) {
 								leftComponent: (
 									<Image
 									style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-									source={require("../assets/images/avatars/2.png")}
+									source={FirebaseManager.avatars[2]}
 									/>
 								),
 								title: "Username",

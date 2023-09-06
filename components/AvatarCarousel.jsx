@@ -1,18 +1,19 @@
 import React, { useRef, useState } from 'react';
 import { Image, Dimensions, Animated } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import FirebaseManager from '../scripts/firebase_manager';
 
 const AvatarCarousel = ({ initialActiveIndex = 1 }) => {
 	const scrollAnim = useRef(new Animated.Value(initialActiveIndex * 100)).current;
 
 	let avatars = Array.from({ length: 30 }, (_, index) => ({
-		uri: require(`../assets/images/avatars/${index}.png`),
+		uri: FirebaseManager.avatars[index],
 	}));
 
 	// avatars.splice(14, 0, {uri: require(`../assets/images/avatars/no-avatar.png`)});
 
-	avatars.unshift({uri: require(`../assets/images/avatars/carousel-padding.png`)});
-	avatars.push({uri: require(`../assets/images/avatars/carousel-padding.png`)});
+	avatars.unshift({uri: FirebaseManager.avatars["carousel-padding"]});
+	avatars.push({uri: FirebaseManager.avatars["carousel-padding"]});
 
 	const renderItem = ({ item, index }) => {
 		const inputRange = [
