@@ -278,13 +278,13 @@ export default class FirebaseManager {
                     localResult = [];
                 }
                 if (this.currentUserData.auth) {
+                    console.log("IT PRINTED THIS: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 } else {
                     q = query(q, where("user", "==", "not logged in"));
                 }
                 break;
             default:
-                console.log("DOING MY DEFAULT PATH");
                 break;
         }
 
@@ -305,8 +305,12 @@ export default class FirebaseManager {
         }
 
         // Filtering by document IDs
-        if (filterOptions.docIds && filterOptions.docIds.length > 0) {
-            q = query(q, where("__name__", "in", filterOptions.docIds));
+        if (filterOptions.docIds) {
+            // Remove null values from filterOptions.docIds
+            filterOptions.docIds = filterOptions.docIds.filter(id => id !== null);
+            if (filterOptions.docIds.length > 0) {
+                q = query(q, where("__name__", "in", filterOptions.docIds));
+            }
         }
 
         // Date range calculations

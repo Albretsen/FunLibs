@@ -85,16 +85,17 @@ export default function CreateLibScreen() {
         }
     }
 
-    let confirmSaveLib = () => {
+    let confirmSaveLib = async () => {
         finishedLibRef.current.name = libNameTextRef.current;
-        finishedLibRef.current.user = FirebaseManager.currentUserData.auth.uid;
+        finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = false;
 		finishedLibRef.current.playable = true;
 		finishedLibRef.current.date = new Date();
         finishedLibRef.current.likes = 0;
         let readArray = []
         if (finishedLibRef.current) {
-            let result = FileManager._retrieveData("my_content");
+            let result = await FileManager._retrieveData("my_content");
+            if (!result) result = [];
             if (Object.keys(result).length >= 1) {
                 readArray = JSON.parse(result);
             }

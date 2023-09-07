@@ -7,6 +7,7 @@ import { useFocusEffect } from "@react-navigation/native";
 // ADS
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
+import { ToastContext } from "../components/Toast";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
@@ -39,12 +40,24 @@ export default function LibsScreen() {
 		if (temp_listObjects) {
 			temp_listObjects.forEach(object => {
 				if (!users.includes(object.user)) {
-					users.push(object.user);
+					if (object.user) {
+						users.push(object.user);
+					} else {
+						users.push(null);
+					}
 				}
 			});
 		} else {
 			temp_listObjects = [];
 		}
+		for (let i = 0; i < temp_listObjects.length; i++) {
+			// Find the user from the users array with the same ID as the current object.user field.
+			if (users[i] === null) { // This is if the lib is stored locally
+				temp_listObjects[i].username = "You"; // This adds the user details to the object
+				temp_listObjects[i].avatarID = 0;
+			}
+		}
+
 		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
 		
 		for (let i = 0; i < temp_listObjects.length; i++) {
@@ -130,6 +143,14 @@ export default function LibsScreen() {
 		loadListObjectsFromDatabase(filterOptions);
 		setIsBottomSheetOpen(false);
 	}
+
+	const publish = () => {
+		console.log("publish");
+	}
+
+	const favorite = () => {
+
+	}
   
 	return (
 	  	<SafeAreaView style={[globalStyles.screenStandard]}>
@@ -180,11 +201,12 @@ export default function LibsScreen() {
 							key={item.id}
 							length={item.percent}
 							icon="favorite"
-							iconPress={null}
+							favorite={favorite}
 							username={item.username}
 							likes={item.likes}
 							avatarID={item.avatarID}
 							index={index}
+							publish={publish}
 						/>
 					))}
 				</ScrollView>

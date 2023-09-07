@@ -9,7 +9,7 @@ import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 
 export default function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, iconPress, avatarID, username, likes, index} = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, favorite, avatarID, username, likes, index, publish} = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -100,7 +100,13 @@ export default function ListItem(props) {
                 </View>
                 {icon && (
                 <View style={styles.rightIcons}>
-                    <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={iconPress}>
+                        {username === "You" && <TouchableOpacity style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }} onPress={publish}>
+                            <Image
+                                style={{ height: 25, width: 28 }}
+                                source={require("../assets/images/icons/publish.png")}
+                            />
+                        </TouchableOpacity>}
+                    <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={favorite}>
                          {/* Using image for icon because outlined version of icon was needed */}
                         <Image
                             style={{height: 25, width: 28}}
