@@ -26,11 +26,13 @@ export default function LibsScreen() {
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	async function loadListObjectsFromDatabase(filterOptions = {}) {
+	async function loadListObjectsFromDatabase(filterOptions = {"category":"official","sortBy":"likes","dateRange":"allTime","playable":true}) {
 		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		if (temp_listObjects.length < 1) {
 			Analytics.log("No documents found");
+			setListObjects([]);
+			setIsLoading(false);
 			return;
 		}
 		let users = [];
