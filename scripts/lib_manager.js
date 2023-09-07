@@ -31,11 +31,12 @@ export default class LibManager {
     }
 
     static async initializeDefaultLibsInDatabase() {
+        console.log("LENGTH: " + LibManager.libs.length)
         for (const element of LibManager.libs) {
+            element.published = true;
             element.id = await FirebaseManager.AddDocumentToCollection("posts", element);
             await FirebaseManager.UpdateDocument("posts", element.id, { id: element.id })
         }
-        console.log(JSON.stringify(LibManager.libs));
     }
 
     /**
@@ -43,8 +44,9 @@ export default class LibManager {
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
-        //LibManager.initializeDefaultLibsInDatabase();
-        //let result = await FileManager._retrieveData("libs");
+        //await LibManager.initializeDefaultLibsInDatabase();
+        //console.log(JSON.stringify(LibManager.libs));
+        //let result = await FileManager._retrieveData("libs")
         //console.log(JSON.stringify(JSON.parse(result)["libs"]));
         return;
         console.log(JSON.stringify(LibManager.libs["libs"]));
