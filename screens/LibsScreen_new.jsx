@@ -29,7 +29,7 @@ export default function LibsScreen() {
 
 	const quickload = false;
 
-	async function loadListObjectsFromDatabase(filterOptions = {"category":"official","sortBy":"new","dateRange":"allTime","playable":true}) {
+	async function loadListObjectsFromDatabase(filterOptions = {"category":"official","sortBy":"new","dateRange":"allTime","playable":true,"published": true}) {
 		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		if (temp_listObjects.length < 1) {

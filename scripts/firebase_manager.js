@@ -210,9 +210,11 @@ export default class FirebaseManager {
             if (id) {
                 await setDoc(doc(db, collection_, id), data);
             } else {
-                await addDoc(collection(db, collection_), data);
+                const docRef = await addDoc(collection(db, collection_), data);
+                id = docRef.id;
             }
             Analytics.log("Added document to " + collection_ + "\nData: " + JSON.stringify(data));
+            return id;
         } catch (error) {
             Analytics.log("Error adding document to " + collection_ + "\nError: " + error);
         }
@@ -229,6 +231,7 @@ export default class FirebaseManager {
      * @param {string} [filterOptions.dateRange] - Filters documents based on date ranges. Can be "allTime", "today", "thisWeek", "thisMonth", or "thisYear".
      * @param {boolean} [filterOptions.playable] - If set, fetches documents where "playable" matches the provided value.
      * @param {firebase.firestore.DocumentSnapshot} [lastVisibleDoc=null] - The last document from the previous query, used for pagination.
+     * @param {boolean} [filterOptions.published] - If set, fetches documents where "published" matches the provided value.
      * @param {number} [pageSize=10] - The number of documents to retrieve in a single query (pagination size).
      * 
      * @returns {Promise<firebase.firestore.DocumentSnapshot>} - Returns a promise that resolves to the last document in the current page of results. This can be used for subsequent paginated queries.
@@ -302,6 +305,11 @@ export default class FirebaseManager {
                 }
                 q = query(q, where("playable", "==", filterOptions.playable));
             }
+        }
+
+        // Filtering by "published" field
+        if (filterOptions.published !== undefined) {
+            q = query(q, where("published", "==", filterOptions.published));
         }
 
         // Filtering by document IDs

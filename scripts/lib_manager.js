@@ -30,11 +30,20 @@ export default class LibManager {
         }
     }
 
+    static async initializeDefaultLibsInDatabase() {
+        for (const element of LibManager.libs) {
+            element.id = await FirebaseManager.AddDocumentToCollection("posts", element);
+            await FirebaseManager.UpdateDocument("posts", element.id, { id: element.id })
+        }
+        console.log(JSON.stringify(LibManager.libs));
+    }
+
     /**
      * Loads all libs to the LibManager.libs variable. This is to prevent having to read from a file every time the system requests a lib, which would require asynchronous calls.
      */
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
+        //LibManager.initializeDefaultLibsInDatabase();
         //let result = await FileManager._retrieveData("libs");
         //console.log(JSON.stringify(JSON.parse(result)["libs"]));
         return;

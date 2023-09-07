@@ -14,8 +14,6 @@ import { DrawerProvider } from "./components/Drawer";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 
-LibManager.initialize();
-
 const DrawerNav = createDrawerNavigator();
 
 const getHeaderTitle = (route) => {
