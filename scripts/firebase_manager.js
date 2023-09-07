@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, FieldPath } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, FieldPath } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -21,7 +21,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default class FirebaseManager {
-    static currentUserData = null;
+    static currentUserData = {
+        auth: null,
+        firestoreData: null
+    };
 
     static getCurrentUserData() {
         return this.currentUserData;
@@ -74,7 +77,7 @@ export default class FirebaseManager {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    this.currentUserData = user;
+                    this.currentUserData.auth = user;
                     Analytics.log("Signed in as " + JSON.stringify(user.uid));
                     resolve(user); // or resolve('Signed in successfully')
                 })
@@ -91,8 +94,7 @@ export default class FirebaseManager {
             if (user) {
                 // User is signed in
                 const uid = user.uid;
-                this.currentUserData = user;
-                console.log(JSON.stringify(this.currentUserData));
+                this.currentUserData.auth = user;
                 Analytics.log("Auth stated changed to Signed in for " + uid);
 
                 // Fetch user data from Firestore and store in currentUserData
@@ -107,13 +109,20 @@ export default class FirebaseManager {
 
     static async fetchUserData() {
         let uid = null;
-        if (this.currentUserData && this.currentUserData.auth) {
+        if (this.currentUserData.auth) {
             uid = this.currentUserData.auth.uid;
         }
         try {
+            console.log("READING FOR UID: " + uid);
             if (uid) {
-                const userDoc = await getDocs(doc(db, "users", uid));
-                // ...rest of the code
+                console.log("FETCHING USER DATA FOR: " + uid);
+                const userDocSnap = await getDoc(doc(db, "users", uid));
+                if (userDocSnap.exists()) {
+                    this.currentUserData.firestoreData = userDocSnap.data();
+                    console.log(JSON.stringify(userDocSnap.data()));
+                } else {
+                    console.log("No document found for UID: " + uid);
+                }
             } else {
                 // Handle the case where uid is null or undefined
                 this.currentUserData = {
@@ -241,6 +250,8 @@ export default class FirebaseManager {
 
         let q = collection(db, collection_);
 
+        let localResult = [];
+
         switch (filterOptions.category) {
             case "official":
                 q = query(q, where("official", "==", true));
@@ -254,10 +265,13 @@ export default class FirebaseManager {
                 break;
             case "myContent":
                 console.log("DOING MY CONTENT PATH");
-                let result = await FileManager._retrieveData("my_content");
-                console.log("RESULT: " + result);
-                return JSON.parse(result);
-                //q = query(q, where("username", "==", this.currentUserData.auth.uid));
+                localResult = await FileManager._retrieveData("my_content");
+                if (localResult) { 
+                    localResult = JSON.parse(localResult).filter(item => item.playable === true);
+                } else {
+                    localResult = [];
+                }
+                q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 break;
             default:
                 console.log("DOING MY DEFAULT PATH");
@@ -270,9 +284,13 @@ export default class FirebaseManager {
                 q = query(q, where("playable", "==", filterOptions.playable));
             } else {
                 console.log("SHOW LOCAL READ!!!!!");
-                let result = await FileManager._retrieveData("read");
-                console.log("RESULT: " + result);
-                return JSON.parse(result);
+                localResult = await FileManager._retrieveData("my_content");
+                if (localResult) { 
+                    localResult = JSON.parse(localResult).filter(item => item.playable === false);
+                } else {
+                    localResult = [];
+                }
+                q = query(q, where("playable", "==", filterOptions.playable));
             }
         }
 
@@ -352,7 +370,7 @@ export default class FirebaseManager {
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
-        return resultArray;
+        return localResult.concat(resultArray);
     }
 
     /**

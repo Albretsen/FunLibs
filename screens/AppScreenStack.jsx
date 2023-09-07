@@ -56,10 +56,10 @@ export default function AppScreenStack({ navigation }) {
 								leftComponent: (
 									<Image
 									style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-									source={FirebaseManager.avatars[2]}
+									source={FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]}
 									/>
 								),
-								title: "Username",
+								title: FirebaseManager.currentUserData.firestoreData.username,
 								titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
 								},
 								component: (
