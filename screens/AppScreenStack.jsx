@@ -56,12 +56,12 @@ export default function AppScreenStack({ navigation }) {
 								leftComponent: (
 									<Image
 									style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-									source={(FirebaseManager.currentUserData) 
+									source={(FirebaseManager.currentUserData.firestoreData) 
 										? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
 										: FirebaseManager.avatars[0]}
 									/>
 								),
-								title: (FirebaseManager.currentUserData) 
+								title: (FirebaseManager.currentUserData.firestoreData) 
 								? FirebaseManager.currentUserData.firestoreData.username
 								: "Not logged in",
 								titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
@@ -69,7 +69,7 @@ export default function AppScreenStack({ navigation }) {
 								component: (
 									<View style={{gap: 35, marginTop: 10}}>
 										<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F", marginBottom: 5}}>Security</Text>
-										{FirebaseManager.currentUserData && (
+										{FirebaseManager.currentUserData.auth && (
 											<>
 												<TouchableOpacity onPress={() => (
 													openDrawer({
@@ -95,7 +95,7 @@ export default function AppScreenStack({ navigation }) {
 												</TouchableOpacity>
 											</>
 										)}
-										{!FirebaseManager.currentUserData && (
+										{!FirebaseManager.currentUserData.auth && (
 											<>
 												<TouchableOpacity 
 													onPress={() => {

@@ -3,6 +3,7 @@ import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderB
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
+import { Platform } from 'react-native';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAEKGpKMMy7guqWHnp6y-KJr5ll9kRFbBc",
@@ -35,7 +36,7 @@ export default class FirebaseManager {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                this.currentUserData = user;
+                this.currentUserData.auth = user;
                 Analytics.log("Created user " + JSON.stringify(user.uid));
             })
             .catch((error) => {
@@ -54,7 +55,7 @@ export default class FirebaseManager {
                             username: username,
                             avatarID: avatarID
                         }, 
-                        this.currentUserData.uid);
+                        this.currentUserData.auth.uid);
                         Analytics.log("Successfully created user");
                         resolve(user);
                         break;
@@ -101,7 +102,7 @@ export default class FirebaseManager {
                 await this.fetchUserData(uid);
             } else {
                 // User is signed out
-                this.currentUserData = null; // Reset the field to null
+                this.currentUserData = { auth: null, firestoreData: null }; // Reset the field to null
                 Analytics.log("Auth stated changed to Signed out");
             }
         });
@@ -148,16 +149,21 @@ export default class FirebaseManager {
     }
 
     static SetAuthPersistenceToLocal() {
-        setPersistence(auth, browserLocalPersistence)
-            .then(() => {
-                Analytics.log("Auth persistence set to LOCAL");
-                //return signInWithEmailAndPassword(auth, email, password);
-            })
-            .catch((error) => {
-                // Handle Errors here.
-                const errorMessage = error.message;
-                Analytics.log("Error setting local persistence on auth: " + errorMessage);
-            });
+        // Check if the platform is web
+        if (Platform.OS === 'web') {
+            setPersistence(auth, browserLocalPersistence)
+                .then(() => {
+                    Analytics.log("Auth persistence set to LOCAL");
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    const errorMessage = error.message;
+                    Analytics.log("Error setting local persistence on auth: " + errorMessage);
+                });
+        } else {
+            // Do nothing if not on web
+            Analytics.log("Not on web platform. Skipping setting auth persistence.");
+        }
     }
 
     static SignOut() {
@@ -271,7 +277,11 @@ export default class FirebaseManager {
                 } else {
                     localResult = [];
                 }
-                q = query(q, where("user", "==", this.currentUserData.auth.uid));
+                if (this.currentUserData.auth) {
+                    q = query(q, where("user", "==", this.currentUserData.auth.uid));
+                } else {
+                    q = query(q, where("user", "==", "not logged in"));
+                }
                 break;
             default:
                 console.log("DOING MY DEFAULT PATH");

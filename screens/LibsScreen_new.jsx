@@ -117,7 +117,7 @@ export default function LibsScreen() {
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
 	const [selectedCategory, setSelectedCategory] = useState("Official");
-	const [selectedSortBy, setSelectedSortBy] = useState("likes");
+	const [selectedSortBy, setSelectedSortBy] = useState("newest");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
 	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory.toLowerCase(), sortByValue = selectedSortBy, dateValue = selectedDate) => {
@@ -248,23 +248,23 @@ export default function LibsScreen() {
 						<Buttons 
 							buttons={[
 								{
-									label: "Top",
-									icon: selectedSortBy === "likes" ? "done" : null,
-									buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
-								},
-								{
-									label: "Trending",
-									icon: selectedSortBy === "trending" ? "done" : null,
-									buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
-								},
-								{
 									label: "Newest",
 									icon: selectedSortBy === "newest" ? "done" : null,
 									buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
 									onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
-								}
+								},
+								{
+									label: "Top",
+									icon: selectedSortBy === "likes" ? "done" : null,
+									buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
+								} //,
+								// {
+								// 	label: "Trending",
+								// 	icon: selectedSortBy === "trending" ? "done" : null,
+								// 	buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+								// 	onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
+								// }
 							]}
 							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
