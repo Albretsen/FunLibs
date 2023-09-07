@@ -27,6 +27,8 @@ export default function LibsScreen() {
 
 	const [isLoading, setIsLoading] = useState(false);
 
+	const quickload = false;
+
 	async function loadListObjectsFromDatabase(filterOptions = {"category":"official","sortBy":"new","dateRange":"allTime","playable":true}) {
 		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
@@ -55,7 +57,15 @@ export default function LibsScreen() {
 			if (users[i] === null) { // This is if the lib is stored locally
 				temp_listObjects[i].username = "You"; // This adds the user details to the object
 				temp_listObjects[i].avatarID = 0;
+			} else {
+				temp_listObjects[i].username = ""; // This adds the user details to the object
+				temp_listObjects[i].avatarID = 0;
 			}
+		}
+
+		if (quickload) {
+			setListObjects(temp_listObjects);
+			setIsLoading(false);
 		}
 
 		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
@@ -70,6 +80,7 @@ export default function LibsScreen() {
 		}
 
 		LibManager.libs = temp_listObjects;
+		if (quickload) setListObjects([]);
 		setListObjects(temp_listObjects);
 		setIsLoading(false);
 	}
