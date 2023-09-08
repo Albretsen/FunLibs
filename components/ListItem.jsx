@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import LibManager from "../scripts/lib_manager";
 import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 
-export default function ListItem(props) {
+function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, favorite, avatarID, username, likes, index, edit, user, local} = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
@@ -182,3 +182,5 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
 })
+
+export default React.memo(ListItem);

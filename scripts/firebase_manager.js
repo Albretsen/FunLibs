@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, FieldPath } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, startAfter } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -242,7 +242,7 @@ export default class FirebaseManager {
      * @param {boolean} [filterOptions.published] - If set, fetches documents where "published" matches the provided value.
      * @param {number} [pageSize=10] - The number of documents to retrieve in a single query (pagination size).
      * 
-     * @returns {Promise<firebase.firestore.DocumentSnapshot>} - Returns a promise that resolves to the last document in the current page of results. This can be used for subsequent paginated queries.
+     * * @returns {Promise<{data: Array<any>, lastDocument: firebase.firestore.DocumentSnapshot | null}>} - Returns a promise that resolves to an object containing the current page of results and the last document in the current page. The last document can be used for subsequent paginated queries.
      * 
      * @example
      * // Initial query to fetch the first page of results:
@@ -288,6 +288,7 @@ export default class FirebaseManager {
                 } else {
                     localResult = [];
                 }
+                if (lastVisibleDoc) localResult = [];
                 if (this.currentUserData.auth) {
                     console.log("IT PRINTED THIS: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
@@ -400,7 +401,11 @@ export default class FirebaseManager {
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
-        return localResult.concat(resultArray);
+        //return localResult.concat(resultArray);
+        return {
+            data: localResult.concat(resultArray),
+            lastDocument: lastDoc
+        };
     }
 
     /**

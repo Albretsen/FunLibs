@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions } from "react-native";
+import { ScrollView, StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions, FlatList } from "react-native";
 import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
@@ -27,14 +27,29 @@ export default function LibsScreen() {
 
 	const [isLoading, setIsLoading] = useState(false);
 
+	const [lastDocument, setLastDocument] = useState(null);
+
 	const quickload = false;
 
-	async function loadListObjectsFromDatabase(filterOptions = {"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue}) {
-		setIsLoading(true);
-		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
+	async function loadListObjectsFromDatabase(filterOptions = {"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue}, lastDocument = undefined) {
+		console.log("LASTDOCUMENT: " + lastDocument);
+		if (lastDocument === null) return;
+		if (lastDocument === undefined) setIsLoading(true);
+		let temp_listObjects = [];
+		if (lastDocument) {
+			temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
+		} else {
+			temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
+		}
+		if (!temp_listObjects.lastDocument) {
+			setLastDocument(null);
+		} else {
+			setLastDocument(temp_listObjects.lastDocument);
+		}
+		temp_listObjects = temp_listObjects.data;
 		if (temp_listObjects.length < 1) {
 			Analytics.log("No documents found");
-			setListObjects([]);
+			if (!lastDocument) setListObjects([]);
 			setIsLoading(false);
 			return;
 		}
@@ -64,12 +79,17 @@ export default function LibsScreen() {
 		}
 
 		if (quickload) {
-			setListObjects(temp_listObjects);
+			if (!lastDocument) {
+				setListObjects(temp_listObjects);
+			} else {
+				setListObjects(listObjects.concat(temp_listObjects));
+			}
 			setIsLoading(false);
 		}
 
 		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
-		
+		users = users.data;
+
 		for (let i = 0; i < temp_listObjects.length; i++) {
 			// Find the user from the users array with the same ID as the current object.user field.
 			let matchingUser = users.find(user => user.id === temp_listObjects[i].user);
@@ -81,7 +101,11 @@ export default function LibsScreen() {
 
 		LibManager.libs = temp_listObjects;
 		if (quickload) setListObjects([]);
-		setListObjects(temp_listObjects);
+		if (!lastDocument) {
+			setListObjects(temp_listObjects);
+		} else {
+			setListObjects(listObjects.concat(temp_listObjects));
+		}
 		setIsLoading(false);
 	}
 
@@ -91,7 +115,7 @@ export default function LibsScreen() {
 			loadListObjectsFromDatabase();
 		};
 		FirebaseManager.addAuthStateListener(authStateListener);
-	
+
 		// Clean up the listener when the component is unmounted
 		return () => {
 			const index = FirebaseManager.authStateListeners.indexOf(authStateListener);
@@ -110,38 +134,38 @@ export default function LibsScreen() {
 	}, [isFocused]);
 
 	useFocusEffect(
-	  useCallback(() => {
-        setTimeout(() => {
-            bottomSheetRef?.current?.close();
-          }, 10);
+		useCallback(() => {
+			setTimeout(() => {
+				bottomSheetRef?.current?.close();
+			}, 10);
 
-		return () => {
-		};
-	  }, [])
+			return () => {
+			};
+		}, [])
 	);
 
 	const bottomSheetRef = useRef(null);
 
 	const handleOpenBottomSheet = () => {
-	  bottomSheetRef.current?.snapToIndex(3);  // Or any other index, based on snapPoints array
-	  setIsBottomSheetOpen(true);
+		bottomSheetRef.current?.snapToIndex(3);  // Or any other index, based on snapPoints array
+		setIsBottomSheetOpen(true);
 	};
 
-    const handleCloseBottomSheet = () => {
-        bottomSheetRef.current?.close();
+	const handleCloseBottomSheet = () => {
+		bottomSheetRef.current?.close();
 		setIsBottomSheetOpen(false)
-    };
+	};
 
 	const handleBottomSheetChange = useCallback((index) => {
 		console.log('handleSheetChanges', index);
-		if(index <= 0) { // Would be -1, but needs to account for first snap point being 1% due to hack fix
+		if (index <= 0) { // Would be -1, but needs to account for first snap point being 1% due to hack fix
 			setIsBottomSheetOpen(false);
 		} else {
 			setIsBottomSheetOpen(true);
 		}
-	  }, []);
+	}, []);
 
-    const [playReadValue, setPlayReadValue] = React.useState(true);
+	const [playReadValue, setPlayReadValue] = React.useState(true);
 
 	const playReadToggle = (newValue) => {
 		setPlayReadValue(newValue);
@@ -150,7 +174,7 @@ export default function LibsScreen() {
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-	const [selectedCategory, setSelectedCategory] = useState("official");
+	const [selectedCategory, setSelectedCategory] = useState("Official");
 	const [selectedSortBy, setSelectedSortBy] = useState("newest");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
@@ -166,20 +190,36 @@ export default function LibsScreen() {
 	}
 
 	const edit = () => {
-		navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+		navigation.navigate("LibsHomeScreen", { initalTab: "Your Libs" });
 	}
 
 	const favorite = () => {
 
 	}
-  
+
+	const [scrollY, setScrollY] = useState(0);
+
+	const [hasReachedBottom, setHasReachedBottom] = useState(false);
+
+	const handleScroll = (event) => {
+		let paddingToBottom = 10;
+		let isCloseToBottom = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y >= event.nativeEvent.contentSize.height - paddingToBottom;
+
+		if (isCloseToBottom && !hasReachedBottom) {
+			setHasReachedBottom(true);
+			loadListObjectsFromDatabase({ "category": selectedCategory, "sortBy": selectedSortBy, "dateRange": selectedDate, "playable": playReadValue }, lastDocument);
+		} else if (!isCloseToBottom && hasReachedBottom) {
+			setHasReachedBottom(false);
+		}
+	};
+
 	return (
-	  	<SafeAreaView style={[globalStyles.screenStandard]}>
-			<View style={[{flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20}]}>
+		<SafeAreaView style={[globalStyles.screenStandard]}>
+			<View style={[{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20 }]}>
 				<SegmentedButtons
 					value={playReadValue}
 					onValueChange={playReadToggle}
-					style={{width: 190}}
+					style={{ width: 190 }}
 					density="small"
 					theme={{
 						colors: {
@@ -193,7 +233,7 @@ export default function LibsScreen() {
 							label: "Play",
 							value: true,
 							showSelectedCheck: true
-							
+
 						},
 						{
 							label: "Read",
@@ -202,37 +242,42 @@ export default function LibsScreen() {
 						}
 					]}
 				/>
-				<FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen}/>
+				<FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen} />
 			</View>
 			{isLoading ? (
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
 					<ActivityIndicator animating={true} color="#006D40" size="large" />
 				</View>
-        	) : (<>
-				<ScrollView style={[globalStyles.listItemContainer, {height: Dimensions.get("window").height - (74 + 0 + 64 + 60)}]}>
-					{listObjects.map((item, index) => (
-						<ListItem
-							name={item.name}
-							description={item.display_with_prompts}
-							promptAmount={item.prompts.length}
-							prompts={item.prompts}
-							text={item.text}
-							id={item.id}
-							type="libs"
-							key={item.id}
-							length={item.percent}
-							icon="favorite"
-							favorite={favorite}
-							username={item.username}
-							likes={item.likes}
-							avatarID={item.avatarID}
-							index={index}
-							edit={edit}
-							user={item.user}
-							local={item.local}
-						/>
-					))}
-				</ScrollView>
+			) : (<>
+					<FlatList
+						data={listObjects}
+						renderItem={({ item, index }) => (
+							<ListItem
+								name={item.name}
+								description={item.display_with_prompts}
+								promptAmount={item.prompts.length}
+								prompts={item.prompts}
+								text={item.text}
+								id={item.id}
+								type="libs"
+								key={item.id}
+								length={item.percent}
+								icon="favorite"
+								favorite={favorite}
+								username={item.username}
+								likes={item.likes}
+								avatarID={item.avatarID}
+								index={index}
+								edit={edit}
+								user={item.user}
+								local={item.local}
+							/>
+						)}
+						keyExtractor={item => item.id}
+						onEndReached={() => loadListObjectsFromDatabase({ "category": selectedCategory, "sortBy": selectedSortBy, "dateRange": selectedDate, "playable": playReadValue }, lastDocument)}
+						onEndReachedThreshold={0.1}
+						style={[globalStyles.listItemContainer, { height: Dimensions.get("window").height - (74 + 0 + 64 + 60) }]}
+					/>
 				<BottomSheet
 					ref={bottomSheetRef}
 					index={-1}
