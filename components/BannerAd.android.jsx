@@ -35,7 +35,7 @@ export default function BannerAdComponent() {
     // Memoize the BannerAd component to prevent re-creating it on each render
     const memoizedBannerAd = useMemo(
         () => (
-            <View style={{ position: 'absolute', bottom: adHeight, left: 0, zIndex: 200 }}>
+            <View style={{ position: 'absolute', bottom: 74, left: 0, zIndex: 200 }}>
                 {showBannerAd && (
                     <BannerAd
                         unitId={adUnitId}

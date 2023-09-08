@@ -24,7 +24,7 @@ function isNum(n) {
 export default function PlayScreen({ route }) {
 
 	useFocusEffect(() => {
-		AdManager.showAd("interstitial");
+		//AdManager.showAd("interstitial");
 	});
 
 	const isFocused = useIsFocused();
@@ -137,6 +137,7 @@ export default function PlayScreen({ route }) {
 			displayLib(() => {
 				return currentLib.text;
 			});
+			AdManager.showAd("interstitial");
 		}
 		// Clear current input
 		if (responses[currentPromptIndex + 1]) {
