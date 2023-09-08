@@ -81,13 +81,13 @@ export default function LibsScreen() {
 		}
 
 		if (quickload) {
-			let updatedListObjects;
 			if (!lastDocument) {
 				setListObjects(prevListObjects => temp_listObjects);
+				LibManager.libs = temp_listObjects;
 			} else {
 				setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
+				LibManager.libs = listObjects.concat(temp_listObjects);
 			}
-			setListObjects(updatedListObjects);
 			setIsLoading(false);
 		}
 
@@ -103,11 +103,12 @@ export default function LibsScreen() {
 			}
 		}
 
-		LibManager.libs = temp_listObjects;
 		if (!lastDocument) {
 			setListObjects(prevListObjects => temp_listObjects);
+			LibManager.libs = temp_listObjects;
 		} else {
 			setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
+			LibManager.libs = listObjects.concat(temp_listObjects);
 		}
 		setIsLoading(false);
 	}
