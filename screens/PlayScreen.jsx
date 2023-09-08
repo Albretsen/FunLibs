@@ -15,6 +15,7 @@ import { TextInput } from "react-native-paper";
 import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
+import FileManager from "../scripts/file_manager";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -180,21 +181,27 @@ export default function PlayScreen({ route }) {
 		FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
 	};
 
-	const onSave = () => {
-		if (FirebaseManager.currentUserData) {
-			console.log("LOGGED IN!!!!");
-		} else {
-			console.log("NOT LOGGED IN");
-		}
-		return;
+	const onSave = async () => {
+		console.log("1: " + JSON.stringify(currentLib));
 		currentLib.user = FirebaseManager.currentUserData.auth.uid;
 		currentLib.published = false;
 		currentLib.playable = false;
+		currentLib.local = true;
 		currentLib.date = new Date();
-		FirebaseManager.AddDocumentToCollection("posts", currentLib);
-		closeDrawer();
-		navigation.navigate("LibsHomeScreen");
-		showToast('Your story can be found under "Read" at the top of your screen');
+		let readArray = []
+        if (currentLib) {
+            let result = await FileManager._retrieveData("read");
+            if (!result) result = [];
+            if (Object.keys(result).length >= 1) {
+                readArray = JSON.parse(result);
+            }
+            readArray.push(currentLib);
+        }
+		console.log("2: " + JSON.stringify(readArray));
+        FileManager._storeData("read", JSON.stringify(readArray));
+        showToast('Your lib has been stored locally.');
+        closeDrawer();
+        navigation.navigate("LibsHomeScreen");
 	}
 
 	const onFavorite = () => {

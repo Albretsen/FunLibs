@@ -306,7 +306,7 @@ export default class FirebaseManager {
                 q = query(q, where("playable", "==", filterOptions.playable));
             } else {
                 console.log("SHOW LOCAL READ!!!!!");
-                localResult = await FileManager._retrieveData("my_content");
+                localResult = await FileManager._retrieveData("read");
                 if (localResult) { 
                     localResult = JSON.parse(localResult).filter(item => item.playable === false);
                 } else {
