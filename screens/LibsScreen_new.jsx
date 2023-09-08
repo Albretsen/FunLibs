@@ -79,11 +79,13 @@ export default function LibsScreen() {
 		}
 
 		if (quickload) {
+			let updatedListObjects;
 			if (!lastDocument) {
-				setListObjects(temp_listObjects);
+				setListObjects(prevListObjects => temp_listObjects);
 			} else {
-				setListObjects(listObjects.concat(temp_listObjects));
+				setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
 			}
+			setListObjects(updatedListObjects);
 			setIsLoading(false);
 		}
 
@@ -100,11 +102,10 @@ export default function LibsScreen() {
 		}
 
 		LibManager.libs = temp_listObjects;
-		if (quickload) setListObjects([]);
 		if (!lastDocument) {
-			setListObjects(temp_listObjects);
+			setListObjects(prevListObjects => temp_listObjects);
 		} else {
-			setListObjects(listObjects.concat(temp_listObjects));
+			setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
 		}
 		setIsLoading(false);
 	}
@@ -174,7 +175,7 @@ export default function LibsScreen() {
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-	const [selectedCategory, setSelectedCategory] = useState("Official");
+	const [selectedCategory, setSelectedCategory] = useState("official");
 	const [selectedSortBy, setSelectedSortBy] = useState("newest");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
@@ -305,9 +306,9 @@ export default function LibsScreen() {
 							buttons={[
 								{
 									label: "Official",
-									icon: selectedCategory === "Official" ? "done" : null,
-									buttonStyle: selectedCategory === "Official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedCategory("Official"); updateFilterOptions(playReadValue, "official"); }
+									icon: selectedCategory === "official" ? "done" : null,
+									buttonStyle: selectedCategory === "official" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("official"); updateFilterOptions(playReadValue, "official"); }
 								},
 								{
 									label: "All",
