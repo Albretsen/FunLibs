@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, deleteDoc, setDoc, startAfter } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -278,7 +278,10 @@ export default class FirebaseManager {
                 break;
             case "myFavorites":
                 // Boilerplate for "myFavorites" - You can add the functionality later.
-                // e.g., q = query(q, where("favorite", "==", true)); // Replace with your condition
+                if (this.currentUserData.auth) { 
+                    q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
+                }
+                else console.log("NOT LOGGED IN");
                 break;
             case "myContent":
                 console.log("DOING MY CONTENT PATH");
@@ -425,19 +428,19 @@ export default class FirebaseManager {
      * // Adding to an array field:
      * await FirebaseManager.UpdateDocument("yourCollectionName", "yourDocumentId", {}, { tags: ["newTag"] });
      */
-    static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}) {
+    static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}, arrayRemove_ = {}) {
         Analytics.log(`Updating document ${docId} in collection ${collection_} with data: ${JSON.stringify(updateData)}`);
-
+    
         const docRef = doc(db, collection_, docId);
-
+    
         // Begin the update batch
         const batch = writeBatch(db);
-
+    
         // Apply field overwrites
         if (Object.keys(updateData).length > 0) {
             batch.update(docRef, updateData);
         }
-
+    
         // Apply array updates
         for (const [field, values] of Object.entries(arrayUpdates)) {
             if (Array.isArray(values)) {
@@ -445,10 +448,21 @@ export default class FirebaseManager {
                     [field]: arrayUnion(...values)
                 });
             } else {
-                Analytics.log(`Expected array for field ${field}, but got ${typeof values}. Skipping this update.`);
+                Analytics.log(`Expected array for field ${field} in arrayUpdates, but got ${typeof values}. Skipping this update.`);
             }
         }
-
+    
+        // Apply array removals
+        for (const [field, values] of Object.entries(arrayRemove_)) {
+            if (Array.isArray(values)) {
+                batch.update(docRef, {
+                    [field]: arrayRemove(...values)
+                });
+            } else {
+                Analytics.log(`Expected array for field ${field} in arrayRemove, but got ${typeof values}. Skipping this update.`);
+            }
+        }
+    
         // Commit the batch
         try {
             await batch.commit();
@@ -457,7 +471,7 @@ export default class FirebaseManager {
             Analytics.log(`Error updating document ${docId}: ${error}`);
             throw error;
         }
-    }
+    }   
 
     static async generateMockData(numAccounts, numPostsPerAccount) {
         for (let i = 0; i < numAccounts; i++) {

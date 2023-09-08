@@ -9,11 +9,13 @@ import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, favorite, avatarID, username, likes, index, user, local} = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
+    const [isLiked, setIsLiked] = useState(likesArray?.includes(FirebaseManager.currentUserData.auth?.uid));
+    const [likeCount, setLikeCount] = useState(likes || 0);
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
@@ -81,6 +83,30 @@ function ListItem(props) {
 		});
 	}
 
+    const favorite = () => {
+        if (!FirebaseManager.currentUserData?.auth) {
+            console.log("NOT LOGGED IN");
+            return;
+        }
+    
+        let updatedLikesArray = likesArray ? [...likesArray] : [];
+    
+        if (isLiked) {
+            // Remove the uid if it's already present
+            updatedLikesArray = updatedLikesArray.filter(uid => uid !== FirebaseManager.currentUserData.auth.uid);
+            setIsLiked(false);
+            setLikeCount(likeCount - 1);
+        } else {
+            // Add the uid if it's not present
+            updatedLikesArray.push(FirebaseManager.currentUserData.auth.uid);
+            setIsLiked(true);
+            setLikeCount(likeCount + 1);
+        }
+    
+        // Now update the Firebase document
+        FirebaseManager.UpdateDocument("posts", id, { likesArray: updatedLikesArray, likes: updatedLikesArray.length });
+    }
+
     let promptOrText = promptFirst;
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -107,7 +133,7 @@ function ListItem(props) {
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
-                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>by {username} | {likes} likes</Text>
+                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>by {username} | {likeCount} {likeCount === 1 ? 'like' : 'likes'}</Text>
                 </View>
                 {icon && (
                     <View style={styles.rightIcons}>
@@ -126,10 +152,10 @@ function ListItem(props) {
                                 style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }}
                                 onPress={favorite}
                             >
-                                <Image
-                                    style={{ height: 25, width: 28 }}
-                                    source={require("../assets/images/icons/favorite-outlined.png")}
-                                />
+                                    <Image
+                                        style={{ height: 25, width: 28 }}
+                                        source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
+                                    />
                             </TouchableOpacity>
                         )}
                     </View>

@@ -195,10 +195,6 @@ export default function LibsScreen() {
 
 	const { setTab } = useTab();
 
-	const favorite = () => {
-
-	}
-
 	const [scrollY, setScrollY] = useState(0);
 
 	const [hasReachedBottom, setHasReachedBottom] = useState(false);
@@ -265,13 +261,13 @@ export default function LibsScreen() {
 								key={item.id}
 								length={item.percent}
 								icon="favorite"
-								favorite={favorite}
 								username={item.username}
 								likes={item.likes}
 								avatarID={item.avatarID}
 								index={index}
 								user={item.user}
 								local={item.local}
+								likesArray={item.likesArray}
 							/>
 						)}
 						keyExtractor={item => item.id}
@@ -318,9 +314,9 @@ export default function LibsScreen() {
 								},
 								{
 									label: "My favorites",
-									icon: selectedCategory === "My favorites" ? "done" : null,
-									buttonStyle: selectedCategory === "My favorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedCategory("My favorites"); updateFilterOptions(playReadValue, "My favorites"); }
+									icon: selectedCategory === "myFavorites" ? "done" : null,
+									buttonStyle: selectedCategory === "myFavorites" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedCategory("myFavorites"); updateFilterOptions(playReadValue, "myFavorites"); }
 								},
 								{
 									label: "My content",
