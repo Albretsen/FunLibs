@@ -5,16 +5,19 @@ import CreateLibScreen from "./CreateLibScreen";
 import TestScreen from "./TestScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTab } from "../components/TabContext";
 
 export default function LibsHomeScreen({route}) {
-    const initialTab = route.params?.initialTab ?? "Libs";
+    const initialTab = route.params?.initialTab ?? "Home";
+
+    const { tab } = useTab();
 
     const Tab = createMaterialTopTabNavigator();
 
     return (
         <Tab.Navigator
             tabBarPosition="bottom"
-            initialRouteName={initialTab}
+            initialRouteName={tab}
             screenOptions={({ route }) => ({
                 swipeEnabled: true, //Temporary disable for debugging
                 headerShown: true,

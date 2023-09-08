@@ -16,15 +16,51 @@ import { Divider } from '@rneui/themed';
 import DrawerActions from "../components/DrawerActions";
 import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function CreateLibScreen() {
-    const [libText, setLibText] = useState("");
-    const [libNameText, setLibNameText] = useState("");
+export default function CreateLibScreen({ route }) {
+    const [libText, setLibText] = useState(route.params?.libText || "");
+    const [libNameText, setLibNameText] = useState(route.params?.libNameText || "");
     const [finishedLib, setFinishedLib] = useState(null);
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
     const [newCursorPosition, setNewCursorPosition] = useState();
-    const [editLibID, setEditLibID] = useState({id: 0});
+    const [editLibID, setEditLibID] = useState(null);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            // This will run when the screen comes into focus
+    
+            return () => {
+                // This will run when the screen goes out of focus
+                setLibText("");
+                setLibNameText("");
+                setEditLibID(null);
+            };
+        }, [])
+    );
+
+    useEffect(() => {
+        // Log the route.params to see the values
+        console.log("route.params:", route.params);
+    
+        // Check if the parameters exist and then update the state
+        if (route.params?.libText) {
+            setLibText(route.params.libText);
+        } else {
+            setLibText("");
+        }
+        if (route.params?.libNameText) {
+            setLibNameText(route.params.libNameText);
+        } else {
+            setLibNameText("");
+        }
+        if (route.params?.editID) {
+            setEditLibID(route.params.editID);
+        } else {
+            setLibNameText("");
+        }
+    }, [route.params]);
 
     const libTextRef = useRef(libText);
     const finishedLibRef = useRef(finishedLib);
@@ -100,17 +136,28 @@ export default function CreateLibScreen() {
         finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = true;
 		finishedLibRef.current.playable = true;
-		finishedLibRef.current.date = new Date();
+        if (!editLibID) finishedLibRef.current.date = new Date();
         finishedLibRef.current.likes = 0;
 
-        FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
-
-        showToast('Your lib has been uploaded');
+        if (!editLibID) {
+            FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+            showToast('Your lib has been uploaded');
+        } else {
+            console.log("UPDATING DOC");
+            FirebaseManager.UpdateDocument("posts", editLibID, {
+                name: finishedLibRef.current.name,
+                text: finishedLibRef.current.text,
+                prompts: finishedLibRef.current.prompts
+            })
+            showToast('Your changes have been saved');
+        }
         closeDrawer();
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 
     let localSaveLib = async () => {
+        if (editLibID) return;
+
         finishedLibRef.current.name = libNameTextRef.current;
         finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = false;
@@ -208,6 +255,7 @@ export default function CreateLibScreen() {
                         placeholder="Title"
                         placeholderTextColor={"#9e9e9e"}
                         onChangeText={text => setLibNameText(text)}
+                        value={libNameText}
                     />
                     <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
                         <MaterialIcons style={{color: "#006d40"}} name="help" size={28} />
@@ -224,6 +272,7 @@ export default function CreateLibScreen() {
                     placeholderTextColor={"#9e9e9e"}
                     onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
                     selection={newCursorPosition}
+                    value={libText}
                 />
                 <Divider color="#CAC4D0" style={{marginVertical: 10}} />
                 <View style={{flexGrow: 0}}>
@@ -381,8 +430,8 @@ export default function CreateLibScreen() {
                         publishSaveLib();
                         setShowDialogPublish(false);
                     }}
-                    confirmLabel="Publish"
-                    cancelLabel="Save locally"
+                    confirmLabel={editLibID ? "Publish changes" : "Publish" }
+                    cancelLabel={editLibID ? "" : "Save locally" }
                 >
                     <Text style={styles.paragraph}>
                         {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}

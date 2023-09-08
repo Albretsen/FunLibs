@@ -9,7 +9,7 @@ import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, favorite, avatarID, username, likes, index, edit, user, local} = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, favorite, avatarID, username, likes, index, user, local} = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -69,6 +69,17 @@ function ListItem(props) {
     function hideDeleteDialogHandler() {
         setShowDeleteDialog(false);
     }
+
+    const edit = () => {
+		navigation.navigate("LibsHomeScreen", { 
+			screen: "Create",
+			params: {
+				libText: LibManager.display_edit(text, prompts),
+				libNameText: name,
+                editID: id,
+			}
+		});
+	}
 
     let promptOrText = promptFirst;
 

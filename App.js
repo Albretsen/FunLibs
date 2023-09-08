@@ -13,6 +13,7 @@ import CustomDrawerContent from "./components/CustomDrawerContent";
 import { DrawerProvider } from "./components/Drawer";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
+import { TabProvider } from "./components/TabContext.jsx";
 
 const DrawerNav = createDrawerNavigator();
 
@@ -53,31 +54,33 @@ export default function App() {
         <ToastProvider>
           <DialogProvider>
             <DrawerProvider>
-              <NavigationContainer>
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                  <DrawerNav.Navigator
-                    drawerContent={(props) => <CustomDrawerContent {...props} />}
-                    screenOptions={{
-                      drawerStyle: {
-                        borderTopRightRadius: 15, 
-                        borderBottomRightRadius: 15,
-                      }
-                    }}
-                  >
-                    <DrawerNav.Screen
-                      name="Home"
-                      component={AppScreenStack}
-                      options={{headerShown: false}}
-                    />
-                  </DrawerNav.Navigator>
-                  <BannerAdComponent/>
-                </GestureHandlerRootView>
-              </NavigationContainer>
+              <TabProvider>
+                <NavigationContainer>
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <DrawerNav.Navigator
+                      drawerContent={(props) => <CustomDrawerContent {...props} />}
+                      screenOptions={{
+                        drawerStyle: {
+                          borderTopRightRadius: 15,
+                          borderBottomRightRadius: 15,
+                        }
+                      }}
+                    >
+                      <DrawerNav.Screen
+                        name="Home"
+                        component={AppScreenStack}
+                        options={{ headerShown: false }}
+                      />
+                    </DrawerNav.Navigator>
+                    <BannerAdComponent />
+                  </GestureHandlerRootView>
+                </NavigationContainer>
+              </TabProvider>
             </DrawerProvider>
           </DialogProvider>
         </ToastProvider>
-    </ScreenProvider>
-  </Provider>
+      </ScreenProvider>
+    </Provider>
   );
 }
 

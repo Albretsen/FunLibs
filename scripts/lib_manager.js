@@ -261,6 +261,20 @@ export default class LibManager {
         }*/
         return dict;
     }
+
+    /**
+    * @returns Returns a editable story
+    */
+    static display_edit(text, prompts) {
+        for (let i = 0; i < prompts.length; i++) {
+            let key = Object.keys(prompts[i]);
+            for (let j = 0; j < prompts[i][key].length; j++) {
+                text[prompts[i][key][j]] = '(' + key + ')';
+            }
+        }
+
+        return fixArticles(text.join(""));
+    }
 }
 
 function fixArticles(txt) {
