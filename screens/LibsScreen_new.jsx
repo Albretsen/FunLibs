@@ -156,7 +156,7 @@ export default function LibsScreen() {
 	}
 
 	const edit = () => {
-		console.log("edit");
+		navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
 	}
 
 	const favorite = () => {

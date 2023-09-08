@@ -95,25 +95,33 @@ export default function ListItem(props) {
                     source={FirebaseManager.avatars[avatarID]}
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, {fontSize: 16, color: "#505050", fontWeight: 500}]}>{name}</Text>
-                    <Text style={[{fontSize: 13, color: "#49454F"}]}>by {username} | {likes} likes</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
+                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>by {username} | {likes} likes</Text>
                 </View>
                 {icon && (
-                <View style={styles.rightIcons}>
-                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) && <TouchableOpacity style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }} onPress={edit}>
-                            <Image
-                                style={{ height: 25, width: 28 }}
-                                source={require("../assets/images/icons/edit.png")}
-                            />
-                        </TouchableOpacity>}
-                    <TouchableOpacity style={{justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3}} onPress={favorite}>
-                         {/* Using image for icon because outlined version of icon was needed */}
-                        <Image
-                            style={{height: 25, width: 28}}
-                            source={require("../assets/images/icons/favorite-outlined.png")}
-                        />
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.rightIcons}>
+                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                            <TouchableOpacity
+                                style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }}
+                                onPress={edit}
+                            >
+                                <Image
+                                    style={{ height: 25, width: 28 }}
+                                    source={require("../assets/images/icons/edit.png")}
+                                />
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }}
+                                onPress={favorite}
+                            >
+                                <Image
+                                    style={{ height: 25, width: 28 }}
+                                    source={require("../assets/images/icons/favorite-outlined.png")}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 )}
                 {/* Conditionally render the delete confirmation dialog */}
                 {showDeleteDialog && (

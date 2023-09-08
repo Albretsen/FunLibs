@@ -24,6 +24,7 @@ export default function CreateLibScreen() {
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
     const [newCursorPosition, setNewCursorPosition] = useState();
+    const [editLibID, setEditLibID] = useState({id: 0});
 
     const libTextRef = useRef(libText);
     const finishedLibRef = useRef(finishedLib);
@@ -33,6 +34,9 @@ export default function CreateLibScreen() {
     useEffect(() => {
         libTextRef.current = libText;
         finishedLibRef.current = finishedLib;
+        if (editLibID && finishedLibRef.current) {
+            finishedLibRef.current.id = editLibID.id;
+        }
         libNameTextRef.current = libNameText;
     }, [libText, finishedLib, libNameText]);
     
@@ -122,11 +126,12 @@ export default function CreateLibScreen() {
             if (Object.keys(result).length >= 1) {
                 readArray = JSON.parse(result);
             }
-            if (!finishedLibRef.current.id) {
+            console.log("SAVING TO: " + finishedLibRef.current.id);
+            if (!finishedLibRef.current.id && finishedLibRef.current.id !== 0) {
                 finishedLibRef.current.id = readArray.length;
                 readArray.push(finishedLibRef.current);
             } else {
-                readArray[finishedLib.current.id] = finishedLibRef.current;
+                readArray[finishedLibRef.current.id] = finishedLibRef.current;
             }
         }
         FileManager._storeData("my_content", JSON.stringify(readArray));
