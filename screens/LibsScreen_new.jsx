@@ -29,7 +29,7 @@ export default function LibsScreen() {
 
 	const quickload = false;
 
-	async function loadListObjectsFromDatabase(filterOptions = {"category":"official","sortBy":"new","dateRange":"allTime","playable":true,"published": true}) {
+	async function loadListObjectsFromDatabase(filterOptions = {"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue}) {
 		setIsLoading(true);
 		let temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		if (temp_listObjects.length < 1) {
@@ -140,7 +140,7 @@ export default function LibsScreen() {
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-	const [selectedCategory, setSelectedCategory] = useState("Official");
+	const [selectedCategory, setSelectedCategory] = useState("official");
 	const [selectedSortBy, setSelectedSortBy] = useState("newest");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
