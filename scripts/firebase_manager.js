@@ -90,19 +90,27 @@ export default class FirebaseManager {
         });
     }
 
+    static authStateListeners = [];
+
+    static addAuthStateListener(listener) {
+        this.authStateListeners.push(listener);
+    }
+
     static OnAuthStateChanged() {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // User is signed in
                 const uid = user.uid;
                 this.currentUserData.auth = user;
-                Analytics.log("Auth stated changed to Signed in for " + uid);
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
+                this.authStateListeners.forEach(listener => listener(user));
+                Analytics.log("Auth stated changed to Signed in for " + uid);
             } else {
                 // User is signed out
                 this.currentUserData = { auth: null, firestoreData: null }; // Reset the field to null
+                this.authStateListeners.forEach(listener => listener(null));
                 Analytics.log("Auth stated changed to Signed out");
             }
         });

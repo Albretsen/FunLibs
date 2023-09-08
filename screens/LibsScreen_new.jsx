@@ -86,9 +86,19 @@ export default function LibsScreen() {
 	}
 
 	useEffect(() => {
-		(async () => {
-			await loadListObjectsFromDatabase();
-		})();
+		// Add a listener to the Auth state change event
+		const authStateListener = (user) => {
+			loadListObjectsFromDatabase();
+		};
+		FirebaseManager.addAuthStateListener(authStateListener);
+	
+		// Clean up the listener when the component is unmounted
+		return () => {
+			const index = FirebaseManager.authStateListeners.indexOf(authStateListener);
+			if (index > -1) {
+				FirebaseManager.authStateListeners.splice(index, 1);
+			}
+		};
 	}, []);
 
 	useEffect(() => {
