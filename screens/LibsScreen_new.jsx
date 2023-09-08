@@ -269,7 +269,6 @@ export default function LibsScreen() {
 								likes={item.likes}
 								avatarID={item.avatarID}
 								index={index}
-								edit={edit}
 								user={item.user}
 								local={item.local}
 							/>
