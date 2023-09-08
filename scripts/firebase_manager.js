@@ -157,20 +157,25 @@ export default class FirebaseManager {
     }
 
     static SetAuthPersistenceToLocal() {
-        // Check if the platform is web
         if (Platform.OS === 'web') {
             setPersistence(auth, browserLocalPersistence)
                 .then(() => {
-                    Analytics.log("Auth persistence set to LOCAL");
+                    Analytics.log("Auth persistence set to LOCAL for web");
                 })
                 .catch((error) => {
-                    // Handle Errors here.
                     const errorMessage = error.message;
-                    Analytics.log("Error setting local persistence on auth: " + errorMessage);
+                    Analytics.log("Error setting local persistence on auth for web: " + errorMessage);
                 });
-        } else {
-            // Do nothing if not on web
-            Analytics.log("Not on web platform. Skipping setting auth persistence.");
+        } else if (Platform.OS === 'android' || Platform.OS === 'ios') {
+            // Using React Native Firebase's setPersistence method
+            // auth.setPersistence(auth, browserLocalPersistence)
+            //     .then(() => {
+            //         Analytics.log("Auth persistence set to LOCAL for " + Platform.OS);
+            //     })
+            //     .catch((error) => {
+            //         const errorMessage = error.message;
+            //         Analytics.log("Error setting local persistence on auth for " + Platform.OS + ": " + errorMessage);
+            //     });
         }
     }
 
