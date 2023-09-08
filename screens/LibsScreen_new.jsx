@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback, useContext, useRef } from "rea
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 // ADS
 import AdManager from "../scripts/ad_manager";
 import BannerAdComponent from "../components/BannerAd";
@@ -18,8 +18,11 @@ import FilterToggle from "../components/FilterToggle";
 import { SegmentedButtons, ActivityIndicator } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
 import Analytics from "../scripts/analytics";
+import { useTab } from "../components/TabContext";
 
 export default function LibsScreen() {
+	const navigation = useNavigation();
+
 	const [listObjects, setListObjects] = useState([]);
 
 	const isFocused = useIsFocused();
@@ -32,7 +35,6 @@ export default function LibsScreen() {
 	const quickload = false;
 
 	async function loadListObjectsFromDatabase(filterOptions = {"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue}, lastDocument = undefined) {
-		console.log("LASTDOCUMENT: " + lastDocument);
 		if (lastDocument === null) return;
 		if (lastDocument === undefined) setIsLoading(true);
 		let temp_listObjects = [];
@@ -190,9 +192,7 @@ export default function LibsScreen() {
 		setIsBottomSheetOpen(false);
 	}
 
-	const edit = () => {
-		navigation.navigate("LibsHomeScreen", { initalTab: "Your Libs" });
-	}
+	const { setTab } = useTab();
 
 	const favorite = () => {
 
