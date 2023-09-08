@@ -46,7 +46,7 @@ export function ScreenProvider({ children }) {
 }
 
 export default function App() {
-  const [bannerAdHeight, setBannerAdHeight] = useState(74);
+  const [bannerAdHeight, setBannerAdHeight] = useState(0);
 
   return (
     <Provider>
@@ -56,7 +56,7 @@ export default function App() {
             <DrawerProvider>
               <TabProvider>
                 <NavigationContainer>
-                  <GestureHandlerRootView style={{ flex: 1 }}>
+                  <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
                     <DrawerNav.Navigator
                       drawerContent={(props) => <CustomDrawerContent {...props} />}
                       screenOptions={{
@@ -72,7 +72,7 @@ export default function App() {
                         options={{ headerShown: false }}
                       />
                     </DrawerNav.Navigator>
-                    <BannerAdComponent />
+                    <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
                   </GestureHandlerRootView>
                 </NavigationContainer>
               </TabProvider>
