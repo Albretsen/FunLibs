@@ -85,13 +85,36 @@ export default function CreateLibScreen() {
         }
     }
 
-    let confirmSaveLib = async () => {
+    let publishDialog = () => {
+        setShowDialogPublish(true);
+    }
+
+    let publishSaveLib = async () => {
+        if (!FirebaseManager.currentUserData.auth) showToast('You have to be logged in to publish.');
+
+        finishedLibRef.current.name = libNameTextRef.current;
+        finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
+		finishedLibRef.current.published = true;
+		finishedLibRef.current.playable = true;
+		finishedLibRef.current.date = new Date();
+        finishedLibRef.current.likes = 0;
+
+        FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+
+        showToast('Your lib has been uploaded');
+        closeDrawer();
+        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+    }
+
+    let localSaveLib = async () => {
         finishedLibRef.current.name = libNameTextRef.current;
         finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = false;
 		finishedLibRef.current.playable = true;
 		finishedLibRef.current.date = new Date();
         finishedLibRef.current.likes = 0;
+        finishedLibRef.current.local = true;
+
         let readArray = []
         if (finishedLibRef.current) {
             let result = await FileManager._retrieveData("my_content");
@@ -99,16 +122,15 @@ export default function CreateLibScreen() {
             if (Object.keys(result).length >= 1) {
                 readArray = JSON.parse(result);
             }
-            readArray.push(finishedLibRef.current);
+            if (!finishedLibRef.current.id) {
+                finishedLibRef.current.id = readArray.length;
+                readArray.push(finishedLibRef.current);
+            } else {
+                readArray[finishedLib.current.id] = finishedLibRef.current;
+            }
         }
         FileManager._storeData("my_content", JSON.stringify(readArray));
-        showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
-        closeDrawer();
-        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
-    }
-
-    let declineSaveLib = () => {
-        showToast('Your lib can be found under "Your libs" at the bottom of your screen.');
+        showToast('Your lib has been stored locally.');
         closeDrawer();
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
@@ -162,7 +184,7 @@ export default function CreateLibScreen() {
             <DrawerActions
 				// onPublish={onPublish}
 				// onShare={onShare}
-				onSave={confirmSaveLib}
+				onSave={publishDialog}
 				// onFavorite={onFavorite}
 			/>
         </>
@@ -347,14 +369,15 @@ export default function CreateLibScreen() {
                     show={showDialogPublish}
                     onCancel={() => {
                         setShowDialogPublish(false),
-                        declineSaveLib()
+                        localSaveLib();
                     }}
                     onConfirm={() => {
                         // Publish lib function here
+                        publishSaveLib();
                         setShowDialogPublish(false);
                     }}
                     confirmLabel="Publish"
-                    cancelLabel="Cancel"
+                    cancelLabel="Save locally"
                 >
                     <Text style={styles.paragraph}>
                         {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}

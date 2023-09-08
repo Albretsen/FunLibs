@@ -144,7 +144,7 @@ export default function LibsScreen() {
 	const [selectedSortBy, setSelectedSortBy] = useState("newest");
 	const [selectedDate, setSelectedDate] = useState("allTime");
 
-	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory.toLowerCase(), sortByValue = selectedSortBy, dateValue = selectedDate) => {
+	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory, sortByValue = selectedSortBy, dateValue = selectedDate) => {
 		let filterOptions = {
 			category: categoryValue,
 			sortBy: sortByValue,
@@ -155,8 +155,8 @@ export default function LibsScreen() {
 		setIsBottomSheetOpen(false);
 	}
 
-	const publish = () => {
-		console.log("publish");
+	const edit = () => {
+		console.log("edit");
 	}
 
 	const favorite = () => {
@@ -217,7 +217,9 @@ export default function LibsScreen() {
 							likes={item.likes}
 							avatarID={item.avatarID}
 							index={index}
-							publish={publish}
+							edit={edit}
+							user={item.user}
+							local={item.local}
 						/>
 					))}
 				</ScrollView>
