@@ -17,6 +17,7 @@ import DrawerActions from "../components/DrawerActions";
 import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useFocusEffect } from '@react-navigation/native';
+import AudioPlayer from "../scripts/audio";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -26,6 +27,7 @@ export default function CreateLibScreen({ route }) {
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
     const [newCursorPosition, setNewCursorPosition] = useState();
     const [editLibID, setEditLibID] = useState(null);
+    const { playAudio } = AudioPlayer();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -202,6 +204,7 @@ export default function CreateLibScreen({ route }) {
     const libTextInputRef = useRef(null);
 
     let addPrompt = (prompt) => {
+        playAudio('pop');
         const beforeCursor = libText.substring(0, cursorPosition.start);
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
         const updatedText = beforeCursor + '(' + prompt + ')' + afterCursor;

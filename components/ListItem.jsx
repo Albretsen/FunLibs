@@ -9,6 +9,7 @@ import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "./Drawer";
 import DrawerActions from "./DrawerActions";
+import AudioPlayer from "../scripts/audio";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
@@ -19,6 +20,7 @@ function ListItem(props) {
     const [isLiked, setIsLiked] = useState(likesArray?.includes(FirebaseManager.currentUserData.auth?.uid));
     const [likeCount, setLikeCount] = useState(likes || 0);
     const { openDrawer, closeDrawer } = useDrawer();
+    const { playAudio } = AudioPlayer();
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
@@ -128,6 +130,7 @@ function ListItem(props) {
             updatedLikesArray.push(FirebaseManager.currentUserData.auth.uid);
             setIsLiked(true);
             setLikeCount(likeCount + 1);
+            playAudio("pop");
         }
     
         // Now update the Firebase document

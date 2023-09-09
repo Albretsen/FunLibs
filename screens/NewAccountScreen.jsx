@@ -19,7 +19,6 @@ export default function NewAccountScreen() {
     const handleAvatarChange = (index) => {
         index -= 1; // Correct for padding in carousel
         setAvatarIndex(index);
-        console.log("Avatar changed to:", index);
         // Here, you can do anything with the new avatar index
     }
 

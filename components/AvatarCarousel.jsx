@@ -21,23 +21,30 @@ const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange }) => {
 			index * 100,
 			(index + 1) * 100,
 		];
-
-		const outputRange = [0.7, 1, 0.7];
+	
+		const scaleOutputRange = [0.7, 1, 0.7];
+		const opacityOutputRange = [0.8, 1, 0.8];
+	
 		const scale = scrollAnim.interpolate({
 			inputRange,
-			outputRange,
+			outputRange: scaleOutputRange,
 			extrapolate: 'clamp',
 		});
-
+	
+		const opacity = scrollAnim.interpolate({
+			inputRange,
+			outputRange: opacityOutputRange,
+			extrapolate: 'clamp',
+		});
+	
 		return (
-		  <Animated.View style={{ transform: [{ scale }], opacity: 1 }}>
-			<Image source={item.uri} style={{ width: 100, height: 100 }} />
-		  </Animated.View>
+			<Animated.View style={{ transform: [{ scale }], opacity }}>
+				<Image source={item.uri} style={{ width: 100, height: 100 }} />
+			</Animated.View>
 		);
 	};
 	
 	const handleSnapToItem = (index) => {
-		console.log("Snapped to item:", index);
 		if (onAvatarChange) onAvatarChange(index);
 	}
 
@@ -53,7 +60,6 @@ const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange }) => {
 				[{ nativeEvent: { contentOffset: { x: scrollAnim } } }],
 				{ useNativeDriver: true }
 			)}
-			scrollEventThrottle={16}
 		/>
 	);
 };
