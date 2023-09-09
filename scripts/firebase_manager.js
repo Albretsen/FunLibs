@@ -538,6 +538,7 @@ export default class FirebaseManager {
         28: require('../assets/images/avatars/28.png'),
         29: require('../assets/images/avatars/29.png'),
         "carousel-padding": require(`../assets/images/avatars/carousel-padding.png`),
+        "no-avatar": require(`../assets/images/avatars/no-avatar.png`),
     }
 }
 

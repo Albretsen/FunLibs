@@ -19,6 +19,7 @@ import { SegmentedButtons, ActivityIndicator } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
 import Analytics from "../scripts/analytics";
 import { useTab } from "../components/TabContext";
+import Dropdown from "../components/Dropdown";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -241,6 +242,20 @@ export default function LibsScreen() {
 					]}
 				/>
 				<FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen} />
+				<Dropdown options={[
+					{
+						name: "Featured"
+					},
+					{
+						name: "Adventure",
+					},
+					{
+						name: "Casual",
+					},
+					{
+						name: "Space",
+					},
+				]}/>
 			</View>
 			{isLoading ? (
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>

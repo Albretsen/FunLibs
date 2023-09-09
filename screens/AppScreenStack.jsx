@@ -8,14 +8,32 @@ import SplashScreen from "./SplashScreen";
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
+import React, { useEffect, useState } from 'react';
 
 const Stack = createStackNavigator();
 
 export default function AppScreenStack({ navigation }) {
     const { openDrawer, closeDrawer } = useDrawer();
+	const [key, setKey] = useState(Math.random());
 
-	
-  
+	useEffect(() => {
+        // Define the listener
+        const authStateListener = (user) => {
+            // Force a re-render by updating the key
+            setKey(Math.random());
+        };
+
+        // Add the listener
+        FirebaseManager.addAuthStateListener(authStateListener);
+
+        // Cleanup the listener on component unmount
+        return () => {
+            // You might want to create a method in FirebaseManager to remove listeners
+            // For now, this is a mock of what it might look like:
+            FirebaseManager.removeAuthStateListener(authStateListener);
+        };
+    }, []);
+
     return (
 		<Stack.Navigator>
 			<Stack.Screen
@@ -58,7 +76,7 @@ export default function AppScreenStack({ navigation }) {
 									style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
 									source={(FirebaseManager.currentUserData.firestoreData) 
 										? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-										: FirebaseManager.avatars[0]}
+										: FirebaseManager.avatars["no-avatar"]}
 									/>
 								),
 								title: (FirebaseManager.currentUserData.firestoreData) 
@@ -71,7 +89,7 @@ export default function AppScreenStack({ navigation }) {
 										<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F", marginBottom: 5}}>Security</Text>
 										{FirebaseManager.currentUserData.auth && (
 											<>
-												<TouchableOpacity onPress={() => (
+												{/* <TouchableOpacity onPress={() => (
 													openDrawer({
 														component: (
 															<View><Text>Test</Text></View>
@@ -79,7 +97,7 @@ export default function AppScreenStack({ navigation }) {
 													})
 												)}>
 													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change username</Text>
-												</TouchableOpacity>
+												</TouchableOpacity> */}
 												<TouchableOpacity>
 													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change avatar</Text>
 												</TouchableOpacity>
@@ -119,7 +137,18 @@ export default function AppScreenStack({ navigation }) {
 								containerStyle: {paddingHorizontal: 26}
 							})
 						)}>
-							<MaterialIcons style={{marginRight: 12, color: "#49454F"}} name="account-circle" size={22} />
+
+							{/* <MaterialIcons style={{marginRight: 12, color: "#49454F"}} name="account-circle" size={22} />  */}
+							<Image
+								key={key}
+								style={{ width: 22, height: 22, marginRight: 12 }}
+								source={
+									FirebaseManager.currentUserData.firestoreData ?
+										FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID] :
+										FirebaseManager.avatars["no-avatar"]
+								}
+							/>
+							
 						</TouchableOpacity>
 					),
 				})}

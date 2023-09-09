@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
@@ -7,6 +7,8 @@ import _ from "lodash";
 import LibManager from "../scripts/lib_manager";
 import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
+import { useDrawer } from "./Drawer";
+import DrawerActions from "./DrawerActions";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
@@ -16,6 +18,7 @@ function ListItem(props) {
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
     const [isLiked, setIsLiked] = useState(likesArray?.includes(FirebaseManager.currentUserData.auth?.uid));
     const [likeCount, setLikeCount] = useState(likes || 0);
+    const { openDrawer, closeDrawer } = useDrawer();
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
@@ -23,7 +26,31 @@ function ListItem(props) {
             if (currentLib.playable) {
                 navigation.navigate("PlayScreen", { libId: id, type: type });
             } else {
-                drawer.current.openDrawer();
+                openDrawer(
+                    {
+                        component: (
+                            <>
+                                <ScrollView>
+                                    <View style={globalStyles.drawerTop}>
+                                        <Text>{LibManager.displayInDrawer(text)}</Text>
+                                    </View>
+                                </ScrollView>
+                                <DrawerActions
+                                    onShare={() => console.log("on share")}
+                                    onDelete={() => console.log("delete")}
+                                />
+                            </>
+                        ),
+                        header: {
+                            middleComponent: (
+                                <View style={{flex: 1}}>
+                                    <Text style={{fontSize: 18}}>{name}</Text>
+                                    <Text style={{fontSize: 14}}>By {username}</Text>
+                                </View>
+                            )
+                        }
+                    }
+                );
                 onClick({ id, name, type });
             }
         }, 1)

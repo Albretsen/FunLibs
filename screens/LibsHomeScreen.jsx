@@ -19,7 +19,7 @@ export default function LibsHomeScreen({route}) {
             tabBarPosition="bottom"
             initialRouteName={tab}
             screenOptions={({ route }) => ({
-                swipeEnabled: true, //Temporary disable for debugging
+                swipeEnabled: false, //Temporary disable for debugging
                 headerShown: true,
                 tabBarActiveTintColor: "gray",
                 tabBarInactiveTintColor: "gray",

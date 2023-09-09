@@ -41,6 +41,12 @@ export default function CreateLibScreen({ route }) {
     );
 
     useEffect(() => {
+        return () => {
+            navigation.setOptions({ swipeEnabled: true });
+        };
+    }, []);
+
+    useEffect(() => {
         // Log the route.params to see the values
         console.log("route.params:", route.params);
     
@@ -243,7 +249,7 @@ export default function CreateLibScreen({ route }) {
     )
 
     return(
-        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}, Platform.OS === 'android' ? {paddingBottom: 60} : null]}>
+        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}]}>
 
             <ScrollView style={{marginHorizontal: 14}}
                 keyboardDismissMode="on-drag"
@@ -275,77 +281,77 @@ export default function CreateLibScreen({ route }) {
                     value={libText}
                 />
                 <Divider color="#CAC4D0" style={{marginVertical: 10}} />
-                <View style={{flexGrow: 0}}>
-                <Buttons
-                    buttons={
-                        [{
-                            label: "Custom",
-                            icon: "add",
-                            onPress: () => setShowDialogCustom(true)
-                        },
-                        {
-                            label: "Adjective",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Adjective");
+                <View style={{ flexGrow: 0 }}>
+                    <Buttons
+                        buttons={
+                            [{
+                                label: "Custom",
+                                icon: "add",
+                                onPress: () => setShowDialogCustom(true)
                             },
-                        },
-                        {
-                            label: "Verb",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Verb");
+                            {
+                                label: "Adjective",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Adjective");
+                                },
                             },
-                        },
-                        {
-                            label: "Noun",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Noun");
+                            {
+                                label: "Verb",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Verb");
+                                },
                             },
-                        },
-                        {
-                            label: "Occupation",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Occupation");
+                            {
+                                label: "Noun",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Noun");
+                                },
                             },
-                        },
-                        {
-                            label: "Name",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Name");
+                            {
+                                label: "Occupation",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Occupation");
+                                },
                             },
-                        },
-                        {
-                            label: "Emotion",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Emotion");
+                            {
+                                label: "Name",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Name");
+                                },
                             },
-                        },
-                        {
-                            label: "Place",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Place");
+                            {
+                                label: "Emotion",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Emotion");
+                                },
                             },
-                        },
-                        {
-                            label: "Animal",
-                            icon: "add",
-                            onPress: () => {
-                                addPrompt("Animal");
+                            {
+                                label: "Place",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Place");
+                                },
                             },
-                        },
-                        ]
-                    }
-                    buttonStyle={{borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 40}}
-                    containerStyle={{justifyContent: "flex-start"}}
-                    labelStyle={{fontSize: 17, fontWeight: 500}}
-                    sideScroll={true}
-                />
+                            {
+                                label: "Animal",
+                                icon: "add",
+                                onPress: () => {
+                                    addPrompt("Animal");
+                                },
+                            },
+                            ]
+                        }
+                        buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 40 }}
+                        containerStyle={{ justifyContent: "flex-start" }}
+                        labelStyle={{ fontSize: 17, fontWeight: 500 }}
+                        sideScroll={true}
+                    />
                 </View>
 
                 <Buttons
