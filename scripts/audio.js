@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { Audio } from 'expo-av';
+import { Asset } from 'expo-asset';
 
 export default function AudioPlayer() {
   const [sound, setSound] = React.useState();
 
   async function playAudio(soundName) {
     try {
-      const { sound: newSound } = await Audio.Sound.createAsync(sounds[soundName]);
+      const asset = Asset.fromModule(sounds[soundName]);
+      await asset.downloadAsync();
+      const { sound: newSound } = await Audio.Sound.createAsync(asset);
       setSound(newSound);
       await newSound.playAsync();
     } catch (error) {
@@ -28,5 +31,5 @@ export default function AudioPlayer() {
 }
 
 const sounds = {
-    "pop": require("../assets/audio/pop.flac"),
+    "pop": Asset.fromModule(require("../assets/audio/pop.mp3")),
 }
