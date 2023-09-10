@@ -240,7 +240,7 @@ export default function PlayScreen({ route }) {
 					/>
 					<View style={[{width: "75%", gap: 0, flexDirection: "column",}]}>
 						<Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, color: "#505050", fontWeight: 500}]}>{currentLib.name}</Text>
-						<Text style={[{fontSize: 13, color: "#49454F"}]}>{currentLib.username} | {currentLib.likes} likes</Text>
+						<Text style={[{fontSize: 13, color: "#49454F"}]}>by {currentLib.username} | {currentLib.likes} likes</Text>
 					</View>
 				</View>
 				<View style={{position: "relative"}}>

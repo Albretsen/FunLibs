@@ -192,7 +192,14 @@ export default function LibsScreen() {
 
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard]}>
-			<View style={[{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", gap: 10, width: "100%", paddingBottom: 20 }]}>
+			<View style={[globalStyles.containerWhitespace, {
+				flexDirection: "row",
+				justifyContent: "space-between",
+				alignItems: "center",
+				gap: 10,
+				padding: 2,
+				height: 40
+			}]}>
 				<SegmentedButtons
 					value={playReadValue}
 					onValueChange={playReadToggle}
@@ -219,19 +226,41 @@ export default function LibsScreen() {
 						}
 					]}
 				/>
-				<FilterToggle open={handleOpenBottomSheet} close={handleCloseBottomSheet} isOpen={isBottomSheetOpen} />
+				<FilterToggle
+					open={handleOpenBottomSheet}
+					close={handleCloseBottomSheet}
+					isOpen={isBottomSheetOpen}
+				/>
+			</View>
+			<View style={globalStyles.containerWhitespace}>
 				<Dropdown options={[
 					{
-						name: "Featured"
+						name: "Official libs",
+						onPress: () => { 
+							setSelectedCategory("official");
+							updateFilterOptions(playReadValue, "official");
+						}
 					},
 					{
-						name: "Adventure",
+						name: "All libs",
+						onPress: () => {
+							setSelectedCategory("All");
+							updateFilterOptions(playReadValue, "All");
+						}
 					},
 					{
-						name: "Casual",
+						name: "Favorite libs",
+						onPress: () => {
+							setSelectedCategory("myFavorites");
+							updateFilterOptions(playReadValue, "myFavorites");
+						}
 					},
 					{
-						name: "Space",
+						name: "My libs",
+						onPress: () => {
+							setSelectedCategory("myContent");
+							updateFilterOptions(playReadValue, "myContent");
+						}
 					},
 				]}/>
 			</View>
@@ -274,7 +303,7 @@ export default function LibsScreen() {
 					// Bug causes bottom sheet to reappear on navigation
 					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
 					// 10ms
-					snapPoints={['1%', '25%', '50%', '80%', '100%']}
+					snapPoints={['1%', '25%', '50%', '70%', '90%']}
 					enablePanDownToClose={true}
 					style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
 					backgroundComponent={CustomBackground}
@@ -290,7 +319,7 @@ export default function LibsScreen() {
 					{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
 					{/* <BottomSheetScrollView> */}
 					<View>
-						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
+						{/* <Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Category</Text>
 						<Buttons 
 							buttons={[
 								{
@@ -323,7 +352,7 @@ export default function LibsScreen() {
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
 							labelStyle={{fontSize: 17, fontWeight: 500}}
 						/>
-						<Divider color="#CAC4D0" style={{marginVertical: 10}} />
+						<Divider color="#CAC4D0" style={{marginVertical: 10}} /> */}
 						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
 						<Buttons 
 							buttons={[

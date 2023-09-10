@@ -61,7 +61,7 @@ export default function FilterToggle({ open, close, isOpen }) {
                 </Text>
                 <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                     <MaterialIcons
-                        name="expand-more"
+                        name="expand-less"
                         size={18}
                     />
                 </Animated.View>

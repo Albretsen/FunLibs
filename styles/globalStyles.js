@@ -25,11 +25,13 @@ const globalStyles = StyleSheet.create({
         // justifyContent: 'center',
         paddingTop: 1,
         // paddingBottom: 100,
-        flexDirection: "column"
+        flexDirection: "column",
+        // maxHeight: fullHeight - 140
     },
 
     containerWhitespace: {
         width: fullWidth - fullWidth / 10,
+        maxWidth: 700
     },
 
     bigWhitespace: {
@@ -92,10 +94,12 @@ const globalStyles = StyleSheet.create({
 
     listItemContainer: {
         paddingBottom: 50,
-        // Tab bar height: 74
-        // Top text height: 60
         // Top bar height: 64
-        maxHeight: fullHeight - (74 + 60 + 64),
+        // Segmented button and filter button height: 40
+        // Dropdown height: 40
+        // Tab bar height: 74
+        // +2 to be sure
+        maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2),
     },
 
     drawerContainer: {
