@@ -4,6 +4,15 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import Analytics from './analytics';
 import FileManager from './file_manager';
 import { Platform } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
+
+// Global variable to store network status
+let isConnected = true;
+
+// Set up the NetInfo event listener
+NetInfo.addEventListener(state => {
+    isConnected = state.isConnected && state.isInternetReachable;
+});
 
 const firebaseConfig = {
     apiKey: "AIzaSyAEKGpKMMy7guqWHnp6y-KJr5ll9kRFbBc",
@@ -268,6 +277,20 @@ export default class FirebaseManager {
         lastVisibleDoc = null,
         pageSize = 10
     ) {
+        if (!isConnected) {
+            console.log("No internet: data may be out of date");
+            let localResult = await FileManager._retrieveData("libs");
+            if (localResult) {
+                localResult = JSON.parse(localResult);
+            } else {
+                localResult = [];
+            }
+            return {
+                data: localResult,
+                lastDocument: { local: true }
+            };
+        }
+
         Analytics.log("Reading from Database with filterOptions: " + JSON.stringify(filterOptions));
 
         let q = collection(db, collection_);
@@ -314,11 +337,16 @@ export default class FirebaseManager {
                 q = query(q, where("playable", "==", filterOptions.playable));
             } else {
                 console.log("SHOW LOCAL READ!!!!!");
+                if (lastVisibleDoc?.local) return;
                 localResult = await FileManager._retrieveData("read");
                 if (localResult) { 
                     localResult = JSON.parse(localResult).filter(item => item.playable === false);
                 } else {
                     localResult = [];
+                }
+                return {
+                    data: localResult,
+                    lastDocument: { local: true }
                 }
                 q = query(q, where("playable", "==", filterOptions.playable));
             }
@@ -397,7 +425,13 @@ export default class FirebaseManager {
             result = await getDocs(q);
         } catch (error) {
             Analytics.log("Database read error " + error);
-            return null;
+            if (lastVisibleDoc?.local) return;
+            let result = await FileManager._retrieveData("libs");
+            result = JSON.parse(result);
+            return {
+                data: result,
+                lastDocument: { local: true }
+            }
         }
 
         Analytics.log("Read data from database");

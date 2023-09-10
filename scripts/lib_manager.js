@@ -34,6 +34,7 @@ export default class LibManager {
         console.log("LENGTH: " + LibManager.libs.length)
         for (const element of LibManager.libs) {
             element.published = true;
+            element.likes = 0;
             element.username = "Official";
             element.avatarID = 13;
             element.id = await FirebaseManager.AddDocumentToCollection("posts", element);
@@ -47,6 +48,7 @@ export default class LibManager {
     static async loadLibsToMemory() {
         LibManager.libs = await LibManager.getLibs();
         //await LibManager.initializeDefaultLibsInDatabase();
+        //FileManager._storeData("libs", JSON.stringify(LibManager.libs));
         //console.log(JSON.stringify(LibManager.libs));
         //let result = await FileManager._retrieveData("libs")
         //console.log(JSON.stringify(JSON.parse(result)["libs"]));

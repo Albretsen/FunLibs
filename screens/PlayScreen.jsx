@@ -185,7 +185,7 @@ export default function PlayScreen({ route }) {
 	const onSave = async () => {
 		console.log("1: " + JSON.stringify(currentLib));
 		let currentLib_ = JSON.parse(JSON.stringify(currentLib));
-		currentLib_.user = FirebaseManager.currentUserData.auth.uid;
+		currentLib_.username = FirebaseManager.currentUserData.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "You";
 		currentLib_.published = false;
 		currentLib_.playable = false;
 		currentLib_.local = true;
@@ -199,6 +199,7 @@ export default function PlayScreen({ route }) {
             }
             readArray.push(currentLib_);
         }
+		currentLib_.id = readArray.length;
 		console.log("2: " + JSON.stringify(readArray));
         FileManager._storeData("read", JSON.stringify(readArray));
         showToast('Your lib has been stored locally.');

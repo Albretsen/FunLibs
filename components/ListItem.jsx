@@ -166,11 +166,13 @@ function ListItem(props) {
             >
                 <Image
                     style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-                    source={FirebaseManager.avatars[avatarID]}
+                    source={!local ? FirebaseManager.avatars[avatarID] : (FirebaseManager.currentUserData.firestoreData?.avatarID ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID] : FirebaseManager.avatars[avatarID])}
                 />
                 <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
-                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>by {username} | {likeCount} {likeCount === 1 ? 'like' : 'likes'}</Text>
+                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>
+                        by {!local ? username : (FirebaseManager.currentUserData.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData?.username : "You")} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ''}
+                    </Text>
                 </View>
                 {icon && (
                     <View style={styles.rightIcons}>
