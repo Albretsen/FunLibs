@@ -40,7 +40,9 @@ const Drawer = forwardRef((props, ref) => {
                 duration: 350,
                 useNativeDriver: false
             })
-        ]).start(callback);
+        ]).start(({ finished }) => {
+            if (callback) callback();
+        });
     };
       
 
@@ -179,15 +181,24 @@ export const useDrawer = () => {
 export const DrawerProvider = ({ children }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [drawerProps, setDrawerProps] = useState({});
+    const [onCloseComplete, setOnCloseComplete] = useState(null); // Add this line
     const drawerRef = useRef();
 
     const openDrawer = (props = {}) => {
         setDrawerProps(props);
+        if (props.onCloseComplete) {
+            setOnCloseComplete(() => props.onCloseComplete); // Set the callback
+        }
         setIsVisible(true);
     };
 
     const closeDrawer = () => {
-        drawerRef.current.closeDrawer(() => setIsVisible(false));
+        drawerRef.current.closeDrawer(() => {
+            setIsVisible(false);
+            if (onCloseComplete) {
+                onCloseComplete();
+            }
+        });
     };
 
     return (

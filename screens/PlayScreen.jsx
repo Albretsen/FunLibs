@@ -16,6 +16,9 @@ import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
 import FileManager from "../scripts/file_manager";
+import Analytics from "../scripts/analytics";
+import { requestReview } from "../scripts/store_review";
+import { DialogTrigger, useDialog } from "../components/Dialog";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -91,6 +94,38 @@ export default function PlayScreen({ route }) {
 
 	const [shouldOpenDrawer, setShouldOpenDrawer] = useState(false);
 
+	const { openDialog } = useDialog();
+
+    const drawerClosed = async () => {
+        let libsPlayed = await FileManager._retrieveData("libsPlayed");
+        let reviewPopupShowed = await FileManager._retrieveData("reviewPopupShowed");
+
+        if (libsPlayed) {
+            libsPlayed = parseInt(libsPlayed);
+            if ((libsPlayed % 10 === 0) && reviewPopupShowed != 1) {
+                // Trigger the review dialog here
+                openDialog('reviewDialog', {
+					onCancel: () => FileManager._storeData("reviewPopupShowed", 1),
+					onConfirm: () => {
+						console.log("User agreed to review");
+						requestReview(); // Assuming this function prompts the user to review the app
+						FileManager._storeData("reviewPopupShowed", 1); // Set the flag so the popup doesn't show again
+					},
+					children: (
+						<>
+							<Text style={{textAlign: 'center', fontWeight: 'bold'}}>🌟 Enjoying our app? 🌟</Text>
+							<Text style={{textAlign: 'center', marginTop: 10}}>
+								Your feedback helps us grow. Mind leaving a review?
+							</Text>
+						</>
+					),
+					cancelLabel: "No thanks",  // Custom text for the cancel button
+					confirmLabel: "Of Course!"  // Custom text for the confirm button
+				});
+            }
+        }
+    }
+
 	useEffect(() => {
 		if (shouldOpenDrawer) {
 			openDrawer(
@@ -103,7 +138,8 @@ export default function PlayScreen({ route }) {
 								<Text style={{fontSize: 14}}>By You</Text>
 							</View>
 						)
-					}
+					},
+					onCloseComplete: drawerClosed
 				}
 			);
 			setShouldOpenDrawer(false);  // Reset the flag
@@ -138,6 +174,7 @@ export default function PlayScreen({ route }) {
 				return currentLib.text;
 			});
 			AdManager.showAd("interstitial");
+			Analytics.increment("libsPlayed");
 		}
 		// Clear current input
 		if (responses[currentPromptIndex + 1]) {

@@ -24,9 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }",
       "package": "com.asgalb.FunLibs",
-      "versionCode": "6"
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/favicon.png"
