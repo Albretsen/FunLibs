@@ -7,7 +7,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 export default function Dropdown( props ) {
     const { options } = props;
     const [visible, setVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState("Official libs");
 
     const rotateAnim = useRef(new Animated.Value(0)).current;
 
@@ -48,16 +48,16 @@ export default function Dropdown( props ) {
                 onDismiss={closeMenu}
                 anchor={
                     <TouchableOpacity
-                        style={{flexDirection: "row", alignItems: "center"}}
+                        style={{flexDirection: "row", alignItems: "center", gap: 5}}
                         onPress={openMenu}
                     >
-                        <Text style={[globalStyles.fontMedium, globalStyles.bold]}>
-                            {selectedOption ? selectedOption : "Featured"}
+                        <Text style={[{fontSize: 14}, globalStyles.bold]}>
+                            {selectedOption}
                         </Text>
                         <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                             <MaterialIcons
                                 name="expand-less"
-                                size={30}
+                                size={20}
                             />
                         </Animated.View>
                     </TouchableOpacity>
@@ -66,7 +66,13 @@ export default function Dropdown( props ) {
             >
                 {options.map((options, index) => (
                     <View key={index}>
-                        <Menu.Item style={{backgroundColor: "white"}} onPress={() => handleOptionSelect(options.name)} title={options.name} />
+                        <Menu.Item
+                        style={{backgroundColor: "white"}}
+                        onPress={() => {
+                            handleOptionSelect(options.name);
+                            options.onPress();
+                        }}
+                        title={options.name} />
                     </View>
                 ))}
             </Menu>
@@ -77,6 +83,8 @@ export default function Dropdown( props ) {
 const styles = StyleSheet.create({
     container: {
         alignSelf: "flex-start",
-        marginLeft: 34
+        justifyContent: "center",
+        marginLeft: 6,
+        height: 40
     },
 })

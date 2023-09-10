@@ -162,33 +162,45 @@ function ListItem(props) {
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>
             <Animated.View
-                style={[styles.container, globalStyles.containerWhitespace, {opacity: fadeAnim}]}
+                style={[
+                    styles.container,
+                    globalStyles.containerWhitespace,
+                    {opacity: fadeAnim},
+                    {justifyContent: "space-between"}
+                ]}
             >
-                <Image
-                    style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-                    source={!local ? FirebaseManager.avatars[avatarID] : (FirebaseManager.currentUserData.firestoreData?.avatarID ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID] : FirebaseManager.avatars[avatarID])}
-                />
-                <View style={[styles.textRow, {width: icon ? "63%" : "75%", gap: 0}]}>
+                <View style={{justifyContent: "flex-start", alignItems: "flex-start"}}>
+                    <Image
+                        style={{
+                            height: 45,
+                            width: 45,
+                            justifyContent: "center",
+                            alignSelf: "center"
+                        }}
+                        source={!local ? FirebaseManager.avatars[avatarID] : (FirebaseManager.currentUserData.firestoreData?.avatarID ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID] : FirebaseManager.avatars[avatarID])}
+                    />
+                </View>
+                <View style={[styles.textRow, {flex: 1}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
                     <Text style={[{ fontSize: 13, color: "#49454F" }]}>
                         by {!local ? username : (FirebaseManager.currentUserData.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData?.username : "You")} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ''}
                     </Text>
                 </View>
                 {icon && (
-                    <View style={styles.rightIcons}>
+                    <View>
                         {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
                             <TouchableOpacity
-                                style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }}
+                                style={styles.icon}
                                 onPress={edit}
                             >
                                 <Image
-                                    style={{ height: 25, width: 28 }}
+                                    style={{ height: 25, width: 25 }}
                                     source={require("../assets/images/icons/edit.png")}
                                 />
                             </TouchableOpacity>
                         ) : (
                             <TouchableOpacity
-                                style={{ justifyContent: "flex-start", alignSelf: "flex-start", flex: 1, marginTop: 3 }}
+                                style={styles.icon}
                                 onPress={favorite}
                             >
                                     <Image
@@ -231,18 +243,12 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
 
-    rightIcons: {
-        width: "12%",
-    },
-
-    progressBarContainer: {
-        height: 4,
-        backgroundColor: "#D1E8D5",
-    },
-
-    progressBar: {
-        backgroundColor: "#006D40",
-        height: 4
+    icon: {
+        justifyContent: "flex-start",
+        alignSelf: "flex-start",
+        flex: 1,
+        marginTop: 3,
+        paddingRight: 20
     },
 
     // Dialog style
