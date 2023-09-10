@@ -104,7 +104,7 @@ function ListItem(props) {
 			params: {
 				libText: LibManager.display_edit(text, prompts),
 				libNameText: name,
-                editID: id,
+                editID: String(id),
 			}
 		});
 	}

@@ -14,7 +14,8 @@ export default function NewAccountScreen() {
     const [passwordVisible, setPasswordVisible] = useState(true);
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
-    const [avatarIndex, setAvatarIndex] = useState(0); // Use a state to hold the current avatar index
+    const initialCarouselAvatarID = 15;
+    const [avatarIndex, setAvatarIndex] = useState(initialCarouselAvatarID - 1); // Use a state to hold the current avatar index
 
     const handleAvatarChange = (index) => {
         index -= 1; // Correct for padding in carousel
@@ -97,7 +98,7 @@ export default function NewAccountScreen() {
 						</TouchableOpacity>
                     </View>
                     <View style={{flexGrow: 0, marginVertical: 30}}>
-                        <AvatarCarousel initialActiveIndex={15} onAvatarChange={handleAvatarChange}/>
+                        <AvatarCarousel initialActiveIndex={initialCarouselAvatarID} onAvatarChange={handleAvatarChange}/>
                     </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>

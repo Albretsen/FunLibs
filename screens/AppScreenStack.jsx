@@ -10,12 +10,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import React, { useEffect, useState } from 'react';
 import AvatarCarousel from "../components/AvatarCarousel";
+import { DialogTrigger, useDialog } from "../components/Dialog";
 
 const Stack = createStackNavigator();
 
 export default function AppScreenStack({ navigation }) {
     const { openDrawer, closeDrawer } = useDrawer();
 	const [key, setKey] = useState(Math.random());
+
+	const { openDialog } = useDialog();
 
 	useEffect(() => {
         // Define the listener
@@ -90,7 +93,7 @@ export default function AppScreenStack({ navigation }) {
 										<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F", marginBottom: 5}}>Security</Text>
 										{FirebaseManager.currentUserData.auth && (
 											<>
-												<TouchableOpacity onPress={() => (
+												{/* <TouchableOpacity onPress={() => (
 													openDrawer({
 														header: {
 															title: "Change avatar",
@@ -104,16 +107,44 @@ export default function AppScreenStack({ navigation }) {
 													})
 												)}>
 													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change avatar</Text>
-												</TouchableOpacity>
+												</TouchableOpacity> */}
 												<TouchableOpacity>
 													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Reset password</Text>
 												</TouchableOpacity>
 												<TouchableOpacity 
 													onPress={() => {
 													FirebaseManager.SignOut(),
-													closeDrawer()
-												}}>
-													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Sign out</Text>
+															closeDrawer()
+													}}>
+													<Text style={{ fontSize: 15, fontWeight: 500, color: "#5C9BEB" }}>Sign out</Text>
+												</TouchableOpacity>
+												<Text style={{ fontSize: 15, fontWeight: 500, color: "#5C9BEB" }}></Text>
+												<Text style={{ fontSize: 15, fontWeight: 500, color: "#5C9BEB" }}></Text>
+												<Text style={{ fontSize: 15, fontWeight: 500, color: "#5C9BEB" }}></Text>
+												<TouchableOpacity
+													onPress={() => {
+														openDialog('discardChangesDialog', {
+															onCancel: () => {
+																console.log("CANCALLED")
+															},
+															onConfirm: () => {
+																FirebaseManager.DeleteUser();
+																closeDrawer();
+															},
+															children: (
+																<>
+																	<Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Delete Account</Text>
+																	<Text style={{ textAlign: 'center', marginTop: 10 }}>
+																		This will delete your account, as well as any content published by you.
+																	</Text>
+																</>
+															),
+															cancelLabel: "Cancel",  // Custom text for the cancel button
+															confirmLabel: "Confirm"  // Custom text for the confirm button
+														});
+													}}
+												>
+													<Text style={{ fontSize: 15, fontWeight: 600, color: "#BA1A1A" }}>Delete account</Text>
 												</TouchableOpacity>
 											</>
 										)}

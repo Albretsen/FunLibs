@@ -114,12 +114,12 @@ export default class FirebaseManager {
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
-                this.authStateListeners.forEach(listener => listener(user));
+                this.RefreshList(user);
                 Analytics.log("Auth stated changed to Signed in for " + uid);
             } else {
                 // User is signed out
                 this.currentUserData = { auth: null, firestoreData: null }; // Reset the field to null
-                this.authStateListeners.forEach(listener => listener(null));
+                this.RefreshList(null);
                 Analytics.log("Auth stated changed to Signed out");
             }
         });
@@ -208,7 +208,6 @@ export default class FirebaseManager {
     
         // 1. Delete user data from Firestore
         try {
-            // Assuming the user's data is stored in a collection named "users" with their UID as the document ID.
             const userDocRef = doc(db, "users", uid);
             await deleteDoc(userDocRef);
             Analytics.log(`Deleted user data from Firestore for UID: ${uid}`);
@@ -217,7 +216,38 @@ export default class FirebaseManager {
             throw error;
         }
     
-        // 2. Delete the Firebase Auth user
+        // 2. Paginate through and delete all posts associated with the user
+        let lastVisible;
+        const batchSize = 10;  // Adjust this based on your needs
+    
+        do {
+            let userPostsQuery = query(collection(db, "posts"), where("user", "==", uid), orderBy("date"), limit(batchSize));
+    
+            if (lastVisible) {
+                userPostsQuery = query(collection(db, "posts"), where("user", "==", uid), orderBy("date"), startAfter(lastVisible), limit(batchSize));
+            }
+    
+            const snapshot = await getDocs(userPostsQuery);
+    
+            if (snapshot.empty) {
+                break;
+            }
+    
+            lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    
+            const batch = writeBatch(db);
+    
+            snapshot.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+    
+            await batch.commit();
+    
+        } while (true);
+    
+        Analytics.log(`Deleted all posts associated with UID: ${uid}`);
+    
+        // 3. Delete the Firebase Auth user
         try {
             await deleteUser(user);
             Analytics.log(`Deleted Firebase Auth user with UID: ${uid}`);
@@ -236,6 +266,9 @@ export default class FirebaseManager {
                 id = docRef.id;
             }
             Analytics.log("Added document to " + collection_ + "\nData: " + JSON.stringify(data));
+            if (collection_ === "posts") {
+                this.RefreshList(null);
+            }
             return id;
         } catch (error) {
             Analytics.log("Error adding document to " + collection_ + "\nError: " + error);
@@ -510,7 +543,25 @@ export default class FirebaseManager {
             Analytics.log(`Error updating document ${docId}: ${error}`);
             throw error;
         }
-    }   
+    }
+    
+    static async DeleteDocument(collection_, docId) {
+        try {
+            const docRef = doc(db, collection_, docId);
+            await deleteDoc(docRef);
+            Analytics.log(`Deleted document with ID ${docId} from collection ${collection_}`);
+        } catch (error) {
+            Analytics.log(`Error deleting document with ID ${docId}: ${error}`);
+            throw error; // Re-throw the error so it can be caught and handled by the caller
+        }
+        if (collection_ === "posts") {
+            this.RefreshList(null);
+        }
+    }
+
+    static async RefreshList(value) {
+        this.authStateListeners.forEach(listener => listener(value));
+    }
 
     static async generateMockData(numAccounts, numPostsPerAccount) {
         for (let i = 0; i < numAccounts; i++) {

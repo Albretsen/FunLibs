@@ -7,7 +7,7 @@ export default function AudioPlayer() {
 
   async function playAudio(soundName) {
     try {
-      const asset = Asset.fromModule(sounds[soundName]);
+      const asset = sounds[soundName];
       await asset.downloadAsync();
       const { sound: newSound } = await Audio.Sound.createAsync(asset);
       setSound(newSound);

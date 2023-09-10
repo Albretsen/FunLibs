@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import { DialogTrigger } from "../components/Dialog";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useDrawer } from "../components/Drawer";
 import { Divider } from '@rneui/themed';
@@ -18,6 +17,7 @@ import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useFocusEffect } from '@react-navigation/native';
 import AudioPlayer from "../scripts/audio";
+import { DialogTrigger, useDialog } from "../components/Dialog";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -28,16 +28,49 @@ export default function CreateLibScreen({ route }) {
     const [newCursorPosition, setNewCursorPosition] = useState();
     const [editLibID, setEditLibID] = useState(null);
     const { playAudio } = AudioPlayer();
+    const navigation = useNavigation();
+
+    const { openDialog } = useDialog();
 
     useFocusEffect(
         React.useCallback(() => {
             // This will run when the screen comes into focus
-    
+
             return () => {
-                // This will run when the screen goes out of focus
-                setLibText("");
-                setLibNameText("");
-                setEditLibID(null);
+                console.log("libText.length: " + libNameTextRef.current);
+                if (libTextRef.current.length >= 1 || libNameTextRef.current.length >= 1) {
+                    openDialog('discardChangesDialog', {
+                        onCancel: () => {
+                            setLibText("");
+                            setLibNameText("");
+                            setEditLibID(null);
+                        },
+                        onConfirm: () => {
+                            navigation.navigate("LibsHomeScreen", { 
+                                screen: "Create",
+                                params: {
+                                    libText: libTextRef.current,
+                                    libNameText: libNameTextRef.current,
+                                    editID: editLibID,
+                                }
+                            });
+                        },
+                        children: (
+                            <>
+                                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>You have unsaved progress!</Text>
+                                <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                                    Continue editing, or discard changes?
+                                </Text>
+                            </>
+                        ),
+                        cancelLabel: "Discard",  // Custom text for the cancel button
+                        confirmLabel: "Continue"  // Custom text for the confirm button
+                    });
+                } else {
+                    setLibText("");
+                    setLibNameText("");
+                    setEditLibID(null);
+                }
             };
         }, [])
     );
@@ -66,7 +99,7 @@ export default function CreateLibScreen({ route }) {
         if (route.params?.editID) {
             setEditLibID(route.params.editID);
         } else {
-            setLibNameText("");
+            setEditLibID(undefined);
         }
     }, [route.params]);
 
@@ -85,8 +118,6 @@ export default function CreateLibScreen({ route }) {
     }, [libText, finishedLib, libNameText]);
     
     const [customPromptText, setCustomPromptText] = useState("");
-
-    const navigation = useNavigation();
 
     const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
@@ -124,13 +155,15 @@ export default function CreateLibScreen({ route }) {
             return;
         } 
         //console.log(libTextRef.current);
+
         let temp_finished_lib = Lib.createLib(libTextRef.current);
-        setFinishedLib(Lib.createLib(libTextRef.current));
 
         if (temp_finished_lib.prompts.length < 1) {
             showToast("Please add some prompts to your lib!");
             return;
         }
+
+        setFinishedLib(Lib.createLib(libTextRef.current));
     }
 
     let publishDialog = () => {
@@ -138,14 +171,18 @@ export default function CreateLibScreen({ route }) {
     }
 
     let publishSaveLib = async () => {
-        if (!FirebaseManager.currentUserData.auth) showToast('You have to be logged in to publish.');
+        if (!FirebaseManager.currentUserData?.auth) { 
+            showToast('You have to be logged in to publish.'); 
+            return;
+        }
 
         finishedLibRef.current.name = libNameTextRef.current;
         finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = true;
 		finishedLibRef.current.playable = true;
         finishedLibRef.current.username = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : null;
-        finishedLibRef.current.avatarID = FirebaseManager.currentUserData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
+        finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
+        finishedLibRef.current.date = new Date();
         if (!editLibID) finishedLibRef.current.date = new Date();
         finishedLibRef.current.likes = 0;
 
@@ -153,50 +190,86 @@ export default function CreateLibScreen({ route }) {
             FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
             showToast('Your lib has been uploaded');
         } else {
-            console.log("UPDATING DOC");
-            FirebaseManager.UpdateDocument("posts", editLibID, {
-                name: finishedLibRef.current.name,
-                text: finishedLibRef.current.text,
-                prompts: finishedLibRef.current.prompts
-            })
-            showToast('Your changes have been saved');
+            let readArray = await FileManager._retrieveData("my_content") || [];
+            if (typeof readArray === 'string') {
+                readArray = JSON.parse(readArray);
+            }
+            console.log("LOOKOG FIR WITH ITD: " + editLibID);
+            console.log(JSON.stringify(readArray));
+            let exists = readArray.some(item => String(item.id) === String(editLibID));
+            console.log("exists:" + exists);
+
+            if (exists) {
+                FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+                showToast('Your lib has been uploaded');
+            } else {
+                console.log("UPDATING DOC");
+                FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+                FirebaseManager.UpdateDocument("posts", editLibID, {
+                    name: finishedLibRef.current.name,
+                    text: finishedLibRef.current.text,
+                    prompts: finishedLibRef.current.prompts
+                })
+                showToast('Your changes have been saved');
+            }
         }
+        setLibText("");
+        setLibNameText("");
+        setEditLibID(null);
         closeDrawer();
         navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
     }
 
     let localSaveLib = async () => {
         if (editLibID) return;
-
-        finishedLibRef.current.name = libNameTextRef.current;
-        finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
-        finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar";
-		finishedLibRef.current.published = false;
-		finishedLibRef.current.playable = true;
-		finishedLibRef.current.date = new Date();
-        finishedLibRef.current.likes = 0;
-        finishedLibRef.current.local = true;
-
-        let readArray = []
-        if (finishedLibRef.current) {
-            let result = await FileManager._retrieveData("my_content");
-            if (!result) result = [];
-            if (Object.keys(result).length >= 1) {
-                readArray = JSON.parse(result);
-            }
-            console.log("SAVING TO: " + finishedLibRef.current.id);
-            if (!finishedLibRef.current.id && finishedLibRef.current.id !== 0) {
-                finishedLibRef.current.id = readArray.length;
-                readArray.push(finishedLibRef.current);
+    
+        const currentUser = FirebaseManager.currentUserData;
+        const currentLib = finishedLibRef.current;
+    
+        // Update lib properties
+        Object.assign(currentLib, {
+            name: libNameTextRef.current,
+            user: currentUser.auth ? currentUser.auth.uid : null,
+            avatarID: currentUser.firestoreData ? currentUser.firestoreData.avatarID : "no-avatar",
+            published: false,
+            playable: true,
+            date: new Date(),
+            likes: 0,
+            local: true
+        });
+    
+        // Retrieve existing content
+        let readArray = await FileManager._retrieveData("my_content") || [];
+        if (typeof readArray === 'string') {
+            readArray = JSON.parse(readArray);
+        }
+    
+        // Determine the ID for the lib
+        if (currentLib.id === undefined || currentLib.id == 0) {
+            currentLib.id = new Date().getTime();  // Using timestamp as a unique ID
+            readArray.push(currentLib);
+        } else {
+            const index = readArray.findIndex(lib => lib.id === currentLib.id);
+            if (index !== -1) {
+                readArray[index] = currentLib;
             } else {
-                readArray[finishedLibRef.current.id] = finishedLibRef.current;
+                readArray.push(currentLib);
             }
         }
-        FileManager._storeData("my_content", JSON.stringify(readArray));
+    
+        // Store the updated content
+        await FileManager._storeData("my_content", JSON.stringify(readArray));
+    
+        // Refresh and reset
+        FirebaseManager.RefreshList(null);
         showToast('Your lib has been stored locally.');
+        setLibText("");
+        setLibNameText("");
+        setEditLibID(null);
         closeDrawer();
-        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+        navigation.navigate("LibsHomeScreen", { initalTab: "Your Libs" });
     }
+    
 
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
 
@@ -233,6 +306,28 @@ export default function CreateLibScreen({ route }) {
     const [showDialogInfo, setShowDialogInfo] = useState(false);
     const [showDialogPublish, setShowDialogPublish] = useState(false);
 
+    const deleteLib = async () => {
+        console.log("editLibID; " + editLibID);
+        if (editLibID) {
+            let result = await FileManager._retrieveData("my_content");
+            result = JSON.parse(result);
+
+            const filteredResult = result.filter(item => item.id != editLibID);
+
+            FileManager._storeData("my_content", JSON.stringify(filteredResult));
+
+            if (result.length === filteredResult.length) {
+                FirebaseManager.DeleteDocument("posts", editLibID);
+            }
+        }
+
+        setLibText("");
+        setLibNameText("");
+        setEditLibID(null);
+        closeDrawer();
+        navigation.navigate("LibsHomeScreen", {initalTab: "Home"});
+    }
+
     // Drawer 
 
     const { openDrawer, drawerRef, closeDrawer } = useDrawer();
@@ -249,6 +344,7 @@ export default function CreateLibScreen({ route }) {
 				// onPublish={onPublish}
 				// onShare={onShare}
 				onSave={publishDialog}
+                onDelete={deleteLib}
 				// onFavorite={onFavorite}
 			/>
         </>
@@ -443,7 +539,7 @@ export default function CreateLibScreen({ route }) {
                         setShowDialogPublish(false);
                     }}
                     confirmLabel={editLibID ? "Publish changes" : "Publish" }
-                    cancelLabel={editLibID ? "" : "Save locally" }
+                    cancelLabel={editLibID ? "" : "Save changes" }
                 >
                     <Text style={styles.paragraph}>
                         {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}

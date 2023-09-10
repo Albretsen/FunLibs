@@ -95,7 +95,7 @@ export default function LibsScreen() {
 	useEffect(() => {
 		// Add a listener to the Auth state change event
 		const authStateListener = (user) => {
-			loadListObjectsFromDatabase();
+			loadListObjectsFromDatabase({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
 		};
 		FirebaseManager.addAuthStateListener(authStateListener);
 
