@@ -140,6 +140,8 @@ function ListItem(props) {
         result = result.filter(item => item.id !== id);
 
         FileManager._storeData("read", JSON.stringify(result));
+
+        closeDrawer();
     }
   
     let promptOrText = promptFirst;

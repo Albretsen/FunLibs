@@ -70,16 +70,6 @@ export default function LibsScreen() {
 		} else {
 			temp_listObjects = [];
 		}
-		for (let i = 0; i < temp_listObjects.length; i++) {
-			// Find the user from the users array with the same ID as the current object.user field.
-			if (users[i] === null) { // This is if the lib is stored locally
-				temp_listObjects[i].username = "You"; // This adds the user details to the object
-				temp_listObjects[i].avatarID = 0;
-			} else {
-				temp_listObjects[i].username = ""; // This adds the user details to the object
-				temp_listObjects[i].avatarID = 0;
-			}
-		}
 
 		if (quickload) {
 			if (!lastDocument) {
@@ -90,18 +80,6 @@ export default function LibsScreen() {
 				LibManager.libs = listObjects.concat(temp_listObjects);
 			}
 			setIsLoading(false);
-		}
-
-		users = await FirebaseManager.ReadDataFromDatabase("users", { docIds: users });
-		users = users.data;
-
-		for (let i = 0; i < temp_listObjects.length; i++) {
-			// Find the user from the users array with the same ID as the current object.user field.
-			let matchingUser = users.find(user => user.id === temp_listObjects[i].user);
-			if (matchingUser) {
-				temp_listObjects[i].username = matchingUser.username; // This adds the user details to the object
-				temp_listObjects[i].avatarID = matchingUser.avatarID;
-			}
 		}
 
 		if (!lastDocument) {

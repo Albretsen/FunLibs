@@ -184,19 +184,20 @@ export default function PlayScreen({ route }) {
 
 	const onSave = async () => {
 		console.log("1: " + JSON.stringify(currentLib));
-		currentLib.user = FirebaseManager.currentUserData.auth.uid;
-		currentLib.published = false;
-		currentLib.playable = false;
-		currentLib.local = true;
-		currentLib.date = new Date();
+		let currentLib_ = JSON.parse(JSON.stringify(currentLib));
+		currentLib_.user = FirebaseManager.currentUserData.auth.uid;
+		currentLib_.published = false;
+		currentLib_.playable = false;
+		currentLib_.local = true;
+		currentLib_.date = new Date();
 		let readArray = []
-        if (currentLib) {
+        if (currentLib_) {
             let result = await FileManager._retrieveData("read");
             if (!result) result = [];
             if (Object.keys(result).length >= 1) {
                 readArray = JSON.parse(result);
             }
-            readArray.push(currentLib);
+            readArray.push(currentLib_);
         }
 		console.log("2: " + JSON.stringify(readArray));
         FileManager._storeData("read", JSON.stringify(readArray));
