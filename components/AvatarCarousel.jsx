@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import { Image, Dimensions, Animated } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import FirebaseManager from '../scripts/firebase_manager';
+import AudioPlayer from "../scripts/audio";
 
-const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange }) => {
+const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange, inDrawer }) => {
 	const scrollAnim = useRef(new Animated.Value(initialActiveIndex * 100)).current;
 
 	let avatars = Array.from({ length: 30 }, (_, index) => ({
@@ -44,15 +45,24 @@ const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange }) => {
 		);
 	};
 	
+	const { playAudio } = AudioPlayer();
+	
 	const handleSnapToItem = (index) => {
 		if (onAvatarChange) onAvatarChange(index);
+		playAudio("pop");
 	}
 
 	return (
 		<Carousel
 			data={avatars}
 			renderItem={renderItem}
-			sliderWidth={Dimensions.get("window").width}
+			sliderWidth={
+				// If the carousel appears within a drawer, the width needs to be adjusted, because the drawer
+				// does not fill the whole width of the screeen
+				// In this case the width is set to screen width minus 15% of screen width, because that is
+				// the standard with used by drawers in the app
+				// Ideally, this nunber would not be hardcoded
+				inDrawer ? Dimensions.get("window").width - ((15 / 100) * Dimensions.get("window").width) : Dimensions.get("window").width}
 			itemWidth={100}
 			firstItem={initialActiveIndex}
 			onSnapToItem={handleSnapToItem}

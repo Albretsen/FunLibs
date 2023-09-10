@@ -9,6 +9,7 @@ import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import React, { useEffect, useState } from 'react';
+import AvatarCarousel from "../components/AvatarCarousel";
 
 const Stack = createStackNavigator();
 
@@ -69,36 +70,39 @@ export default function AppScreenStack({ navigation }) {
 						<TouchableOpacity onPress={() => (
 							openDrawer({
 								header: {
-								// component: <Text>Header</Text>,
-								headerStyle: {marginHorizontal: 0, marginTop: 10},
-								leftComponent: (
-									<Image
-									style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-									source={(FirebaseManager.currentUserData.firestoreData) 
-										? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-										: FirebaseManager.avatars["no-avatar"]}
-									/>
-								),
-								title: (FirebaseManager.currentUserData.firestoreData) 
-								? FirebaseManager.currentUserData.firestoreData.username
-								: "Not logged in",
-								titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
+									// component: <Text>Header</Text>,
+									headerStyle: {marginHorizontal: 0, marginTop: 10},
+									leftComponent: (
+										<Image
+										style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
+										source={(FirebaseManager.currentUserData.firestoreData) 
+											? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+											: FirebaseManager.avatars["no-avatar"]}
+										/>
+									),
+									title: (FirebaseManager.currentUserData.firestoreData) 
+									? FirebaseManager.currentUserData.firestoreData.username
+									: "Not logged in",
+									titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
 								},
 								component: (
 									<View style={{gap: 35, marginTop: 10}}>
 										<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F", marginBottom: 5}}>Security</Text>
 										{FirebaseManager.currentUserData.auth && (
 											<>
-												{/* <TouchableOpacity onPress={() => (
+												<TouchableOpacity onPress={() => (
 													openDrawer({
+														header: {
+															title: "Change avatar",
+															titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
+														},
 														component: (
-															<View><Text>Test</Text></View>
+															<View style={{flexGrow: 0}}>
+																<AvatarCarousel initialActiveIndex={15} onAvatarChange={null} inDrawer/>
+															</View>
 														)
 													})
 												)}>
-													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change username</Text>
-												</TouchableOpacity> */}
-												<TouchableOpacity>
 													<Text style={{fontSize: 15, fontWeight: 500, color: "#5C9BEB"}}>Change avatar</Text>
 												</TouchableOpacity>
 												<TouchableOpacity>
