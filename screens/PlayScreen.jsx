@@ -102,14 +102,14 @@ export default function PlayScreen({ route }) {
 
         if (libsPlayed) {
             libsPlayed = parseInt(libsPlayed);
-            if ((libsPlayed % 10 === 0) && reviewPopupShowed != 1) {
+            if ((libsPlayed % 10 === 0) && reviewPopupShowed != "1") {
                 // Trigger the review dialog here
                 openDialog('reviewDialog', {
-					onCancel: () => FileManager._storeData("reviewPopupShowed", 1),
+					onCancel: () => FileManager._storeData("reviewPopupShowed", "1"),
 					onConfirm: () => {
 						console.log("User agreed to review");
 						requestReview(); // Assuming this function prompts the user to review the app
-						FileManager._storeData("reviewPopupShowed", 1); // Set the flag so the popup doesn't show again
+						FileManager._storeData("reviewPopupShowed", "1"); // Set the flag so the popup doesn't show again
 					},
 					children: (
 						<>
@@ -119,8 +119,8 @@ export default function PlayScreen({ route }) {
 							</Text>
 						</>
 					),
-					cancelLabel: "No thanks",  // Custom text for the cancel button
-					confirmLabel: "Of Course!"  // Custom text for the confirm button
+					//cancelLabel: "No thanks",  // Custom text for the cancel button
+					//confirmLabel: "Of Course!"  // Custom text for the confirm button
 				});
             }
         }

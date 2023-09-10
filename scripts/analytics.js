@@ -27,7 +27,7 @@ export default class Analytics {
         } else {
             result = 1;
         }
-        FileManager._storeData(key, result);
+        FileManager._storeData(key, String(result));
         return result;
     }
 
@@ -42,7 +42,7 @@ export default class Analytics {
         } else {
             result = 0;
         }
-        FileManager._storeData(key, result);
+        FileManager._storeData(key, String(result));
         return result;
     }
 }
