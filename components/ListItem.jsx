@@ -10,6 +10,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "./Drawer";
 import DrawerActions from "./DrawerActions";
 import AudioPlayer from "../scripts/audio";
+import FileManager from "../scripts/file_manager";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
@@ -39,7 +40,7 @@ function ListItem(props) {
                                 </ScrollView>
                                 <DrawerActions
                                     onShare={() => console.log("on share")}
-                                    onDelete={() => console.log("delete")}
+                                    onDelete={deleteLib}
                                 />
                             </>
                         ),
@@ -77,10 +78,6 @@ function ListItem(props) {
         if (firstIndex == 0) {
             promptFirst = true;
         }
-    }
-
-    function deleteLib() {
-        setShowDeleteDialog(true);
     }
 
     function playLib(id, type) {
@@ -137,6 +134,14 @@ function ListItem(props) {
         FirebaseManager.UpdateDocument("posts", id, { likesArray: updatedLikesArray, likes: updatedLikesArray.length });
     }
 
+    const deleteLib = async () => {
+        let result = await FileManager._retrieveData("read");
+        result = JSON.parse(result);
+        result = result.filter(item => item.id !== id);
+
+        FileManager._storeData("read", JSON.stringify(result));
+    }
+  
     let promptOrText = promptFirst;
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
