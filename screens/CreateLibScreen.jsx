@@ -204,7 +204,6 @@ export default function CreateLibScreen({ route }) {
                 showToast('Your lib has been uploaded');
             } else {
                 console.log("UPDATING DOC");
-                FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
                 FirebaseManager.UpdateDocument("posts", editLibID, {
                     name: finishedLibRef.current.name,
                     text: finishedLibRef.current.text,
@@ -221,7 +220,20 @@ export default function CreateLibScreen({ route }) {
     }
 
     let localSaveLib = async () => {
-        if (editLibID) return;
+        if (editLibID) {
+            let readArray = await FileManager._retrieveData("my_content") || [];
+            if (typeof readArray === 'string') {
+                readArray = JSON.parse(readArray);
+            }
+            let exists = readArray.some(item => String(item.id) === String(editLibID));
+
+            if (exists) {
+
+            } else {
+                showToast("Can't save a published lib to device");
+                return;
+            }
+        };
     
         const currentUser = FirebaseManager.currentUserData;
         const currentLib = finishedLibRef.current;
@@ -538,8 +550,8 @@ export default function CreateLibScreen({ route }) {
                         publishSaveLib();
                         setShowDialogPublish(false);
                     }}
-                    confirmLabel={editLibID ? "Publish changes" : "Publish" }
-                    cancelLabel={editLibID ? "" : "Save changes" }
+                    confirmLabel={editLibID ? "Publish Changes" : "Publish" }
+                    cancelLabel={editLibID ? "Save Changes to Device" : "Save to Device" }
                 >
                     <Text style={styles.paragraph}>
                         {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}
