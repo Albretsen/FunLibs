@@ -194,13 +194,13 @@ function ListItem(props) {
                             justifyContent: "center",
                             alignSelf: "center"
                         }}
-                        source={!local ? FirebaseManager.avatars[avatarID] : (FirebaseManager.currentUserData.firestoreData?.avatarID ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID] : FirebaseManager.avatars[avatarID])}
+                        source={FirebaseManager.avatars[avatarID]}
                     />
                 </View>
                 <View style={[styles.textRow, {flex: 1}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
                     <Text style={[{ fontSize: 13, color: "#49454F" }]}>
-                        by {!local ? username : (FirebaseManager.currentUserData.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData?.username : "You")} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ''}
+                        by {username} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ''}
                     </Text>
                 </View>
                 {icon && (

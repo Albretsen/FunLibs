@@ -411,6 +411,7 @@ export default class FirebaseManager {
                 } else {
                     localResult = [];
                 }
+                localResult.reverse();
                 return {
                     data: localResult,
                     lastDocument: { local: true }

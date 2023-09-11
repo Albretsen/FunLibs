@@ -20,7 +20,7 @@ export default function DeleteAccountScreen() {
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
                 <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center"}]}>Delete Account</Text>
-                <Text style={{}}>
+                <Text style={globalStyles.bigWhitespace}>
 				    This will delete your account, as well as any content you've published.
 			    </Text>
                 <View style={globalStyles.form}>

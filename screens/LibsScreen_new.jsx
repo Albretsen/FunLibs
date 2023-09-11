@@ -376,9 +376,9 @@ export default function LibsScreen() {
 								// 	onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
 								// }
 							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 32}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
-							labelStyle={{fontSize: 17, fontWeight: 500}}
+							labelStyle={{fontSize: 14, fontWeight: 500}}
 						/>
 						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
 						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
@@ -415,9 +415,9 @@ export default function LibsScreen() {
 									onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
 								},
 							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 32}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
-							labelStyle={{fontSize: 17, fontWeight: 500}}
+							labelStyle={{fontSize: 14, fontWeight: 500}}
 						/>
 						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
 					</View>

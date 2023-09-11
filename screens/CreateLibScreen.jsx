@@ -187,7 +187,7 @@ export default function CreateLibScreen({ route }) {
         finishedLibRef.current.likes = 0;
 
         if (!editLibID) {
-            FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+            FirebaseManager.AddDocumentToCollection("posts", finishedLibRef.current);
             showToast('Your lib has been uploaded');
         } else {
             let readArray = await FileManager._retrieveData("my_content") || [];
@@ -200,7 +200,7 @@ export default function CreateLibScreen({ route }) {
             console.log("exists:" + exists);
 
             if (exists) {
-                FirebaseManager.AddDocumentToCollection("posts", JSON.parse(JSON.stringify(finishedLibRef.current)));
+                FirebaseManager.AddDocumentToCollection("posts", finishedLibRef.current);
                 showToast('Your lib has been uploaded');
             } else {
                 console.log("UPDATING DOC");

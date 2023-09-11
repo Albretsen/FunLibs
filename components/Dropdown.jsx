@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { Menu } from 'react-native-paper';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { ScreenHeight, ScreenWidth } from '@rneui/base';
 
 export default function Dropdown( props ) {
     const { options } = props;
@@ -40,6 +41,9 @@ export default function Dropdown( props ) {
         closeMenu();
     }
 
+    const screenHeight = Dimensions.get("window").height;
+    const screenWidth = Dimensions.get("window").width;
+
     return (
         <View style={[styles.container]}>
             <Menu
@@ -62,7 +66,7 @@ export default function Dropdown( props ) {
                         </Animated.View>
                     </TouchableOpacity>
                 }
-                contentStyle={{backgroundColor: "white", marginTop: 5}}
+                contentStyle={{backgroundColor: "white", marginTop: ((ScreenHeight/ScreenWidth)*17)}}
             >
                 {options.map((options, index) => (
                     <View key={index}>
