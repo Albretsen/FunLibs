@@ -21,7 +21,7 @@ export default function SplashScreen() {
     useEffect(() => {
         const checkDataAndNavigate = async () => {
             await LibManager.initialize(); // Call data loading function
-            navigation.navigate("LibsHomeScreen"); // Should be LibsHomeScreen
+            navigation.navigate("Home"); // Should be LibsHomeScreen
         };
 
         checkDataAndNavigate();

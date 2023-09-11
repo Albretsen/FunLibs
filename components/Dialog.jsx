@@ -30,14 +30,14 @@ function Dialog(props) {
 								{
 									label: props.cancelLabel || "Cancel",
 									onPress: handleCancel,
-									buttonStyle: {paddingLeft: 5}
+									// buttonStyle: {paddingLeft: 5}
 								},
 								{
 									label: props.confirmLabel || "Confirm",
 									onPress: handleConfirm,
 								},
 							]}
-							buttonStyle={{borderWidth: 0, backgroundColor: "transparent", height: 14, justifyContent: "flex-start", paddingRight: 10, minWidth: 10}}
+							buttonStyle={{borderWidth: 0, backgroundColor: "transparent", justifyContent: "flex-start", paddingRight: 10, minWidth: 10}}
 							containerStyle={{justifyContent: "flex-start", marginTop: 0, gap: 0}}
 							labelStyle={{color: "#006D40", fontWeight: 600}}
 						/>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
 
     contentContainer: {
-        height: "auto",
+        // height: "auto",
         width: "80%",
         backgroundColor: "#F0F1EC",
         gap: 10,

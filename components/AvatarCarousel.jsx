@@ -70,6 +70,7 @@ const AvatarCarousel = ({ initialActiveIndex = 1, onAvatarChange, inDrawer }) =>
 				[{ nativeEvent: { contentOffset: { x: scrollAnim } } }],
 				{ useNativeDriver: true }
 			)}
+			enableMomentum={true}
 		/>
 	);
 };

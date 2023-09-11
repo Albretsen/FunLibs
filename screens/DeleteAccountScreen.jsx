@@ -1,35 +1,28 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import FirebaseManager from "../scripts/firebase_manager";
 import { useNavigation } from "@react-navigation/native";
+import FirebaseManager from "../scripts/firebase_manager";
+import { useDrawer } from "../components/Drawer";
 
-export default function SignInScreen() {
-    const [email, setEmail] = useState("official@funlibs.com")
-    const [password, setPassword] = useState("123456")
+export default function DeleteAccountScreen() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(true);
-
-    const signIn = () => {
-        console.log("SIGN IN");
-        FirebaseManager.SignInWithEmailAndPassword(email, password)
-            .then(user => {
-                console.log("Signed in successfully with user: ", user);
-                navigation.navigate("Home");
-            })
-            .catch(errorMessage => {
-                console.error("Error signing in: ", errorMessage);
-                // Handle the error here, e.g. show an error message to the user
-            });
-    }
 
     const navigation = useNavigation();
 
+    const { closeDrawer } = useDrawer();
+
     return(
-        <View style={[globalStyles.screenStandard]}>
-            <View style={[globalStyles.bigWhitespace, {marginTop: 40, height: Dimensions.get("window").height - 128}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Sign in</Text>
+        <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
+            <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center"}]}>Delete Account</Text>
+                <Text style={{}}>
+				    This will delete your account, as well as any content you've published.
+			    </Text>
                 <View style={globalStyles.form}>
                     <TextInput
                         label="Email"
@@ -59,17 +52,23 @@ export default function SignInScreen() {
 							/>
 						</TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={signIn}>
-                        <Text style={globalStyles.formButtonLabel}>Sign in</Text>
+                    <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
+                        //setShowDialogDelete(false);
+                        console.log("Starting account deletion process")
+                        let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
+                        if (!result?.uid) {
+                            console.log("Wrong credentials");
+                            return;
+                        }
+                        console.log("Successfully re-signed-in user");
+                        FirebaseManager.DeleteUser();
+                        console.log("ACCOUNT DELETED");
+                        navigation.navigate("Home");
+                    }}>
+                        <Text style={[globalStyles.formButtonLabel]}>Delete</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={globalStyles.formBottomText}>
-                    Don't have an account? 
-                    <TouchableOpacity onPress={() => navigation.navigate("NewAccountScreen")}>
-                        <Text style={globalStyles.formBottomTextHighlight}> Create a new one</Text>
-                    </TouchableOpacity>
-                </Text>
-            </View>
+            </ScrollView>
         </View>
     )
 }

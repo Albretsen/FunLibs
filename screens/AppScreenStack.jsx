@@ -5,17 +5,21 @@ import PlayScreen from "./PlayScreen";
 import LibsHomeScreen from "./LibsHomeScreen";
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
+import DeleteAccountScreen from './DeleteAccountScreen';
 import SplashScreen from "./SplashScreen";
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
-export default function AppScreenStack({ navigation }) {
+export default function AppScreenStack() {
     const { openDrawer, closeDrawer } = useDrawer();
 	const [key, setKey] = useState(Math.random());
+
+	const navigation = useNavigation();
 
 	useEffect(() => {
         // Define the listener
@@ -55,7 +59,7 @@ export default function AppScreenStack({ navigation }) {
 				}}
 			/>
 			<Stack.Screen
-				name="LibsHomeScreen"
+				name="Home"
 				component={LibsHomeScreen}
 				options={({ route }) => ({
 					headerTitle: () => (
@@ -131,6 +135,14 @@ export default function AppScreenStack({ navigation }) {
 			<Stack.Screen
 				name="NewAccountScreen"
 				component={NewAccountScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: standardHeaderStyle,
+				}}
+			/>
+			<Stack.Screen
+				name="DeleteAccountScreen"
+				component={DeleteAccountScreen}
 				options={{
 					headerTitle: "",
 					headerStyle: standardHeaderStyle,

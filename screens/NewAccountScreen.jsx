@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import { TextInput, HelperText } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AvatarCarousel from "../components/AvatarCarousel";
@@ -26,7 +26,7 @@ export default function NewAccountScreen() {
     const createAccount = () => {
         FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
             .then(user => {
-                navigation.navigate("LibsHomeScreen");
+                navigation.navigate("Home");
             })
             .catch(errorMessage => {
                 console.error("Error signing in: ", errorMessage);
@@ -97,7 +97,7 @@ export default function NewAccountScreen() {
 							/>
 						</TouchableOpacity>
                     </View>
-                    <View style={{flexGrow: 0, marginVertical: 30}}>
+                    <View style={{flexGrow: 0, marginVertical: 30, height: 100, maxHeight: 100}}>
                         <AvatarCarousel initialActiveIndex={initialCarouselAvatarID} onAvatarChange={handleAvatarChange}/>
                     </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>

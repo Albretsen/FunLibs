@@ -241,7 +241,7 @@ export default function PlayScreen({ route }) {
         FileManager._storeData("read", JSON.stringify(readArray));
         showToast('Your lib has been stored on your device. Go to the Read tab to read your lib again!');
         closeDrawer();
-        navigation.navigate("LibsHomeScreen");
+        navigation.navigate("Home");
 	}
 
 	const onFavorite = () => {

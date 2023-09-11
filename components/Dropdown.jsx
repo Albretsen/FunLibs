@@ -62,7 +62,7 @@ export default function Dropdown( props ) {
                         </Animated.View>
                     </TouchableOpacity>
                 }
-                contentStyle={{backgroundColor: "white", marginTop: 30}}
+                contentStyle={{backgroundColor: "white", marginTop: 5}}
             >
                 {options.map((options, index) => (
                     <View key={index}>

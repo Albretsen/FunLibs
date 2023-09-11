@@ -14,6 +14,7 @@ import { DrawerProvider } from "./components/Drawer";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const DrawerNav = createDrawerNavigator();
 
@@ -49,24 +50,26 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(0);
 
   return (
-    <Provider>
-      <ScreenProvider>
-        <ToastProvider>
-          <DialogProvider>
-            <DrawerProvider>
-              <TabProvider>
-                <NavigationContainer>
-                  <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
-                    <AppScreenStack />
-                    <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                  </GestureHandlerRootView>
-                </NavigationContainer>
-              </TabProvider>
-            </DrawerProvider>
-          </DialogProvider>
-        </ToastProvider>
-      </ScreenProvider>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider>
+        <ScreenProvider>
+          <ToastProvider>
+            <DialogProvider>
+              <DrawerProvider>
+                <TabProvider>
+                  <NavigationContainer>
+                    <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
+                      <AppScreenStack />
+                      <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                    </GestureHandlerRootView>
+                  </NavigationContainer>
+                </TabProvider>
+              </DrawerProvider>
+            </DialogProvider>
+          </ToastProvider>
+        </ScreenProvider>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
 

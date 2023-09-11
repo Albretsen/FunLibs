@@ -1,4 +1,4 @@
-import React, { Animated, Easing, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
+import React, { Animated, Easing, Dimensions, Modal, StyleSheet, View, Text, TouchableOpacity, Platform, SafeAreaView } from "react-native";
 import { forwardRef, useEffect, useRef, useState, useImperativeHandle, createContext, useContext } from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
@@ -100,9 +100,9 @@ const Drawer = forwardRef((props, ref) => {
                                     transform: [{ translateX: slideAnim }],
                                 },
                                 containerStyle ? containerStyle : null
-                            ]
-                        }
+                            ]}
                         >
+                            <SafeAreaView style={{flex: 1}}>
                             {/* If a custom header component has been defined, render it instead */}
                             {/* Else, render default header */}
                             {header &&
@@ -144,6 +144,7 @@ const Drawer = forwardRef((props, ref) => {
                                 )
                             }
                             {component}
+                            </SafeAreaView>
                         </Animated.View>
                     </PanGestureHandler>
                 </View>

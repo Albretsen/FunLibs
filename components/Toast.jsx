@@ -43,7 +43,8 @@ const Toast = ({ title, message, setTitle, setMessage }) => {
 	return (
 		<Animated.View style={[styles.container, { opacity: fadeAnim }, isKeyboardVisible ? {bottom: 10} : {bottom: 90}]}>
 		<View style={{justifyContent: "center", width: "86%"}}>
-			<Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text>
+			{/* Quickly removed title to make sure text is centered on Android */}
+			{/* <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text> */}
 			<Text allowFontScaling style={[styles.text, {fontSize: 16, flexWrap: "wrap"}]}>{message}</Text>
 		</View>
 		<TouchableOpacity onPress={handleClose} style={{justifyContent: "center", flex: 1}}>

@@ -47,7 +47,7 @@ export default function FilterToggle({ open, close, isOpen }) {
 
     const rotation = rotateAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: ['0deg', '180deg']
+        outputRange: ['180deg', '0deg']
     });
 
     return (

@@ -118,6 +118,7 @@ function ListItem(props) {
 
     const favorite = async () => {
         if (isUpdating) return;  // Prevent further interactions while updating
+        if (!FirebaseManager.currentUserData?.auth?.uid) return;
 
         setIsUpdating(true);
 
