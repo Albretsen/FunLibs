@@ -57,21 +57,7 @@ export default function App() {
               <TabProvider>
                 <NavigationContainer>
                   <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
-                    <DrawerNav.Navigator
-                      drawerContent={(props) => <CustomDrawerContent {...props} />}
-                      screenOptions={{
-                        drawerStyle: {
-                          borderTopRightRadius: 15,
-                          borderBottomRightRadius: 15,
-                        }
-                      }}
-                    >
-                      <DrawerNav.Screen
-                        name="Home"
-                        component={AppScreenStack}
-                        options={{ headerShown: false }}
-                      />
-                    </DrawerNav.Navigator>
+                    <AppScreenStack />
                     <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
                   </GestureHandlerRootView>
                 </NavigationContainer>
@@ -83,6 +69,23 @@ export default function App() {
     </Provider>
   );
 }
+
+// If drawer navigation ever is desired again, here's the code: 
+{/* <DrawerNav.Navigator
+  drawerContent={(props) => <CustomDrawerContent {...props} />}
+  screenOptions={{
+    drawerStyle: {
+      borderTopRightRadius: 15,
+      borderBottomRightRadius: 15,
+    }
+  }}
+>
+  <DrawerNav.Screen
+    name="Home"
+    component={AppScreenStack}
+    options={{ headerShown: false }}
+  />
+</DrawerNav.Navigator> */}
 
 const styles = StyleSheet.create({
 
