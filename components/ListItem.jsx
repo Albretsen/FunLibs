@@ -11,6 +11,8 @@ import { useDrawer } from "./Drawer";
 import DrawerActions from "./DrawerActions";
 import AudioPlayer from "../scripts/audio";
 import FileManager from "../scripts/file_manager";
+import FunLibsShare from "../scripts/share";
+import Lib from "../scripts/lib";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
@@ -40,7 +42,9 @@ function ListItem(props) {
                                     </View>
                                 </ScrollView>
                                 <DrawerActions
-                                    onShare={() => console.log("on share")}
+                                    onShare={() => {
+                                        FunLibsShare.Share(text.join("") + "\n\nCreated using: https://funlibs0.wordpress.com/download");
+                                    }}
                                     onDelete={deleteLib}
                                 />
                             </>
@@ -55,7 +59,7 @@ function ListItem(props) {
                         }
                     }
                 );
-                onClick({ id, name, type });
+                //onClick({ id, name, type });
             }
         }, 1)
     );

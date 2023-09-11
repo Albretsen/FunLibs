@@ -44,7 +44,7 @@ export default function LibsScreen() {
 		} else {
 			temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
 		}
-		if (!temp_listObjects.lastDocument) {
+		if (!temp_listObjects?.lastDocument) {
 			setLastDocument(null);
 		} else {
 			setLastDocument(temp_listObjects.lastDocument);
