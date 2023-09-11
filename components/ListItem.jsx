@@ -22,6 +22,7 @@ function ListItem(props) {
     const [likeCount, setLikeCount] = useState(likes || 0);
     const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();
+    const [localLikesArray, setLocalLikesArray] = useState(likesArray || []);
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
@@ -106,33 +107,44 @@ function ListItem(props) {
 				libNameText: name,
                 editID: String(id),
 			}
-		});
-	}
+        });
+    }
 
-    const favorite = () => {
-        if (!FirebaseManager.currentUserData?.auth) {
-            console.log("NOT LOGGED IN");
-            return;
-        }
-    
-        let updatedLikesArray = likesArray ? [...likesArray] : [];
-    
-        if (isLiked) {
-            // Remove the uid if it's already present
-            updatedLikesArray = updatedLikesArray.filter(uid => uid !== FirebaseManager.currentUserData.auth.uid);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const favorite = async () => {
+        if (isUpdating) return;  // Prevent further interactions while updating
+
+        setIsUpdating(true);
+
+        const userUid = FirebaseManager.currentUserData.auth.uid;
+        let isUserLiked = localLikesArray.includes(userUid);
+        let updatedLikesArray = [...localLikesArray];
+
+        if (isUserLiked) {
             setIsLiked(false);
             setLikeCount(likeCount - 1);
+            updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
         } else {
-            // Add the uid if it's not present
-            updatedLikesArray.push(FirebaseManager.currentUserData.auth.uid);
             setIsLiked(true);
             setLikeCount(likeCount + 1);
             playAudio("pop");
+            updatedLikesArray.push(userUid);
         }
+
+        try {
+            await FirebaseManager.updateLikesWithTransaction(id, userUid);
+            setLocalLikesArray(updatedLikesArray);  // Update the local state
+        } catch (error) {
+            console.error("Failed to update likes in Firebase:", error);
+            // Revert the UI changes
+            setIsLiked(isUserLiked);
+            setLikeCount(isUserLiked ? likeCount - 1 : likeCount + 1);
+        } finally {
+            setIsUpdating(false);  // Allow further interactions
+        }
+    };
     
-        // Now update the Firebase document
-        FirebaseManager.UpdateDocument("posts", id, { likesArray: updatedLikesArray, likes: updatedLikesArray.length });
-    }
 
     const deleteLib = async () => {
         let result = await FileManager._retrieveData("read");
