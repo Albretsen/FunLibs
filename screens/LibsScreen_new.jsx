@@ -24,6 +24,11 @@ import Dropdown from "../components/Dropdown";
 export default function LibsScreen() {
 	const navigation = useNavigation();
 
+	const [selectedCategory, setSelectedCategory] = useState("official");
+	const [selectedSortBy, setSelectedSortBy] = useState("newest");
+	const [selectedDate, setSelectedDate] = useState("allTime");
+	const [playReadValue, setPlayReadValue] = React.useState(true);
+
 	const [listObjects, setListObjects] = useState([]);
 
 	const isFocused = useIsFocused();
@@ -93,6 +98,8 @@ export default function LibsScreen() {
 	}
 
 	useEffect(() => {
+		loadListObjectsFromDatabase({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
+
 		// Add a listener to the Auth state change event
 		const authStateListener = (user) => {
 			loadListObjectsFromDatabase({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
@@ -148,18 +155,12 @@ export default function LibsScreen() {
 		}
 	}, []);
 
-	const [playReadValue, setPlayReadValue] = React.useState(true);
-
 	const playReadToggle = (newValue) => {
 		setPlayReadValue(newValue);
 		updateFilterOptions(newValue);
 	};
 
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-
-	const [selectedCategory, setSelectedCategory] = useState("official");
-	const [selectedSortBy, setSelectedSortBy] = useState("newest");
-	const [selectedDate, setSelectedDate] = useState("allTime");
 
 	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory, sortByValue = selectedSortBy, dateValue = selectedDate) => {
 		let filterOptions = {
