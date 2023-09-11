@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -273,6 +273,40 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error adding document to " + collection_ + "\nError: " + error);
         }
+    }
+
+    /**
+     * Updates the likes of a post atomically using a Firestore transaction.
+     * 
+     * @param {string} postId - The ID of the post to update.
+     * @param {string} userUid - The UID of the user liking/unliking the post.
+     * 
+     * @returns {Promise<void>} - Returns a promise that resolves when the update is complete.
+     */
+    static async updateLikesWithTransaction(postId, userUid) {
+        const postRef = doc(db, "posts", postId);
+    
+        return runTransaction(db, async (transaction) => {
+            const postSnapshot = await transaction.get(postRef);
+            
+            if (!postSnapshot.exists()) {
+                throw new Error(`Document with ID ${postId} does not exist.`);
+            }
+    
+            const currentLikesArray = postSnapshot.data().likesArray || [];
+            let updatedLikesArray;
+    
+            if (currentLikesArray.includes(userUid)) {
+                updatedLikesArray = currentLikesArray.filter(uid => uid !== userUid);
+            } else {
+                updatedLikesArray = [...currentLikesArray, userUid];
+            }
+    
+            transaction.update(postRef, {
+                likesArray: updatedLikesArray,
+                likes: updatedLikesArray.length
+            });
+        });
     }
 
     /**
