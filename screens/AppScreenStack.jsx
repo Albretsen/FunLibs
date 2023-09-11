@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, StyleSheet, View, Image } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, View, Image, TextInput } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import LibsHomeScreen from "./LibsHomeScreen";
@@ -17,6 +17,9 @@ const Stack = createStackNavigator();
 export default function AppScreenStack({ navigation }) {
     const { openDrawer, closeDrawer } = useDrawer();
 	const [key, setKey] = useState(Math.random());
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
 	const { openDialog } = useDialog();
 
@@ -127,7 +130,9 @@ export default function AppScreenStack({ navigation }) {
 															onCancel: () => {
 																console.log("CANCALLED")
 															},
-															onConfirm: () => {
+															onConfirm: async () => {
+																//await FirebaseManager.SignInWithEmailAndPassword(email, password);
+																return;
 																FirebaseManager.DeleteUser();
 																closeDrawer();
 															},
@@ -137,6 +142,21 @@ export default function AppScreenStack({ navigation }) {
 																	<Text style={{ textAlign: 'center', marginTop: 10 }}>
 																		This will delete your account, as well as any content published by you.
 																	</Text>
+																	<TextInput
+																		style={{ borderColor: 'gray', borderWidth: 1, padding: 10, borderRadius: 5, marginBottom: 10 }}
+																		placeholder="Email"
+																		value={email}
+																		onChangeText={setEmail}
+																		keyboardType="email-address"
+																		autoCapitalize="none"
+																	/>
+																	<TextInput
+																		style={{ borderColor: 'gray', borderWidth: 1, padding: 10, borderRadius: 5 }}
+																		placeholder="Password"
+																		value={password}
+																		onChangeText={setPassword}
+																		secureTextEntry={true}
+																	/>
 																</>
 															),
 															cancelLabel: "Cancel",  // Custom text for the cancel button
