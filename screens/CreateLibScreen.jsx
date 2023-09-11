@@ -554,7 +554,7 @@ export default function CreateLibScreen({ route }) {
                     cancelLabel={editLibID ? "Save Changes to Device" : "Save to Device" }
                 >
                     <Text style={styles.paragraph}>
-                        {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs the world!"}
+                        {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs with the world!"}
                     </Text>
                 </DialogTrigger>
             </ScrollView>

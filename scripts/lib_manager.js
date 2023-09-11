@@ -133,7 +133,8 @@ export default class LibManager {
             'town': 'The name of a small city: Townsville, Florence, etc.',
             'weather': 'The state of the weather at a particular time: rain, wind, etc.',
             'emotion': 'A feeling: sad, happy, cheerful, etc.',
-            'material': 'What something is made of: sand, wood, etc.'
+            'material': 'What something is made of: sand, wood, etc.',
+            'sound': 'A noise or auditory event that can be heard, such as ring, boom, quack etc.'
         };
     
         // Use compromise to get the base form of the word
@@ -183,6 +184,7 @@ export default class LibManager {
             "famous person": ["Willy Wonka", "Mary Poppins", "Frodo Baggins", "Elvis Presley", "Marilyn Monroe", "Mr. Bean", "Charlie Chaplin", "Fred Astaire", "Lucille Ball", "Charlie Brown", "Homer Simpson", "Wonder Woman", "Sherlock Holmes", "Yoda", "Indiana Jones", "Captain Jack Sparrow", "Superman", "Beyoncé", "Michael Jackson", "Albert Einstein", "Harry Potter", "Captain America", "Mickey Mouse", "Dumbledore", "Spider-Man", "James Bond", "Winnie the Pooh", "SpongeBob SquarePants", "Darth Vader", "Madonna", "Marie Curie", "Leonardo da Vinci", "Daffy Duck", "Oprah Winfrey"],
             "weather": ["rain", "wind", "sun", "clouds", "cold", "dryness"],
             "color": ["red", "blue", "orange", "yellow", "brown", "black", "white", "pink", "lime", "teal", "purple", "magenta", "gray"],
+            "sound": ["rustle", "chirp", "boom", "babble", "roar", "howl", "ring", "thunder", "splash", "buzz", "crunch", "quack"],
         };
 
         // Use compromise to get the base form of the word

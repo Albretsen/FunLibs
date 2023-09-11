@@ -239,7 +239,7 @@ export default function PlayScreen({ route }) {
 		currentLib_.id = readArray.length;
 		console.log("2: " + JSON.stringify(readArray));
         FileManager._storeData("read", JSON.stringify(readArray));
-        showToast('Your lib has been stored locally.');
+        showToast('Your lib has been stored on your device. Go to the Read tab to read your lib again!');
         closeDrawer();
         navigation.navigate("LibsHomeScreen");
 	}
