@@ -39,7 +39,7 @@ export default function LibsHomeScreen({route}) {
             })}
         >
             <Tab.Screen 
-                name="Home"
+                name="Fun Libs"
                 component={LibsScreen}
                 options={{
                     tabBarLabel: ({ color }) => (

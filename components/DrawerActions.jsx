@@ -1,9 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function DrawerActions(props) {
-    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete } = props;
+    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, publishLabel, saveLabel } = props;
 
     return (
         <View style={{
@@ -25,7 +25,7 @@ export default function DrawerActions(props) {
                     name="file-download"
                     size={26}
                 />
-                <Text style={{fontSize: 15}}>Save</Text>
+                <Text style={styles.actionText}>{saveLabel ? saveLabel: "Save"}</Text>
             </TouchableOpacity>)}
             {onShare && (<TouchableOpacity
                 style={{alignItems: "center"}}
@@ -36,7 +36,7 @@ export default function DrawerActions(props) {
                     name="share"
                     size={26}
                 />
-                <Text style={{fontSize: 15}}>Share</Text>
+                <Text style={styles.actionText}>Share</Text>
             </TouchableOpacity>)}
             {onFavorite && (
                 <TouchableOpacity
@@ -48,7 +48,7 @@ export default function DrawerActions(props) {
                         name="favorite"
                         size={26}
                     />
-                    <Text style={{fontSize: 15}}>Favorite</Text>
+                    <Text style={styles.actionText}>Favorite</Text>
                 </TouchableOpacity>
             )}
             {onDelete && (
@@ -61,9 +61,28 @@ export default function DrawerActions(props) {
                         name="delete"
                         size={26}
                     />
-                    <Text style={{fontSize: 15}}>Delete</Text>
+                    <Text style={styles.actionText}>Delete</Text>
+                </TouchableOpacity>
+            )}
+            {onPublish && (
+                <TouchableOpacity
+                    style={{alignItems: "center"}}
+                    onPress={onPublish}
+                >
+                    <MaterialIcons
+                        style={{color: "#49454F"}}
+                        name="file-upload"
+                        size={26}
+                    />
+                    <Text style={styles.actionText}>{publishLabel ? publishLabel : "Publish"}</Text>
                 </TouchableOpacity>
             )}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    actionText: {
+        fontSize: 15
+    }
+})

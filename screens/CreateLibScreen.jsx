@@ -46,7 +46,7 @@ export default function CreateLibScreen({ route }) {
                             setEditLibID(null);
                         },
                         onConfirm: () => {
-                            navigation.navigate("LibsHomeScreen", { 
+                            navigation.navigate("Home", { 
                                 screen: "Create",
                                 params: {
                                     libText: libTextRef.current,
@@ -167,7 +167,30 @@ export default function CreateLibScreen({ route }) {
     }
 
     let publishDialog = () => {
-        setShowDialogPublish(true);
+        // setShowDialogPublish(true);
+        openDrawer({
+            component: (
+                <>
+                    <ScrollView>
+                        <View style={[globalStyles.drawerTop, {height: "100%"}]}>
+                            <Text style={styles.paragraph}>
+                                {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs with the world!"}
+                            </Text>
+                        </View>
+                    </ScrollView>
+                    <DrawerActions
+                        onPublish={() => {
+                            publishSaveLib();
+                        }}
+                        publishLabel={editLibID ? "Publish Changes" : "Publish"}
+                        onSave={() => {
+                            localSaveLib();
+                        }}
+                        saveLabel={editLibID ? "Save Changes to Device" : "Save to Device" }
+                    />
+                </>
+            )
+        });
     }
 
     let publishSaveLib = async () => {
@@ -218,7 +241,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("LibsHomeScreen", {initalTab: "Your Libs"});
+        navigation.navigate("Home", {initalTab: "Your Libs"});
     }
 
     let localSaveLib = async () => {
@@ -281,7 +304,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("LibsHomeScreen", { initalTab: "Your Libs" });
+        navigation.navigate("Home", { initalTab: "Your Libs" });
     }
     
 
@@ -339,7 +362,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("LibsHomeScreen", {initalTab: "Home"});
+        navigation.navigate("Home", {initalTab: "Home"});
     }
 
     // Drawer 
@@ -350,7 +373,7 @@ export default function CreateLibScreen({ route }) {
         <>      
             <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                 <View style={globalStyles.drawerTop}>
-                <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
+                    <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
                     {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
                 </View>
             </ScrollView>
@@ -538,25 +561,6 @@ export default function CreateLibScreen({ route }) {
                         {" is building a table. "}
                         <Text style={styles.highlighted}>{"(Name 1)"}</Text>
                         {" is a carpenter."}
-                    </Text>
-                </DialogTrigger>
-                <DialogTrigger
-                    id="dialogPublish"
-                    show={showDialogPublish}
-                    onCancel={() => {
-                        setShowDialogPublish(false),
-                        localSaveLib();
-                    }}
-                    onConfirm={() => {
-                        // Publish lib function here
-                        publishSaveLib();
-                        setShowDialogPublish(false);
-                    }}
-                    confirmLabel={editLibID ? "Publish Changes" : "Publish" }
-                    cancelLabel={editLibID ? "Save Changes to Device" : "Save to Device" }
-                >
-                    <Text style={styles.paragraph}>
-                        {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs with the world!"}
                     </Text>
                 </DialogTrigger>
             </ScrollView>
