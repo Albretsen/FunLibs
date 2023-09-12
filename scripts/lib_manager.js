@@ -37,6 +37,7 @@ export default class LibManager {
             element.likes = 0;
             element.username = "Official";
             element.avatarID = 13;
+            element.date = JSON.stringify(new Date());
             element.id = await FirebaseManager.AddDocumentToCollection("posts", element);
             await FirebaseManager.UpdateDocument("posts", element.id, { id: element.id })
         }

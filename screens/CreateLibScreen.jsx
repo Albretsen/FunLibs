@@ -195,7 +195,8 @@ export default function CreateLibScreen({ route }) {
 
     let publishSaveLib = async () => {
         if (!FirebaseManager.currentUserData?.auth) { 
-            showToast('You have to be logged in to publish.'); 
+            showToast('You have to be logged in to publish.');
+            closeDrawer();
             return;
         }
 
@@ -205,8 +206,7 @@ export default function CreateLibScreen({ route }) {
 		finishedLibRef.current.playable = true;
         finishedLibRef.current.username = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : null;
         finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
-        finishedLibRef.current.date = new Date();
-        if (!editLibID) finishedLibRef.current.date = new Date();
+        if (!editLibID) finishedLibRef.current.date = JSON.stringify(new Date());
         finishedLibRef.current.likes = 0;
 
         if (!editLibID) {

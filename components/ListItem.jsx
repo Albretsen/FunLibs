@@ -28,6 +28,8 @@ function ListItem(props) {
     const [localLikesArray, setLocalLikesArray] = useState(likesArray || []);
     const showToast = useContext(ToastContext);
 
+    const isInitialRender = useRef(true);
+
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
             let currentLib = LibManager.getLibByID(id);
@@ -171,15 +173,18 @@ function ListItem(props) {
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-      Animated.sequence([
-        Animated.delay(index * 50), // delay by index * 50ms, staggering the load animation
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 400,
-          useNativeDriver: true,
-        })
-      ]).start();
-    }, [index]);
+        if (isInitialRender.current) {
+          Animated.sequence([
+            Animated.delay(index * 50),
+            Animated.timing(fadeAnim, {
+              toValue: 1,
+              duration: 400,
+              useNativeDriver: true,
+            })
+          ]).start();
+          isInitialRender.current = false;
+        }
+      }, [index]);
 
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>
@@ -287,4 +292,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default React.memo(ListItem);
+export default ListItem;

@@ -27,21 +27,21 @@ export default function SignInScreen() {
         } catch (error) {
             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
             switch (error.code) {
-            case 'auth/wrong-password':
-                break;
-            case 'auth/user-not-found': 
-                break;
-            case 'auth/user-disabled': 
-                break;
-            case 'auth/invalid-email': 
-                break;
-            case 'auth/operation-not-allowed':
-                break;
-            case 'auth/too-many-requests': 
-                break;
-            default:
-                //Unknown erorr
-                break;
+                case 'auth/wrong-password':
+                    break;
+                case 'auth/user-not-found':
+                    break;
+                case 'auth/user-disabled':
+                    break;
+                case 'auth/invalid-email':
+                    break;
+                case 'auth/operation-not-allowed':
+                    break;
+                case 'auth/too-many-requests':
+                    break;
+                default:
+                    //Unknown erorr
+                    break;
             }
 
             showToast(errorMessage);
