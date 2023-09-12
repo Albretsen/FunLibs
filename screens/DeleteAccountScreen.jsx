@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
@@ -6,11 +6,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "../components/Drawer";
+import { ToastContext } from "../components/Toast";
 
 export default function DeleteAccountScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(true);
+
+    const showToast = useContext(ToastContext);
 
     const navigation = useNavigation();
 
@@ -55,15 +58,44 @@ export default function DeleteAccountScreen() {
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
                         console.log("Starting account deletion process")
-                        let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
-                        if (!result?.uid) {
-                            console.log("Wrong credentials");
-                            return;
+                        try {
+                            if (email !== FirebaseManager.currentUserData?.auth?.email) {
+                                showToast("Email does not matched the signed in account");
+                                return;
+                            }
+                            let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
+                            if (!result?.uid) {
+                                console.log("Wrong credentials");
+                                return;
+                            }
+                            console.log("Successfully re-signed-in user");
+                            FirebaseManager.DeleteUser();
+                            console.log("ACCOUNT DELETED");
+                            navigation.navigate("Home");
+                        } catch (error) {
+                            const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
+                            switch (error.code) {
+                                case 'auth/wrong-password':
+                                    break;
+                                case 'auth/user-not-found':
+                                    break;
+                                case 'auth/user-disabled':
+                                    break;
+                                case 'auth/invalid-email':
+                                    break;
+                                case 'auth/operation-not-allowed':
+                                    break;
+                                case 'auth/too-many-requests':
+                                    break;
+                                case 'auth/missing-password':
+                                    break;
+                                default:
+                                    //Unknown erorr
+                                    break;
+                            }
+
+                            showToast(errorMessage);
                         }
-                        console.log("Successfully re-signed-in user");
-                        FirebaseManager.DeleteUser();
-                        console.log("ACCOUNT DELETED");
-                        navigation.navigate("Home");
                     }}>
                         <Text style={[globalStyles.formButtonLabel]}>Delete</Text>
                     </TouchableOpacity>

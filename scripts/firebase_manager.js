@@ -131,6 +131,7 @@ export default class FirebaseManager {
             'auth/invalid-email': 'The email address is not valid.',
             'auth/operation-not-allowed': 'Sign-in with email and password is not enabled.',
             'auth/too-many-requests': 'Too many failed login attempts. Please try again later.',
+            'auth/missing-password': 'Missing password.'
             // ... add other error codes as needed
         };
     
