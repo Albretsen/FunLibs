@@ -108,7 +108,7 @@ function ListItem(props) {
     }
 
     const edit = () => {
-		navigation.navigate("LibsHomeScreen", { 
+		navigation.navigate("Home", { 
 			screen: "Create",
 			params: {
 				libText: LibManager.display_edit(text, prompts),

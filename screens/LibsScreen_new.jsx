@@ -537,7 +537,7 @@ export default function LibsScreen() {
 								// 	onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
 								// }
 							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 32}}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
 							labelStyle={{fontSize: 14, fontWeight: 500}}
 						/>
@@ -576,7 +576,7 @@ export default function LibsScreen() {
 									onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
 								},
 							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 32}}
+							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}
 							labelStyle={{fontSize: 14, fontWeight: 500}}
 						/>

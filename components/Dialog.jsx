@@ -30,7 +30,7 @@ function Dialog(props) {
 								{
 									label: props.cancelLabel || "Cancel",
 									onPress: handleCancel,
-									// buttonStyle: {paddingLeft: 5}
+									buttonStyle: {paddingLeft: 0}
 								},
 								{
 									label: props.confirmLabel || "Confirm",
