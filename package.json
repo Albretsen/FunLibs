@@ -32,7 +32,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-store-review": "~6.2.1",
-    "firebase": "^10.3.0",
+    "firebase": "^10.3.1",
     "glob": "^7.2.0",
     "mocha": "^10.2.0",
     "npm": "^9.7.2",

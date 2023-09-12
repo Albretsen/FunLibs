@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useContext } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
@@ -13,6 +13,7 @@ import AudioPlayer from "../scripts/audio";
 import FileManager from "../scripts/file_manager";
 import FunLibsShare from "../scripts/share";
 import Lib from "../scripts/lib";
+import { ToastContext } from "../components/Toast";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
@@ -25,6 +26,7 @@ function ListItem(props) {
     const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();
     const [localLikesArray, setLocalLikesArray] = useState(likesArray || []);
+    const showToast = useContext(ToastContext);
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
@@ -118,7 +120,10 @@ function ListItem(props) {
 
     const favorite = async () => {
         if (isUpdating) return;  // Prevent further interactions while updating
-        if (!FirebaseManager.currentUserData?.auth?.uid) return;
+        if (!FirebaseManager.currentUserData?.auth?.uid) {
+            showToast("You have to be signed in to like a post.");
+            return;
+        }
 
         setIsUpdating(true);
 

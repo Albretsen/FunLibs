@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -31,6 +31,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default class FirebaseManager {
+    static auth = auth;
+
     static currentUserData = {
         auth: null,
         firestoreData: null
@@ -40,17 +42,22 @@ export default class FirebaseManager {
         return this.currentUserData;
     }
 
-    static async CreateUserWithEmailAndPassword(email, password) {
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                this.currentUserData.auth = user;
-                Analytics.log("Created user " + JSON.stringify(user.uid));
-            })
-            .catch((error) => {
-                Analytics.log("Error creating user " + JSON.stringify(error.message));
-            });
+    static CreateUserWithEmailAndPassword(email, password) {
+        return new Promise((resolve, reject) => {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    this.currentUserData.auth = user;
+                    Analytics.log("Created user " + JSON.stringify(user.uid));
+                    resolve(user); // Resolve the promise with the user object
+                })
+                .catch((error) => {
+                    Analytics.log("Error creating user " + JSON.stringify(error.message));
+                    console.log("EXTRA LOG: " + JSON.stringify(error));
+                    reject(error); // Reject the promise with the error message
+                });
+        });
     }
 
     static async CreateUser(signUpMethod, email, password, username, avatarID) {
@@ -58,13 +65,16 @@ export default class FirebaseManager {
             try {
                 switch (signUpMethod) {
                     case "email":
+                        console.log("here 1");
                         const user = await this.CreateUserWithEmailAndPassword(email, password);
+                        console.log("here 3");
                         await this.AddDocumentToCollection("users", {
                             email: email,
                             username: username,
                             avatarID: avatarID
                         }, 
                         this.currentUserData.auth.uid);
+                        console.log("here 2");
                         Analytics.log("Successfully created user");
                         resolve(user);
                         break;
@@ -75,9 +85,23 @@ export default class FirebaseManager {
                         break;
                 }
             } catch (error) {
+                console.log("ERROR HEREFDSLKFDSLKJFDSLKJ: " + error)
                 reject(error);
             }
         });
+    }
+
+    static getCreateAccountErrorMessage(errorCode) {
+        const errorMessages = {
+            'auth/email-already-in-use': 'The email address is already in use by another account.',
+            'auth/invalid-email': 'The email address is not valid.',
+            'auth/operation-not-allowed': 'Email/password accounts are not enabled.',
+            'auth/weak-password': 'The password is too weak.',
+            'auth/missing-password': 'Please add a password',
+            // Add more error codes and their messages as needed
+        };
+    
+        return errorMessages[errorCode] || 'An unknown error occurred.';
     }
 
     static SignInWithEmailAndPassword(email, password) {
@@ -94,9 +118,23 @@ export default class FirebaseManager {
                 .catch((error) => {
                     const errorMessage = error.message;
                     Analytics.log("Error signing in " + errorMessage);
-                    reject(errorMessage);  // Reject promise with error message
+                    reject(error);  // Reject promise with error message
                 });
         });
+    }
+
+    static getAuthErrorMessage(errorCode) {
+        const errorMessages = {
+            'auth/wrong-password': 'The password is incorrect.',
+            'auth/user-not-found': 'No account found with this email address.',
+            'auth/user-disabled': 'This account has been disabled.',
+            'auth/invalid-email': 'The email address is not valid.',
+            'auth/operation-not-allowed': 'Sign-in with email and password is not enabled.',
+            'auth/too-many-requests': 'Too many failed login attempts. Please try again later.',
+            // ... add other error codes as needed
+        };
+    
+        return errorMessages[errorCode] || 'An unknown error occurred.';
     }
 
     static authStateListeners = [];
@@ -473,15 +511,15 @@ export default class FirebaseManager {
                     Analytics.log("Weighted sorting has been DISABLED\nSorting by Top instead")
                     break;
                 case "newest":
-                    if (!startDate) {  // Only add this if we haven't ordered by date already
-                        q = query(q, orderBy("date", "desc"));
-                    }
+                    // Remove this condition since we're already ordering by date above
+                    // if (!startDate) {  
+                    //     q = query(q, orderBy("date", "desc"));
+                    // }
                     break;
                 default:
                     break;
             }
         }
-
         // Pagination
         q = query(q, limit(pageSize));
         if (lastVisibleDoc) {
@@ -626,6 +664,30 @@ export default class FirebaseManager {
         };
     }
 
+    static async convertDateStringsToTimestamps() {
+        console.log("CONVERTING TO TIMESTAMP");
+        // Get all documents from the 'posts' collection
+        const postsCollectionRef = collection(db, 'posts');
+        const snapshot = await getDocs(postsCollectionRef);
+    
+        // Iterate through each document
+        for (const docSnap of snapshot.docs) {
+            const now = new Date();
+            const start = new Date(now);
+            start.setMonth(now.getMonth() - 2);
+            const randomDate = new Date(start.getTime() + Math.random() * (now.getTime() - start.getTime()));
+    
+            // Convert the random date to a Firestore Timestamp
+            const timestamp = Timestamp.fromDate(randomDate);
+    
+            // Update the 'date' field of the document with the new Timestamp
+            const docRef = doc(postsCollectionRef, docSnap.id);
+            await this.UpdateDocument('posts', docSnap.id, { date: timestamp });
+        }
+    
+        console.log('Date conversion completed.');
+    }
+
     static avatars = {
         0: require('../assets/images/avatars/0.png'),
         1: require('../assets/images/avatars/1.png'),
@@ -664,6 +726,7 @@ export default class FirebaseManager {
 
 // Sets auth state listener
 FirebaseManager.OnAuthStateChanged();
+//FirebaseManager.convertDateStringsToTimestamps();
 
 //FirebaseManager.generateMockData(5, 5);
 //FirebaseManager.ReadDataFromDatabase("posts");
