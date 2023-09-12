@@ -20,6 +20,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import Analytics from "../scripts/analytics";
 import { useTab } from "../components/TabContext";
 import Dropdown from "../components/Dropdown";
+import FileManager from "../scripts/file_manager";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -30,6 +31,7 @@ export default function LibsScreen() {
 	const [playReadValue, setPlayReadValue] = React.useState(true);
 
 	const [listObjects, setListObjects] = useState([]);
+	const [listItems, setListItems] = useState([]);
 
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
@@ -38,71 +40,199 @@ export default function LibsScreen() {
 
 	const [lastDocument, setLastDocument] = useState(null);
 
+	const [loading, setLoading] = useState(false);
+
 	const quickload = false;
 
-	async function loadListObjectsFromDatabase(filterOptions = {"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue}, lastDocument = undefined) {
-		if (lastDocument === null) return;
-		if (lastDocument === undefined) setIsLoading(true);
-		let temp_listObjects = [];
-		if (lastDocument) {
-			temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
-		} else {
-			temp_listObjects = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions);
-		}
-		if (!temp_listObjects?.lastDocument) {
-			setLastDocument(null);
-		} else {
-			setLastDocument(temp_listObjects.lastDocument);
-		}
-		temp_listObjects = temp_listObjects.data;
-		if (temp_listObjects.length < 1) {
-			Analytics.log("No documents found");
-			if (!lastDocument) setListObjects([]);
-			setIsLoading(false);
-			return;
-		}
-		let users = [];
-		if (temp_listObjects) {
-			temp_listObjects.forEach(object => {
-				if (!users.includes(object.user)) {
-					if (object.user) {
-						users.push(object.user);
-					} else {
-						users.push(null);
-					}
-				}
-			});
-		} else {
-			temp_listObjects = [];
-		}
+	async function loadListItems(
+		filterOptions = {
+			"category": selectedCategory,
+			"sortBy": selectedSortBy,
+			"dateRange": selectedDate,
+			"playable": playReadValue
+		},
+		lastDocument = undefined
+	) {
+		setLoading(true);
+		//console.log("LASTDOCUMENT: " + JSON.stringify(lastDocument));
 
-		if (quickload) {
-			if (!lastDocument) {
-				setListObjects(prevListObjects => temp_listObjects);
-				LibManager.libs = temp_listObjects;
-			} else {
-				setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
-				LibManager.libs = listObjects.concat(temp_listObjects);
+		let localItems = [];
+		if (
+			filterOptions.category === "official" &&
+			filterOptions.sortBy === "newest" &&
+			filterOptions.dateRange === "allTime" &&
+			filterOptions.playable === true
+		) {
+			localItems = await loadLocalItems();
+			try {
+				localItems.sort((a, b) => {
+					return b.date.localeCompare(a.date);
+				});
+			} catch {
+
 			}
-			setIsLoading(false);
+		} else {
+			if (!lastDocument) {
+				//setListItems([]);
+				console.log("HERE 22222222222222222222222222222222222222222");
+			}
 		}
 
-		if (!lastDocument) {
-			setListObjects(prevListObjects => temp_listObjects);
-			LibManager.libs = temp_listObjects;
-		} else {
-			setListObjects(prevListObjects => prevListObjects.concat(temp_listObjects));
-			LibManager.libs = listObjects.concat(temp_listObjects);
+		try {
+			let dbResult = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
+			let dbItems = dbResult.data;
+
+			//console.log("LOCAL RESULT: " + JSON.stringify(localItems) + "\n\n\n\n" + JSON.stringify(dbItems))
+			// If both localItems and dbItems are empty, unload the list
+			if (localItems.length === 0 && (!dbItems || dbItems.length === 0)) {
+				if (!lastDocument) {
+					setListItems([]);
+					console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+				}
+				setLastDocument(undefined);
+				setIsLoading(false);
+				setLoading(false);
+				console.log("LAST DOCUMENBT: " + JSON.stringify(lastDocument) + " | typeofd: " + typeof lastDocument);
+				return; // Exit the function early
+			}
+			
+			console.log("4: " + JSON.stringify(lastDocument?.data))
+			if (dbItems && dbItems.length > 0) {
+				// Update the list with database data
+				setListItems(prevListItems => {
+					console.log("5: " + JSON.stringify(lastDocument?.data))
+					// Create a copy of the previous list items
+					const updatedListItems = [...prevListItems];
+					console.log("PREVLIST: " + JSON.stringify(prevListItems))
+
+					// If there are no local items, use dbItems directly
+					if (localItems.length === 0) {
+						// Create a map to store items by their ID
+						const itemsMap = {};
+
+						// Iterate over updatedListItems and store each item in the map
+						for (const item of updatedListItems) {
+							itemsMap[item.id] = item;
+						}
+
+						// Iterate over dbItems and either add or overwrite items in the map
+						for (const item of dbItems) {
+							itemsMap[item.id] = item;
+						}
+
+						// Convert the map back to a list
+						const mergedItems = Object.values(itemsMap);
+
+						dbItems = mergedItems;
+					}
+
+					// Update the lastDocument state for pagination
+					setLastDocument(dbResult.lastDocument);
+					console.log("SETTING LAST DOCUMENT");
+
+					dbItems.forEach(dbItem => {
+						const index = updatedListItems.findIndex(localItem => localItem.id === dbItem.id);
+						if (index !== -1) {
+							updatedListItems[index] = dbItem; // Update the item if found
+						} else {
+							updatedListItems.push(dbItem); // Add the new item from the database if not found in local data
+						}
+					});
+	
+					// Ensure the updated list is sorted by newest
+					updatedListItems.sort((a, b) => {
+						return b.date.localeCompare(a.date);
+					});
+
+					mergeLocalLibs(dbItems);				
+
+					return updatedListItems;
+				});
+			}
+		} catch (error) {
+			console.error("Error fetching data from database:", error);
+			// Handle the error as needed, e.g., show a notification to the user
 		}
+	
+		setLoading(false);
 		setIsLoading(false);
+		if (filterOptions.category === "official") updateDataInListItems();
+	}
+
+	async function updateDataInListItems() {
+		let localItems = await loadLocalItems();
+		localItems.sort((a, b) => {
+			return b.date.localeCompare(a.date);
+		});
+
+		// Extract IDs from localItems
+		const localItemIds = localItems.map(item => item.id);
+
+		let lastDoc = null;
+		let updatedData = [];
+		
+		for (let i = 0; i < localItems.length; i += 10) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(10-(localItems.length-i))) }, lastDoc);
+			updatedData = updatedData.concat(response.data);
+			lastDoc = response.lastDocument;
+		}
+	
+		// Overwrite any localItems with the database result with the same ID
+		for (let i = 0; i < localItems.length; i++) {
+			const updatedItem = updatedData.find(item => item.id === localItems[i].id);
+			if (updatedItem) {
+				localItems[i] = updatedItem;
+			}
+		}
+	
+		// Update listItems to use the up-to-date data
+		for (let i = 0; i < listItems.length; i++) {
+			const updatedItem = updatedData.find(item => item.id === listItems[i].id);
+			if (updatedItem) {
+				listItems[i] = updatedItem;
+			}
+		}
+		
+		setListItems(localItems)
+	}
+
+	async function mergeLocalLibs(dbItems) {
+		// Create a map to store items by their ID
+		const itemsMap = {};
+
+		let localItems = await loadLocalItems();
+		localItems.sort((a, b) => {
+			return b.date.localeCompare(a.date);
+		});
+
+		// Iterate over updatedListItems and store each item in the map
+		for (const item of localItems) {
+			itemsMap[item.id] = item;
+		}
+
+		// Iterate over dbItems and either add or overwrite items in the map
+		for (const item of dbItems) {
+			if (item?.official) {
+				itemsMap[item.id] = item;
+			}
+		}
+
+		// Convert the map back to a list
+		const mergedItems = Object.values(itemsMap);
+
+		FileManager._storeData("libs", JSON.stringify(mergedItems));
+	}
+
+	async function loadLocalItems() {
+		return JSON.parse(await FileManager._retrieveData("libs"));
 	}
 
 	useEffect(() => {
-		loadListObjectsFromDatabase({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
+		loadListItems({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
 
 		// Add a listener to the Auth state change event
 		const authStateListener = (user) => {
-			loadListObjectsFromDatabase({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
+			loadListItems({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
 		};
 		FirebaseManager.addAuthStateListener(authStateListener);
 
@@ -163,13 +293,17 @@ export default function LibsScreen() {
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
 	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory, sortByValue = selectedSortBy, dateValue = selectedDate) => {
+		setListItems([]);
+		console.log("HERE !11111111111111111111111111111");
+		setLastDocument(null);
 		let filterOptions = {
 			category: categoryValue,
 			sortBy: sortByValue,
 			dateRange: dateValue,
 			playable: playableValue
 		};
-		loadListObjectsFromDatabase(filterOptions);
+		console.log("USING: " + JSON.stringify(filterOptions));
+		loadListItems(filterOptions);
 		setIsBottomSheetOpen(false);
 	}
 
@@ -189,6 +323,26 @@ export default function LibsScreen() {
 		} else if (!isCloseToBottom && hasReachedBottom) {
 			setHasReachedBottom(false);
 		}
+	};
+
+	const [data, setData] = useState([]);
+
+	// Function to sort data by id
+	const sortById = (data) => {
+		return [...data].sort((a, b) => a.id - b.id);
+	};
+
+	// Function to update likes for a specific item
+	const updateLikes = (id, newLikes) => {
+		const updatedData = data.map(item => {
+			if (item.id === id) {
+				return { ...item, likes: newLikes };
+			}
+			return item;
+		});
+
+		const sortedData = sortById(updatedData);
+		setData(sortedData);
 	};
 
 	return (
@@ -271,7 +425,7 @@ export default function LibsScreen() {
 				</View>
 			) : (<>
 					<FlatList
-						data={listObjects}
+						data={listItems}
 						renderItem={({ item, index }) => (
 							<ListItem
 								name={item.name}
@@ -293,10 +447,17 @@ export default function LibsScreen() {
 								likesArray={item.likesArray}
 							/>
 						)}
-						keyExtractor={item => item.id}
-						onEndReached={() => loadListObjectsFromDatabase({ "category": selectedCategory, "sortBy": selectedSortBy, "dateRange": selectedDate, "playable": playReadValue }, lastDocument)}
-						onEndReachedThreshold={0.1}
+						keyExtractor={item => `${item.id}-${item.likes}`}
+						onRefresh={loadListItems}
+						refreshing={loading}
 						style={[globalStyles.listItemContainer, { height: Dimensions.get("window").height - (74 + 0 + 64 + 60) }]}
+						onEndReached={() => loadListItems({
+							"category": selectedCategory,
+							"sortBy": selectedSortBy,
+							"dateRange": selectedDate,
+							"playable": playReadValue
+						}, lastDocument)} // Call the loadListItems function when the end is reached
+						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
 					/>
 				<BottomSheet
 					ref={bottomSheetRef}
