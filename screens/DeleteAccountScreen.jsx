@@ -19,48 +19,58 @@ export default function DeleteAccountScreen() {
 
     const { closeDrawer } = useDrawer();
 
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
     return(
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
-                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center"}]}>Delete Account</Text>
-                <Text style={globalStyles.bigWhitespace}>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>Delete Account</Text>
+                <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
 				    This will delete your account, as well as any content you've published.
 			    </Text>
                 <View style={globalStyles.form}>
-                    <TextInput
-                        label="Email"
-                        value={email}
-                        onChangeText={email => setEmail(email)}
-                        mode="outlined"
-                        theme={{colors:{primary: '#49454F'}}}
-                        style={globalStyles.bigWhitespace}
-                    />
-                    <View style={{position: "relative"}}>
+                    <View style={globalStyles.formField}>
                         <TextInput
-                            label="Password"
-                            secureTextEntry={passwordVisible}
-                            value={password}
-                            onChangeText={password => setPassword(password)}
+                            label="Email"
+                            value={email}
+                            onChangeText={email => setEmail(email)}
                             mode="outlined"
                             theme={{colors:{primary: '#49454F'}}}
-                            style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
+                            style={globalStyles.bigWhitespace}
                         />
-						<TouchableOpacity 
-                            onPress={() => setPasswordVisible(!passwordVisible)}
-                            style={globalStyles.inputRightIcon}
-                        >
-                            <MaterialIcons
-								name={passwordVisible ? "visibility" : "visibility-off"}
-								size={22}
-							/>
-						</TouchableOpacity>
+                        <Text style={[globalStyles.formSupportText, globalStyles.formErrorText]}>{emailError}</Text>
+                    </View>
+                    <View style={globalStyles.formField}>
+                        <View style={{position: "relative"}}>
+                            <TextInput
+                                label="Password"
+                                secureTextEntry={passwordVisible}
+                                value={password}
+                                onChangeText={password => setPassword(password)}
+                                mode="outlined"
+                                theme={{colors:{primary: '#49454F'}}}
+                                style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
+                            />
+                            <Text style={[globalStyles.formSupportText, globalStyles.formErrorText]}>{passwordError}</Text>
+                            <TouchableOpacity 
+                                onPress={() => setPasswordVisible(!passwordVisible)}
+                                style={globalStyles.inputRightIcon}
+                            >
+                                <MaterialIcons
+                                    name={passwordVisible ? "visibility" : "visibility-off"}
+                                    size={22}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
                         console.log("Starting account deletion process")
                         try {
                             if (email !== FirebaseManager.currentUserData?.auth?.email) {
-                                showToast("Email does not matched the signed in account");
+                                // showToast("Email does not matched the signed in account");
+                                setEmailError("Email does not match the signed in account");
                                 return;
                             }
                             let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
@@ -74,20 +84,27 @@ export default function DeleteAccountScreen() {
                             navigation.navigate("Home");
                         } catch (error) {
                             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
+                            setEmailError("");
+                            setPasswordError("");
                             switch (error.code) {
                                 case 'auth/wrong-password':
+                                    setPasswordError("Wrong password!")
                                     break;
                                 case 'auth/user-not-found':
+                                    setEmailError("User not found.")
                                     break;
                                 case 'auth/user-disabled':
+                                    setEmailError("User not found.")
                                     break;
                                 case 'auth/invalid-email':
+                                    setEmailError("Please format your email correctly: example@email.com.")
                                     break;
                                 case 'auth/operation-not-allowed':
                                     break;
                                 case 'auth/too-many-requests':
                                     break;
                                 case 'auth/missing-password':
+                                    setPasswordError("Please enter a password!")
                                     break;
                                 default:
                                     //Unknown erorr

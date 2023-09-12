@@ -152,6 +152,20 @@ const globalStyles = StyleSheet.create({
         alignItems: "center"
     },
 
+    formField: {
+        gap: 6,
+        height: 68
+    },
+
+    formSupportText: {
+        marginLeft: 14,
+        height: 20
+    },
+
+    formErrorText: {
+        color: "red"
+    },
+
     formButton: {
         borderRadius: 50,
         backgroundColor: "#D1E8D5",
