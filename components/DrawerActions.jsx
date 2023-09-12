@@ -16,6 +16,19 @@ export default function DrawerActions(props) {
             borderColor: "#cccccc",
             justifyContent: "space-around"
         }}>
+            {onPublish && (
+                <TouchableOpacity
+                    style={{alignItems: "center"}}
+                    onPress={onPublish}
+                >
+                    <MaterialIcons
+                        style={{color: "#49454F"}}
+                        name="file-upload"
+                        size={26}
+                    />
+                    <Text style={styles.actionText}>{publishLabel ? publishLabel : "Publish"}</Text>
+                </TouchableOpacity>
+            )}
             {onSave && (<TouchableOpacity
                 style={{alignItems: "center"}}
                 onPress={onSave}
@@ -62,19 +75,6 @@ export default function DrawerActions(props) {
                         size={26}
                     />
                     <Text style={styles.actionText}>Delete</Text>
-                </TouchableOpacity>
-            )}
-            {onPublish && (
-                <TouchableOpacity
-                    style={{alignItems: "center"}}
-                    onPress={onPublish}
-                >
-                    <MaterialIcons
-                        style={{color: "#49454F"}}
-                        name="file-upload"
-                        size={26}
-                    />
-                    <Text style={styles.actionText}>{publishLabel ? publishLabel : "Publish"}</Text>
                 </TouchableOpacity>
             )}
         </View>
