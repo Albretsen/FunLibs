@@ -77,6 +77,7 @@ export default function LibsScreen() {
 		} else {
 			if (!lastDocument) {
 				//setListItems([]);
+				//setIsLoading(true);
 			}
 		}
 
@@ -523,6 +524,7 @@ export default function LibsScreen() {
 							"playable": playReadValue
 						}, lastDocument)} // Call the loadListItems function when the end is reached
 						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
+						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>}
 					/>
 				<BottomSheet
 					ref={bottomSheetRef}
