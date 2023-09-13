@@ -206,7 +206,7 @@ export default function CreateLibScreen({ route }) {
 		finishedLibRef.current.playable = true;
         finishedLibRef.current.username = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : null;
         finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
-        if (!editLibID) finishedLibRef.current.date = JSON.stringify(new Date());
+        if (!editLibID) finishedLibRef.current.date = new Date();
         finishedLibRef.current.likes = 0;
 
         if (!editLibID) {

@@ -66,7 +66,10 @@ export default function LibsScreen() {
 			localItems = await loadLocalItems();
 			try {
 				localItems.sort((a, b) => {
-					return b.date.localeCompare(a.date);
+					const dateA = convertToDate(a.date);
+					const dateB = convertToDate(b.date);
+
+					return dateB.getTime() - dateA.getTime();
 				});
 			} catch {
 
@@ -74,7 +77,6 @@ export default function LibsScreen() {
 		} else {
 			if (!lastDocument) {
 				//setListItems([]);
-				console.log("HERE 22222222222222222222222222222222222222222");
 			}
 		}
 
@@ -87,23 +89,26 @@ export default function LibsScreen() {
 			if (localItems.length === 0 && (!dbItems || dbItems.length === 0)) {
 				if (!lastDocument) {
 					setListItems([]);
-					console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 				}
 				setLastDocument(undefined);
 				setIsLoading(false);
 				setLoading(false);
-				console.log("LAST DOCUMENBT: " + JSON.stringify(lastDocument) + " | typeofd: " + typeof lastDocument);
 				return; // Exit the function early
 			}
 			
-			console.log("4: " + JSON.stringify(lastDocument?.data))
 			if (dbItems && dbItems.length > 0) {
 				// Update the list with database data
 				setListItems(prevListItems => {
-					console.log("5: " + JSON.stringify(lastDocument?.data))
+					console.log("------------- PREVLIST ------------------");
+					prevListItems.forEach(element => {
+						console.log(element.name);
+					})
+					console.log("------------- DBLIST ------------------");
+					dbItems.forEach(element => {
+						console.log(element.name);
+					})
 					// Create a copy of the previous list items
 					const updatedListItems = [...prevListItems];
-					console.log("PREVLIST: " + JSON.stringify(prevListItems))
 
 					// If there are no local items, use dbItems directly
 					if (localItems.length === 0) {
@@ -126,9 +131,13 @@ export default function LibsScreen() {
 						dbItems = mergedItems;
 					}
 
+					console.log("------------- DBLIST AFTER MERGE ------------------");
+					dbItems.forEach(element => {
+						console.log(element.name);
+					})
+
 					// Update the lastDocument state for pagination
 					setLastDocument(dbResult.lastDocument);
-					console.log("SETTING LAST DOCUMENT");
 
 					dbItems.forEach(dbItem => {
 						const index = updatedListItems.findIndex(localItem => localItem.id === dbItem.id);
@@ -141,11 +150,19 @@ export default function LibsScreen() {
 	
 					// Ensure the updated list is sorted by newest
 					updatedListItems.sort((a, b) => {
-						return b.date.localeCompare(a.date);
+						const dateA = convertToDate(a.date);
+						const dateB = convertToDate(b.date);
+					
+						return dateB.getTime() - dateA.getTime();
 					});
 
-					mergeLocalLibs(dbItems);				
-
+					mergeLocalLibs(dbItems);
+					
+					console.log("------------- UPDATED LIST ITEMS BEFORE RETURN ------------------");
+					updatedListItems.forEach(element => {
+						console.log(element.name);
+					})
+					
 					return updatedListItems;
 				});
 			}
@@ -156,13 +173,58 @@ export default function LibsScreen() {
 	
 		setLoading(false);
 		setIsLoading(false);
-		if (filterOptions.category === "official") updateDataInListItems();
+		if (filterOptions.category === "official") updateOfficialDataInListItems();
+		else updateDataInListItems();
 	}
 
 	async function updateDataInListItems() {
+		const listIemIds = listItems.map(item => item.id);
+		
+		let lastDoc = null;
+		let updatedData = [];
+		
+		for (let i = 0; i < listItems.length; i += 10) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(10-(listItems.length-i))) }, lastDoc);
+			updatedData = updatedData.concat(response.data);
+			lastDoc = response.lastDocument;
+		}
+
+		for (let i = 0; i < listItems.length; i++) {
+			const updatedItem = updatedData.find(item => item.id === listItems[i].id);
+			if (updatedItem) {
+				listItems[i] = updatedItem;
+			}
+		}
+	}
+
+	// This function converts different date formats to a JavaScript Date object
+	const convertToDate = (input) => {
+		// If it's a Firestore timestamp (assuming it's in seconds format)
+		if (typeof input === 'object') {
+			return new Date(input.seconds * 1000);
+		}
+
+		// If it's an ISO date string
+		if (typeof input === 'string') {
+			return new Date(input);
+		}
+
+		// If it's already a JavaScript Date object
+		if (input instanceof Date) {
+			return input;
+		}
+
+		// If unknown format, return a default date to avoid error (you can handle this differently if needed)
+		return new Date(0); // This is 1970-01-01
+	};
+
+	async function updateOfficialDataInListItems() {
 		let localItems = await loadLocalItems();
 		localItems.sort((a, b) => {
-			return b.date.localeCompare(a.date);
+			const dateA = convertToDate(a.date);
+			const dateB = convertToDate(b.date);
+
+			return dateB.getTime() - dateA.getTime();
 		});
 
 		// Extract IDs from localItems
@@ -202,7 +264,10 @@ export default function LibsScreen() {
 
 		let localItems = await loadLocalItems();
 		localItems.sort((a, b) => {
-			return b.date.localeCompare(a.date);
+			const dateA = convertToDate(a.date);
+			const dateB = convertToDate(b.date);
+
+			return dateB.getTime() - dateA.getTime();
 		});
 
 		// Iterate over updatedListItems and store each item in the map
@@ -425,7 +490,7 @@ export default function LibsScreen() {
 				</View>
 			) : (<>
 					<FlatList
-						data={listItems}
+						data={[...listItems]}
 						renderItem={({ item, index }) => (
 							<ListItem
 								name={item.name}
@@ -448,7 +513,6 @@ export default function LibsScreen() {
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}
-						onRefresh={loadListItems}
 						refreshing={loading}
 						style={[globalStyles.listItemContainer, { height: Dimensions.get("window").height - (74 + 0 + 64 + 60) }]}
 						onEndReached={() => loadListItems({

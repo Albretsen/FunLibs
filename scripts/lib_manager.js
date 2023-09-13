@@ -37,7 +37,10 @@ export default class LibManager {
             element.likes = 0;
             element.username = "Official";
             element.avatarID = 13;
-            element.date = JSON.stringify(new Date());
+            const now = new Date();
+            const twoMonthsAgo = new Date(now);
+            twoMonthsAgo.setMonth(now.getMonth() - 2);
+            element.date = new Date(twoMonthsAgo.getTime() + Math.random() * (now.getTime() - twoMonthsAgo.getTime()));
             element.id = await FirebaseManager.AddDocumentToCollection("posts", element);
             await FirebaseManager.UpdateDocument("posts", element.id, { id: element.id })
         }

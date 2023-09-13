@@ -202,7 +202,7 @@ function ListItem(props) {
                             height: 45,
                             width: 45,
                             justifyContent: "center",
-                            alignSelf: "center"
+                            alignSelf: "center",
                         }}
                         source={FirebaseManager.avatars[avatarID]}
                     />
