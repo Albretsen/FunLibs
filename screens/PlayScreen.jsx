@@ -220,7 +220,6 @@ export default function PlayScreen({ route }) {
 	};
 
 	const onSave = async () => {
-		console.log("1: " + JSON.stringify(currentLib));
 		let currentLib_ = JSON.parse(JSON.stringify(currentLib));
 		currentLib_.published = false;
 		currentLib_.playable = false;
@@ -236,7 +235,6 @@ export default function PlayScreen({ route }) {
             }
             readArray.push(currentLib_);
         }
-		console.log("2: " + JSON.stringify(readArray));
         FileManager._storeData("read", JSON.stringify(readArray));
         showToast('Your lib has been stored on your device. Go to the Read tab to read your lib again!');
         closeDrawer();

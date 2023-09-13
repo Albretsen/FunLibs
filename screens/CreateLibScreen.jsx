@@ -259,7 +259,10 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("Home", {initalTab: "Your Libs"});
+        navigation.navigate('Fun Libs');
+        FirebaseManager.RefreshList({
+            category: "all"
+        })
     }
 
     let localSaveLib = async () => {
@@ -322,7 +325,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("Home", { initalTab: "Your Libs" });
+        navigation.navigate("Home");
     }
     
 
@@ -380,7 +383,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("Home", {initalTab: "Home"});
+        navigation.navigate("Home");
     }
 
     // Drawer 

@@ -26,9 +26,25 @@ export default function LibsScreen() {
 	const navigation = useNavigation();
 
 	const [selectedCategory, setSelectedCategory] = useState("official");
+	const selectedCategoryRef = useRef(selectedCategory);
+	useEffect(() => {
+		selectedCategoryRef.current = selectedCategory;
+	  }, [selectedCategory]);
 	const [selectedSortBy, setSelectedSortBy] = useState("newest");
+	const selectedSortByRef = useRef(selectedSortBy);
+	useEffect(() => {
+		selectedSortByRef.current = selectedSortBy;
+	  }, [selectedSortBy]);
 	const [selectedDate, setSelectedDate] = useState("allTime");
-	const [playReadValue, setPlayReadValue] = React.useState(true);
+	const selectedDateRef = useRef(selectedDate);
+	useEffect(() => {
+		selectedDateRef.current = selectedDate;
+	  }, [selectedDate]);
+	const [playReadValue, setPlayReadValue] = useState(true);
+	const playReadValueRef = useRef(playReadValue);
+	useEffect(() => {
+		playReadValueRef.current = playReadValue;
+	  }, [playReadValue]);
 
 	const [listObjects, setListObjects] = useState([]);
 	const [listItems, setListItems] = useState([]);
@@ -194,8 +210,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < items.length; i += 100) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(100-(items.length-i))) }, lastDoc);
+		for (let i = 0; i < items.length; i += 30) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(30-(items.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -252,8 +268,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < localItems.length; i += 100) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(100-(localItems.length-i))) }, lastDoc);
+		for (let i = 0; i < localItems.length; i += 30) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(30-(localItems.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -323,8 +339,24 @@ export default function LibsScreen() {
 		loadListItems({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
 
 		// Add a listener to the Auth state change event
-		const authStateListener = (user) => {
-			loadListItems({"category":selectedCategory,"sortBy":selectedSortBy,"dateRange":selectedDate,"playable":playReadValue});
+		const authStateListener = (filterOptions) => {
+			if (filterOptions) {
+				console.log("LISTENING FILTER OPTIONS: " + JSON.stringify(filterOptions));
+				if (filterOptions.category) {
+					selectedCategoryRef.current = filterOptions.category;
+				}
+				if (filterOptions.sortBy) {
+					selectedSortByRef.current = filterOptions.sortBy;
+				}
+				if (filterOptions.dateRange) {
+					selectedDateRef.current = filterOptions.dateRange;
+				}
+				if (filterOptions.playable) {
+					playReadValueRef.current = filterOptions.playable;
+				}
+			}
+			console.log("PLAY READ VALUE: " + playReadValueRef.current);
+			loadListItems({"category":selectedCategoryRef.current,"sortBy":selectedSortByRef.current,"dateRange":selectedDateRef.current,"playable":playReadValueRef.current});
 		};
 		FirebaseManager.addAuthStateListener(authStateListener);
 
@@ -369,7 +401,6 @@ export default function LibsScreen() {
 	};
 
 	const handleBottomSheetChange = useCallback((index) => {
-		console.log('handleSheetChanges', index);
 		if (index <= 0) { // Would be -1, but needs to account for first snap point being 1% due to hack fix
 			setIsBottomSheetOpen(false);
 		} else {
@@ -393,7 +424,6 @@ export default function LibsScreen() {
 			dateRange: dateValue,
 			playable: playableValue
 		};
-		console.log("USING: " + JSON.stringify(filterOptions));
 		loadListItems(filterOptions);
 		setIsBottomSheetOpen(false);
 	}
@@ -564,9 +594,9 @@ export default function LibsScreen() {
 					onChange={handleBottomSheetChange}
 					onAnimate={(fromIndex, toIndex) => {
 						if (toIndex === -1) {
-						console.log('The bottom sheet is hidden');
+							console.log('The bottom sheet is hidden');
 						} else {
-						console.log('The bottom sheet is shown');
+							console.log('The bottom sheet is shown');
 						}
 					}}
 				>
