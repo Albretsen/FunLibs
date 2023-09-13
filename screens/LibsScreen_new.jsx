@@ -57,6 +57,7 @@ export default function LibsScreen() {
 		//console.log("LASTDOCUMENT: " + JSON.stringify(lastDocument));
 
 		let localItems = [];
+		let updatedItems_ = [];
 		if (
 			filterOptions.category === "official" &&
 			filterOptions.sortBy === "newest" &&
@@ -153,6 +154,7 @@ export default function LibsScreen() {
 
 					mergeLocalLibs(dbItems, filterOptions.selectedSortBy);
 					
+					updatedItems_ = updatedListItems;
 					return updatedListItems;
 				});
 			}
@@ -164,23 +166,23 @@ export default function LibsScreen() {
 		setLoading(false);
 		setIsLoading(false);
 		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy);
-		else updateDataInListItems();
+		else updateDataInListItems(updatedItems_);
 	}
 
-	async function updateDataInListItems() {
-		const listIemIds = listItems.map(item => item.id);
+	async function updateDataInListItems(items) {
+		const listIemIds = items.map(item => item.id);
 		
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < listItems.length; i += 10) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(10-(listItems.length-i))) }, lastDoc);
+		for (let i = 0; i < items.length; i += 10) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(10-(items.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
 
-		for (let i = 0; i < listItems.length; i++) {
-			const updatedItem = updatedData.find(item => item.id === listItems[i].id);
+		for (let i = 0; i < items.length; i++) {
+			const updatedItem = updatedData.find(item => item.id === items[i].id);
 			if (updatedItem) {
 				listItems[i] = updatedItem;
 			}
