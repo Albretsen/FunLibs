@@ -21,7 +21,9 @@ function ListItem(props) {
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
-    let uid = FirebaseManager.localUID;
+    let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid: FirebaseManager.localUID;
+
+    console.log("UID: " + uid);
     if (!uid) {
         uid = "";
     }

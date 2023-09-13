@@ -151,6 +151,7 @@ export default class FirebaseManager {
                 const uid = user.uid;
                 this.currentUserData.auth = user;
                 FileManager._storeData("uid", uid);
+                this.localUID = uid;
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
@@ -298,6 +299,7 @@ export default class FirebaseManager {
     }
 
     static async AddDocumentToCollection(collection_, data, id = null) {
+        Analytics.increment("database_writes");
         try {
             if (id) {
                 await setDoc(doc(db, collection_, id), data);
@@ -324,6 +326,7 @@ export default class FirebaseManager {
      * @returns {Promise<void>} - Returns a promise that resolves when the update is complete.
      */
     static async updateLikesWithTransaction(postId, userUid) {
+        Analytics.increment("database_updates");
         const postRef = doc(db, "posts", postId);
     
         return runTransaction(db, async (transaction) => {
@@ -382,7 +385,7 @@ export default class FirebaseManager {
             playable: undefined
         },
         lastVisibleDoc = null,
-        pageSize = 10
+        pageSize = 30
     ) {
         if (!isConnected) {
             console.log("No internet: data may be out of date");
@@ -415,8 +418,9 @@ export default class FirebaseManager {
                 // Boilerplate for "myFavorites" - You can add the functionality later.
                 if (this.currentUserData.auth) { 
                     q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
+                } else {
+                    q = query(q, where("likesArray", "array-contains", "NO_UID"));
                 }
-                else console.log("NOT LOGGED IN");
                 break;
             case "myContent":
                 console.log("DOING MY CONTENT PATH");
@@ -534,6 +538,7 @@ export default class FirebaseManager {
         let result = null;
         try {
             result = await getDocs(q);
+            Analytics.increment("database_reads");
         } catch (error) {
             Analytics.log("Database read error " + error);
             if (lastVisibleDoc?.local) return;
@@ -580,6 +585,7 @@ export default class FirebaseManager {
      */
     static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}, arrayRemove_ = {}) {
         Analytics.log(`Updating document ${docId} in collection ${collection_} with data: ${JSON.stringify(updateData)}`);
+        Analytics.increment("database_updates");
     
         const docRef = doc(db, collection_, docId);
     
@@ -624,6 +630,7 @@ export default class FirebaseManager {
     }
     
     static async DeleteDocument(collection_, docId) {
+        Analytics.increment("database_deletes");
         try {
             const docRef = doc(db, collection_, docId);
             await deleteDoc(docRef);

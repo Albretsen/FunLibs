@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "../components/Drawer";
 import { ToastContext } from "../components/Toast";
+import FileManager from "../scripts/file_manager";
 
 export default function DeleteAccountScreen() {
     const [email, setEmail] = useState("");
@@ -79,6 +80,8 @@ export default function DeleteAccountScreen() {
                                 return;
                             }
                             console.log("Successfully re-signed-in user");
+                            FileManager._storeData("uid", "");
+                            FirebaseManager.localUID = "";
                             FirebaseManager.DeleteUser();
                             console.log("ACCOUNT DELETED");
                             navigation.navigate("Home");
