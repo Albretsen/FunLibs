@@ -431,7 +431,7 @@ export default class FirebaseManager {
                     localResult = [];
                 }
                 if (lastVisibleDoc) localResult = [];
-                if (this.currentUserData.auth) {
+                if (this.currentUserData?.auth) {
                     console.log("IT PRINTED THIS: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 } else {
@@ -448,13 +448,15 @@ export default class FirebaseManager {
                 q = query(q, where("playable", "==", filterOptions.playable));
             } else {
                 console.log("SHOW LOCAL READ!!!!!");
-                if (lastVisibleDoc?.local) return;
+                //if (lastVisibleDoc?.local) return;
                 localResult = await FileManager._retrieveData("read");
+                console.log("LOCAL RESULT :::: " + localResult);
                 if (localResult) { 
-                    localResult = JSON.parse(localResult).filter(item => item.playable === false);
+                    localResult = JSON.parse(localResult);
                 } else {
                     localResult = [];
                 }
+                console.log("LOCAL RESULT: " + localResult);
                 localResult.reverse();
                 return {
                     data: localResult,

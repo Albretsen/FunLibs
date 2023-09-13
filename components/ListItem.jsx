@@ -16,14 +16,13 @@ import Lib from "../scripts/lib";
 import { ToastContext } from "../components/Toast";
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
     let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid: FirebaseManager.localUID;
 
-    console.log("UID: " + uid);
     if (!uid) {
         uid = "";
     }
@@ -38,8 +37,7 @@ function ListItem(props) {
 
     const debouncedNavigationRef = useRef(
         _.debounce((id, type) => {
-            let currentLib = LibManager.getLibByID(id);
-            if (currentLib.playable) {
+            if (playable) {
                 navigation.navigate("PlayScreen", { libId: id, type: type });
             } else {
                 openDrawer(
@@ -172,6 +170,8 @@ function ListItem(props) {
         FileManager._storeData("read", JSON.stringify(result));
 
         closeDrawer();
+
+        FirebaseManager.RefreshList();
     }
   
     let promptOrText = promptFirst;
@@ -221,7 +221,7 @@ function ListItem(props) {
                 </View>
                 {icon && (
                     <View>
-                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
                             <TouchableOpacity
                                 style={styles.icon}
                                 onPress={edit}
@@ -231,17 +231,26 @@ function ListItem(props) {
                                     source={require("../assets/images/icons/edit.png")}
                                 />
                             </TouchableOpacity>
-                        ) : (
+                        ) : (playable ? (
                             <TouchableOpacity
                                 style={styles.icon}
                                 onPress={favorite}
                             >
-                                    <Image
-                                        style={{ height: 25, width: 28 }}
-                                        source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
-                                    />
+                                <Image
+                                    style={{ height: 25, width: 28 }}
+                                    source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
+                                />
                             </TouchableOpacity>
-                        )}
+                        ) : <TouchableOpacity
+                            style={styles.icon}
+                            onPress={deleteLib}
+                        >
+                            <Image
+                                style={{ height: 27, width: 21 }}
+                                source={require("../assets/images/icons/delete.png")}
+                            />
+                        </TouchableOpacity>)
+                        }
                     </View>
                 )}
                 {/* Conditionally render the delete confirmation dialog */}

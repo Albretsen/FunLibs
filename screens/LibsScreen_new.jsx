@@ -71,9 +71,30 @@ export default function LibsScreen() {
 
 					return dateB.getTime() - dateA.getTime();
 				});
+
+				setListItems(localItems);
 			} catch {
 
 			}
+		} else if (filterOptions.playable === false) {
+			localItems = await FileManager._retrieveData("read");
+			if (localItems) localItems = JSON.parse(localItems);
+			try {
+				localItems.sort((a, b) => {
+					const dateA = convertToDate(a.date);
+					const dateB = convertToDate(b.date);
+
+					return dateB.getTime() - dateA.getTime();
+				});
+
+				console.log("SETTING READ");
+				setListItems(localItems);
+			} catch (error){
+				setListItems([]);
+				console.log("READ FAILED: " + error);
+			}
+			setLoading(false);
+			return;
 		} else {
 			if (!lastDocument) {
 				//setListItems([]);
@@ -152,6 +173,7 @@ export default function LibsScreen() {
 					mergeLocalLibs(dbItems, filterOptions.selectedSortBy);
 					
 					updatedItems_ = updatedListItems;
+					LibManager.libs = updatedListItems;
 					return updatedListItems;
 				});
 			}
@@ -172,8 +194,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < items.length; i += 10) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(10-(items.length-i))) }, lastDoc);
+		for (let i = 0; i < items.length; i += 100) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(100-(items.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -184,6 +206,7 @@ export default function LibsScreen() {
 				listItems[i] = updatedItem;
 			}
 		}
+		LibManager.libs = listItems;
 	}
 
 	// This function converts different date formats to a JavaScript Date object
@@ -229,8 +252,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < localItems.length; i += 10) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(10-(localItems.length-i))) }, lastDoc);
+		for (let i = 0; i < localItems.length; i += 100) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(100-(localItems.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -251,7 +274,8 @@ export default function LibsScreen() {
 			}
 		}
 		
-		setListItems(localItems)
+		setListItems(localItems);
+		LibManager.libs = localItems;
 	}
 
 	async function mergeLocalLibs(dbItems, sortBy) {
@@ -512,6 +536,7 @@ export default function LibsScreen() {
 								user={item.user}
 								local={item.local}
 								likesArray={item.likesArray}
+								playable={item.playable}
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}

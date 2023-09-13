@@ -222,11 +222,11 @@ export default function PlayScreen({ route }) {
 	const onSave = async () => {
 		console.log("1: " + JSON.stringify(currentLib));
 		let currentLib_ = JSON.parse(JSON.stringify(currentLib));
-		currentLib_.username = FirebaseManager.currentUserData.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "You";
 		currentLib_.published = false;
 		currentLib_.playable = false;
 		currentLib_.local = true;
 		currentLib_.date = new Date();
+		currentLib.official = false;
 		let readArray = []
         if (currentLib_) {
             let result = await FileManager._retrieveData("read");
@@ -236,7 +236,6 @@ export default function PlayScreen({ route }) {
             }
             readArray.push(currentLib_);
         }
-		currentLib_.id = readArray.length;
 		console.log("2: " + JSON.stringify(readArray));
         FileManager._storeData("read", JSON.stringify(readArray));
         showToast('Your lib has been stored on your device. Go to the Read tab to read your lib again!');
