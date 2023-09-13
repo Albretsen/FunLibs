@@ -25,10 +25,7 @@ function ListItem(props) {
     if (!uid) {
         uid = "";
     }
-    console.log("UID: " + uid);
-    console.log("Likesarray: " + JSON.stringify(likesArray));
     const [isLiked, setIsLiked] = useState(likesArray?.includes(uid));
-    console.log("ISLIKED: " + isLiked);
     const [likeCount, setLikeCount] = useState(likes || 0);
     const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();

@@ -10,6 +10,7 @@ export default class Analytics {
                 const stack = new Error().stack;
                 const callerName = stack.split('\n')[2].trim().split(' ')[1];
                 console.log(`[${callerName}] ${message}`);
+                if (message.includes("requires and index")) console.log("\n\n INDEX \n" + message + "\n\n INDEX")
             }
         } catch(error) {
             console.log("Logging error; aborting log call: " + error);

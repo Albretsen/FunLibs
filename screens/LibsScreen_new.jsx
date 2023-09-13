@@ -54,7 +54,6 @@ export default function LibsScreen() {
 		lastDocument = undefined
 	) {
 		setLoading(true);
-		//console.log("LASTDOCUMENT: " + JSON.stringify(lastDocument));
 
 		let localItems = [];
 		let updatedItems_ = [];
@@ -85,7 +84,6 @@ export default function LibsScreen() {
 			let dbResult = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
 			let dbItems = dbResult.data;
 
-			//console.log("LOCAL RESULT: " + JSON.stringify(localItems) + "\n\n\n\n" + JSON.stringify(dbItems))
 			// If both localItems and dbItems are empty, unload the list
 			if (localItems.length === 0 && (!dbItems || dbItems.length === 0)) {
 				if (!lastDocument) {
@@ -137,9 +135,7 @@ export default function LibsScreen() {
 					});
 	
 					// Ensure the updated list is sorted by newest
-					console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
 					if (filterOptions.sortBy === "likes") {
-						console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
 						updatedListItems.sort((a, b) => {						
 							return b.likes - a.likes;
 						});
@@ -213,9 +209,7 @@ export default function LibsScreen() {
 	async function updateOfficialDataInListItems(sortBy) {
 		let localItems = await loadLocalItems();
 		// Ensure the updated list is sorted by newest
-		console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
 		if (sortBy === "likes") {
-			console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
 			localItems.sort((a, b) => {						
 				return b.likes - a.likes;
 			});
@@ -265,9 +259,7 @@ export default function LibsScreen() {
 
 		let localItems = await loadLocalItems();
 		// Ensure the updated list is sorted by newest
-		console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
 		if (sortBy === "likes") {
-			console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
 			localItems.sort((a, b) => {						
 				return b.likes - a.likes;
 			});
@@ -369,7 +361,6 @@ export default function LibsScreen() {
 
 	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory, sortByValue = selectedSortBy, dateValue = selectedDate) => {
 		setListItems([]);
-		console.log("HERE !11111111111111111111111111111");
 		setLastDocument(null);
 		let filterOptions = {
 			category: categoryValue,

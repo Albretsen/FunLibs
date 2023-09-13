@@ -493,7 +493,6 @@ export default class FirebaseManager {
                 startDate = new Date(now.getFullYear(), 0, 1);
                 break;
             case "allTime":
-                console.log("SETTING TO ALL TIME");
                 startDate = new Date(now.getFullYear()-10, 0, 1);
                 break; // Leaving this comment here to note the historical significance of this break statement. I wasted hours debugging why the sort order wasn't working. The fix was adding this break statement. Who knows why my IDE wouldn't notify of a missing break statement though!!!!!!!!!
             default:
@@ -501,9 +500,7 @@ export default class FirebaseManager {
                 break;
         }
 
-        console.log("START DATE:::::::::::::::::::::::::::::::::: " + JSON.stringify(startDate));
         if (startDate) {
-            console.log("\n\n\n\n USING DATE ORDERING FOR QYERY \n\n\n\n\n");
             q = query(q, where("date", ">=", startDate));
             q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
         }
