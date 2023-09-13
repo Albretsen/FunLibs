@@ -65,16 +65,13 @@ export default class FirebaseManager {
             try {
                 switch (signUpMethod) {
                     case "email":
-                        console.log("here 1");
                         const user = await this.CreateUserWithEmailAndPassword(email, password);
-                        console.log("here 3");
                         await this.AddDocumentToCollection("users", {
                             email: email,
                             username: username,
                             avatarID: avatarID
                         }, 
                         this.currentUserData.auth.uid);
-                        console.log("here 2");
                         Analytics.log("Successfully created user");
                         resolve(user);
                         break;
@@ -85,7 +82,6 @@ export default class FirebaseManager {
                         break;
                 }
             } catch (error) {
-                console.log("ERROR HEREFDSLKFDSLKJFDSLKJ: " + error)
                 reject(error);
             }
         });
@@ -172,9 +168,7 @@ export default class FirebaseManager {
             uid = this.currentUserData.auth.uid;
         }
         try {
-            console.log("READING FOR UID: " + uid);
             if (uid) {
-                console.log("FETCHING USER DATA FOR: " + uid);
                 const userDocSnap = await getDoc(doc(db, "users", uid));
                 if (userDocSnap.exists()) {
                     this.currentUserData.firestoreData = userDocSnap.data();
@@ -423,7 +417,6 @@ export default class FirebaseManager {
                 }
                 break;
             case "myContent":
-                console.log("DOING MY CONTENT PATH");
                 localResult = await FileManager._retrieveData("my_content");
                 if (localResult) { 
                     localResult = JSON.parse(localResult).filter(item => item.playable === true);
@@ -432,7 +425,6 @@ export default class FirebaseManager {
                 }
                 if (lastVisibleDoc) localResult = [];
                 if (this.currentUserData?.auth) {
-                    console.log("IT PRINTED THIS: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 } else {
                     q = query(q, where("user", "==", "not logged in"));
@@ -447,16 +439,13 @@ export default class FirebaseManager {
             if (filterOptions.playable) {
                 q = query(q, where("playable", "==", filterOptions.playable));
             } else {
-                console.log("SHOW LOCAL READ!!!!!");
                 //if (lastVisibleDoc?.local) return;
                 localResult = await FileManager._retrieveData("read");
-                console.log("LOCAL RESULT :::: " + localResult);
                 if (localResult) { 
                     localResult = JSON.parse(localResult);
                 } else {
                     localResult = [];
                 }
-                console.log("LOCAL RESULT: " + localResult);
                 localResult.reverse();
                 return {
                     data: localResult,
@@ -484,7 +473,6 @@ export default class FirebaseManager {
         const now = new Date();
         let startDate;
 
-        console.log("DATE RIANGSNGDSNSGDNGSFNGFNGF: " + JSON.stringify(filterOptions));
         switch (filterOptions.dateRange) {
             case "today":
                 startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -646,8 +634,8 @@ export default class FirebaseManager {
         }
     }
 
-    static async RefreshList(value) {
-        this.authStateListeners.forEach(listener => listener(value));
+    static async RefreshList(filterOptions) {
+        this.authStateListeners.forEach(listener => listener(filterOptions));
     }
 
     static async generateMockData(numAccounts, numPostsPerAccount) {
@@ -679,7 +667,6 @@ export default class FirebaseManager {
     }
 
     static async convertDateStringsToTimestamps() {
-        console.log("CONVERTING TO TIMESTAMP");
         // Get all documents from the 'posts' collection
         const postsCollectionRef = collection(db, 'posts');
         const snapshot = await getDocs(postsCollectionRef);
