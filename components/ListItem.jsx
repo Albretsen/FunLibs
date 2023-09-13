@@ -21,7 +21,14 @@ function ListItem(props) {
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
-    const [isLiked, setIsLiked] = useState(likesArray?.includes(FirebaseManager.currentUserData.auth?.uid));
+    let uid = FirebaseManager.localUID;
+    if (!uid) {
+        uid = "";
+    }
+    console.log("UID: " + uid);
+    console.log("Likesarray: " + JSON.stringify(likesArray));
+    const [isLiked, setIsLiked] = useState(likesArray?.includes(uid));
+    console.log("ISLIKED: " + isLiked);
     const [likeCount, setLikeCount] = useState(likes || 0);
     const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();

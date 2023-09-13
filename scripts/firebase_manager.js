@@ -150,6 +150,7 @@ export default class FirebaseManager {
                 // User is signed in
                 const uid = user.uid;
                 this.currentUserData.auth = user;
+                FileManager._storeData("uid", uid);
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
@@ -695,6 +696,10 @@ export default class FirebaseManager {
         console.log('Date conversion completed.');
     }
 
+    static setLocalUID = async () => {
+        this.localUID = await FileManager._retrieveData("uid");
+    }
+
     static avatars = {
         0: require('../assets/images/avatars/0.png'),
         1: require('../assets/images/avatars/1.png'),
@@ -732,6 +737,7 @@ export default class FirebaseManager {
 }
 
 // Sets auth state listener
+FirebaseManager.setLocalUID();
 FirebaseManager.OnAuthStateChanged();
 //FirebaseManager.convertDateStringsToTimestamps();
 
