@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -140,6 +140,14 @@ export default function CreateLibScreen({ route }) {
     useEffect(() => {
         if (finishedLib) {
             openDrawer({
+                header: {
+                    middleComponent: (
+                        <View style={{flex: 1}}>
+                            <Text style={{fontSize: 18}}>{libNameTextRef.current}</Text>
+                            <Text style={{fontSize: 14}}>By You</Text>
+                        </View>
+                    )
+                },
                 component: saveDrawerContent
             });
         }
@@ -169,15 +177,25 @@ export default function CreateLibScreen({ route }) {
     let publishDialog = () => {
         // setShowDialogPublish(true);
         openDrawer({
+            header: {
+                title: "Publish Lib?"
+            },
             component: (
                 <>
                     <ScrollView>
                         <View style={[globalStyles.drawerTop, {height: "100%"}]}>
                             <Text style={styles.paragraph}>
-                                {"Do you want to publish your story so that other users can play it? Users will be able to enjoy your story, and share their whacky libs with the world!"}
+                                {"By publishing your story, everyone gets to create all sorts of whacky and hilarious stories, thanks to you!"}
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                {"If you don't want to publish your story, you can simply save it locally to your device."}
                             </Text>
                         </View>
                     </ScrollView>
+                    <Image
+                        style={{height: 180, width: 170}}
+                        source={require("../assets/images/girl-with-balloon.svg")}
+                    />
                     <DrawerActions
                         onPublish={() => {
                             publishSaveLib();
@@ -186,7 +204,7 @@ export default function CreateLibScreen({ route }) {
                         onSave={() => {
                             localSaveLib();
                         }}
-                        saveLabel={editLibID ? "Save Changes to Device" : "Save to Device" }
+                        saveLabel={editLibID ? "Save Changes to Device" : "No, just save to Device" }
                     />
                 </>
             )
@@ -373,16 +391,13 @@ export default function CreateLibScreen({ route }) {
         <>      
             <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
                 <View style={globalStyles.drawerTop}>
-                    <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text>
+                    {/* <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text> */}
                     {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
                 </View>
             </ScrollView>
             <DrawerActions
-				// onPublish={onPublish}
-				// onShare={onShare}
 				onSave={publishDialog}
                 onDelete={deleteLib}
-				// onFavorite={onFavorite}
 			/>
         </>
     )
