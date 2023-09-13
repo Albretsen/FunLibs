@@ -99,14 +99,6 @@ export default function LibsScreen() {
 			if (dbItems && dbItems.length > 0) {
 				// Update the list with database data
 				setListItems(prevListItems => {
-					console.log("------------- PREVLIST ------------------");
-					prevListItems.forEach(element => {
-						console.log(element.name);
-					})
-					console.log("------------- DBLIST ------------------");
-					dbItems.forEach(element => {
-						console.log(element.name);
-					})
 					// Create a copy of the previous list items
 					const updatedListItems = [...prevListItems];
 
@@ -131,11 +123,6 @@ export default function LibsScreen() {
 						dbItems = mergedItems;
 					}
 
-					console.log("------------- DBLIST AFTER MERGE ------------------");
-					dbItems.forEach(element => {
-						console.log(element.name);
-					})
-
 					// Update the lastDocument state for pagination
 					setLastDocument(dbResult.lastDocument);
 
@@ -149,19 +136,22 @@ export default function LibsScreen() {
 					});
 	
 					// Ensure the updated list is sorted by newest
-					updatedListItems.sort((a, b) => {
-						const dateA = convertToDate(a.date);
-						const dateB = convertToDate(b.date);
-					
-						return dateB.getTime() - dateA.getTime();
-					});
+					console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
+					if (filterOptions.sortBy === "likes") {
+						console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
+						updatedListItems.sort((a, b) => {						
+							return b.likes - a.likes;
+						});
+					} else {
+						updatedListItems.sort((a, b) => {
+							const dateA = convertToDate(a.date);
+							const dateB = convertToDate(b.date);
+						
+							return dateB.getTime() - dateA.getTime();
+						});
+					}
 
-					mergeLocalLibs(dbItems);
-					
-					console.log("------------- UPDATED LIST ITEMS BEFORE RETURN ------------------");
-					updatedListItems.forEach(element => {
-						console.log(element.name);
-					})
+					mergeLocalLibs(dbItems, filterOptions.selectedSortBy);
 					
 					return updatedListItems;
 				});
@@ -173,7 +163,7 @@ export default function LibsScreen() {
 	
 		setLoading(false);
 		setIsLoading(false);
-		if (filterOptions.category === "official") updateOfficialDataInListItems();
+		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy);
 		else updateDataInListItems();
 	}
 
@@ -218,14 +208,23 @@ export default function LibsScreen() {
 		return new Date(0); // This is 1970-01-01
 	};
 
-	async function updateOfficialDataInListItems() {
+	async function updateOfficialDataInListItems(sortBy) {
 		let localItems = await loadLocalItems();
-		localItems.sort((a, b) => {
-			const dateA = convertToDate(a.date);
-			const dateB = convertToDate(b.date);
-
-			return dateB.getTime() - dateA.getTime();
-		});
+		// Ensure the updated list is sorted by newest
+		console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
+		if (sortBy === "likes") {
+			console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
+			localItems.sort((a, b) => {						
+				return b.likes - a.likes;
+			});
+		} else {
+			localItems.sort((a, b) => {
+				const dateA = convertToDate(a.date);
+				const dateB = convertToDate(b.date);
+			
+				return dateB.getTime() - dateA.getTime();
+			});
+		}
 
 		// Extract IDs from localItems
 		const localItemIds = localItems.map(item => item.id);
@@ -258,17 +257,26 @@ export default function LibsScreen() {
 		setListItems(localItems)
 	}
 
-	async function mergeLocalLibs(dbItems) {
+	async function mergeLocalLibs(dbItems, sortBy) {
 		// Create a map to store items by their ID
 		const itemsMap = {};
 
 		let localItems = await loadLocalItems();
-		localItems.sort((a, b) => {
-			const dateA = convertToDate(a.date);
-			const dateB = convertToDate(b.date);
-
-			return dateB.getTime() - dateA.getTime();
-		});
+		// Ensure the updated list is sorted by newest
+		console.log(":::::::::::::::::::::::::::: " + selectedSortBy);
+		if (sortBy === "likes") {
+			console.log("SORTING TOP ::::::::::::::::::::::::::::::::::::::::::");
+			localItems.sort((a, b) => {						
+				return b.likes - a.likes;
+			});
+		} else {
+			localItems.sort((a, b) => {
+				const dateA = convertToDate(a.date);
+				const dateB = convertToDate(b.date);
+			
+				return dateB.getTime() - dateA.getTime();
+			});
+		}
 
 		// Iterate over updatedListItems and store each item in the map
 		for (const item of localItems) {
@@ -490,7 +498,7 @@ export default function LibsScreen() {
 				</View>
 			) : (<>
 					<FlatList
-						data={[...listItems]}
+						data={listItems}
 						renderItem={({ item, index }) => (
 							<ListItem
 								name={item.name}
