@@ -88,7 +88,7 @@ export default function NewAccountScreen() {
                 })
                 .catch(error => {
                     const errorMessage = FirebaseManager.getCreateAccountErrorMessage(error.code);
-                    console.log("Error creating account: ", errorMessage);
+                    console.log("Error creating account: ", error.message);
 
                     switch (error.code) {
                         case 'auth/email-already-in-use':
@@ -110,7 +110,7 @@ export default function NewAccountScreen() {
                 });
         } catch (error) {
             const errorMessage = FirebaseManager.getCreateAccountErrorMessage(error.code);
-            console.log("Error creating account: ", errorMessage);
+            console.log("Error creating account: ", error.message);
             showToast(errorMessage);
         }
     }

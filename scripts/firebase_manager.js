@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
 import { Platform } from 'react-native';
@@ -66,12 +66,11 @@ export default class FirebaseManager {
                 switch (signUpMethod) {
                     case "email":
                         const user = await this.CreateUserWithEmailAndPassword(email, password);
-                        await this.AddDocumentToCollection("users", {
-                            email: email,
-                            username: username,
-                            avatarID: avatarID
-                        }, 
-                        this.currentUserData.auth.uid);
+                        await this.UpdateUserAuthProfile({
+                            displayName: username,
+                            photoURL: avatarID
+                        }, user);
+                        await this.fetchUserData();
                         Analytics.log("Successfully created user");
                         resolve(user);
                         break;
@@ -156,6 +155,8 @@ export default class FirebaseManager {
             } else {
                 // User is signed out
                 this.currentUserData = { auth: null, firestoreData: null }; // Reset the field to null
+                this.localUID = "";
+                await FileManager._storeData("uid", "");
                 this.RefreshList(null);
                 Analytics.log("Auth stated changed to Signed out");
             }
@@ -163,11 +164,25 @@ export default class FirebaseManager {
     }
 
     static async fetchUserData() {
+        console.log("FETCHING USER DATA");
         let uid = null;
         if (this.currentUserData.auth) {
             uid = this.currentUserData.auth.uid;
         }
-        try {
+        this.currentUserData = {
+            auth: auth.currentUser,
+            firestoreData: {
+                email:"",
+                username:"",
+                avatarID:"",
+            }
+        };
+        this.currentUserData.firestoreData.email = this.currentUserData.auth.email;
+        this.currentUserData.firestoreData.username = this.currentUserData.auth.displayName;
+        this.currentUserData.firestoreData.avatarID = this.currentUserData.auth.photoURL;
+
+        console.log("DATA: " + JSON.stringify(this.currentUserData));
+        /*try {
             if (uid) {
                 const userDocSnap = await getDoc(doc(db, "users", uid));
                 if (userDocSnap.exists()) {
@@ -186,7 +201,7 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
             this.currentUserData = null;
-        }
+        }*/
     }
 
     static async updatePassword(newPassword) {
@@ -198,6 +213,30 @@ export default class FirebaseManager {
             Analytics.log("Error updating password: " + error.message);
             throw error; // Re-throw the error so it can be caught and handled by the caller
         }
+    }
+
+    static UpdateUserAuthProfile(profileData, user) {
+        let uid = user.uid;
+        return new Promise((resolve, reject) => {
+            if (!user) {
+                const error = new Error('User not found');
+                Analytics.log("Error updating profile " + error.message);
+                reject(error);
+                return;
+            }
+
+            updateProfile(user, profileData)
+                .then(() => {
+                    Analytics.log("Updated profile for " + uid);
+                    this.currentUserData.auth = auth.user;
+                    this.RefreshList(null);
+                    resolve('Profile updated successfully');
+                })
+                .catch((error) => {
+                    this.RefreshList(null);
+                    Analytics.log("Error updating profile " + error.message);
+                });
+        });
     }
 
     static async sendPasswordResetEmail(email) {

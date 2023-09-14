@@ -110,12 +110,9 @@ export default function LibsScreen() {
 
 					return dateB.getTime() - dateA.getTime();
 				});
-
-				console.log("SETTING READ");
 				setListItems(localItems);
 			} catch (error){
 				setListItems([]);
-				console.log("READ FAILED: " + error);
 			}
 			setLoading(false);
 			return;
@@ -216,7 +213,7 @@ export default function LibsScreen() {
 		setLoading(false);
 		setIsLoading(false);
 		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy);
-		else updateDataInListItems(updatedItems_);
+		//else updateDataInListItems(updatedItems_);
 	}
 
 	async function updateDataInListItems(items) {
@@ -356,7 +353,6 @@ export default function LibsScreen() {
 		// Add a listener to the Auth state change event
 		const authStateListener = (filterOptions) => {
 			if (filterOptions) {
-				console.log("LISTENING FILTER OPTIONS: " + JSON.stringify(filterOptions));
 				if (filterOptions.category) {
 					selectedCategoryRef.current = filterOptions.category;
 				}
@@ -370,7 +366,6 @@ export default function LibsScreen() {
 					playReadValueRef.current = filterOptions.playable;
 				}
 			}
-			console.log("PLAY READ VALUE: " + playReadValueRef.current);
 			loadListItems({"category":selectedCategoryRef.current,"sortBy":selectedSortByRef.current,"dateRange":selectedDateRef.current,"playable":playReadValueRef.current});
 		};
 		FirebaseManager.addAuthStateListener(authStateListener);

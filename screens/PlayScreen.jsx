@@ -246,7 +246,7 @@ export default function PlayScreen({ route }) {
 	const [fillAvailable, setFillAvailable] = useState(true);
 	function promptFillCheck(index) {
 		// Check if prompt fill is available
-		if (!index || index < 0) return;
+		if (index < 0 || index === undefined || index === null) return;
 		let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[index])[0]);
 		if (fill.length < 1) {
 			setFillAvailable(false);
@@ -312,13 +312,13 @@ export default function PlayScreen({ route }) {
 			setIsUpdating(false);
 			return;
         } else {
-            showToast("Added to your favorites!")
-            playAudio("pop");
             updatedLikesArray.push(userUid);
         }
 
         try {
             await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
+			showToast("Added to your favorites!")
+            playAudio("pop");
             currentLib.likesArray = updatedLikesArray;
         } catch (error) {
             console.error("Failed to update likes in Firebase:", error);
