@@ -57,9 +57,9 @@ export default function CreateLibScreen({ route }) {
                         },
                         children: (
                             <>
-                                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>You have unsaved progress!</Text>
+                                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Unsaved progress!</Text>
                                 <Text style={{ textAlign: 'center', marginTop: 10 }}>
-                                    Continue editing, or discard changes?
+                                    Do you want to continue writing, or discard the changes?
                                 </Text>
                             </>
                         ),
