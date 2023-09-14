@@ -83,6 +83,11 @@ export default function SignInScreen() {
 							/>
 						</TouchableOpacity>
                     </View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("ResetPasswordScreen");
+                    }}>
+                        <Text style={[globalStyles.bigWhitespace, { marginBottom: 20 }]}>Forgot password?</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={signIn}>
                         <Text style={globalStyles.formButtonLabel}>Sign in</Text>
                     </TouchableOpacity>

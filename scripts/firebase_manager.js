@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail  } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
 import { Platform } from 'react-native';
@@ -196,6 +196,19 @@ export default class FirebaseManager {
             Analytics.log("Password updated successfully for user " + user.uid);
         } catch (error) {
             Analytics.log("Error updating password: " + error.message);
+            throw error; // Re-throw the error so it can be caught and handled by the caller
+        }
+    }
+
+    static async sendPasswordResetEmail(email) {
+        if (!email) {
+            email = FirebaseManager.currentUserData?.auth?.email;
+        }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            Analytics.log(`Password reset email sent to ${email}`);
+        } catch (error) {
+            Analytics.log(`Error sending password reset email: ${error.message}`);
             throw error; // Re-throw the error so it can be caught and handled by the caller
         }
     }
