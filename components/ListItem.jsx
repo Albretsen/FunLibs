@@ -27,6 +27,10 @@ function ListItem(props) {
         uid = "";
     }
     const [isLiked, setIsLiked] = useState(likesArray?.includes(uid));
+    useEffect(() => {
+        const currentUid = FirebaseManager.currentUserData?.auth?.uid || FirebaseManager.localUID || "";
+        setIsLiked(likesArray?.includes(currentUid));
+    }, [FirebaseManager.currentUserData]);
     const [likeCount, setLikeCount] = useState(likes || 0);
     const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();
