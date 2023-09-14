@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
@@ -19,6 +19,9 @@ import FileManager from "../scripts/file_manager";
 import Analytics from "../scripts/analytics";
 import { requestReview } from "../scripts/store_review";
 import { DialogTrigger, useDialog } from "../components/Dialog";
+import AudioPlayer from "../scripts/audio";
+import { HeaderBackButton } from '@react-navigation/stack';
+import { Ionicons } from '@expo/vector-icons';
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -26,9 +29,7 @@ function isNum(n) {
 
 export default function PlayScreen({ route }) {
 
-	useFocusEffect(() => {
-		//AdManager.showAd("interstitial");
-	});
+	const { playAudio } = AudioPlayer();
 
 	const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
@@ -71,7 +72,15 @@ export default function PlayScreen({ route }) {
 	// Keep track of current prompt index, user responses and current input
 	const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
 	const [responses, setResponses] = useState([]);
+	const responsesRef = useRef(responses);
+	useEffect(() => {
+		responsesRef.current = responses;
+	  }, [responses]);
 	const [currentInput, setCurrentInput] = useState("");
+	const currentInputRef = useRef(currentInput);
+	useEffect(() => {
+		currentInputRef.current = currentInput;
+	  }, [currentInput]);
 	const [finishedLib, displayLib] = useState([]);
 
 	// Calculate progress
@@ -184,6 +193,46 @@ export default function PlayScreen({ route }) {
 		}
 	};
 
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: (props) => {
+				const { onPress } = props;  // Extract default onPress
+	
+				return (
+					<TouchableOpacity onPress={async () => {
+						let progressFound = await handleSaveProgress();
+						if (progressFound) {
+							openDialog('savedChangesDialog', {
+								onCancel: () => {
+									onPress();
+								},
+								onConfirm: () => {
+									
+								},
+								children: (
+									<>
+										<Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Unsaved progress!</Text>
+										<Text style={{ textAlign: 'center', marginTop: 10 }}>
+											Do you want to continue writing, or discard the progress?
+										</Text>
+									</>
+								),
+								cancelLabel: "Discard",  // Custom text for the cancel button
+								confirmLabel: "Continue"  // Custom text for the confirm button
+							});
+						} else {
+							onPress();
+						}
+					}}
+					style={{ marginLeft: 10 }} 
+					>
+						<Ionicons name="arrow-back" size={24} color="black" />
+					</TouchableOpacity>
+				);
+			},
+		});
+	}, [navigation]);
+
 	const handleBack = () => {
 		if (currentPromptIndex > 0) {
 			// If there are previous prompts, show the previous one
@@ -241,6 +290,8 @@ export default function PlayScreen({ route }) {
         navigation.navigate("Home");
 	}
 
+	const [isUpdating, setIsUpdating] = useState(false);
+
 	const onFavorite = async () => {
         if (isUpdating) return;  // Prevent further interactions while updating
         if (!FirebaseManager.currentUserData?.auth?.uid) {
@@ -251,32 +302,46 @@ export default function PlayScreen({ route }) {
         setIsUpdating(true);
 
         const userUid = FirebaseManager.currentUserData.auth.uid;
-        let isUserLiked = localLikesArray.includes(userUid);
-        let updatedLikesArray = [...localLikesArray];
+		console.log(currentLib);
+        let isUserLiked = currentLib.likesArray.includes(userUid);
+        let updatedLikesArray = [...currentLib.likesArray];
 
         if (isUserLiked) {
-            setIsLiked(false);
-            setLikeCount(likeCount - 1);
+            showToast("This text is already in your favorites!")
             updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
+			setIsUpdating(false);
+			return;
         } else {
-            setIsLiked(true);
-            setLikeCount(likeCount + 1);
+            showToast("Added to your favorites!")
             playAudio("pop");
             updatedLikesArray.push(userUid);
         }
 
         try {
-            await FirebaseManager.updateLikesWithTransaction(id, userUid);
-            setLocalLikesArray(updatedLikesArray);  // Update the local state
+            await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
+            currentLib.likesArray = updatedLikesArray;
         } catch (error) {
             console.error("Failed to update likes in Firebase:", error);
             // Revert the UI changes
-            setIsLiked(isUserLiked);
-            setLikeCount(isUserLiked ? likeCount - 1 : likeCount + 1);
         } finally {
             setIsUpdating(false);  // Allow further interactions
         }
     };
+
+	const handleSaveProgress = () => {
+		try {
+			if (responsesRef.current.length > 0 || currentInputRef.current.length > 0) {
+				responsesRef.current.push(currentInputRef.current);
+				setResponses(responsesRef.current)
+				return true;
+			}
+		} catch (err) {
+			console.log(err);
+			return false;
+		}
+		return false;
+	}
+
 	const { openDrawer, closeDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
