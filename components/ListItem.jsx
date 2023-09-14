@@ -181,7 +181,7 @@ function ListItem(props) {
     useEffect(() => {
         if (isInitialRender.current) {
           Animated.sequence([
-            Animated.delay(index * 50),
+            Animated.delay(index * 5),
             Animated.timing(fadeAnim, {
               toValue: 1,
               duration: 400,

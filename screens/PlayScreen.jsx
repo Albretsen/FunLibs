@@ -236,7 +236,7 @@ export default function PlayScreen({ route }) {
             readArray.push(currentLib_);
         }
         FileManager._storeData("read", JSON.stringify(readArray));
-        showToast('Your lib has been stored on your device. Go to the Read tab to read your lib again!');
+        showToast('Your story is saved under Read!');
         closeDrawer();
         navigation.navigate("Home");
 	}
@@ -256,7 +256,6 @@ export default function PlayScreen({ route }) {
 				</View>
 			</ScrollView>
 			<DrawerActions
-				onPublish={onPublish}
 				onShare={onShare}
 				onSave={onSave}
 				onFavorite={onFavorite}

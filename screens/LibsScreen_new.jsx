@@ -44,7 +44,9 @@ export default function LibsScreen() {
 	const playReadValueRef = useRef(playReadValue);
 	useEffect(() => {
 		playReadValueRef.current = playReadValue;
-	  }, [playReadValue]);
+	}, [playReadValue]);
+
+	const currentTokenRef = useRef(null);
 
 	const [listObjects, setListObjects] = useState([]);
 	const [listItems, setListItems] = useState([]);
@@ -69,6 +71,10 @@ export default function LibsScreen() {
 		},
 		lastDocument = undefined
 	) {
+		const thisCallToken = Math.random().toString();
+		currentTokenRef.current = thisCallToken;
+
+		if (currentTokenRef.current !== thisCallToken) return;
 		setLoading(true);
 
 		let localItems = [];
@@ -80,6 +86,7 @@ export default function LibsScreen() {
 			filterOptions.playable === true
 		) {
 			localItems = await loadLocalItems();
+			if (currentTokenRef.current !== thisCallToken) return;
 			try {
 				localItems.sort((a, b) => {
 					const dateA = convertToDate(a.date);
@@ -94,6 +101,7 @@ export default function LibsScreen() {
 			}
 		} else if (filterOptions.playable === false) {
 			localItems = await FileManager._retrieveData("read");
+			if (currentTokenRef.current !== thisCallToken) return;
 			if (localItems) localItems = JSON.parse(localItems);
 			try {
 				localItems.sort((a, b) => {
@@ -120,11 +128,13 @@ export default function LibsScreen() {
 
 		try {
 			let dbResult = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
+			if (currentTokenRef.current !== thisCallToken) return;
 			let dbItems = dbResult.data;
 
 			// If both localItems and dbItems are empty, unload the list
 			if (localItems.length === 0 && (!dbItems || dbItems.length === 0)) {
 				if (!lastDocument) {
+					if (currentTokenRef.current !== thisCallToken) return;
 					setListItems([]);
 				}
 				setLastDocument(undefined);
@@ -135,6 +145,7 @@ export default function LibsScreen() {
 			
 			if (dbItems && dbItems.length > 0) {
 				// Update the list with database data
+				if (currentTokenRef.current !== thisCallToken) return;
 				setListItems(prevListItems => {
 					// Create a copy of the previous list items
 					const updatedListItems = [...prevListItems];
@@ -161,6 +172,7 @@ export default function LibsScreen() {
 					}
 
 					// Update the lastDocument state for pagination
+					if (currentTokenRef.current !== thisCallToken) return;
 					setLastDocument(dbResult.lastDocument);
 
 					dbItems.forEach(dbItem => {
@@ -186,8 +198,10 @@ export default function LibsScreen() {
 						});
 					}
 
+					if (currentTokenRef.current !== thisCallToken) return;
 					mergeLocalLibs(dbItems, filterOptions.selectedSortBy);
 					
+					if (currentTokenRef.current !== thisCallToken) return;
 					updatedItems_ = updatedListItems;
 					LibManager.libs = updatedListItems;
 					return updatedListItems;
@@ -197,7 +211,8 @@ export default function LibsScreen() {
 			console.error("Error fetching data from database:", error);
 			// Handle the error as needed, e.g., show a notification to the user
 		}
-	
+		
+		if (currentTokenRef.current !== thisCallToken) return;
 		setLoading(false);
 		setIsLoading(false);
 		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy);
@@ -466,6 +481,16 @@ export default function LibsScreen() {
 		setData(sortedData);
 	};
 
+	function renderFooter() {
+		if (!loading || true) return null;  // Only display the footer when data is being loaded
+
+		return (
+			<View style={{ flex: 1, padding: 10, marginTop: 20 }}>
+				<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>
+			</View>
+		);
+	}
+
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard]}>
 			<View style={[globalStyles.containerWhitespace, {
@@ -580,6 +605,7 @@ export default function LibsScreen() {
 						}, lastDocument)} // Call the loadListItems function when the end is reached
 						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
 						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>}
+						ListFooterComponent={renderFooter}
 					/>
 				<BottomSheet
 					ref={bottomSheetRef}
