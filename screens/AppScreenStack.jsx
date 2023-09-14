@@ -13,6 +13,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
 import { useNavigation } from '@react-navigation/native';
 import ResetPasswordScreen from "./ResetPasswordScreen";
+import { BackHandler } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,39 @@ export default function AppScreenStack() {
             FirebaseManager.removeAuthStateListener(authStateListener);
         };
     }, []);
+
+	useEffect(() => {
+		console.log("USE EFFECT 2 \n\n\n\n\n\n\n");
+        // Android hardware back press
+        const handleBackPress = () => {
+			console.log("HANDLE BACK PRES \n\n\n\n\n\n")
+            const currentRouteName = navigation.getCurrentRoute().name;
+
+            if (currentRouteName === 'Home') {
+                // Prevent going back to the SplashScreen
+                return true;
+            }
+            return false;
+        };
+
+        // Add event listener for Android hardware back button
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+        // Add event listener for in-app navigation back press
+        const removeBeforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
+            const currentRouteName = e.data.state.routes[e.data.state.index].name;
+			console.log("CURRENT ROUTE NAME: " + currentRouteName);
+            if (currentRouteName === 'Home') {
+                e.preventDefault(); // Prevents the default navigation action (i.e., going back)
+            } 
+        });
+
+        // Cleanup
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+            removeBeforeRemoveListener();  // Remove the navigation listener
+        };
+    }, [navigation]);
 
 	const avatarSrc = (FirebaseManager.currentUserData.firestoreData) 
 	? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
@@ -121,6 +155,16 @@ export default function AppScreenStack() {
 							/>
 						</View>
 					),
+					headerLeft: (props) => {
+						return (
+							<TouchableOpacity onPress={() => {
+								// You can add your logic here. For instance:
+								console.log("TEST");
+							}}>
+								<Text>Back</Text>
+							</TouchableOpacity>
+						);
+					},
 					headerTitleAlign: "center",
 					headerStyle: standardHeaderStyle,
 				}}

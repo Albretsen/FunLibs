@@ -54,21 +54,6 @@ export default function DeleteAccountScreen() {
                 <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
 				    This will reset your password.
 			    </Text>
-                <TouchableOpacity onPress={() => {
-                    if (!FirebaseManager.currentUserData?.auth?.email) {
-                        showToast("Please enter your email!");
-                        return;
-                    }
-					navigation.navigate("Home");
-                    try {
-                        FirebaseManager.sendPasswordResetEmail(email);
-                    } catch {
-                        showToast("There was an error. Please try again later.")
-                    }
-                    showToast("A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email);
-				}}>
-					<Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>Send a password reset email</Text>
-				</TouchableOpacity>
                 <View style={globalStyles.form}>
                     <View style={globalStyles.formField}>
                         <TextInput
@@ -81,104 +66,21 @@ export default function DeleteAccountScreen() {
                         />
                         <Text style={[globalStyles.formSupportText, globalStyles.formErrorText]}>{emailError}</Text>
                     </View>
-                    <View style={globalStyles.formField}>
-                        <View style={{position: "relative"}}>
-                            <TextInput
-                                label="Old Password"
-                                secureTextEntry={passwordVisible}
-                                value={password}
-                                onChangeText={password => setPassword(password)}
-                                mode="outlined"
-                                theme={{colors:{primary: '#49454F'}}}
-                                style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
-                            />
-                            <Text style={[globalStyles.formSupportText, globalStyles.formErrorText]}>{passwordError}</Text>
-                            <TouchableOpacity 
-                                onPress={() => setPasswordVisible(!passwordVisible)}
-                                style={globalStyles.inputRightIcon}
-                            >
-                                <MaterialIcons
-                                    name={passwordVisible ? "visibility" : "visibility-off"}
-                                    size={22}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={globalStyles.formField}>
-                        <View style={{position: "relative"}}>
-                            <TextInput
-                                label="New Password"
-                                secureTextEntry={passwordVisible}
-                                value={newPassword}
-                                onChangeText={newPassword => setNewPassword(newPassword)}
-                                mode="outlined"
-                                theme={{colors:{primary: '#49454F'}}}
-                                style={[globalStyles.bigWhitespace, {paddingRight: 30}]}
-                            />
-                            <TouchableOpacity 
-                                onPress={() => setPasswordVisible(!passwordVisible)}
-                                style={globalStyles.inputRightIcon}
-                            >
-                                <MaterialIcons
-                                    name={passwordVisible ? "visibility" : "visibility-off"}
-                                    size={22}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
-                        const passwordErrors = validatePassword(newPassword);
-                        if (passwordErrors.length > 0) {
-                            showToast(passwordErrors.join('\n\n'));
+                        if (!FirebaseManager.currentUserData?.auth?.email || !email) {
+                            showToast("Please enter your email!");
                             return;
                         }
+                        navigation.navigate("Home");
                         try {
-                            if (email !== FirebaseManager.currentUserData?.auth?.email) {
-                                // showToast("Email does not matched the signed in account");
-                                setEmailError("Email does not match the signed in account");
-                                return;
-                            }
-                            let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
-                            if (!result?.uid) {
-                                console.log("Wrong credentials");
-                                return;
-                            }
-                            showToast("Your password has been reset.");
-                            navigation.navigate("Home");
-                        } catch (error) {
-                            const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
-                            setEmailError("");
-                            setPasswordError("");
-                            switch (error.code) {
-                                case 'auth/wrong-password':
-                                    setPasswordError("Wrong password!")
-                                    break;
-                                case 'auth/user-not-found':
-                                    setEmailError("User not found.")
-                                    break;
-                                case 'auth/user-disabled':
-                                    setEmailError("User not found.")
-                                    break;
-                                case 'auth/invalid-email':
-                                    setEmailError("Please format your email correctly: example@email.com.")
-                                    break;
-                                case 'auth/operation-not-allowed':
-                                    break;
-                                case 'auth/too-many-requests':
-                                    break;
-                                case 'auth/missing-password':
-                                    setPasswordError("Please enter a password!")
-                                    break;
-                                default:
-                                    //Unknown erorr
-                                    break;
-                            }
-
-                            showToast(errorMessage);
+                            FirebaseManager.sendPasswordResetEmail(email);
+                        } catch {
+                            showToast("There was an error. Please try again later.")
                         }
+                        showToast("A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email);
                     }}>
-                        <Text style={[globalStyles.formButtonLabel]}>Reset</Text>
+                        <Text style={[globalStyles.formButtonLabel]}>Send Reset Password Email</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

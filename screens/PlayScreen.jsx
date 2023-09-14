@@ -135,7 +135,7 @@ export default function PlayScreen({ route }) {
 						middleComponent: (
 							<View style={{flex: 1}}>
 								<Text style={{fontSize: 18}}>{currentLib.name}</Text>
-								<Text style={{fontSize: 14}}>By You</Text>
+								<Text style={{fontSize: 14}}>by {currentLib.username}</Text>
 							</View>
 						)
 					},
@@ -241,10 +241,42 @@ export default function PlayScreen({ route }) {
         navigation.navigate("Home");
 	}
 
-	const onFavorite = () => {
-		console.log("Favorite");
-	};
+	const onFavorite = async () => {
+        if (isUpdating) return;  // Prevent further interactions while updating
+        if (!FirebaseManager.currentUserData?.auth?.uid) {
+            showToast("You have to be signed in to like a post.");
+            return;
+        }
 
+        setIsUpdating(true);
+
+        const userUid = FirebaseManager.currentUserData.auth.uid;
+        let isUserLiked = localLikesArray.includes(userUid);
+        let updatedLikesArray = [...localLikesArray];
+
+        if (isUserLiked) {
+            setIsLiked(false);
+            setLikeCount(likeCount - 1);
+            updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
+        } else {
+            setIsLiked(true);
+            setLikeCount(likeCount + 1);
+            playAudio("pop");
+            updatedLikesArray.push(userUid);
+        }
+
+        try {
+            await FirebaseManager.updateLikesWithTransaction(id, userUid);
+            setLocalLikesArray(updatedLikesArray);  // Update the local state
+        } catch (error) {
+            console.error("Failed to update likes in Firebase:", error);
+            // Revert the UI changes
+            setIsLiked(isUserLiked);
+            setLikeCount(isUserLiked ? likeCount - 1 : likeCount + 1);
+        } finally {
+            setIsUpdating(false);  // Allow further interactions
+        }
+    };
 	const { openDrawer, closeDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
