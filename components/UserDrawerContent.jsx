@@ -8,7 +8,10 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 		<View style={{ gap: 35, marginTop: 10 }}>
 			<Text style={{ fontSize: 15, fontWeight: 500, color: '#49454F', marginBottom: 5 }}>Security</Text>
 			{FirebaseManager.currentUserData.auth && (<>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => {
+					navigation.navigate("ResetPasswordScreen");
+					closeDrawer();
+				}}>
 					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Reset password</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => {

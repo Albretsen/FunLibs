@@ -12,6 +12,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
 import { useNavigation } from '@react-navigation/native';
+import ResetPasswordScreen from "./ResetPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -143,6 +144,14 @@ export default function AppScreenStack() {
 			<Stack.Screen
 				name="DeleteAccountScreen"
 				component={DeleteAccountScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: standardHeaderStyle,
+				}}
+			/>
+			<Stack.Screen
+				name="ResetPasswordScreen"
+				component={ResetPasswordScreen}
 				options={{
 					headerTitle: "",
 					headerStyle: standardHeaderStyle,
