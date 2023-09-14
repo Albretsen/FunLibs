@@ -6,7 +6,6 @@ import LibsHomeScreen from "./LibsHomeScreen";
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
 import DeleteAccountScreen from './DeleteAccountScreen';
-import SplashScreen from "./SplashScreen";
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -54,13 +53,6 @@ export default function AppScreenStack() {
 
     return (
 		<Stack.Navigator>
-			<Stack.Screen
-				name="SplashScreen"
-				component={SplashScreen}
-				options={{
-					headerShown: false
-				}}
-			/>
 			<Stack.Screen
 				name="Home"
 				component={LibsHomeScreen}
