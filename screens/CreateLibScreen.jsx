@@ -32,6 +32,8 @@ export default function CreateLibScreen({ route }) {
 
     const { openDialog } = useDialog();
 
+    const customPromptTextRef = useRef("");
+
     useFocusEffect(
         React.useCallback(() => {
             // This will run when the screen comes into focus
@@ -357,8 +359,9 @@ export default function CreateLibScreen({ route }) {
 
     // Dialog-related functions
 
-    let addCustomPrompt = () => {
-        addPrompt(customPromptText);
+    let addCustomPrompt = (text) => {
+        console.log("TESX:T " + text);
+        addPrompt(text);
     }
 
     const [showDialogCustom, setShowDialogCustom] = useState(false);
@@ -532,7 +535,7 @@ export default function CreateLibScreen({ route }) {
                     show={showDialogCustom}
                     onCancel={() => setShowDialogCustom(false)}
                     onConfirm={() => {
-                        addCustomPrompt();
+                        addCustomPrompt(customPromptTextRef.current);
                         setShowDialogCustom(false);
                     }}
                     confirmLabel="Add"
@@ -556,7 +559,10 @@ export default function CreateLibScreen({ route }) {
                         style={[globalStyles.input, globalStyles.inputSmall, {paddingHorizontal: 14, marginVertical: 10, fontSize: 18}]}
                         numberOfLines={1}
                         placeholder="Your prompt..."
-                        onChangeText={text => setCustomPromptText(text)}
+                        onChangeText={text => {  
+                            customPromptTextRef.current = text;
+                            setCustomPromptText(text) 
+                        }}
                     />
                 </DialogTrigger>
                 <DialogTrigger
