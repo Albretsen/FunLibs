@@ -260,10 +260,10 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate('Fun Libs');
+        //navigation.navigate('Fun Libs');
         FirebaseManager.RefreshList({
             category: "all"
-        })
+        });
     }
 
     let localSaveLib = async () => {
@@ -400,7 +400,8 @@ export default function CreateLibScreen({ route }) {
                 </View>
             </ScrollView>
             <DrawerActions
-				onSave={publishDialog}
+				onSave={publishSaveLib}
+                saveLabel={"Publish"}
                 onDelete={deleteLib}
 			/>
         </>

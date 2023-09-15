@@ -1,16 +1,69 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { Menu } from 'react-native-paper';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ScreenHeight, ScreenWidth } from '@rneui/base';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Dropdown( props ) {
-    const { options } = props;
+    const { options, selected } = props;
     const [visible, setVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("Official libs");
+    const [selectedOption, setSelectedOption] = useState(selected || "Official libs");
 
     const rotateAnim = useRef(new Animated.Value(0)).current;
+
+    useFocusEffect(
+        React.useCallback(() => {
+            // Force a state update or any other logic when the screen comes into focus
+            switch (selected) {
+                case "official":
+                    setSelectedOption("Official libs");
+                    break;
+                case "all":
+                    setSelectedOption("All libs");
+                    break;
+                case "All":
+                    setSelectedOption("All libs");
+                    break;
+                case "myFavorites":
+                    setSelectedOption("Favorite libs");
+                    break;
+                case "myContent":
+                    setSelectedOption("My libs");
+                    break;
+                default:
+                    console.log("USEFOCUESFEFET DEFUALT \n\n\n")
+                    setSelectedOption(selected);
+                    break;
+            }
+        }, [selected])
+    );
+
+    useEffect(() => {
+        console.log("SETTING TO: " + selected);
+        switch (selected) {
+            case "official":
+                setSelectedOption("Official libs");
+                break;
+            case "all":
+                setSelectedOption("All libs");
+                break;
+            case "All":
+                setSelectedOption("All libs");
+                break;
+            case "myFavorites":
+                setSelectedOption("Favorite libs");
+                break;
+            case "myContent":
+                setSelectedOption("My libs");
+                break;
+            default:
+                console.log("\n\n\n USE EFFECT DAFAITL");
+                setSelectedOption(selected);
+                break;
+        }
+    }, [selected]);
 
     const openMenu = () => {
         setVisible(true);

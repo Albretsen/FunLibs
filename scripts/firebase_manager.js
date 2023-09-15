@@ -469,12 +469,12 @@ export default class FirebaseManager {
                 }
                 break;
             case "myContent":
-                localResult = await FileManager._retrieveData("my_content");
+                /*localResult = await FileManager._retrieveData("my_content");
                 if (localResult) { 
                     localResult = JSON.parse(localResult).filter(item => item.playable === true);
                 } else {
                     localResult = [];
-                }
+                }*/
                 if (lastVisibleDoc) localResult = [];
                 if (this.currentUserData?.auth) {
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));

@@ -71,6 +71,10 @@ export default function LibsScreen() {
 		},
 		lastDocument = undefined
 	) {
+		if (filterOptions.category) { 
+			setSelectedCategory(filterOptions.category);
+			console.log("SET TO CATEGORY: " + filterOptions.category);
+		}
 		const thisCallToken = Math.random().toString();
 		currentTokenRef.current = thisCallToken;
 
@@ -529,7 +533,7 @@ export default function LibsScreen() {
 				/>
 			</View>
 			<View style={globalStyles.containerWhitespace}>
-				<Dropdown options={[
+				<Dropdown selected={selectedCategory} options={[
 					{
 						name: "Official libs",
 						onPress: () => { 

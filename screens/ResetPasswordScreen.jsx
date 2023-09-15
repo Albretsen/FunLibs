@@ -52,7 +52,7 @@ export default function DeleteAccountScreen() {
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
                 <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>Reset Password</Text>
                 <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
-				    This will reset your password.
+				    This will send you an email.
 			    </Text>
                 <View style={globalStyles.form}>
                     <View style={globalStyles.formField}>
@@ -80,7 +80,7 @@ export default function DeleteAccountScreen() {
                         }
                         showToast("A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email);
                     }}>
-                        <Text style={[globalStyles.formButtonLabel]}>Send Reset Password Email</Text>
+                        <Text style={[globalStyles.formButtonLabel]}>Send</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
