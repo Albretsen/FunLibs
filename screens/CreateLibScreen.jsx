@@ -426,7 +426,7 @@ export default function CreateLibScreen({ route }) {
                         value={libNameText}
                     />
                     <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
-                        <MaterialIcons style={{color: "#006d40"}} name="help" size={28} />
+                        <MaterialIcons style={{color: "#49454F"}} name="help" size={28} />
                     </TouchableOpacity>
                 </View>
 

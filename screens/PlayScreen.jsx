@@ -71,6 +71,10 @@ export default function PlayScreen({ route }) {
 
 	// Keep track of current prompt index, user responses and current input
 	const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+	const currentPromptIndexRef = useRef(currentPromptIndex);
+	useEffect(() => {
+		currentPromptIndexRef.current = currentPromptIndex;
+	  }, [currentPromptIndex]);
 	const [responses, setResponses] = useState([]);
 	const responsesRef = useRef(responses);
 	useEffect(() => {
@@ -201,7 +205,7 @@ export default function PlayScreen({ route }) {
 				return (
 					<TouchableOpacity onPress={async () => {
 						let progressFound = await handleSaveProgress();
-						if (progressFound) {
+						if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
 							openDialog('savedChangesDialog', {
 								onCancel: () => {
 									onPress();
@@ -302,7 +306,6 @@ export default function PlayScreen({ route }) {
         setIsUpdating(true);
 
         const userUid = FirebaseManager.currentUserData.auth.uid;
-		console.log(currentLib);
         let isUserLiked = currentLib.likesArray.includes(userUid);
         let updatedLikesArray = [...currentLib.likesArray];
 
@@ -330,6 +333,9 @@ export default function PlayScreen({ route }) {
 
 	const handleSaveProgress = () => {
 		try {
+			if (responsesRef.current.every(item => item === "")) {
+				return false;
+			}
 			if (responsesRef.current.length > 0 || currentInputRef.current.length > 0) {
 				responsesRef.current.push(currentInputRef.current);
 				setResponses(responsesRef.current)

@@ -220,7 +220,7 @@ function ListItem(props) {
                 <View style={[styles.textRow, {flex: 1}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
                     <Text style={[{ fontSize: 13, color: "#49454F" }]}>
-                        by {username} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : 'Not published'}
+                        by {username} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : '| Not published'}
                     </Text>
                 </View>
                 {icon && (
