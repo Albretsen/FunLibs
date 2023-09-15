@@ -69,9 +69,9 @@ export default function CreateLibScreen({ route }) {
                         confirmLabel: "Continue"  // Custom text for the confirm button
                     });
                 } else {
-                    setLibText("");
-                    setLibNameText("");
-                    setEditLibID(null);
+                    //setLibText("");
+                    //setLibNameText("");
+                    //setEditLibID(null);
                 }
             };
         }, [])
@@ -250,7 +250,7 @@ export default function CreateLibScreen({ route }) {
                 showToast('Your lib has been published');
             } else {
                 console.log("UPDATING DOC");
-                FirebaseManager.UpdateDocument("posts", editLibID, {
+                await FirebaseManager.UpdateDocument("posts", editLibID, {
                     name: finishedLibRef.current.name,
                     text: finishedLibRef.current.text,
                     prompts: finishedLibRef.current.prompts
@@ -263,7 +263,8 @@ export default function CreateLibScreen({ route }) {
         setEditLibID(null);
         //navigation.navigate('Fun Libs');
         FirebaseManager.RefreshList({
-            category: "all"
+            category: "all",
+            sortBy: "newest"
         });
     }
 
@@ -403,7 +404,7 @@ export default function CreateLibScreen({ route }) {
             </ScrollView>
             <DrawerActions
 				onSave={publishSaveLib}
-                saveLabel={"Publish"}
+                saveLabel={!editLibID ? "Publish" : "Publish changes"}
                 onDelete={deleteLib}
 			/>
         </>
