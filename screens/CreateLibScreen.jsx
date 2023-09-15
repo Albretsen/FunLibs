@@ -220,6 +220,9 @@ export default function CreateLibScreen({ route }) {
             return;
         }
 
+        showToast('Publishing...');
+        closeDrawer();
+
         finishedLibRef.current.name = libNameTextRef.current;
         finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
 		finishedLibRef.current.published = true;
@@ -233,21 +236,18 @@ export default function CreateLibScreen({ route }) {
         if (!editLibID) {
             let id = await FirebaseManager.AddDocumentToCollection("posts", { ...finishedLibRef.current });
             await FirebaseManager.UpdateDocument("posts", id, { id: id });
-            showToast('Your lib has been uploaded');
+            showToast('Your lib has been published.');
         } else {
             let readArray = await FileManager._retrieveData("my_content") || [];
             if (typeof readArray === 'string') {
                 readArray = JSON.parse(readArray);
             }
-            console.log("LOOKOG FIR WITH ITD: " + editLibID);
             console.log(JSON.stringify(readArray));
             let exists = readArray.some(item => String(item.id) === String(editLibID));
-            console.log("exists:" + exists);
-
             if (exists) {
                 let id = await FirebaseManager.AddDocumentToCollection("posts", { ...finishedLibRef.current });
                 await FirebaseManager.UpdateDocument("posts", id, { id: id });
-                showToast('Your lib has been uploaded');
+                showToast('Your lib has been published');
             } else {
                 console.log("UPDATING DOC");
                 FirebaseManager.UpdateDocument("posts", editLibID, {
@@ -261,7 +261,6 @@ export default function CreateLibScreen({ route }) {
         setLibText("");
         setLibNameText("");
         setEditLibID(null);
-        closeDrawer();
         //navigation.navigate('Fun Libs');
         FirebaseManager.RefreshList({
             category: "all"
