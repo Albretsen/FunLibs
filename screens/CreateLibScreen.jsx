@@ -229,9 +229,10 @@ export default function CreateLibScreen({ route }) {
 		finishedLibRef.current.playable = true;
         finishedLibRef.current.username = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : null;
         finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
+        finishedLibRef.current.likesArray = finishedLibRef.current.likesArray ? finishedLibRef.current.likesArray : [];
         finishedLibRef.current.official = FirebaseManager.currentUserData.firestoreData.username === "Official";
         if (!editLibID) finishedLibRef.current.date = new Date();
-        finishedLibRef.current.likes = 0;
+        finishedLibRef.current.likes = finishedLibRef.current.likes ? finishedLibRef.current.likes : 0;
 
         if (!editLibID) {
             let id = await FirebaseManager.AddDocumentToCollection("posts", { ...finishedLibRef.current });
@@ -376,18 +377,23 @@ export default function CreateLibScreen({ route }) {
 
             const filteredResult = result.filter(item => item.id != editLibID);
 
-            FileManager._storeData("my_content", JSON.stringify(filteredResult));
-
             if (result.length === filteredResult.length) {
-                FirebaseManager.DeleteDocument("posts", editLibID);
+                await FirebaseManager.DeleteDocument("posts", editLibID);
             }
+
+            await FileManager._storeData("my_content", JSON.stringify(filteredResult));
         }
 
+        showToast("Your lib has been deleted.")
         setLibText("");
         setLibNameText("");
         setEditLibID(null);
         closeDrawer();
-        navigation.navigate("Home");
+        FirebaseManager.RefreshList({
+            category: "all",
+            sortBy: "newest"
+        });
+        //navigation.navigate("Home");
     }
 
     // Drawer 

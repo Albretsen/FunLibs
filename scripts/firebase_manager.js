@@ -681,9 +681,9 @@ export default class FirebaseManager {
             Analytics.log(`Error deleting document with ID ${docId}: ${error}`);
             throw error; // Re-throw the error so it can be caught and handled by the caller
         }
-        if (collection_ === "posts") {
+        /*if (collection_ === "posts") {
             this.RefreshList(null);
-        }
+        }*/
     }
 
     static async RefreshList(filterOptions) {

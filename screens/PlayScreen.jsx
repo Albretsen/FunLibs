@@ -306,6 +306,7 @@ export default function PlayScreen({ route }) {
         setIsUpdating(true);
 
         const userUid = FirebaseManager.currentUserData.auth.uid;
+		if (!currentLib.likesArray) currentLib.likesArray = [];
         let isUserLiked = currentLib.likesArray.includes(userUid);
         let updatedLikesArray = [...currentLib.likesArray];
 
@@ -321,6 +322,7 @@ export default function PlayScreen({ route }) {
         try {
             await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
 			showToast("Added to your favorites!")
+			FirebaseManager.RefreshList(null);
             playAudio("pop");
             currentLib.likesArray = updatedLikesArray;
         } catch (error) {

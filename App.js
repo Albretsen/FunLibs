@@ -15,6 +15,9 @@ import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import CompatibilityVerification from "./scripts/compatibility_verification.js";
+
+CompatibilityVerification.RunCompatibilityVerification();
 
 const DrawerNav = createDrawerNavigator();
 

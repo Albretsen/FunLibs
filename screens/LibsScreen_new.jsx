@@ -348,7 +348,9 @@ export default function LibsScreen() {
 	}
 
 	async function loadLocalItems() {
-		return JSON.parse(await FileManager._retrieveData("libs"));
+		let result = await FileManager._retrieveData("libs");
+		if (result) return JSON.parse(result);
+		return []
 	}
 
 	useEffect(() => {

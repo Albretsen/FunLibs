@@ -22,7 +22,8 @@ export default class LibManager {
      */
     static async getLibs(key = "libs") {
         let libs = await FileManager._retrieveData(key);
-        if (libs != null || libs != undefined) {
+        console.log("libs: " + !libs);
+        if (libs) {
             return JSON.parse(libs);
         } else {
             FileManager._storeData(key, LibManager.defaultLibs);
