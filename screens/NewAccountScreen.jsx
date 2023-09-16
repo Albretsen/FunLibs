@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-nati
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import AvatarCarousel from "../components/AvatarCarousel";
+import SimpleAvatarCarousel from '../components/SimpleAvatarCarousel';
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
@@ -16,13 +16,13 @@ export default function NewAccountScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
     const initialCarouselAvatarID = 15;
-    const [avatarIndex, setAvatarIndex] = useState(initialCarouselAvatarID - 1); // Use a state to hold the current avatar index
+    const [avatarIndex, setAvatarIndex] = useState(-1); // Use a state to hold the current avatar index
 
     const showToast = useContext(ToastContext);
 
     const handleAvatarChange = (index) => {
-        index -= 1; // Correct for padding in carousel
         setAvatarIndex(index);
+        console.log(index);
         // Here, you can do anything with the new avatar index
     }
 
@@ -78,6 +78,10 @@ export default function NewAccountScreen() {
         }
         if (password !== confirmPassword) {
             showToast("Passwords do not match");
+            return;
+        }
+        if (avatarIndex === -1) {
+            showToast("Please select a profile picture");
             return;
         }
 
@@ -155,7 +159,7 @@ export default function NewAccountScreen() {
 
     return (
         <View style={[{ alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height - 64 }]}>
-            <ScrollView style={[{ marginBottom: 40, paddingBottom: 40 }]}>
+            <ScrollView horizontal={false} vertical={true} style={[{ marginBottom: 40, paddingBottom: 40 }]}>
                 <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>Create New Account</Text>
                 <View style={globalStyles.form}>
                     <TextInput
@@ -215,7 +219,7 @@ export default function NewAccountScreen() {
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexGrow: 0, marginVertical: 30, height: 100, maxHeight: 100 }}>
-                        <AvatarCarousel initialActiveIndex={initialCarouselAvatarID} onAvatarChange={handleAvatarChange} />
+                        <SimpleAvatarCarousel onAvatarChange={handleAvatarChange} />
                     </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>

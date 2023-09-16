@@ -275,7 +275,7 @@ export default function CreateLibScreen({ route }) {
             <DrawerActions
                 {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
                 onSave={() => { save() }}
-                saveLabel={!editLibID ? "Save" : "Save changes"}
+                saveLabel={!editLibID ? "Save draft" : "Save changes"}
                 {...(editLibID ? { onDelete: () => { delete_() } } : {})}
             />
         </>
@@ -283,6 +283,9 @@ export default function CreateLibScreen({ route }) {
 
     const save = () => {
         // Brand new lib
+        showToast("Saving...");
+        closeDrawer();
+
         if (!editLibID && !item?.local) {
             saveNew();
             return;
@@ -292,10 +295,11 @@ export default function CreateLibScreen({ route }) {
             return;
         }
         if (editLibID && !item?.local) {
+            if (!FirebaseManager.currentUserData.auth) notLoggedIn();
             saveChangesPublished();
             return;
         }
-        console.log("Error saving");
+        showToast("Error saving. Try again later.");
     }
 
     const saveNew = async () => {
@@ -372,6 +376,8 @@ export default function CreateLibScreen({ route }) {
             return;
         }
 
+        showToast("Publishing...");
+        closeDrawer();
         if (!editLibID && !item?.local) {
             publishNew();
             return;
@@ -380,7 +386,7 @@ export default function CreateLibScreen({ route }) {
             publishLocal();
             return;
         }
-        console.log("Error publishing");
+        showToast("Error publishing. Try again later.");
     }
 
     const publishNew = async () => {
@@ -440,7 +446,7 @@ export default function CreateLibScreen({ route }) {
     }
 
     const notLoggedIn = () => {
-        showToast("You have to be logged in.");
+        showToast("You have to be logged in. Please 'Save as draft', then 'Publish' after signing in.");
         closeDrawer();
     }
 
