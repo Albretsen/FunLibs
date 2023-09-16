@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
         height: 80,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 5
+        marginVertical: 10,
+        transform: [{ scale: 1 }]
     },
     
     selectedAvatar: {
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 8,  // for Android
         overflow: 'hidden',  // Ensure shadow respects the circular shape
-        marginVertical: 5,  // Added padding to give space for the shadow
+        marginVertical: 10,  // Added padding to give space for the shadow
+        transform: [{ scale: 1.2 }]
     },
     
     avatarImage: {
