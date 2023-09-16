@@ -455,8 +455,29 @@ export default function CreateLibScreen({ route }) {
         showToast(message);
     }
 
-    const delete_ = () => {
-        console.log("DEWLETE");
+    const delete_ = async () => {
+        if (editLibID && item?.local) {
+            let local_libs = await getLocalLibs();
+
+            let index = local_libs.findIndex(obj => obj.id === item.id);
+
+            if (index !== -1) {
+                local_libs.splice(index, 1);
+            }
+
+            await FileManager._storeData("my_content", JSON.stringify(local_libs));
+
+            finished("Your text has been deleted.", { category: "myContent" });
+            return;
+        }
+        if (editLibID && !item?.local) {
+            await FirebaseManager.DeleteDocument("posts", item.id);
+
+            finished("Your text has been deleted.", { category: "all" });
+            return;
+        }
+
+        finished("Your text has been deleted.", { category: "all" });
     }
 
     /*<DrawerActions
