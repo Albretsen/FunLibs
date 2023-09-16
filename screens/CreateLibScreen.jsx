@@ -22,6 +22,7 @@ import { DialogTrigger, useDialog } from "../components/Dialog";
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
     const [libNameText, setLibNameText] = useState(route.params?.libNameText || "");
+    const [item, setItem] = useState(route.params?.item || undefined);
     const [finishedLib, setFinishedLib] = useState(null);
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
@@ -45,10 +46,11 @@ export default function CreateLibScreen({ route }) {
                         onCancel: () => {
                             setLibText("");
                             setLibNameText("");
+                            setItem({});
                             setEditLibID(null);
                         },
                         onConfirm: () => {
-                            navigation.navigate("Home", { 
+                            navigation.navigate("Home", {
                                 screen: "Create",
                                 params: {
                                     libText: libTextRef.current,
@@ -86,7 +88,7 @@ export default function CreateLibScreen({ route }) {
     useEffect(() => {
         // Log the route.params to see the values
         console.log("route.params:", route.params);
-    
+
         // Check if the parameters exist and then update the state
         if (route.params?.libText) {
             setLibText(route.params.libText);
@@ -103,6 +105,11 @@ export default function CreateLibScreen({ route }) {
         } else {
             setEditLibID(undefined);
         }
+        if (route.params?.item) {
+            setItem(route.params.item);
+        } else {
+            setItem(undefined);
+        }
     }, [route.params]);
 
     const libTextRef = useRef(libText);
@@ -118,7 +125,7 @@ export default function CreateLibScreen({ route }) {
         }
         libNameTextRef.current = libNameText;
     }, [libText, finishedLib, libNameText]);
-    
+
     const [customPromptText, setCustomPromptText] = useState("");
 
     const isFocused = useIsFocused();
@@ -126,7 +133,7 @@ export default function CreateLibScreen({ route }) {
 
     useEffect(() => {
         if (isFocused) {
-          setCurrentScreenName("CreateLibScreen");
+            setCurrentScreenName("CreateLibScreen");
         }
     }, [isFocused]);
 
@@ -144,9 +151,9 @@ export default function CreateLibScreen({ route }) {
             openDrawer({
                 header: {
                     middleComponent: (
-                        <View style={{flex: 1}}>
-                            <Text style={{fontSize: 18}}>{libNameTextRef.current}</Text>
-                            <Text style={{fontSize: 14}}>By You</Text>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 18 }}>{libNameTextRef.current}</Text>
+                            <Text style={{ fontSize: 14 }}>By You</Text>
                         </View>
                     )
                 },
@@ -156,14 +163,14 @@ export default function CreateLibScreen({ route }) {
     }, [finishedLib]);
 
     const saveLib = () => {
-        if (!libNameTextRef.current) { 
+        if (!libNameTextRef.current) {
             showToast("Please add a title to your lib!");
             return;
         }
-        if (!libTextRef.current) { 
+        if (!libTextRef.current) {
             showToast("Please add some text to your lib!");
             return;
-        } 
+        }
         //console.log(libTextRef.current);
 
         let temp_finished_lib = Lib.createLib(libTextRef.current);
@@ -185,7 +192,7 @@ export default function CreateLibScreen({ route }) {
             component: (
                 <>
                     <ScrollView>
-                        <View style={[globalStyles.drawerTop, {height: "100%"}]}>
+                        <View style={[globalStyles.drawerTop, { height: "100%" }]}>
                             <Text style={styles.paragraph}>
                                 {"By publishing your story, everyone gets to create all sorts of whacky and hilarious stories, thanks to you!"}
                             </Text>
@@ -195,7 +202,7 @@ export default function CreateLibScreen({ route }) {
                         </View>
                     </ScrollView>
                     <Image
-                        style={{height: 180, width: 170}}
+                        style={{ height: 180, width: 170 }}
                         source={require("../assets/images/girl-with-balloon.svg")}
                     />
                     <DrawerActions
@@ -206,132 +213,16 @@ export default function CreateLibScreen({ route }) {
                         onSave={() => {
                             localSaveLib();
                         }}
-                        saveLabel={editLibID ? "Save Changes to Device" : "No, just save to Device" }
+                        saveLabel={editLibID ? "Save Changes to Device" : "No, just save to Device"}
                     />
                 </>
             )
         });
     }
 
-    let publishSaveLib = async () => {
-        if (!FirebaseManager.currentUserData?.auth) { 
-            showToast('You have to be logged in to publish.');
-            closeDrawer();
-            return;
-        }
+    const POSTS_COLLECTION = "posts";
+    const MY_CONTENT_KEY = "my_content";
 
-        showToast('Publishing...');
-        closeDrawer();
-
-        finishedLibRef.current.name = libNameTextRef.current;
-        finishedLibRef.current.user = FirebaseManager.currentUserData.auth ? FirebaseManager.currentUserData.auth.uid : null;
-		finishedLibRef.current.published = true;
-		finishedLibRef.current.playable = true;
-        finishedLibRef.current.username = FirebaseManager.currentUserData.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : null;
-        finishedLibRef.current.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : null;
-        finishedLibRef.current.likesArray = finishedLibRef.current.likesArray ? finishedLibRef.current.likesArray : [];
-        finishedLibRef.current.official = FirebaseManager.currentUserData.firestoreData.username === "Official";
-        if (!editLibID) finishedLibRef.current.date = new Date();
-        finishedLibRef.current.likes = finishedLibRef.current.likes ? finishedLibRef.current.likes : 0;
-
-        if (!editLibID) {
-            let id = await FirebaseManager.AddDocumentToCollection("posts", { ...finishedLibRef.current });
-            await FirebaseManager.UpdateDocument("posts", id, { id: id });
-            showToast('Your lib has been published.');
-        } else {
-            let readArray = await FileManager._retrieveData("my_content") || [];
-            if (typeof readArray === 'string') {
-                readArray = JSON.parse(readArray);
-            }
-            console.log(JSON.stringify(readArray));
-            let exists = readArray.some(item => String(item.id) === String(editLibID));
-            if (exists) {
-                let id = await FirebaseManager.AddDocumentToCollection("posts", { ...finishedLibRef.current });
-                await FirebaseManager.UpdateDocument("posts", id, { id: id });
-                showToast('Your lib has been published');
-            } else {
-                console.log("UPDATING DOC");
-                await FirebaseManager.UpdateDocument("posts", editLibID, {
-                    name: finishedLibRef.current.name,
-                    text: finishedLibRef.current.text,
-                    prompts: finishedLibRef.current.prompts
-                })
-                showToast('Your changes have been saved');
-            }
-        }
-        setLibText("");
-        setLibNameText("");
-        setEditLibID(null);
-        //navigation.navigate('Fun Libs');
-        FirebaseManager.RefreshList({
-            category: "all",
-            sortBy: "newest"
-        });
-    }
-
-    let localSaveLib = async () => {
-        if (editLibID) {
-            let readArray = await FileManager._retrieveData("my_content") || [];
-            if (typeof readArray === 'string') {
-                readArray = JSON.parse(readArray);
-            }
-            let exists = readArray.some(item => String(item.id) === String(editLibID));
-
-            if (exists) {
-
-            } else {
-                showToast("Can't save a published lib to device");
-                return;
-            }
-        };
-    
-        const currentUser = FirebaseManager.currentUserData;
-        const currentLib = finishedLibRef.current;
-    
-        // Update lib properties
-        Object.assign(currentLib, {
-            name: libNameTextRef.current,
-            user: currentUser.auth ? currentUser.auth.uid : null,
-            avatarID: currentUser.firestoreData ? currentUser.firestoreData.avatarID : "no-avatar",
-            published: false,
-            playable: true,
-            date: new Date(),
-            likes: 0,
-            local: true
-        });
-    
-        // Retrieve existing content
-        let readArray = await FileManager._retrieveData("my_content") || [];
-        if (typeof readArray === 'string') {
-            readArray = JSON.parse(readArray);
-        }
-    
-        // Determine the ID for the lib
-        if (currentLib.id === undefined || currentLib.id == 0) {
-            currentLib.id = new Date().getTime();  // Using timestamp as a unique ID
-            readArray.push(currentLib);
-        } else {
-            const index = readArray.findIndex(lib => lib.id === currentLib.id);
-            if (index !== -1) {
-                readArray[index] = currentLib;
-            } else {
-                readArray.push(currentLib);
-            }
-        }
-    
-        // Store the updated content
-        await FileManager._storeData("my_content", JSON.stringify(readArray));
-    
-        // Refresh and reset
-        FirebaseManager.RefreshList(null);
-        showToast('Your lib has been stored locally.');
-        setLibText("");
-        setLibNameText("");
-        setEditLibID(null);
-        closeDrawer();
-        navigation.navigate("Home");
-    }
-    
 
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
 
@@ -346,11 +237,11 @@ export default function CreateLibScreen({ route }) {
         const beforeCursor = libText.substring(0, cursorPosition.start);
         const afterCursor = libText.substring(cursorPosition.start); // Note the change here
         const updatedText = beforeCursor + '(' + prompt + ')' + afterCursor;
-        
+
         newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
-    
+
         if (libTextInputRef.current) {
-            libTextInputRef.current.setNativeProps({ 
+            libTextInputRef.current.setNativeProps({
                 text: updatedText,
             });
         }
@@ -369,76 +260,235 @@ export default function CreateLibScreen({ route }) {
     const [showDialogInfo, setShowDialogInfo] = useState(false);
     const [showDialogPublish, setShowDialogPublish] = useState(false);
 
-    const deleteLib = async () => {
-        console.log("editLibID; " + editLibID);
-        if (editLibID) {
-            let result = await FileManager._retrieveData("my_content");
-            result = JSON.parse(result);
-
-            const filteredResult = result.filter(item => item.id != editLibID);
-
-            if (result.length === filteredResult.length) {
-                await FirebaseManager.DeleteDocument("posts", editLibID);
-            }
-
-            await FileManager._storeData("my_content", JSON.stringify(filteredResult));
-        }
-
-        showToast("Your lib has been deleted.")
-        setLibText("");
-        setLibNameText("");
-        setEditLibID(null);
-        closeDrawer();
-        FirebaseManager.RefreshList({
-            category: "all",
-            sortBy: "newest"
-        });
-        //navigation.navigate("Home");
-    }
-
     // Drawer 
 
     const { openDrawer, drawerRef, closeDrawer } = useDrawer();
 
     const saveDrawerContent = (
-        <>      
-            <ScrollView style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}>
+        <>
+            <ScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
                 <View style={globalStyles.drawerTop}>
                     {/* <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text> */}
                     {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
                 </View>
             </ScrollView>
             <DrawerActions
-				onSave={publishSaveLib}
-                saveLabel={!editLibID ? "Publish" : "Publish changes"}
-                onDelete={deleteLib}
-			/>
+                {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
+                onSave={() => { save() }}
+                saveLabel={!editLibID ? "Save" : "Save changes"}
+                {...(editLibID ? { onDelete: () => { delete_() } } : {})}
+            />
         </>
     )
 
-    return(
-        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{flex: 1}, {backgroundColor: "white"}]}>
+    const save = () => {
+        // Brand new lib
+        if (!editLibID && !item?.local) {
+            saveNew();
+            return;
+        }
+        if (editLibID && item?.local) {
+            saveChangesLocal();
+            return;
+        }
+        if (editLibID && !item?.local) {
+            saveChangesPublished();
+            return;
+        }
+        console.log("Error saving");
+    }
 
-            <ScrollView style={{marginHorizontal: 14}}
+    const saveNew = async () => {
+        let lib = finishedLibRef.current;
+
+        lib.name = libNameTextRef.current;
+        lib.date = new Date();
+        lib.id = new Date().getTime() / 1000;
+        lib.likes = 0;
+        lib.likesArray = [];
+        lib.official = FirebaseManager.currentUserData?.firestoreData?.username === "Official";
+        lib.playable = true;
+        
+        lib.published = false;
+        lib.local = true;
+
+        lib.avatarID = FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "0";
+        lib.user = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid : "NO_ACCOUNT";
+        lib.username =  FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "You";
+
+        let local_libs = await getLocalLibs();
+        local_libs.push(lib);
+        await FileManager._storeData("my_content", JSON.stringify(local_libs));
+
+        finished("Your text has been saved under My libs", { category: "myContent" });
+    }
+
+    const saveChangesLocal = async () => {
+        let lib = item;
+
+        lib.name = libNameTextRef.current;
+        lib.text = finishedLibRef.current.text;
+        lib.prompts = finishedLibRef.current.prompts;
+
+        let local_libs = await getLocalLibs();
+
+        let index = local_libs.findIndex(obj => obj.id === lib.id);
+
+        if (index !== -1) {
+            local_libs.splice(index, 1, lib);
+        }
+
+        await FileManager._storeData("my_content", JSON.stringify(local_libs));
+
+        finished("Your changes have been saved.", { category: "myContent" });
+    }
+
+    const saveChangesPublished = async () => {
+        let lib = item;
+
+        lib.name = libNameTextRef.current;
+        lib.text = finishedLibRef.current.text;
+        lib.prompts = finishedLibRef.current.prompts;
+
+        lib.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID;
+        lib.user = FirebaseManager.currentUserData.auth.uid;
+        lib.username =  FirebaseManager.currentUserData.firestoreData.username;
+
+        await FirebaseManager.UpdateDocument("posts", lib.id, { name: lib.name, text: lib.text, prompts: lib.prompts, avatarID: lib.avatarID, user: lib.user, username: lib.username});
+
+        finished("Your changes have been saved.", { category: "all" });
+    }
+
+    const getLocalLibs = async () => {
+        let local_libs = await FileManager._retrieveData("my_content");
+
+        if (local_libs) return JSON.parse(local_libs);
+        return [];
+    }
+
+    const publish = () => {
+        if (!FirebaseManager.currentUserData.auth) {
+            notLoggedIn();
+            return;
+        }
+
+        if (!editLibID && !item?.local) {
+            publishNew();
+            return;
+        }
+        if (editLibID && item?.local) {
+            publishLocal();
+            return;
+        }
+        console.log("Error publishing");
+    }
+
+    const publishNew = async () => {
+        let lib = {...finishedLibRef.current}; // Spread operator converts Lib object to standard JS object
+
+        lib.name = libNameTextRef.current;
+        lib.date = new Date();
+        lib.id = new Date().getTime() / 1000;
+        lib.likes = 0;
+        lib.likesArray = [];
+        lib.official = FirebaseManager.currentUserData?.firestoreData?.username === "Official";
+        lib.playable = true;
+        
+        lib.published = true;
+        lib.local = false;
+
+        lib.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID;
+        lib.user = FirebaseManager.currentUserData.auth.uid;
+        lib.username =  FirebaseManager.currentUserData.firestoreData.username;
+
+        let id = await FirebaseManager.AddDocumentToCollection("posts", lib)
+        await FirebaseManager.UpdateDocument("posts", id, { id: id });
+
+        finished("Your text has been published", { category: "all" });
+    }
+
+    const publishLocal = async () => {
+        let lib = item;
+
+        lib.name = libNameTextRef.current;
+        lib.text = finishedLibRef.current.text;
+        lib.prompts = finishedLibRef.current.prompts;
+
+        lib.date = new Date();
+
+        lib.local = false;
+        lib.published = true;
+
+        lib.avatarID = FirebaseManager.currentUserData.firestoreData.avatarID;
+        lib.user = FirebaseManager.currentUserData.auth.uid;
+        lib.username =  FirebaseManager.currentUserData.firestoreData.username;
+
+        let local_libs = await getLocalLibs();
+
+        let index = local_libs.findIndex(obj => obj.id === lib.id);
+
+        if (index !== -1) {
+            local_libs.splice(index, 1);
+        }
+
+        await FileManager._storeData("my_content", JSON.stringify(local_libs));
+
+        let id = await FirebaseManager.AddDocumentToCollection("posts", lib)
+        await FirebaseManager.UpdateDocument("posts", id, { id: id });
+
+        finished("Your text has been published.", { category: "all" });
+    }
+
+    const notLoggedIn = () => {
+        showToast("You have to be logged in.");
+        closeDrawer();
+    }
+
+    const finished = (message, refreshOptions) => {
+        refreshOptions.sortBy = "newest";
+        FirebaseManager.RefreshList(refreshOptions);
+        closeDrawer();
+        setLibText("");
+        setLibNameText("");
+        setEditLibID("");
+        setItem(undefined);
+        showToast(message);
+    }
+
+    const delete_ = () => {
+        console.log("DEWLETE");
+    }
+
+    /*<DrawerActions
+                onSave={""}
+                saveLabel={!editLibID ? "Save draft" : "Save changes"}
+                {...(editLibID ? { onDelete: deleteLib } : { onPublish: "publishSaveLib", publishLabel: "Publish" })}
+                {...(true ? { onPublish: "publishSaveLib", publishLabel: "Publish" } : {})}
+            />*/
+
+    return (
+        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{ flex: 1 }, { backgroundColor: "white" }]}>
+
+            <ScrollView style={{ marginHorizontal: 14 }}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
-                <View style={{flexDirection: "row", alignItems: "center"}}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <TextInput
-                        style={[globalStyles.input, globalStyles.inputSmall, {fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40}]}
+                        style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40 }]}
                         placeholder="Title"
                         placeholderTextColor={"#9e9e9e"}
                         onChangeText={text => setLibNameText(text)}
                         value={libNameText}
                     />
                     <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
-                        <MaterialIcons style={{color: "#49454F"}} name="help" size={28} />
+                        <MaterialIcons style={{ color: "#49454F" }} name="help" size={28} />
                     </TouchableOpacity>
                 </View>
 
                 <TextInput
                     ref={libTextInputRef}
-                    style={[globalStyles.input, globalStyles.inputLarge, {flex: 1, fontSize: 18, height: 140, flexGrow: 0.75}]}
+                    style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: 140, flexGrow: 0.75 }]}
                     multiline={true}
                     numberOfLines={10}
                     onChangeText={text => setLibText(text)}
@@ -448,7 +498,7 @@ export default function CreateLibScreen({ route }) {
                     selection={newCursorPosition}
                     value={libText}
                 />
-                <Divider color="#CAC4D0" style={{marginVertical: 10}} />
+                <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
                 <View style={{ flexGrow: 0 }}>
                     <Buttons
                         buttons={
@@ -531,9 +581,9 @@ export default function CreateLibScreen({ route }) {
                             onPress: saveLib
                         }]
                     }
-                    buttonStyle={{borderRadius: 50, borderColor: "transparent", backgroundColor: "#D1E8D5", minWidth: 120, height: 50}}
-                    containerStyle={{justifyContent: "flex-end"}}
-                    labelStyle={{fontSize: 17, fontWeight: 500}}
+                    buttonStyle={{ borderRadius: 50, borderColor: "transparent", backgroundColor: "#D1E8D5", minWidth: 120, height: 50 }}
+                    containerStyle={{ justifyContent: "flex-end" }}
+                    labelStyle={{ fontSize: 17, fontWeight: 500 }}
                 />
 
                 <DialogTrigger
@@ -546,28 +596,28 @@ export default function CreateLibScreen({ route }) {
                     }}
                     confirmLabel="Add"
                     cancelLabel="Cancel"
-                    // modalStyle={{backgroundColor: "white"}}
-                    // confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
-                    // buttonStyle={globalStyles.buttonDefault}
-                    // labelStyle={{color: "black"}}
-                    // containerStyle={{gap: 0}}
+                // modalStyle={{backgroundColor: "white"}}
+                // confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
+                // buttonStyle={globalStyles.buttonDefault}
+                // labelStyle={{color: "black"}}
+                // containerStyle={{gap: 0}}
                 >
-                    <View style={{flexDirection: "row", gap: 10, marginBottom: 10}}>
+                    <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
                         <View style={styles.iconCircle}>
-                            <MaterialIcons style={{color: "white"}} name="add" size={28} />
+                            <MaterialIcons style={{ color: "white" }} name="add" size={28} />
                         </View>
                         <View>
-                            <Text style={[{fontSize: 20}, globalStyles.bold]}>Custom prompt</Text>
-                            <Text style={{fontSize: 18}}>Add a custom prompt</Text>
+                            <Text style={[{ fontSize: 20 }, globalStyles.bold]}>Custom prompt</Text>
+                            <Text style={{ fontSize: 18 }}>Add a custom prompt</Text>
                         </View>
                     </View>
                     <TextInput
-                        style={[globalStyles.input, globalStyles.inputSmall, {paddingHorizontal: 14, marginVertical: 10, fontSize: 18}]}
+                        style={[globalStyles.input, globalStyles.inputSmall, { paddingHorizontal: 14, marginVertical: 10, fontSize: 18 }]}
                         numberOfLines={1}
                         placeholder="Your prompt..."
-                        onChangeText={text => {  
+                        onChangeText={text => {
                             customPromptTextRef.current = text;
-                            setCustomPromptText(text) 
+                            setCustomPromptText(text)
                         }}
                     />
                 </DialogTrigger>
@@ -578,21 +628,16 @@ export default function CreateLibScreen({ route }) {
                     onConfirm={() => setShowDialogInfo(false)}
                 >
                     <Text style={styles.paragraph}>
-                        {"Write your lib by adding prompts using the suggestion buttons. Prompts use parentheses, and you can add these yourself if you prefer. Here's an example:"}
+                        Write your text by using prompts enclosed in parentheses. For example:
                     </Text>
                     <Text style={styles.paragraph}>
-                        {"They built an "}
-                        <Text style={styles.highlighted}>{"(adjective)"}</Text>
-                        {" house."}
+                        They built an <Text style={styles.highlighted}>(adjective)</Text> house.
                     </Text>
                     <Text style={styles.paragraph}>
-                        {"Add a number at the end for words you would like to repeat, like names:"}
+                        You can repeat words by adding a number at the end, like so:
                     </Text>
                     <Text style={styles.paragraph}>
-                        <Text style={styles.highlighted}>{"(Name 1)"}</Text>
-                        {" is building a table. "}
-                        <Text style={styles.highlighted}>{"(Name 1)"}</Text>
-                        {" is a carpenter."}
+                        <Text style={styles.highlighted}>(Name 1)</Text> is building a table. <Text style={styles.highlighted}>(Name 1)</Text> is a carpenter.
                     </Text>
                 </DialogTrigger>
             </ScrollView>

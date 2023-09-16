@@ -593,6 +593,7 @@ export default function LibsScreen() {
 								local={item.local}
 								likesArray={item.likesArray}
 								playable={item.playable}
+								item={item}
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}

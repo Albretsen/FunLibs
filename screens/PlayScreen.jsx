@@ -363,7 +363,8 @@ export default function PlayScreen({ route }) {
 			<DrawerActions
 				onShare={onShare}
 				onSave={onSave}
-				onFavorite={onFavorite}
+				//onFavorite={onFavorite} sdsdf
+				{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
 			/>
 		</>
 	)

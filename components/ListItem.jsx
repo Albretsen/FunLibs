@@ -16,7 +16,7 @@ import Lib from "../scripts/lib";
 import { ToastContext } from "../components/Toast";
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -122,6 +122,7 @@ function ListItem(props) {
 				libText: LibManager.display_edit(text, prompts),
 				libNameText: name,
                 editID: String(id),
+                item: item,
 			}
         });
     }
