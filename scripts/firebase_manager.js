@@ -469,14 +469,15 @@ export default class FirebaseManager {
                 }
                 break;
             case "myContent":
-                /*localResult = await FileManager._retrieveData("my_content");
+                localResult = await FileManager._retrieveData("my_content");
                 if (localResult) { 
                     localResult = JSON.parse(localResult).filter(item => item.playable === true);
                 } else {
                     localResult = [];
-                }*/
+                }
                 if (lastVisibleDoc) localResult = [];
                 if (this.currentUserData?.auth) {
+                    console.log("ADDING AUTH TAG: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 } else {
                     q = query(q, where("user", "==", "not logged in"));
@@ -628,7 +629,7 @@ export default class FirebaseManager {
     static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}, arrayRemove_ = {}) {
         Analytics.log(`Updating document ${docId} in collection ${collection_} with data: ${JSON.stringify(updateData)}`);
         Analytics.increment("database_updates");
-    
+        
         const docRef = doc(db, collection_, docId);
     
         // Begin the update batch
