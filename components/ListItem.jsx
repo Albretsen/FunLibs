@@ -232,7 +232,7 @@ function ListItem(props) {
                                 onPress={edit}
                             >
                                 <Image
-                                    style={{ height: 25, width: 25 }}
+                                    style={styles.iconImage}
                                     source={require("../assets/images/icons/edit.png")}
                                 />
                             </TouchableOpacity>
@@ -242,7 +242,7 @@ function ListItem(props) {
                                 onPress={favorite}
                             >
                                 <Image
-                                    style={{ height: 25, width: 28 }}
+                                    style={styles.iconImage}
                                     source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
                                 />
                             </TouchableOpacity>
@@ -251,7 +251,7 @@ function ListItem(props) {
                             onPress={deleteLib}
                         >
                             <Image
-                                style={{ height: 27, width: 21 }}
+                                style={styles.iconImage}
                                 source={require("../assets/images/icons/delete.png")}
                             />
                         </TouchableOpacity>)
@@ -296,6 +296,12 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 3,
         paddingRight: 20
+    },
+
+    iconImage: {
+        height: 28,
+        width: 28,
+        tintColor: "#D1E8D5",
     },
 
     // Dialog style
