@@ -819,7 +819,8 @@ export default class FirebaseManager {
         27: require('../assets/images/avatars/27.png'),
         28: require('../assets/images/avatars/28.png'),
         29: require('../assets/images/avatars/29.png'),
-        "no-avatar": require(`../assets/images/avatars/no-avatar.png`),
+        "no-avatar-48": require(`../assets/images/avatars/no-avatar-48.png`),
+        "no-avatar-24": require(`../assets/images/avatars/no-avatar-24.png`),
     }
 }
 

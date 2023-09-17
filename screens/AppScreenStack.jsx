@@ -74,7 +74,7 @@ export default function AppScreenStack() {
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
 							<Image
-								source={require("../assets/images/heart.svg")}
+								source={require("../assets/images/heart.png")}
 								style={{ width: 21, height: 20 }}
 							/>
 						</View>
@@ -92,8 +92,12 @@ export default function AppScreenStack() {
 									headerStyle: {marginHorizontal: 0, marginTop: 10},
 									leftComponent: (
 										<Image
-											style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center"}}
-											source={avatarSrc}
+											style={[{height: 48, width: 48, justifyContent: "center", alignSelf: "center"}, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
+											source={
+												(FirebaseManager.currentUserData.firestoreData) 
+												? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+												: FirebaseManager.avatars["no-avatar-48"]
+											}
 										/>
 									),
 									title: (FirebaseManager.currentUserData.firestoreData) 
@@ -108,8 +112,12 @@ export default function AppScreenStack() {
 						)}>
 							<Image
 								key={key}
-								style={{ width: 22, height: 22, marginRight: 12 }}
-								source={avatarSrc}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
+								source={
+									(FirebaseManager.currentUserData.firestoreData) 
+									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+									: FirebaseManager.avatars["no-avatar-24"]
+								}
 							/>
 						</TouchableOpacity>
 					),
@@ -123,7 +131,7 @@ export default function AppScreenStack() {
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
 							<Image
-								source={require("../assets/images/heart.svg")}
+								source={require("../assets/images/heart.png")}
 								style={{ width: 21, height: 20 }}
 							/>
 						</View>

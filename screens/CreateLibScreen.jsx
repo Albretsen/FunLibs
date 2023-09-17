@@ -212,8 +212,8 @@ export default function CreateLibScreen({ route }) {
                         </View>
                     </ScrollView>
                     <Image
-                        style={{ height: 180, width: 170 }}
-                        source={require("../assets/images/girl-with-balloon.svg")}
+                        style={{ height: 212, width: 205 }}
+                        source={require("../assets/images/girl-with-balloon.png")}
                     />
                     <DrawerActions
                         onPublish={() => {
