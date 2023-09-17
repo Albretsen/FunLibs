@@ -227,12 +227,6 @@ export default function NewAccountScreen() {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-            <Text style={globalStyles.formBottomText}>
-                Don't have an account?
-                <TouchableOpacity>
-                    <Text style={globalStyles.formBottomTextHighlight}> Create a new one</Text>
-                </TouchableOpacity>
-            </Text>
         </View>
     )
 }
