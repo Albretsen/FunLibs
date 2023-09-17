@@ -48,7 +48,7 @@ while((containerWidth + avatarWithGap) < screenWidth) {
 
 const styles = StyleSheet.create({
     selectorContainer: {
-        height: avatarSize * 2 + gapSize,
+        height: (avatarSize * 2 + gapSize) + (avatarSize / 2), // Plus half an avatar, to let users know there is more
         flexShrink: 0
     },
 
