@@ -45,7 +45,6 @@ export default function CreateLibScreen({ route }) {
             return () => {
                 if (libTextRef.current !== initialLibTextRef.current || libNameTextRef.current !== initialLibNameTextRef.current) {
                     if (libTextRef.current === "") return;
-                    if (libNameTextRef.current === "") return;
                     openDialog('discardChangesDialog', {
                         onCancel: () => {
                             setLibText("");
@@ -65,8 +64,8 @@ export default function CreateLibScreen({ route }) {
                         },
                         children: (
                             <>
-                                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Unsaved progress!</Text>
-                                <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                                <Text style={{ fontWeight: 'bold' }}>Unsaved progress!</Text>
+                                <Text style={{ marginTop: 10 }}>
                                     Do you want to continue writing, or discard the changes?
                                 </Text>
                             </>
@@ -285,8 +284,8 @@ export default function CreateLibScreen({ route }) {
             <DrawerActions
                 {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
                 onSave={() => { save() }}
-                saveLabel={!editLibID ? "Save draft" : "Save changes"}
-                {...(editLibID ? { onDelete: () => { delete_() } } : {})}
+                saveLabel={!editLibID ? "Save as draft" : "Save changes"}
+                {...(editLibID ? { onDelete: () => { showDeleteDialog() } } : {})}
             />
         </>
     )
@@ -471,6 +470,24 @@ export default function CreateLibScreen({ route }) {
         showToast(message);
     }
 
+    const showDeleteDialog = () => {
+        openDialog('deleteDialog', {
+            onCancel: () => {
+                
+            },
+            onConfirm: () => {
+                delete_();
+            },
+            children: (
+                <>
+                    <Text>Are you sure you want to delete?</Text>
+                </>
+            ),
+            cancelLabel: "Cancel",  // Custom text for the cancel button
+            confirmLabel: "Delete"  // Custom text for the confirm button
+        });
+    }
+
     const delete_ = async () => {
         closeDrawer();
         showToast("Deleting...");
@@ -491,11 +508,11 @@ export default function CreateLibScreen({ route }) {
         if (editLibID && !item?.local) {
             await FirebaseManager.DeleteDocument("posts", item.id);
 
-            finished("Your text has been deleted.", { category: "all" });
+            finished("Your text has been deleted.", { category: "myContent" });
             return;
         }
 
-        finished("Your text has been deleted.", { category: "all" });
+        finished("Your text has been deleted.", { category: "myContent" });
     }
 
     /*<DrawerActions
