@@ -5,13 +5,28 @@ import CreateLibScreen from "./CreateLibScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
+import { useNavigation } from "@react-navigation/core";
 
-export default function LibsHomeScreen({route}) {
+export default function LibsHomeScreen({ route }) {
     const initialTab = route.params?.initialTab ?? "Home";
 
     const { tab } = useTab();
 
     const Tab = createMaterialTopTabNavigator();
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', (e) => {
+            if (route.name === "Fun Libs") {
+                // Your code to run when "Fun Libs" tab is navigated to
+                console.log('Navigated to Fun Libs tab');
+            }
+        });
+        
+        // Clean up the listener when the component is unmounted
+        return unsubscribe;
+    }, [navigation, route]);
 
     return (
         <Tab.Navigator

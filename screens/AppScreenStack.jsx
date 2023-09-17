@@ -41,6 +41,19 @@ export default function AppScreenStack() {
         };
     }, []);
 
+	useEffect(() => {
+		const handleFocus = () => {
+			// Your desired code to run when "Home" screen is focused goes here
+			console.log('Navigated to Home screen!');
+		};
+	
+		// Add the listener for the focus event on the navigation object
+		const unsubscribe = navigation.addListener('focus', handleFocus);
+	
+		// Cleanup the listener when the component is unmounted
+		return unsubscribe;
+	}, [navigation]);
+
 	const avatarSrc = (FirebaseManager.currentUserData.firestoreData) 
 	? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
 	: FirebaseManager.avatars["no-avatar"]

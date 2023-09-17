@@ -13,6 +13,7 @@ import AudioPlayer from "../scripts/audio";
 import FileManager from "../scripts/file_manager";
 import FunLibsShare from "../scripts/share";
 import Lib from "../scripts/lib";
+import { useDialog } from "./Dialog";
 import { ToastContext } from "../components/Toast";
 
 function ListItem(props) {
@@ -22,6 +23,8 @@ function ListItem(props) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
     let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid: FirebaseManager.localUID;
+
+    const { openDialog } = useDialog();
 
     if (!uid) {
         uid = "";
@@ -108,7 +111,18 @@ function ListItem(props) {
     }
 
     function showDeleteDialogHandler() {
-        setShowDeleteDialog(true);
+        openDialog('deleteDialog', {
+            onConfirm: () => {
+                deleteLib();
+            },
+            children: (
+                <>
+                    <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Are you sure you want to delete the lib?</Text>
+                </>
+            ),
+            cancelLabel: "Cancel",  // Custom text for the cancel button
+            confirmLabel: "Delete"  // Custom text for the confirm button
+        });
     }
 
     function hideDeleteDialogHandler() {
@@ -248,7 +262,7 @@ function ListItem(props) {
                             </TouchableOpacity>
                         ) : <TouchableOpacity
                             style={styles.icon}
-                            onPress={deleteLib}
+                            onPress={showDeleteDialogHandler}
                         >
                             <Image
                                 style={styles.iconImage}
@@ -263,7 +277,8 @@ function ListItem(props) {
                     <Dialog
                         onCancel={hideDeleteDialogHandler}
                         onConfirm={() => {
-                            onDelete(id);
+                            //onDelete(id);
+                            deleteLib();
                             setShowDeleteDialog(false); // Hide the dialog after deletion
                         }}
                     >

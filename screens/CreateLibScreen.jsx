@@ -43,9 +43,9 @@ export default function CreateLibScreen({ route }) {
             // This will run when the screen comes into focus
 
             return () => {
-                console.log("libTextRef.current: " + libTextRef.current);
-                console.log("initialLibText: " + initialLibTextRef.current);
                 if (libTextRef.current !== initialLibTextRef.current || libNameTextRef.current !== initialLibNameTextRef.current) {
+                    if (libTextRef.current === "") return;
+                    if (libNameTextRef.current === "") return;
                     openDialog('discardChangesDialog', {
                         onCancel: () => {
                             setLibText("");

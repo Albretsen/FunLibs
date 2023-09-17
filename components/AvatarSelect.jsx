@@ -4,7 +4,7 @@ import FirebaseManager from '../scripts/firebase_manager';
 
 const avatarKeys = Object.keys(FirebaseManager.avatars).filter(key => !isNaN(key));
 
-export default function AvatarSelect({ }) {
+export default function AvatarSelect({ onAvatarChange }) {
 
     const [selectedAvatar, setSelectedAvatar] = useState(null);
 
@@ -15,6 +15,7 @@ export default function AvatarSelect({ }) {
                     <TouchableOpacity
                         key={index}
                         onPress={() => {
+                            onAvatarChange(key);
                             setSelectedAvatar(key);
                         }}
                         style={{overflow: "hidden"}}

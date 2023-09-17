@@ -173,7 +173,6 @@ export default function LibsScreen() {
 					}
 
 					// Update the lastDocument state for pagination
-					if (currentTokenRef.current !== thisCallToken) return;
 					setLastDocument(dbResult.lastDocument);
 
 					dbItems.forEach(dbItem => {
@@ -199,10 +198,8 @@ export default function LibsScreen() {
 						});
 					}
 
-					if (currentTokenRef.current !== thisCallToken) return;
 					mergeLocalLibs(dbItems, filterOptions.selectedSortBy);
 					
-					if (currentTokenRef.current !== thisCallToken) return;
 					updatedItems_ = updatedListItems;
 					LibManager.libs = updatedListItems;
 					return updatedListItems;
@@ -216,7 +213,7 @@ export default function LibsScreen() {
 		if (currentTokenRef.current !== thisCallToken) return;
 		setLoading(false);
 		setIsLoading(false);
-		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy);
+		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy, thisCallToken);
 		//else updateDataInListItems(updatedItems_);
 	}
 
@@ -262,7 +259,7 @@ export default function LibsScreen() {
 		return new Date(0); // This is 1970-01-01
 	};
 
-	async function updateOfficialDataInListItems(sortBy) {
+	async function updateOfficialDataInListItems(sortBy, thisCallToken) {
 		let localItems = await loadLocalItems();
 		// Ensure the updated list is sorted by newest
 		if (sortBy === "likes") {
@@ -306,6 +303,7 @@ export default function LibsScreen() {
 			}
 		}
 		
+		if (currentTokenRef.current !== thisCallToken) return;
 		setListItems(localItems);
 		LibManager.libs = localItems;
 	}

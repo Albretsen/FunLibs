@@ -65,9 +65,11 @@ const styles = StyleSheet.create({
     contentContainer: {
         // height: "auto",
         width: "80%",
-        backgroundColor: "#F0F1EC",
+        // backgroundColor: "#F0F1EC",
+        backgroundColor: "white",
         gap: 10,
         padding: 20,
+        paddingBottom: 0,
         borderRadius: 16,
     },
 
