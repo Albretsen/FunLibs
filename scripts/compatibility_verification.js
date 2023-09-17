@@ -4,7 +4,7 @@ import LibManager from "./lib_manager";
 
 export default class CompatibilityVerification {
 
-    static newestVersion = "1";
+    static newestVersion = "4";
 
     static version = "";
 
