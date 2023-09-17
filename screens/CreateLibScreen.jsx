@@ -620,7 +620,7 @@ export default function CreateLibScreen({ route }) {
                             },
                             ]
                         }
-                        buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 40 }}
+                        buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 50 }}
                         containerStyle={{ justifyContent: "flex-start" }}
                         labelStyle={{ fontSize: 17, fontWeight: 500 }}
                         sideScroll={true}

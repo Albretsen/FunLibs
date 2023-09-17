@@ -435,12 +435,6 @@ export default function PlayScreen({ route }) {
 					labelStyle={{fontWeight: 600}}
 				/>
 			</View>
-			<View style={styles.bottomLeftContainer}>
-				<Image
-				style={styles.image}
-				source={require("../assets/images/girl-with-balloon.png")}
-				/>
-			</View>
 		</View>
 	);
 }
