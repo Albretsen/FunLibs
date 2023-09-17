@@ -31,6 +31,9 @@ export default function CreateLibScreen({ route }) {
     const { playAudio } = AudioPlayer();
     const navigation = useNavigation();
 
+    const [initialLibText, setInitialLibText] = useState(libText);
+    const [initialLibNameText, setInitialLibNameText] = useState(libNameText);
+
     const { openDialog } = useDialog();
 
     const customPromptTextRef = useRef("");
@@ -40,8 +43,9 @@ export default function CreateLibScreen({ route }) {
             // This will run when the screen comes into focus
 
             return () => {
-                console.log("libText.length: " + libNameTextRef.current);
-                if (libTextRef.current.length >= 1 || libNameTextRef.current.length >= 1) {
+                console.log("libTextRef.current: " + libTextRef.current);
+                console.log("initialLibText: " + initialLibTextRef.current);
+                if (libTextRef.current !== initialLibTextRef.current || libNameTextRef.current !== initialLibNameTextRef.current) {
                     openDialog('discardChangesDialog', {
                         onCancel: () => {
                             setLibText("");
@@ -92,11 +96,13 @@ export default function CreateLibScreen({ route }) {
         // Check if the parameters exist and then update the state
         if (route.params?.libText) {
             setLibText(route.params.libText);
+            setInitialLibText(route.params.libText);
         } else {
             setLibText("");
         }
         if (route.params?.libNameText) {
             setLibNameText(route.params.libNameText);
+            setInitialLibNameText(route.params.libNameText);
         } else {
             setLibNameText("");
         }
@@ -115,16 +121,20 @@ export default function CreateLibScreen({ route }) {
     const libTextRef = useRef(libText);
     const finishedLibRef = useRef(finishedLib);
     const libNameTextRef = useRef(libNameText);
+    const initialLibTextRef = useRef(libText);
+    const initialLibNameTextRef = useRef(libNameText);
     const newCursorPositionRef = useRef(newCursorPosition);
 
     useEffect(() => {
+        initialLibNameTextRef.current = initialLibNameText;
+        initialLibTextRef.current = initialLibText;
         libTextRef.current = libText;
         finishedLibRef.current = finishedLib;
         if (editLibID && finishedLibRef.current) {
             finishedLibRef.current.id = editLibID.id;
         }
         libNameTextRef.current = libNameText;
-    }, [libText, finishedLib, libNameText]);
+    }, [libText, finishedLib, libNameText, initialLibText, initialLibNameText]);
 
     const [customPromptText, setCustomPromptText] = useState("");
 
@@ -462,6 +472,8 @@ export default function CreateLibScreen({ route }) {
     }
 
     const delete_ = async () => {
+        closeDrawer();
+        showToast("Deleting...");
         if (editLibID && item?.local) {
             let local_libs = await getLocalLibs();
 
