@@ -441,7 +441,7 @@ export default function PlayScreen({ route }) {
 			<View style={styles.bottomLeftContainer}>
 				<Image
 				style={styles.image}
-				source={require("../assets/images/girl-with-balloon.svg")}
+				source={require("../assets/images/girl-with-balloon.png")}
 				/>
 			</View>
 		</View>
@@ -501,7 +501,7 @@ const styles = StyleSheet.create({
 		left: 0,
 	},
 	image: {
-		width: 170,
-		height: 180,
+		width: 207,
+		height: 212,
 	},
 })
