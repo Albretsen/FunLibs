@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail, updateProfile, signInWithCustomToken } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
 import { Platform } from 'react-native';
@@ -37,6 +37,44 @@ export default class FirebaseManager {
         auth: null,
         firestoreData: null
     };
+
+    static storeAuthData(user) {
+        const authData = {
+            auth: user,
+            firestoreData: {
+                username: user.displayName,
+                email: user.email,
+                avatarID: user.photoURL,
+                uid: user.uid,
+            }
+        };
+        FileManager._storeData("authData", JSON.stringify(authData));
+    }
+
+    static async getStoredAuthData() {
+        const data = await FileManager._retrieveData("authData");
+        return data ? JSON.parse(data) : null;
+    }
+
+    static setAuthData(data) {
+        this.currentUserData.auth = data.auth;
+        this.currentUserData.firestoreData = data.firestoreData;
+    }
+
+    // This method can be called upon app initialization to set the user's auth data if they're "logged in"
+    static async initializeAuthState() {
+        const authData = await this.getStoredAuthData();
+        if (authData) {
+            this.setAuthData(authData);
+            //this.fetchUserData();
+        }
+    }
+
+    // Call this method to clear the auth state, simulating a logout
+    static logout() {
+        FileManager._storeData("authData", "");
+        this.currentUserData = { auth: null, firestoreData: null };
+    }
 
     static getCurrentUserData() {
         return this.currentUserData;
@@ -107,6 +145,7 @@ export default class FirebaseManager {
                     // Signed in 
                     const user = userCredential.user;
                     this.currentUserData.auth = user;
+                    this.storeAuthData(user);
                     Analytics.log("Signed in as " + JSON.stringify(user.uid));
                     resolve(user); // or resolve('Signed in successfully')
                 })
@@ -147,6 +186,7 @@ export default class FirebaseManager {
                 this.currentUserData.auth = user;
                 FileManager._storeData("uid", uid);
                 this.localUID = uid;
+                this.storeAuthData(user);
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
@@ -277,6 +317,7 @@ export default class FirebaseManager {
 
     static SignOut() {
         signOut(auth).then(() => {
+            FirebaseManager.logout();
             Analytics.log("Signout method called");
         }).catch((error) => {
             Analytics.log("Error signing out: " + error);
@@ -337,6 +378,7 @@ export default class FirebaseManager {
         // 3. Delete the Firebase Auth user
         try {
             await deleteUser(user);
+            FirebaseManager.logout();
             Analytics.log(`Deleted Firebase Auth user with UID: ${uid}`);
         } catch (error) {
             Analytics.log(`Error deleting Firebase Auth user: ${error.message}`);
@@ -783,6 +825,7 @@ export default class FirebaseManager {
 }
 
 // Sets auth state listener
+FirebaseManager.initializeAuthState();
 FirebaseManager.setLocalUID();
 FirebaseManager.OnAuthStateChanged();
 //FirebaseManager.convertDateStringsToTimestamps();
