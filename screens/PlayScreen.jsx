@@ -185,7 +185,7 @@ export default function PlayScreen({ route }) {
 			displayLib(() => {
 				return currentLib.text;
 			});
-			AdManager.showAd("interstitial");
+			if (Platform.OS !== "ios") AdManager.showAd("interstitial");
 			Analytics.increment("libsPlayed");
 		}
 		// Clear current input
