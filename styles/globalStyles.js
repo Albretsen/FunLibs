@@ -180,7 +180,7 @@ const globalStyles = StyleSheet.create({
 
     formBottomText: {
         position: "absolute",
-        bottom: 250,
+        bottom: 50,
         alignSelf: "center",
         textAlign: "center",
         color: "#8f8f8f",

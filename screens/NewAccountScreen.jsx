@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-nati
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import SimpleAvatarCarousel from '../components/SimpleAvatarCarousel';
+import AvatarSelect from "../components/AvatarSelect";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
@@ -221,9 +221,7 @@ export default function NewAccountScreen() {
                             />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexGrow: 0, marginVertical: 30, height: 100, maxHeight: 100 }}>
-                        <SimpleAvatarCarousel onAvatarChange={handleAvatarChange} />
-                    </View>
+                    <AvatarSelect onAvatarChange={handleAvatarChange} />
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>
                     </TouchableOpacity>
