@@ -64,10 +64,8 @@ export default function CreateLibScreen({ route }) {
                         },
                         children: (
                             <>
-                                <Text style={{ fontWeight: 'bold' }}>Unsaved progress!</Text>
-                                <Text style={{ marginTop: 10 }}>
-                                    Do you want to continue writing, or discard the changes?
-                                </Text>
+                               <Text style={globalStyles.dialogTitle}>Unsaved progress!</Text>
+                               <Text style={globalStyles.dialogText}>Do you want to continue writing, or discard the changes?</Text>
                             </>
                         ),
                         cancelLabel: "Discard",  // Custom text for the cancel button
@@ -480,7 +478,8 @@ export default function CreateLibScreen({ route }) {
             },
             children: (
                 <>
-                    <Text>Are you sure you want to delete?</Text>
+                    <Text style={globalStyles.dialogTitle}>Delete?</Text>
+                    <Text style={globalStyles.dialogText}>Are you sure you want to delete?</Text>
                 </>
             ),
             cancelLabel: "Cancel",  // Custom text for the cancel button

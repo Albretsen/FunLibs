@@ -197,6 +197,15 @@ const globalStyles = StyleSheet.create({
         position: "absolute",
         right: 15,
         top: 20
+    },
+
+    dialogTitle: {
+        fontWeight: "bold",
+        fontSize: 16
+    },
+
+    dialogText: {
+        fontSize: 15
     }
 })
 

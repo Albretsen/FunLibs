@@ -127,14 +127,12 @@ export default function PlayScreen({ route }) {
 					},
 					children: (
 						<>
-							<Text style={{textAlign: 'center', fontWeight: 'bold'}}>🌟 Enjoying our app? 🌟</Text>
-							<Text style={{textAlign: 'center', marginTop: 10}}>
-								Your feedback helps us grow. Mind leaving a review?
-							</Text>
+							<Text style={globalStyles.dialogTitle}>🌟 Enjoying our app? 🌟</Text>
+                    		<Text style={globalStyles.dialogText}>Your feedback helps us grow. Mind leaving a review?</Text>
 						</>
 					),
-					//cancelLabel: "No thanks",  // Custom text for the cancel button
-					//confirmLabel: "Of Course!"  // Custom text for the confirm button
+					cancelLabel: "No thanks",
+					confirmLabel: "Of Course!"
 				});
             }
         }
@@ -204,32 +202,31 @@ export default function PlayScreen({ route }) {
 				const { onPress } = props;  // Extract default onPress
 	
 				return (
-					<TouchableOpacity onPress={async () => {
-						let progressFound = await handleSaveProgress();
-						if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
-							openDialog('savedChangesDialog', {
-								onCancel: () => {
-									onPress();
-								},
-								onConfirm: () => {
-									
-								},
-								children: (
-									<>
-										<Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Unsaved progress!</Text>
-										<Text style={{ textAlign: 'center', marginTop: 10 }}>
-											Do you want to continue writing, or discard the progress?
-										</Text>
-									</>
-								),
-								cancelLabel: "Discard",  // Custom text for the cancel button
-								confirmLabel: "Continue"  // Custom text for the confirm button
-							});
-						} else {
-							onPress();
-						}
-					}}
-					style={{ marginLeft: 10 }} 
+					<TouchableOpacity 
+						onPress={async () => {
+							let progressFound = await handleSaveProgress();
+							if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
+								openDialog('savedChangesDialog', {
+									onCancel: () => {
+										onPress();
+									},
+									onConfirm: () => {
+										
+									},
+									children: (
+										<>
+											<Text style={globalStyles.dialogTitle}>Unsaved progress!</Text>
+											<Text style={globalStyles.dialogText}>Do you want to continue writing, or discard the progress?</Text>
+										</>
+									),
+									cancelLabel: "Discard",
+									confirmLabel: "Continue"
+								});
+							} else {
+								onPress();
+							}
+						}}
+						style={{ marginLeft: 10 }} 
 					>
 						<Ionicons name="arrow-back" size={24} color="black" />
 					</TouchableOpacity>

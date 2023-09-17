@@ -117,7 +117,8 @@ function ListItem(props) {
             },
             children: (
                 <>
-                    <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Are you sure you want to delete the lib?</Text>
+                    <Text style={globalStyles.dialogTitle}>Delete?</Text>
+                    <Text style={globalStyles.dialogText}>Are you sure you want to delete the lib?</Text>
                 </>
             ),
             cancelLabel: "Cancel",  // Custom text for the cancel button

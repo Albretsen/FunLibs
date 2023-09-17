@@ -39,7 +39,7 @@ function Dialog(props) {
 							]}
 							buttonStyle={{borderWidth: 0, backgroundColor: "transparent", justifyContent: "flex-start", paddingRight: 10, minWidth: 10}}
 							containerStyle={{justifyContent: "flex-start", marginTop: 0, gap: 0}}
-							labelStyle={{color: "#006D40", fontWeight: 600}}
+							labelStyle={{color: "#006D40", fontWeight: 600, fontSize: 15}}
 						/>
 					</View>
                 </View>
@@ -79,11 +79,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         borderRadius: 5,
         backgroundColor: "transparent"
-    },
-
-    buttonText: {
-        color: "white",
-        fontSize: 18
     },
 });
 
