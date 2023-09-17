@@ -85,9 +85,12 @@ export default function NewAccountScreen() {
             return;
         }
 
+        showToast("Creating user...");
+
         try {
             FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
                 .then(user => {
+                    showToast("Welcome to Fun Libs, " + username + "!");
                     navigation.navigate("Home");
                 })
                 .catch(error => {

@@ -46,7 +46,7 @@ export default function PlayScreen({ route }) {
 	const type = route.params.type;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	var currentLib = LibManager.getLibByID(libId, type);
+	const [currentLib, setCurrentLib] = useState(LibManager.getLibByID(libId, type));
 
 	// Extract prompts from the current lib
 	const prompts = [];
@@ -296,6 +296,10 @@ export default function PlayScreen({ route }) {
 
 	const [isUpdating, setIsUpdating] = useState(false);
 
+	useEffect(() => {
+		console.log("Updated currentLib:", currentLib);
+	}, [currentLib]);
+
 	const onFavorite = async () => {
         if (isUpdating) return;  // Prevent further interactions while updating
         if (!FirebaseManager.currentUserData?.auth?.uid) {
@@ -304,6 +308,7 @@ export default function PlayScreen({ route }) {
         }
 
         setIsUpdating(true);
+		closeDrawer();
 
         const userUid = FirebaseManager.currentUserData.auth.uid;
 		if (!currentLib.likesArray) currentLib.likesArray = [];
@@ -311,8 +316,13 @@ export default function PlayScreen({ route }) {
         let updatedLikesArray = [...currentLib.likesArray];
 
         if (isUserLiked) {
-            showToast("This text is already in your favorites!")
             updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
+			setCurrentLib(prevLib => ({
+				...prevLib,
+				likesArray: updatedLikesArray
+			}));
+			console.log(currentLib);
+			await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
 			setIsUpdating(false);
 			return;
         } else {
@@ -321,10 +331,12 @@ export default function PlayScreen({ route }) {
 
         try {
             await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
-			showToast("Added to your favorites!")
-			FirebaseManager.RefreshList(null);
             playAudio("pop");
-            currentLib.likesArray = updatedLikesArray;
+            setCurrentLib(prevLib => ({
+				...prevLib,
+				likesArray: updatedLikesArray
+			}));
+			console.log("ADDED LIKE TO FIREBASE");
         } catch (error) {
             console.error("Failed to update likes in Firebase:", error);
             // Revert the UI changes
@@ -363,8 +375,9 @@ export default function PlayScreen({ route }) {
 			<DrawerActions
 				onShare={onShare}
 				onSave={onSave}
+				likesArray={currentLib.likesArray}
 				//onFavorite={onFavorite} sdsdf
-				{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
+				//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
 			/>
 		</>
 	)

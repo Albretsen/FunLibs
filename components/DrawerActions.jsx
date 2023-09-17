@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FirebaseManager from "../scripts/firebase_manager";
 
 export default function DrawerActions(props) {
-    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, publishLabel, saveLabel } = props;
+    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, publishLabel, saveLabel, likesArray } = props;
+
+    useEffect(() => {
+        console.log("likesArray in DrawerActions:", likesArray);
+    }, [likesArray]);
 
     return (
         <View style={{
@@ -53,12 +58,16 @@ export default function DrawerActions(props) {
             </TouchableOpacity>)}
             {onFavorite && (
                 <TouchableOpacity
-                    style={{alignItems: "center"}}
-                    onPress={onFavorite}
+                    style={{ alignItems: "center" }}
+                    onPress={async () => {
+                        await onFavorite();
+                        console.log("LIKES ARRAY (from ref):", likesArray);
+                        console.log("UID:", FirebaseManager.currentUserData?.auth?.uid);
+                    }}
                 >
                     <MaterialIcons
-                        style={{color: "#49454F"}}
-                        name="favorite"
+                        style={{ color: "#49454F" }}
+                        name={likesArray && likesArray.includes(FirebaseManager.currentUserData?.auth?.uid) ? "favorite" : "favorite-border"}
                         size={26}
                     />
                     <Text style={styles.actionText}>Favorite</Text>

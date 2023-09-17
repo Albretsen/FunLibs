@@ -67,7 +67,6 @@ export default function DeleteAccountScreen() {
                     </View>
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
-                        console.log("Starting account deletion process")
                         try {
                             if (email !== FirebaseManager.currentUserData?.auth?.email) {
                                 // showToast("Email does not matched the signed in account");
@@ -79,11 +78,11 @@ export default function DeleteAccountScreen() {
                                 console.log("Wrong credentials");
                                 return;
                             }
-                            console.log("Successfully re-signed-in user");
-                            FileManager._storeData("uid", "");
+                            showToast("Deleting account...")
+                            await FileManager._storeData("uid", "");
                             FirebaseManager.localUID = "";
-                            FirebaseManager.DeleteUser();
-                            console.log("ACCOUNT DELETED");
+                            await FirebaseManager.DeleteUser();
+                            showToast("Account deleted.");
                             navigation.navigate("Home");
                         } catch (error) {
                             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
