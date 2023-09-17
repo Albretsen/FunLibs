@@ -90,7 +90,7 @@ const Drawer = forwardRef((props, ref) => {
                         minDeltaX={10}
                     >
                         <Animated.View
-                            onStartShouldSetResponder={() => true}
+                            // onStartShouldSetResponder={() => true}
                             style={[
                                 {
                                     borderBottomLeftRadius: 16,
