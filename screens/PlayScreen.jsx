@@ -22,6 +22,7 @@ import { DialogTrigger, useDialog } from "../components/Dialog";
 import AudioPlayer from "../scripts/audio";
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+import { Platform } from "react-native";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -115,7 +116,7 @@ export default function PlayScreen({ route }) {
 
         if (libsPlayed) {
             libsPlayed = parseInt(libsPlayed);
-            if ((libsPlayed % 10 === 0) && reviewPopupShowed != "1") {
+            if ((libsPlayed % 10 === 0) && reviewPopupShowed != "1" && Platform.OS !== "ios") {
                 // Trigger the review dialog here
                 openDialog('reviewDialog', {
 					onCancel: () => FileManager._storeData("reviewPopupShowed", "1"),
@@ -269,7 +270,7 @@ export default function PlayScreen({ route }) {
 	};
 
 	const onShare = () => {
-		FunLibsShare.Share(currentLib.display + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+		FunLibsShare.Share(LibManager.displayForShare(currentLib.text) + "\n\nCreated using: https://funlibs0.wordpress.com/download")
 	};
 
 	const onSave = async () => {
@@ -367,7 +368,7 @@ export default function PlayScreen({ route }) {
 	const finishedLibDrawerContent = (
 			// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}
 		<>
-			<ScrollView>
+			<ScrollView >
 				<View style={globalStyles.drawerTop}>
 					{LibManager.displayInDrawer(finishedLib)}
 				</View>
