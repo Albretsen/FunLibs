@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -243,6 +243,7 @@ export default function CreateLibScreen({ route }) {
         }
 
         setLibText(updatedText);
+        setButtonPressed(false);
     }
 
     // Dialog-related functions
@@ -531,7 +532,18 @@ export default function CreateLibScreen({ route }) {
         finished("Your text has been deleted.", { category: "myContent" });
     }
 
+    const scrollViewRef = useRef(null);
+    const [buttonPressed, setButtonPressed] = useState(false);
+
+    const handleDismissKeyboard = () => {
+        if (!buttonPressed) {
+            Keyboard.dismiss();
+        }
+        setButtonPressed(false);
+    };
+
     return (
+        <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{ flex: 1 }, { backgroundColor: "white" }]}>
 
             <ScrollView style={{ marginHorizontal: 14 }}
@@ -569,12 +581,16 @@ export default function CreateLibScreen({ route }) {
                             [{
                                 label: "Custom",
                                 icon: "add",
-                                onPress: () => setShowDialogCustom(true)
+                                onPress: () => {
+                                    setButtonPressed(true);
+                                    setShowDialogCustom(true)
+                                }
                             },
                             {
                                 label: "Adjective",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Adjective");
                                 },
                             },
@@ -582,6 +598,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Verb",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Verb");
                                 },
                             },
@@ -589,6 +606,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Noun",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Noun");
                                 },
                             },
@@ -596,6 +614,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Occupation",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Occupation");
                                 },
                             },
@@ -603,6 +622,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Name",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Name");
                                 },
                             },
@@ -610,6 +630,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Emotion",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Emotion");
                                 },
                             },
@@ -617,6 +638,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Place",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Place");
                                 },
                             },
@@ -624,6 +646,7 @@ export default function CreateLibScreen({ route }) {
                                 label: "Animal",
                                 icon: "add",
                                 onPress: () => {
+                                    setButtonPressed(true);
                                     addPrompt("Animal");
                                 },
                             },
@@ -706,6 +729,7 @@ export default function CreateLibScreen({ route }) {
                 </DialogTrigger>
             </ScrollView>
         </ParentTag>
+        </TouchableWithoutFeedback>
     )
 }
 

@@ -55,6 +55,7 @@ export default function App() {
   const windowHeight = useWindowDimensions().height;
 
   return (
+    // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
     <View
       style={[{ minHeight: Math.round(windowHeight) }]}
     >
