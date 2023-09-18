@@ -1,5 +1,6 @@
 //import "expo-dev-client";
-import { StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -51,28 +52,33 @@ export function ScreenProvider({ children }) {
 
 export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(0);
+  const windowHeight = useWindowDimensions().height;
 
   return (
-    <SafeAreaProvider>
-      <Provider>
-        <ScreenProvider>
-          <ToastProvider>
-            <DialogProvider>
-              <DrawerProvider>
-                <TabProvider>
-                  <NavigationContainer>
-                    <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
-                      <AppScreenStack />
-                      <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                    </GestureHandlerRootView>
-                  </NavigationContainer>
-                </TabProvider>
-              </DrawerProvider>
-            </DialogProvider>
-          </ToastProvider>
-        </ScreenProvider>
-      </Provider>
-    </SafeAreaProvider>
+    <View
+      style={[{ minHeight: Math.round(windowHeight) }]}
+    >
+      <SafeAreaProvider>
+        <Provider>
+          <ScreenProvider>
+            <ToastProvider>
+              <DialogProvider>
+                <DrawerProvider>
+                  <TabProvider>
+                    <NavigationContainer>
+                      <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
+                        <AppScreenStack />
+                        <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                      </GestureHandlerRootView>
+                    </NavigationContainer>
+                  </TabProvider>
+                </DrawerProvider>
+              </DialogProvider>
+            </ToastProvider>
+          </ScreenProvider>
+        </Provider>
+      </SafeAreaProvider>
+    </View>
   );
 }
 
