@@ -1,6 +1,6 @@
 //import "expo-dev-client";
 import React from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View, Platform } from "react-native";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -54,11 +54,20 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(0);
   const windowHeight = useWindowDimensions().height;
 
+  const ConditionalWrapper = ({ children }) => {
+    if (Platform.OS === 'android' || Platform.OS === 'ios') {
+      return (
+        <View style={[{ minHeight: Math.round(windowHeight) }]}>
+          {children}
+        </View>
+      );
+    }
+    return children;
+  };
+
   return (
     // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
-    <View
-      style={[{ minHeight: Math.round(windowHeight) }]}
-    >
+    <ConditionalWrapper>
       <SafeAreaProvider>
         <Provider>
           <ScreenProvider>
@@ -79,7 +88,7 @@ export default function App() {
           </ScreenProvider>
         </Provider>
       </SafeAreaProvider>
-    </View>
+    </ConditionalWrapper>
   );
 }
 
