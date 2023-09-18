@@ -4,7 +4,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 
 export default function DrawerActions(props) {
-    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, publishLabel, saveLabel, likesArray } = props;
+    const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, onUndo, publishLabel, saveLabel, deleteLabel, undoLabel, likesArray } = props;
 
     useEffect(() => {
         console.log("likesArray in DrawerActions:", likesArray);
@@ -73,6 +73,19 @@ export default function DrawerActions(props) {
                     <Text style={styles.actionText}>Favorite</Text>
                 </TouchableOpacity>
             )}
+            {onUndo && (
+                <TouchableOpacity
+                    style={{alignItems: "center"}}
+                    onPress={onUndo}
+                >
+                    <MaterialIcons
+                        style={{color: "#49454F"}}
+                        name="undo"
+                        size={26}
+                    />
+                    <Text style={styles.actionText}>{undoLabel ? undoLabel : "undo"}</Text>
+                </TouchableOpacity>
+            )}
             {onDelete && (
                 <TouchableOpacity
                     style={{alignItems: "center"}}
@@ -83,7 +96,7 @@ export default function DrawerActions(props) {
                         name="delete"
                         size={26}
                     />
-                    <Text style={styles.actionText}>Delete</Text>
+                    <Text style={styles.actionText}>{deleteLabel ? deleteLabel : "Delete"}</Text>
                 </TouchableOpacity>
             )}
         </View>

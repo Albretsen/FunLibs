@@ -236,14 +236,14 @@ function ListItem(props) {
                         source={FirebaseManager.avatars[avatarID]}
                     />
                 </View>
-                <View style={[styles.textRow, {flex: 1}]}>
+                <View style={[styles.textRow, {flex: 1, alignSelf: "center"}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
                     <Text style={[{ fontSize: 13, color: "#49454F" }]}>
                         by {username} {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : '| Not published'}
                     </Text>
                 </View>
                 {icon && (
-                    <View>
+                    <View style={{alignSelf: "center"}}>
                         {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
                             <TouchableOpacity
                                 style={styles.icon}

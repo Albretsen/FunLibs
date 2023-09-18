@@ -155,17 +155,7 @@ export default function CreateLibScreen({ route }) {
     // so this works
     useEffect(() => {
         if (finishedLib) {
-            openDrawer({
-                header: {
-                    middleComponent: (
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18 }}>{libNameTextRef.current}</Text>
-                            <Text style={{ fontSize: 14 }}>By You</Text>
-                        </View>
-                    )
-                },
-                component: saveDrawerContent
-            });
+            openDrawer(saveDrawerContent);
         }
     }, [finishedLib]);
 
@@ -191,7 +181,6 @@ export default function CreateLibScreen({ route }) {
     }
 
     let publishDialog = () => {
-        // setShowDialogPublish(true);
         openDrawer({
             header: {
                 title: "Publish Lib?"
@@ -271,25 +260,33 @@ export default function CreateLibScreen({ route }) {
 
     const { openDrawer, drawerRef, closeDrawer } = useDrawer();
 
-    const saveDrawerContent = (
-        <>
-            <ScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
-                <View style={globalStyles.drawerTop}>
-                    {/* <Text style={globalStyles.fontLarge}>{libNameTextRef.current}</Text> */}
-                    {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
+    const saveDrawerContent = {
+        header: {
+            middleComponent: (
+                <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 18 }}>{libNameTextRef.current}</Text>
+                    <Text style={{ fontSize: 14 }}>By You</Text>
                 </View>
-            </ScrollView>
-            <DrawerActions
-                {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
-                onSave={() => { save() }}
-                saveLabel={!editLibID ? "Save as draft" : "Save changes"}
-                {...(editLibID ? { onDelete: () => { 
-                    closeDrawer();
-                    showDeleteDialog() 
-                } } : {})}
-            />
-        </>
-    )
+            )
+        },
+        component: (
+            <>
+                <ScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
+                    <View style={globalStyles.drawerTop}>
+                        {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
+                    </View>
+                </ScrollView>
+                <DrawerActions
+                    {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
+                    onSave={() => { save() }}
+                    saveLabel={!editLibID ? "Save as draft" : "Save changes"}
+                    {...(editLibID ? { onDelete: () => { 
+                        showDeleteConfirmation();
+                    } } : {})}
+                />
+            </>
+        )
+    }
 
     const save = () => {
         // Brand new lib
@@ -471,22 +468,39 @@ export default function CreateLibScreen({ route }) {
         showToast(message);
     }
 
-    const showDeleteDialog = () => {
-        openDialog('deleteDialog', {
-            onCancel: () => {
-                
+    const showDeleteConfirmation = () => {
+        openDrawer({
+            header: {
+                title: "Delete story?"
             },
-            onConfirm: () => {
-                delete_();
-            },
-            children: (
+            component: (
                 <>
-                    <Text style={globalStyles.dialogTitle}>Delete?</Text>
-                    <Text style={globalStyles.dialogText}>Are you sure you want to delete?</Text>
+                    <ScrollView>
+                        <View style={[globalStyles.drawerTop, { height: "100%" }]}>
+                            <Text style={styles.paragraph}>
+                                Are you sure you want to delete this story?
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                By deleting, the story will be lost forever.
+                            </Text>
+                        </View>
+                    </ScrollView>
+                    <Image
+                        style={{ height: 148, width: 201, alignSelf: "center" }}
+                        source={require("../assets/images/couple-with-balloon.png")}
+                    />
+                    <DrawerActions
+                        onDelete={() => {
+                            delete_();
+                        }}
+                        deleteLabel="I'm sure, delete"
+                        onUndo={() => {
+                            openDrawer(saveDrawerContent);
+                        }}
+                        undoLabel="Don't delete"
+                    />
                 </>
-            ),
-            cancelLabel: "Cancel",  // Custom text for the cancel button
-            confirmLabel: "Delete"  // Custom text for the confirm button
+            )
         });
     }
 
@@ -516,13 +530,6 @@ export default function CreateLibScreen({ route }) {
 
         finished("Your text has been deleted.", { category: "myContent" });
     }
-
-    /*<DrawerActions
-                onSave={""}
-                saveLabel={!editLibID ? "Save draft" : "Save changes"}
-                {...(editLibID ? { onDelete: deleteLib } : { onPublish: "publishSaveLib", publishLabel: "Publish" })}
-                {...(true ? { onPublish: "publishSaveLib", publishLabel: "Publish" } : {})}
-            />*/
 
     return (
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{ flex: 1 }, { backgroundColor: "white" }]}>

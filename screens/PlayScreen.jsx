@@ -394,7 +394,7 @@ export default function PlayScreen({ route }) {
 						<Text style={[{fontSize: 13, color: "#49454F"}]}>by {currentLib.username} | {currentLib.likes} likes</Text>
 					</View>
 				</View>
-				<View style={{position: "relative"}}>
+				<View style={{position: "relative", height: 60, maxHeight: 60}}>
 					<TextInput
 						label={displayPrompts[currentPromptIndex]}
 						value={currentInput}
@@ -407,8 +407,8 @@ export default function PlayScreen({ route }) {
 						}}
 					/>
 					{fillAvailable && ( // Render only if autofill is available
-						<TouchableOpacity onPress={autofill} style={{position: "absolute", right: 15, top: 20}}>
-							<Text style={{color: "#5C9BEB", fontSize: 15}}>Fill</Text>
+						<TouchableOpacity onPress={autofill} style={{position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center"}}>
+							<Text style={{color: "#5C9BEB", fontSize: 16}}>Fill</Text>
 						</TouchableOpacity>
 					)}
 				</View>
