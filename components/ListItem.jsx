@@ -112,6 +112,9 @@ function ListItem(props) {
 
     function showDeleteDialogHandler() {
         openDialog('deleteDialog', {
+            onCancel: () => {
+
+            },
             onConfirm: () => {
                 deleteLib();
             },
@@ -121,7 +124,7 @@ function ListItem(props) {
                     <Text style={globalStyles.dialogText}>Are you sure you want to delete the lib?</Text>
                 </>
             ),
-            cancelLabel: "Cancel",  // Custom text for the cancel button
+            cancelLabel: "Cancel",  // Custom textor the cancel button
             confirmLabel: "Delete"  // Custom text for the confirm button
         });
     }

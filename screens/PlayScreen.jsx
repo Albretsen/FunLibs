@@ -284,6 +284,7 @@ export default function PlayScreen({ route }) {
             if (Object.keys(result).length >= 1) {
                 readArray = JSON.parse(result);
             }
+			currentLib_.id = readArray.length;
             readArray.push(currentLib_);
         }
         FileManager._storeData("read", JSON.stringify(readArray));

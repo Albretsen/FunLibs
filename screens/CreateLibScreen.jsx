@@ -283,7 +283,10 @@ export default function CreateLibScreen({ route }) {
                 {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
                 onSave={() => { save() }}
                 saveLabel={!editLibID ? "Save as draft" : "Save changes"}
-                {...(editLibID ? { onDelete: () => { showDeleteDialog() } } : {})}
+                {...(editLibID ? { onDelete: () => { 
+                    closeDrawer();
+                    showDeleteDialog() 
+                } } : {})}
             />
         </>
     )
@@ -525,7 +528,6 @@ export default function CreateLibScreen({ route }) {
         <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{ flex: 1 }, { backgroundColor: "white" }]}>
 
             <ScrollView style={{ marginHorizontal: 14 }}
-                keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps={'always'}
             >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
