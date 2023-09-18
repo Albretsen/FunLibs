@@ -38,6 +38,7 @@ export default function PlayScreen({ route }) {
     useEffect(() => {
         if (isFocused) {
         	setCurrentScreenName("PlayScreen");
+			if (Platform.OS === "ios") AdManager.showAd("interstitial");
         }
     }, [isFocused]);
 
