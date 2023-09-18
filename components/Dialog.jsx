@@ -38,7 +38,7 @@ function Dialog(props) {
 								},
 							]}
 							buttonStyle={{borderWidth: 0, backgroundColor: "transparent", justifyContent: "flex-start", paddingRight: 10, minWidth: 10}}
-							containerStyle={{justifyContent: "flex-start", marginTop: 0, gap: 0}}
+							containerStyle={{justifyContent: "flex-end", marginTop: 0, gap: 0}}
 							labelStyle={{color: "#006D40", fontWeight: 600, fontSize: 15}}
 						/>
 					</View>
