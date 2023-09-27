@@ -473,7 +473,7 @@ export default class FirebaseManager {
             playable: undefined
         },
         lastVisibleDoc = null,
-        pageSize = 30
+        pageSize = 10
     ) {
         if (!isConnected) {
             console.log("No internet: data may be out of date");

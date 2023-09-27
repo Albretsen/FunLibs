@@ -21,6 +21,7 @@ import Analytics from "../scripts/analytics";
 import { useTab } from "../components/TabContext";
 import Dropdown from "../components/Dropdown";
 import FileManager from "../scripts/file_manager";
+import _ from 'lodash';
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -59,6 +60,8 @@ export default function LibsScreen() {
 	const [lastDocument, setLastDocument] = useState(null);
 
 	const [loading, setLoading] = useState(false);
+	const [loadingCircle, setLoadingCircle] = useState(false);
+	const [loadingAdditional, setLoadingAdditional] = useState(false);
 
 	const quickload = false;
 
@@ -80,6 +83,8 @@ export default function LibsScreen() {
 
 		if (currentTokenRef.current !== thisCallToken) return;
 		setLoading(true);
+		if (lastDocument == undefined) setLoadingCircle(true);
+		if (lastDocument != undefined) setLoadingAdditional(true);
 
 		let localItems = [];
 		let updatedItems_ = [];
@@ -100,6 +105,7 @@ export default function LibsScreen() {
 				});
 
 				setListItems(localItems);
+				if (localItems.length > 0) setLoadingCircle(false);
 			} catch {
 
 			}
@@ -115,10 +121,13 @@ export default function LibsScreen() {
 					return dateB.getTime() - dateA.getTime();
 				});
 				setListItems(localItems);
+				setLoadingCircle(false);
 			} catch (error){
 				setListItems([]);
 			}
 			setLoading(false);
+			setLoadingCircle(false);
+			setLoadingAdditional(false);
 			return;
 		} else {
 			if (!lastDocument) {
@@ -141,6 +150,8 @@ export default function LibsScreen() {
 				setLastDocument(undefined);
 				setIsLoading(false);
 				setLoading(false);
+				setLoadingCircle(false);
+				setLoadingAdditional(false);
 				return; // Exit the function early
 			}
 			
@@ -213,6 +224,8 @@ export default function LibsScreen() {
 		if (currentTokenRef.current !== thisCallToken) return;
 		setLoading(false);
 		setIsLoading(false);
+		setLoadingCircle(false);
+		setLoadingAdditional(false);
 		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy, thisCallToken);
 		//else updateDataInListItems(updatedItems_);
 	}
@@ -223,8 +236,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < items.length; i += 30) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(30-(items.length-i))) }, lastDoc);
+		for (let i = 0; i < items.length; i += 10) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: listIemIds.slice(i, i+(10-(items.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -281,8 +294,8 @@ export default function LibsScreen() {
 		let lastDoc = null;
 		let updatedData = [];
 		
-		for (let i = 0; i < localItems.length; i += 30) {
-			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(30-(localItems.length-i))) }, lastDoc);
+		for (let i = 0; i < localItems.length; i += 10) {
+			const response = await FirebaseManager.ReadDataFromDatabase("posts", { docIds: localItemIds.slice(i, i+(10-(localItems.length-i))) }, lastDoc);
 			updatedData = updatedData.concat(response.data);
 			lastDoc = response.lastDocument;
 		}
@@ -481,14 +494,21 @@ export default function LibsScreen() {
 	};
 
 	function renderFooter() {
-		if (!loading || true) return null;  // Only display the footer when data is being loaded
-
+		if (!loadingAdditional) return null;
+	  
 		return (
-			<View style={{ flex: 1, padding: 10, marginTop: 20 }}>
-				<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>
-			</View>
+		  <View style={{
+			position: 'absolute',
+			bottom: -50,
+			left: 0,
+			right: 0,
+			padding: 10,
+			backgroundColor: 'white', // adjust the background color as needed
+		  }}>
+			<Text style={{ textAlign: 'center' }}>Loading more libs...</Text>
+		  </View>
 		);
-	}
+	  }
 
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard]}>
@@ -595,16 +615,25 @@ export default function LibsScreen() {
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}
-						refreshing={loading}
+						//contentContainerStyle={{ paddingBottom: 50 }}
+						refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
+						onRefresh={() => { // Define the function that will be called when the user pulls to refresh
+							//console.log("REFRESH");
+							updateFilterOptions();
+						}}
 						style={[globalStyles.listItemContainer, { height: Dimensions.get("window").height - (74 + 0 + 64 + 60) }]}
-						onEndReached={() => loadListItems({
-							"category": selectedCategory,
-							"sortBy": selectedSortBy,
-							"dateRange": selectedDate,
-							"playable": playReadValue
-						}, lastDocument)} // Call the loadListItems function when the end is reached
+						onEndReached={_.debounce(() => {
+							if (!loading) {
+							  loadListItems({
+								"category": selectedCategory,
+								"sortBy": selectedSortBy,
+								"dateRange": selectedDate,
+								"playable": playReadValue
+							  }, lastDocument);
+							}
+						  }, 200)} // Call the loadListItems function when the end is reached
 						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>}
+						//ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>}
 						ListFooterComponent={renderFooter}
 					/>
 				<BottomSheet
