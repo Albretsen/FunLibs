@@ -5,6 +5,7 @@ import Analytics from './analytics';
 import FileManager from './file_manager';
 import { Platform } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
+import LibManager from './lib_manager';
 
 // Global variable to store network status
 let isConnected = true;
@@ -644,11 +645,33 @@ export default class FirebaseManager {
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
+        if (Analytics.production === false) this.FindUnsupportedPrompts(localResult.concat(resultArray));
         //return localResult.concat(resultArray);
         return {
             data: localResult.concat(resultArray),
             lastDocument: lastDoc
         };
+    }
+
+    static FindUnsupportedPrompts(array) {
+        try {
+            array.forEach(lib => {
+                lib.prompts.forEach(prompt => {
+                    let promptFill = LibManager.getPromptFill(Object.keys(prompt)[0]);
+                    let issues = "";
+                    if (promptFill.length < 2) {
+                        issues += " Missing fill.";
+                    }
+                    let promptExplanation = LibManager.getPromptExplanation(Object.keys(prompt)[0]);
+                    if (promptExplanation.length < 2) {
+                        issues += " Missing explanation.";
+                    }
+                    if (issues.length > 0) console.log(Object.keys(prompt)[0] + " | " + issues);
+                });
+            })
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     /**
