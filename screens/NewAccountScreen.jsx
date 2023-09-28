@@ -59,6 +59,10 @@ export default function NewAccountScreen() {
             showToast("Username should be at least 3 characters.");
             return;
         }
+        if (username?.length > 24) {
+            showToast("Username can be max 24 characters.");
+            return;
+        }
         if (!email || email === "") {
             showToast("Please add an email");
             return;

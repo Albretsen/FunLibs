@@ -7,6 +7,10 @@ export default class AdManager {
   static initialize() {
   }
 
+  static showRewardedAd() {
+    return undefined;
+  }
+
   static loadAd(type = null) {
     return;
   }

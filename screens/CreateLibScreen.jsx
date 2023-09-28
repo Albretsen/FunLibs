@@ -18,6 +18,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { useFocusEffect } from '@react-navigation/native';
 import AudioPlayer from "../scripts/audio";
 import { DialogTrigger, useDialog } from "../components/Dialog";
+import AdManager from "../scripts/ad_manager";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -378,24 +379,45 @@ export default function CreateLibScreen({ route }) {
         return [];
     }
 
-    const publish = () => {
+    const publish = async () => {
         if (!FirebaseManager.currentUserData.auth) {
             notLoggedIn();
             return;
         }
-
-        showToast("Publishing...");
         closeDrawer();
-        if (!editLibID && !item?.local) {
-            publishNew();
-            return;
+        showToast("Publishing...");
+        const wasRewardGiven = await AdManager.showRewardedAd();
+
+        if (wasRewardGiven === true) {
+            // The user has watched the ad and earned the reward
+            // Continue with the publish action
+            if (!editLibID && !item?.local) {
+                await publishNew();
+                return;
+            }
+            if (editLibID && item?.local) {
+                await publishLocal();
+                return;
+            }
+            showToast("Error publishing. Try again later.");
+        } else if (wasRewardGiven === false) {
+            // The user did not watch the ad or did not earn the reward
+            // Show a toast message to inform the user
+            showToast("You need to watch the ad to proceed with publishing.");
+        } else {
+            // The ad failed.
+            // Continue with the publish action
+            if (!editLibID && !item?.local) {
+                await publishNew();
+                return;
+            }
+            if (editLibID && item?.local) {
+                await publishLocal();
+                return;
+            }
+            showToast("Error publishing. Try again later.");
         }
-        if (editLibID && item?.local) {
-            publishLocal();
-            return;
-        }
-        showToast("Error publishing. Try again later.");
-    }
+    };    
 
     const publishNew = async () => {
         let lib = {...finishedLibRef.current}; // Spread operator converts Lib object to standard JS object

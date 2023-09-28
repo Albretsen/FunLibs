@@ -1,5 +1,6 @@
 import mobileAds from 'react-native-google-mobile-ads';
-import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography  } from 'react-native-google-mobile-ads';
+import { AppState } from 'react-native';
+import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography } from 'react-native-google-mobile-ads';
 
 export default class AdManager {
   static production = false;
@@ -19,11 +20,11 @@ export default class AdManager {
   static consentInfo;
 
   static async initialize() {
-    mobileAds().initialize().then(adapterStatuses => {});
+    mobileAds().initialize().then(adapterStatuses => { });
 
     AdManager.interstitialID = AdManager.production ? 'ca-app-pub-1354741235649835/4619107832' : TestIds.INTERSTITIAL;
-    AdManager.rewardedID = AdManager.production ?  'ca-app-pub-1354741235649835/6730355149' : TestIds.REWARDED_INTERSTITIAL;
-    AdManager.appOpenID = AdManager.production ?  'ca-app-pub-1354741235649835/9985906585' : TestIds.APP_OPEN;
+    AdManager.rewardedID = AdManager.production ? 'ca-app-pub-1354741235649835/6730355149' : TestIds.REWARDED_INTERSTITIAL;
+    AdManager.appOpenID = AdManager.production ? 'ca-app-pub-1354741235649835/9985906585' : TestIds.APP_OPEN;
     //AdsConsent.reset();
     AdManager.consentInfo = await AdsConsent.requestInfoUpdate();
 
@@ -58,19 +59,107 @@ export default class AdManager {
 
     AdManager.rewarded.load();
 
-    /* APP OPEN ADS NOT IMPLEMENTED YET
+    // Initialize appState
+    AdManager.appState = AppState.currentState;
+
+    // Listen for app state changes
+    AppState.addEventListener('change', AdManager.handleAppStateChange);
+
+    /* APP OPEN ADS */
     AdManager.appOpenAd = AppOpenAd.createForAdRequest(AdManager.appOpenID, {
-      requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly
+      requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly,
     });
 
+    // Load the App Open Ad
     AdManager.appOpenAd.load();
-    AdManager.appOpenAd.show();*/
+
+    // Listen for app state changes
+    AppState.addEventListener('change', AdManager.handleAppStateChange);
+  }
+
+  static handleAppStateChange(nextAppState) {
+    if (
+      AdManager.appState &&
+      AdManager.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      console.log('App has come to the foreground!');
+      AdManager.showAppOpenAd();
+    }
+    AdManager.appState = nextAppState;
+  }
+
+  static async showAppOpenAd() {
+    if (AdManager.appOpenAd) {
+      try {
+        let result = await FileManager._retrieveData("");
+        if (result) {
+          result = parseInt(result)
+          if (result > 4) { AdManager.showAd("appOpen") }
+        }
+      } catch {
+        console.log("App open not loaded");
+      }
+
+      // Reload the App Open Ad for next time
+      AdManager.appOpenAd.load();
+    } else {
+      console.log('App Open Ad is not loaded yet');
+    }
+  }
+
+  static showRewardedAd() {
+    return new Promise((resolve) => {
+      if (!AdManager.rewardedLoaded) {
+        console.log('Rewarded ad not loaded');
+        resolve(undefined);
+        return;
+      }
+
+      const unsubscribeEarned = AdManager.rewarded.addAdEventListener(
+        RewardedAdEventType.EARNED_REWARD,
+        reward => {
+          console.log('User earned reward of ', reward);
+          unsubscribeAll();
+          resolve(true);
+        },
+      );
+
+      const unsubscribeClosed = AdManager.rewarded.addAdEventListener(
+        AdEventType.CLOSED,
+        () => {
+          console.log('Rewarded ad was closed without reward');
+          unsubscribeAll();
+          resolve(false);
+        },
+      );
+
+      const unsubscribeError = AdManager.rewarded.addAdEventListener(
+        AdEventType.ERROR,
+        error => {
+          console.error('Error occurred while showing rewarded ad', error);
+          unsubscribeAll();
+          resolve(undefined);
+        },
+      );
+
+      const unsubscribeAll = () => {
+        unsubscribeEarned();
+        unsubscribeClosed();
+        unsubscribeError();
+      };
+
+      console.log('Showing rewarded ad');
+      AdManager.rewarded.show();
+      AdManager.rewardedLoaded = false;
+      AdManager.loadAd('rewarded');
+    });
   }
 
   static loadAd(type = null) {
     if (!type) return;
 
-    switch (type){
+    switch (type) {
       case "interstitial":
         AdManager.interstitial.load();
         break;
@@ -78,19 +167,20 @@ export default class AdManager {
         AdManager.rewarded = RewardedInterstitialAd.createForAdRequest(AdManager.rewardedID, {
           requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly
         });
-    
+
         const unsubscribeLoaded = AdManager.rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
           AdManager.rewardedLoaded = true;
         });
-    
+
         const unsubscribeEarned = AdManager.rewarded.addAdEventListener(
           RewardedAdEventType.EARNED_REWARD,
           reward => {
             console.log('User earned reward of ', reward);
           },
         );
-    
+
         AdManager.rewarded.load();
+        break;
       default:
         console.log("Invalid type --");
     }
@@ -99,7 +189,7 @@ export default class AdManager {
   static showAd(type = null) {
     if (!type) return;
 
-    switch (type){
+    switch (type) {
       case "interstitial":
         if (AdManager.interstitialLoaded) {
           AdManager.interstitial.show();
@@ -115,6 +205,10 @@ export default class AdManager {
           AdManager.rewardedLoaded = false;
           AdManager.loadAd("rewarded");
         }
+        break;
+      case "appOpen":
+        AdManager.appOpenAd.show();
+        break;
       default:
         console.log("Invalid type -");
     }
