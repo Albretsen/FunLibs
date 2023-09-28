@@ -6,6 +6,9 @@ import FileManager from './file_manager';
 import { Platform } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import LibManager from './lib_manager';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
 // Global variable to store network status
 let isConnected = true;
@@ -31,6 +34,14 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
+
 export default class FirebaseManager {
     static auth = auth;
 
@@ -39,7 +50,40 @@ export default class FirebaseManager {
         firestoreData: null
     };
 
-    static storeAuthData(user) {
+    static async registerForPushNotificationsAsync() {
+        let token = "invalid_token";
+        if (Device.isDevice || Platform.OS === "android") {
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return "invalid_token";
+            }
+            token = await Notifications.getExpoPushTokenAsync({
+                projectId: Constants.expoConfig.extra.eas.projectId,
+            });
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+        }
+
+        if (Platform.OS === 'android') {
+            Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+
+        return token;
+    }
+
+    static storeAuthData(user, push_notification_token = undefined) {
         const authData = {
             auth: user,
             firestoreData: {
@@ -49,6 +93,9 @@ export default class FirebaseManager {
                 uid: user.uid,
             }
         };
+
+        if (push_notification_token) authData.firestoreData.push_notification_token = push_notification_token;
+
         FileManager._storeData("authData", JSON.stringify(authData));
     }
 
@@ -110,6 +157,7 @@ export default class FirebaseManager {
                             photoURL: avatarID
                         }, user);
                         await this.fetchUserData();
+                        await this.AddUserDataToDatabase(user);
                         Analytics.log("Successfully created user");
                         resolve(user);
                         break;
@@ -202,6 +250,21 @@ export default class FirebaseManager {
                 Analytics.log("Auth stated changed to Signed out");
             }
         });
+    }
+
+    static async AddUserDataToDatabase(user) {
+        let push_notification_token = await this.registerForPushNotificationsAsync();
+        let fireStoreData = {
+            uid: user.uid,
+            email: user.email,
+            username: user.displayName,
+            avatarID: user.photoURL,
+            push_notification_token: push_notification_token,
+        }
+
+        this.storeAuthData(user, push_notification_token);
+
+        this.AddDocumentToCollection("users", fireStoreData, user.uid);
     }
 
     static async fetchUserData() {

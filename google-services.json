@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960757043969",
+    "project_id": "fun-libs",
+    "storage_bucket": "fun-libs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960757043969:android:fadc8f9b460c0d139e0100",
+        "android_client_info": {
+          "package_name": "com.asgalb.FunLibs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960757043969-3d3qm3cf90rspicmd95dhak7pjc7mb6f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA4KjzqTCqpeS6xILE-fdCnwT8x9nkKRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960757043969-3d3qm3cf90rspicmd95dhak7pjc7mb6f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
