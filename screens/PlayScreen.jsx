@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -384,7 +384,8 @@ export default function PlayScreen({ route }) {
 	)
 
 	return (
-		<View style={[globalStyles.screenStandard]}>
+		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
+			<ScrollView>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<View style={{flexDirection: "row", gap: 15}}>
 					<Image
@@ -462,10 +463,16 @@ export default function PlayScreen({ route }) {
 							]
 						},
 						{
+							author: "Hallvard",
+							avatarID: 12,
+							date: "10 mins ago",
+							isOP: true,
+							content: "I'm really proud of this lib!"
+						},
+						{
 							author: "Sondre",
 							avatarID: 1,
 							date: "3 days ago",
-							isOP: true,
 							content: "This looks amazing! However, I encountered a small issue when trying to implement it. Has anyone faced something similar? Would appreciate any help or insights. Thanks!"
 						},
 						{
@@ -486,6 +493,7 @@ export default function PlayScreen({ route }) {
 					]}
 				/>
 			</View>
+			</ScrollView>
 		</View>
 	);
 }

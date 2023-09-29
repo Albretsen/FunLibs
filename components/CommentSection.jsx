@@ -8,9 +8,9 @@ export default function CommentSection(props) {
     const {comments, username, avatarID} = props;
 
     // Default, min, and max heights for the TextInput
-    const defaultHeight = 20;
-    const minHeight = 20;
-    const maxHeight = 120;  // Adjust this value based on your design
+    const defaultHeight = 30;
+    const minHeight = 30;
+    const maxHeight = 120; // Adjust this value based on your design
 
     // State variable to store the height of the TextInput.
     const [inputHeight, setInputHeight] = useState(defaultHeight);
@@ -41,7 +41,7 @@ export default function CommentSection(props) {
                         }}
                     />
                 </View>
-                <TouchableOpacity style={styles.commentAction}>
+                <TouchableOpacity style={styles.commentActions}>
                     <MaterialIcons style={{ color: "#49454F" }} name="send" size={28} />
                 </TouchableOpacity>
             </View>
@@ -58,16 +58,48 @@ export default function CommentSection(props) {
                             <View style={styles.commentCenter}>
                                 <Text style={styles.username}>
                                     {comment.author}
-                                    {comment.isOP ? <Text> | Author</Text> : null}
+                                    {comment.isOP ? <Text style={{color: "#419764"}}> | Author</Text> : null}
                                 </Text>
                                 <Text style={styles.commentText}>
                                     {comment.content}
                                 </Text>
                             </View>
-                            <TouchableOpacity style={styles.commentAction}>
-                                <Text style={globalStyles.touchableText}>Reply</Text>
+                            <TouchableOpacity style={styles.commentActions}>
+                                <TouchableOpacity style={styles.commentAction}>
+                                    <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.commentAction}>
+                                    <MaterialIcons style={{ color: "#49454F" }} name="reply" size={28} />
+                                </TouchableOpacity>
                             </TouchableOpacity>
                         </View>
+                        {comment.replies && comment.replies.map((reply, replyIndex) => (
+                            <View key={replyIndex} style={[styles.comment, styles.reply]}>
+                                <View style={styles.commentAvatar}>
+                                    <Image
+                                        style={styles.avatar}
+                                        source={FirebaseManager.avatars[reply.avatarID]}
+                                    />
+                                </View>
+                                <View style={[styles.commentCenter, styles.replyCenter]}>
+                                    <Text style={styles.username}>
+                                        {reply.author}
+                                        {reply.isOP ? <Text style={{color: "#419764"}}> | Author</Text> : null}
+                                    </Text>
+                                    <Text style={styles.commentText}>
+                                        {reply.content}
+                                    </Text>
+                                </View>
+                                <TouchableOpacity style={styles.commentActions}>
+                                    <TouchableOpacity style={styles.commentAction}>
+                                        <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.commentAction}>
+                                        <MaterialIcons style={{ color: "#49454F" }} name="reply" size={28} />
+                                    </TouchableOpacity>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
                     </View>
                 ))}
             </ScrollView>
@@ -88,23 +120,37 @@ const styles = StyleSheet.create({
         paddingVertical: 25
     },
 
+    reply: {
+        paddingLeft: 25
+    },
+
     commentAvatar: {
         width: 45,
         alignItems: "flex-start",
     },
 
     commentCenter: {
-        width: (fullWidth * 0.8) - (45 + 16),
+        width: (fullWidth * 0.8) - (45 + 16 + 6),
         paddingLeft: 16,
-        color: "gray",
+        paddingRight: 6,
         gap: 5
     },
 
-    commentAction: {
+    replyCenter: {
+        width: (fullWidth * 0.8) - (45 + 16 + 6 + 25),
+    },
+
+    commentActions: {
         width: "20%",
-        height: 45,
-        // alignSelf: "center",
+        // height: 45,
         // alignItems: "center"
+        justifyContent: "flex-start",
+        gap: 7
+    },
+
+    commentAction: {
+        // Make touchable opacity bigger, for ease of clicking
+        height: 24,
         justifyContent: "center"
     },
 
