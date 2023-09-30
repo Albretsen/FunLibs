@@ -225,6 +225,7 @@ export default function NewAccountScreen() {
                             />
                         </TouchableOpacity>
                     </View>
+                    <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: 600, alignSelf: "center" }]}>Select your avatar</Text>
                     <AvatarSelect onAvatarChange={handleAvatarChange} />
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>
