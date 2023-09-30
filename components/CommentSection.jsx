@@ -12,7 +12,7 @@ import {
 } from 'react-native-popup-menu';
 
 export default function CommentSection(props) {
-    const { comments, username, avatarID, onCommentChange, onSubmitComment } = props;
+    const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
 
     // Default, min, and max heights for the TextInput
     const defaultHeight = 30;
@@ -37,6 +37,59 @@ export default function CommentSection(props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const showToast = useContext(ToastContext);
+
+    /**
+     * getTimeDifferenceString
+     *
+     * Computes the time difference between the current time and the provided timestamp
+     * and formats it as a string.
+     *
+     * @function
+     * @param {Date} timestamp - The timestamp to compare against the current time.
+     * @returns {string} - A formatted string indicating the time difference.
+     */
+    function timeAgo(input) {
+        let date;
+    
+        // Check if it's a Firebase timestamp.
+        if (input && typeof input.seconds === 'number') {
+            date = new Date(input.seconds * 1000);
+        } else if (input instanceof Date) {
+            date = input;
+        } else {
+            throw new Error('Invalid input type. Expected Firebase timestamp or JavaScript Date object.');
+        }
+    
+        const now = new Date();
+        const secondsPast = (now.getTime() - date.getTime()) / 1000;
+    
+        // Convert difference into appropriate units.
+        if (secondsPast < 60) {
+            return secondsPast === 1 ? '1 second ago' : `${Math.floor(secondsPast)} seconds ago`;
+        }
+        if (secondsPast < 3600) {
+            const minutes = Math.floor(secondsPast / 60);
+            return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+        }
+        if (secondsPast < 86400) {
+            const hours = Math.floor(secondsPast / 3600);
+            return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+        }
+        if (secondsPast < 604800) {
+            const days = Math.floor(secondsPast / 86400);
+            return days === 1 ? '1 day ago' : `${days} days ago`;
+        }
+        if (secondsPast < 2419200) {
+            const weeks = Math.floor(secondsPast / 604800);
+            return weeks === 1 ? '1 week ago' : `${weeks} weeks ago`;
+        }
+        if (secondsPast < 29030400) {
+            const months = Math.floor(secondsPast / 2419200);
+            return months === 1 ? '1 month ago' : `${months} months ago`;
+        }
+        const years = Math.floor(secondsPast / 29030400);
+        return years === 1 ? '1 year ago' : `${years} years ago`;
+    }
 
     const handleSubmitComment = (content, replyingToCommentIndex) => {
         if (!FirebaseManager.currentUserData?.firestoreData?.username) {
@@ -149,7 +202,8 @@ export default function CommentSection(props) {
                             <View style={styles.commentCenter}>
                                 <Text style={styles.username}>
                                     {comment.username}
-                                    {comment.isOP ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                    {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                    <Text style={{ color: 'gray', marginLeft: 5 }}>{timeAgo(comment.date)}</Text>
                                 </Text>
                                 <Text style={styles.commentText}>
                                     {comment.content}
@@ -221,7 +275,8 @@ export default function CommentSection(props) {
                                 <View style={[styles.commentCenter, styles.replyCenter]}>
                                     <Text style={styles.username}>
                                         {reply.username}
-                                        {reply.isOP ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                        {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                        <Text style={{ color: 'gray', marginLeft: 5 }}>{timeAgo(comment.date)}</Text>
                                     </Text>
                                     <Text style={styles.commentText}>
                                         {reply.content}
