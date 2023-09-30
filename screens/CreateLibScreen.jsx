@@ -735,6 +735,7 @@ export default function CreateLibScreen({ route }) {
                     show={showDialogInfo}
                     onCancel={() => setShowDialogInfo(false)}
                     onConfirm={() => setShowDialogInfo(false)}
+                    cancelLabel=" "
                 >
                     <Text style={styles.paragraph}>
                         Write your text by using prompts enclosed in parentheses. For example:
