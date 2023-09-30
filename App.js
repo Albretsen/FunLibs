@@ -17,6 +17,7 @@ import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import CompatibilityVerification from "./scripts/compatibility_verification.js";
+import { MenuProvider } from 'react-native-popup-menu';
 
 CompatibilityVerification.RunCompatibilityVerification();
 
@@ -68,26 +69,28 @@ export default function App() {
   return (
     // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
     <ConditionalWrapper>
-      <SafeAreaProvider>
-        <Provider>
-          <ScreenProvider>
-            <ToastProvider>
-              <DialogProvider>
-                <DrawerProvider>
-                  <TabProvider>
-                    <NavigationContainer>
-                      <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
-                        <AppScreenStack />
-                        <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                      </GestureHandlerRootView>
-                    </NavigationContainer>
-                  </TabProvider>
-                </DrawerProvider>
-              </DialogProvider>
-            </ToastProvider>
-          </ScreenProvider>
-        </Provider>
-      </SafeAreaProvider>
+      <MenuProvider>
+        <SafeAreaProvider>
+          <Provider>
+            <ScreenProvider>
+              <ToastProvider>
+                <DialogProvider>
+                  <DrawerProvider>
+                    <TabProvider>
+                      <NavigationContainer>
+                        <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
+                          <AppScreenStack />
+                          <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                        </GestureHandlerRootView>
+                      </NavigationContainer>
+                    </TabProvider>
+                  </DrawerProvider>
+                </DialogProvider>
+              </ToastProvider>
+            </ScreenProvider>
+          </Provider>
+        </SafeAreaProvider>
+      </MenuProvider>
     </ConditionalWrapper>
   );
 }

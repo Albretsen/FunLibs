@@ -383,6 +383,22 @@ export default function PlayScreen({ route }) {
 		</>
 	)
 
+	const [commentText, setCommentText] = useState("");
+
+	function handleCommentChange(text) {
+        setCommentText(text);
+    }
+
+	const submitComment = (comment, replyingToCommentIndex) => {
+		if (!FirebaseManager.currentUserData?.auth?.uid) {
+			console.log("not logged in");
+			return;
+		}
+
+		if (replyingToCommentIndex == null) FirebaseManager.UpdateDocument("posts", currentLib.id, {}, { comments: [comment] });
+		else FirebaseManager.UpdateDocument("posts", currentLib.id, {comments: comment});
+	} 
+
 	return (
 		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
 			<ScrollView>
@@ -423,7 +439,7 @@ export default function PlayScreen({ route }) {
 					color="#006D40"
 					unfilledColor="#D1E8D5"
 					borderWidth={0}
-					borderRadius={0}
+					borderRadius={0}comment
 				/>
 				<Buttons
 					buttons={
@@ -444,53 +460,11 @@ export default function PlayScreen({ route }) {
 			<View style={[globalStyles.containerWhitespace]}>
 				<CommentSection
 					// Username and avatar to be displayed in the "write your comment" box
-					username="Asgeir Albretsen"
-					avatarID="3"
-					comments={[
-						{
-							author: "Asgeir",
-							avatarID: 10,
-							date: "2 days ago",
-							content: "WoW! Crazy lib! I've been looking for something like this for a long time. It's exactly what I needed for my project.",
-							replies: [
-								{
-									author: "Hallvard",
-									avatarID: 12,
-									date: "28 mins ago",
-									isOP: true,
-									content: "@Asgeir Thank you so much! I'm really glad to hear that you found it useful. Let me know if you have any feedback or suggestions."
-								}
-							]
-						},
-						{
-							author: "Hallvard",
-							avatarID: 12,
-							date: "10 mins ago",
-							isOP: true,
-							content: "I'm really proud of this lib!"
-						},
-						{
-							author: "Sondre",
-							avatarID: 1,
-							date: "3 days ago",
-							content: "This looks amazing! However, I encountered a small issue when trying to implement it. Has anyone faced something similar? Would appreciate any help or insights. Thanks!"
-						},
-						{
-							author: "Lena",
-							avatarID: 5,
-							date: "1 day ago",
-							content: "Just started using this and it's simply fantastic. A big shoutout to the developers behind this! Keep up the good work.",
-							replies: [
-								{
-									author: "Hallvard",
-									avatarID: 12,
-									date: "15 mins ago",
-									isOP: true,
-									content: "@Lena Thanks for the kind words! We're always here to help and support the community. Feel free to reach out if you have any queries."
-								}
-							]
-						}
-					]}
+					username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
+					avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
+					onCommentChange={handleCommentChange}
+					onSubmitComment={submitComment}
+					comments={currentLib.comments ? currentLib.comments : []}
 				/>
 			</View>
 			</ScrollView>
@@ -555,3 +529,50 @@ const styles = StyleSheet.create({
 		height: 212,
 	},
 })
+
+/*
+[
+						{
+							author: "Asgeir",
+							avatarID: 10,
+							date: "2 days ago",
+							content: "WoW! Crazy lib! I've been looking for something like this for a long time. It's exactly what I needed for my project.",
+							replies: [
+								{
+									author: "Hallvard",
+									avatarID: 12,
+									date: "28 mins ago",
+									isOP: true,
+									content: "@Asgeir Thank you so much! I'm really glad to hear that you found it useful. Let me know if you have any feedback or suggestions."
+								}
+							]
+						},
+						{
+							author: "Hallvard",
+							avatarID: 12,
+							date: "10 mins ago",
+							isOP: true,
+							content: "I'm really proud of this lib!"
+						},
+						{
+							author: "Sondre",
+							avatarID: 1,
+							date: "3 days ago",
+							content: "This looks amazing! However, I encountered a small issue when trying to implement it. Has anyone faced something similar? Would appreciate any help or insights. Thanks!"
+						},
+						{
+							author: "Lena",
+							avatarID: 5,
+							date: "1 day ago",
+							content: "Just started using this and it's simply fantastic. A big shoutout to the developers behind this! Keep up the good work.",
+							replies: [
+								{
+									author: "Hallvard",
+									avatarID: 12,
+									date: "15 mins ago",
+									isOP: true,
+									content: "@Lena Thanks for the kind words! We're always here to help and support the community. Feel free to reach out if you have any queries."
+								}
+							]
+						}
+*/
