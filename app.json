@@ -4,6 +4,9 @@
     "slug": "FunLibs",
     "version": "2.0.2",
     "orientation": "portrait",
+    "notification": {
+      "icon": "./assets/push_notification_icon.png"
+    },
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
