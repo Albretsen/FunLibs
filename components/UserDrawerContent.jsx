@@ -5,9 +5,9 @@ import FirebaseManager from '../scripts/firebase_manager';
 export default function UserDrawerContent({ navigation, closeDrawer }) {
 
 	return (
-		<View style={{ gap: 35, marginTop: 10 }}>
+		<View style={{gap: 35, marginTop: 30}}>
 			<TouchableOpacity onPress={() => {
-					console.log("feedback")
+					navigation.navigate("FeedbackScreen");
 					closeDrawer();
 				}}>
 					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Feedback</Text>
