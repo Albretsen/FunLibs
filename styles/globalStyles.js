@@ -54,6 +54,10 @@ const globalStyles = StyleSheet.create({
         fontSize: 26
     },
 
+    touchableText: {
+        color: "#5C9BEB",
+    },
+
     title: {
         fontSize: 22,
     },

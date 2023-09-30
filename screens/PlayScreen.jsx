@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -23,6 +23,7 @@ import AudioPlayer from "../scripts/audio";
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from "react-native";
+import CommentSection from "../components/CommentSection";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -383,7 +384,8 @@ export default function PlayScreen({ route }) {
 	)
 
 	return (
-		<View style={[globalStyles.screenStandard]}>
+		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
+			<ScrollView>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
 				<View style={{flexDirection: "row", gap: 15}}>
 					<Image
@@ -401,6 +403,7 @@ export default function PlayScreen({ route }) {
 						value={currentInput}
 						onChangeText={setCurrentInput}
 						mode="outlined"
+						autoCapitalize="none"
 						theme={{
 							colors: {
 								primary: '#49454F', // For the outline color
@@ -409,7 +412,7 @@ export default function PlayScreen({ route }) {
 					/>
 					{fillAvailable && ( // Render only if autofill is available
 						<TouchableOpacity onPress={autofill} style={{position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center"}}>
-							<Text style={{color: "#5C9BEB", fontSize: 16}}>Fill</Text>
+							<Text style={[globalStyles.touchableText, {fontSize: 16}]}>Fill</Text>
 						</TouchableOpacity>
 					)}
 				</View>
@@ -437,6 +440,60 @@ export default function PlayScreen({ route }) {
 					labelStyle={{fontWeight: 600}}
 				/>
 			</View>
+
+			<View style={[globalStyles.containerWhitespace]}>
+				<CommentSection
+					// Username and avatar to be displayed in the "write your comment" box
+					username="Asgeir Albretsen"
+					avatarID="3"
+					comments={[
+						{
+							author: "Asgeir",
+							avatarID: 10,
+							date: "2 days ago",
+							content: "WoW! Crazy lib! I've been looking for something like this for a long time. It's exactly what I needed for my project.",
+							replies: [
+								{
+									author: "Hallvard",
+									avatarID: 12,
+									date: "28 mins ago",
+									isOP: true,
+									content: "@Asgeir Thank you so much! I'm really glad to hear that you found it useful. Let me know if you have any feedback or suggestions."
+								}
+							]
+						},
+						{
+							author: "Hallvard",
+							avatarID: 12,
+							date: "10 mins ago",
+							isOP: true,
+							content: "I'm really proud of this lib!"
+						},
+						{
+							author: "Sondre",
+							avatarID: 1,
+							date: "3 days ago",
+							content: "This looks amazing! However, I encountered a small issue when trying to implement it. Has anyone faced something similar? Would appreciate any help or insights. Thanks!"
+						},
+						{
+							author: "Lena",
+							avatarID: 5,
+							date: "1 day ago",
+							content: "Just started using this and it's simply fantastic. A big shoutout to the developers behind this! Keep up the good work.",
+							replies: [
+								{
+									author: "Hallvard",
+									avatarID: 12,
+									date: "15 mins ago",
+									isOP: true,
+									content: "@Lena Thanks for the kind words! We're always here to help and support the community. Feel free to reach out if you have any queries."
+								}
+							]
+						}
+					]}
+				/>
+			</View>
+			</ScrollView>
 		</View>
 	);
 }
