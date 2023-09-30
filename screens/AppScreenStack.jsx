@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import LibsHomeScreen from "./LibsHomeScreen";
+import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
 import DeleteAccountScreen from './DeleteAccountScreen';
@@ -151,6 +152,14 @@ export default function AppScreenStack() {
 						);
 					},
 					headerTitleAlign: "center",
+					headerStyle: standardHeaderStyle,
+				}}
+			/>
+			<Stack.Screen
+				name="FeedbackScreen"
+				component={FeedbackScreen}
+				options={{
+					headerTitle: "",
 					headerStyle: standardHeaderStyle,
 				}}
 			/>

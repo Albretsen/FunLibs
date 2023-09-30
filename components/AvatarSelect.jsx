@@ -31,8 +31,11 @@ export default function AvatarSelect({ onAvatarChange }) {
 }
 
 const screenWidth = Dimensions.get('window').width;
+
+// The other elemets have a margin for whitespace, account for this so that the avatars don't overflow the whitespace
+const screenWidthWithMargin = screenWidth - screenWidth / 6;
 // Define preferred avatar size in width and height, and gap size
-const avatarSize = 80;
+const avatarSize = 70;
 const gapSize = 10;
 
 // Combine these for easier calculation
@@ -42,7 +45,7 @@ const avatarWithGap = avatarSize + gapSize;
 // This is because for every 2 avatars, there is only one gap between them
 let containerWidth = 0 - gapSize;
 // Calculate the widht of the selector's container until it would be wider than the screen
-while((containerWidth + avatarWithGap) < screenWidth) {
+while((containerWidth + avatarWithGap) < screenWidthWithMargin) {
     containerWidth += avatarWithGap;
 }
 
