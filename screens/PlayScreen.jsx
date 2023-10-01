@@ -465,6 +465,7 @@ export default function PlayScreen({ route }) {
 					onCommentChange={handleCommentChange}
 					onSubmitComment={submitComment}
 					comments={currentLib.comments ? currentLib.comments : []}
+					opUid={currentLib.user}
 				/>
 			</View>
 			</ScrollView>
