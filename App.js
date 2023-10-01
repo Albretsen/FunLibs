@@ -18,6 +18,7 @@ import { TabProvider } from "./components/TabContext.jsx";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import CompatibilityVerification from "./scripts/compatibility_verification.js";
 import { MenuProvider } from 'react-native-popup-menu';
+import DeepLinkHandler from './components/DeepLinkHandler.jsx'
 
 CompatibilityVerification.RunCompatibilityVerification();
 
@@ -55,6 +56,11 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(0);
   const windowHeight = useWindowDimensions().height;
 
+  const handleDeepLink = ({ path, queryParams }) => {
+    // Handle the deep link: navigate to the correct screen or perform other actions
+    console.log('Received deep link:', path, queryParams);
+  };
+
   const ConditionalWrapper = ({ children }) => {
     if (Platform.OS === 'android' || Platform.OS === 'ios') {
       return (
@@ -69,6 +75,7 @@ export default function App() {
   return (
     // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
     <ConditionalWrapper>
+      <DeepLinkHandler onDeepLink={handleDeepLink} />
       <MenuProvider>
         <SafeAreaProvider>
           <Provider>

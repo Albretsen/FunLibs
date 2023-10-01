@@ -4,6 +4,7 @@
     "slug": "FunLibs",
     "version": "2.0.2",
     "orientation": "portrait",
+    "scheme": "funlibs",
     "notification": {
       "icon": "./assets/push_notification_icon.png"
     },

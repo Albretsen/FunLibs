@@ -564,10 +564,12 @@ export default class FirebaseManager {
                 q = query(q, where("official", "==", true));
                 break;
             case "all":
-                // Do nothing
+                q = query(q, where("official", "==", false));
+                break;
+            case "All":
+                q = query(q, where("official", "==", false));
                 break;
             case "myFavorites":
-                // Boilerplate for "myFavorites" - You can add the functionality later.
                 if (this.currentUserData.auth) { 
                     q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
                 } else {
@@ -708,7 +710,7 @@ export default class FirebaseManager {
         });
 
         const lastDoc = result.docs[result.docs.length - 1];
-        if (Analytics.production === false) this.FindUnsupportedPrompts(localResult.concat(resultArray));
+        if (Analytics.production === false) //this.FindUnsupportedPrompts(localResult.concat(resultArray));
         //return localResult.concat(resultArray);
         return {
             data: localResult.concat(resultArray),

@@ -562,14 +562,14 @@ export default function LibsScreen() {
 						}
 					},
 					{
-						name: "All libs",
+						name: "User created libs",
 						onPress: () => {
 							setSelectedCategory("All");
 							updateFilterOptions(playReadValue, "All");
 						}
 					},
 					{
-						name: "Favorite libs",
+						name: "Liked libs",
 						onPress: () => {
 							setSelectedCategory("myFavorites");
 							updateFilterOptions(playReadValue, "myFavorites");
