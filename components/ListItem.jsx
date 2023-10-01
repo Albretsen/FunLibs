@@ -203,17 +203,17 @@ function ListItem(props) {
 
     useEffect(() => {
         if (isInitialRender.current) {
-          Animated.sequence([
-            Animated.delay(index * 5),
-            Animated.timing(fadeAnim, {
-              toValue: 1,
-              duration: 400,
-              useNativeDriver: true,
-            })
-          ]).start();
-          isInitialRender.current = false;
+            Animated.sequence([
+                Animated.delay(index * 5),
+                Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 400,
+                useNativeDriver: true,
+                })
+            ]).start();
+            isInitialRender.current = false;
         }
-      }, [index]);
+    }, [index]);
 
     return (
         <TouchableOpacity onPress={() => playLib(id, type)}>

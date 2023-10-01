@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import LibsScreen from "./LibsScreen_new";
+import LibsScreen from "./LibsScreen";
 import CreateLibScreen from "./CreateLibScreen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";

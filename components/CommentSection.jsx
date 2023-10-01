@@ -4,7 +4,6 @@ import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
 import Dropdown from "./Dropdown";
-import globalStyles from "../styles/globalStyles";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
@@ -151,7 +150,7 @@ export default function CommentSection(props) {
         });
     };
 
-    // Icons
+    // Put icons here as these are used more than once
     const iconMore = <MaterialIcons style={{color: "#49454F"}} name="more-vert" size={16} />
     const iconSend = <MaterialIcons style={{ color: "#49454F", marginTop: 10, marginLeft: 3 }} name="send" size={20} />
     const iconReply = <MaterialIcons style={{ color: "#49454F" }} name="reply" size={22} />
@@ -370,7 +369,6 @@ const styles = StyleSheet.create({
     },
 
     commentCenter: {
-        // width: (fullWidth * 0.8) - (45 + 16 + 6),
         flex: 1,
         paddingLeft: 16,
         paddingRight: 6,
@@ -378,15 +376,12 @@ const styles = StyleSheet.create({
     },
 
     replyCenter: {
-        // width: (fullWidth * 0.8) - (45 + 16 + 6 + 25),
         flex: 1
     },
 
     commentActions: {
-        // width: "20%",
         flex: 0.3,
         // height: 45,
-        // alignItems: "center"
         justifyContent: "flex-start",
         alignItems: "center",
         gap: 7
@@ -417,5 +412,4 @@ const styles = StyleSheet.create({
     commentText: {
         lineHeight: 24
     }
-
 })

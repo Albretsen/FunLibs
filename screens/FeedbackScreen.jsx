@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"; // Import useState and useContext
+import React, { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
