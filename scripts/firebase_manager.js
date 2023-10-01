@@ -467,7 +467,38 @@ export default class FirebaseManager {
             const batch = writeBatch(db);
 
             snapshot.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+    
+            await batch.commit();
+
+        } while (true);
+
+        Analytics.log(`Deleted all posts associated with UID: ${uid}`);
+
+        let lastVisibleGlobal;
+
+        do {
+            let allPostsQuery = query(collection(db, "posts"), orderBy("date"), limit(batchSize));
+
+            if (lastVisibleGlobal) {
+                allPostsQuery = query(collection(db, "posts"), orderBy("date"), startAfter(lastVisibleGlobal), limit(batchSize));
+            }
+
+            const globalSnapshot = await getDocs(allPostsQuery);
+
+            if (globalSnapshot.empty) {
+                break;
+            }
+
+            lastVisibleGlobal = globalSnapshot.docs[globalSnapshot.docs.length - 1];
+
+            const globalBatch = writeBatch(db);
+
+            globalSnapshot.docs.forEach(doc => {
                 const postData = doc.data();
+
+                let postModified = false;
 
                 // Modify top-level comments
                 if (postData.comments) {
@@ -476,6 +507,8 @@ export default class FirebaseManager {
                             comment.username = "[deleted]";
                             comment.content = "[deleted]";
                             comment.uid = "[deleted]";
+                            comment.avatarID = "no-avatar-24";
+                            postModified = true;
                         }
 
                         // Modify replies to top-level comments
@@ -485,28 +518,25 @@ export default class FirebaseManager {
                                     reply.username = "[deleted]";
                                     reply.content = "[deleted]";
                                     reply.uid = "[deleted]";
+                                    reply.avatarID = "no-avatar-24";
+                                    postModified = true;
                                 }
                             });
                         }
                     });
 
                     // Update the post in Firestore with the modified comments and replies
-                    batch.set(doc.ref, postData);
-                } else {
-                    batch.delete(doc.ref);
+                    if (postModified) {
+                        globalBatch.set(doc.ref, postData);
+                    }
                 }
             });
 
-            snapshot.docs.forEach(doc => {
-                batch.delete(doc.ref);
-            });
-    
-            await batch.commit();
-    
-        } while (true);
-    
-        Analytics.log(`Deleted all posts associated with UID: ${uid}`);
+            await globalBatch.commit();
 
+        } while (true);
+
+        Analytics.log(`Deleted all comments associated with UID: ${uid}`);
 
         try {
             const usernameDocRef = doc(db, "usernames", this.currentUserData?.firestoreData?.username);
@@ -523,6 +553,72 @@ export default class FirebaseManager {
             Analytics.log(`Deleted Firebase Auth user with UID: ${uid}`);
         } catch (error) {
             Analytics.log(`Error deleting Firebase Auth user: ${error.message}`);
+            throw error;
+        }
+    }
+
+    static async blockUser(blockedID) {
+        if (!this.currentUserData?.auth?.uid) return false; 
+        const blockerID = this.currentUserData.auth.uid;
+        if (blockerID === blockedID) {
+            console.error("A user can't block themselves.");
+            return;
+        }
+
+        const blockData = {
+            blockerID: blockerID,
+            blockedID: blockedID,
+            date: new Date()
+        };
+
+        try {
+            await this.AddDocumentToCollection("blockedUsers", blockData);
+            Analytics.log(`User ${blockerID} blocked user ${blockedID}`);
+        } catch (error) {
+            Analytics.log("Error blocking user: " + error.message);
+        }
+    }
+
+    static async isUserBlocked(blockedID) {
+        if (!this.currentUserData?.auth?.uid) return false; 
+        const blockerID = this.currentUserData.auth.uid;
+        const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID), where("blockedID", "==", blockedID));
+        const snapshot = await getDocs(blockQuery);
+        return !snapshot.empty;
+    }
+
+    static async getAllBlockedUsers() {
+        if (!this.currentUserData?.auth?.uid) return false; 
+        const blockerID = this.currentUserData.auth.uid;
+        const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID));
+        const snapshot = await getDocs(blockQuery);
+        
+        const blockedUsers = [];
+        snapshot.forEach(doc => {
+            blockedUsers.push(doc.data().blockedID);
+        });
+
+        return blockedUsers;
+    }
+
+    static async unblockUser(blockedID) {
+        if (!this.currentUserData?.auth?.uid) return false; 
+        const blockerID = this.currentUserData.auth.uid;
+
+        const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID), where("blockedID", "==", blockedID));
+        const snapshot = await getDocs(blockQuery);
+        
+        if (snapshot.empty) {
+            console.error(`User ${blockedID} is not blocked by ${blockerID}.`);
+            return;
+        }
+
+        const blockDocID = snapshot.docs[0].id;
+        try {
+            await deleteDoc(doc(db, "blockedUsers", blockDocID));
+            Analytics.log(`User ${blockerID} unblocked user ${blockedID}`);
+        } catch (error) {
+            Analytics.log("Error unblocking user: " + error.message);
             throw error;
         }
     }
@@ -743,7 +839,7 @@ export default class FirebaseManager {
                     q = query(q, orderBy("likes", "desc"));
                     break;
                 case "trending":
-                    q = query(q, orderBy("likes", "desc"));
+                    q = query(q, orderBy("weightedLikes", "desc"));
                     Analytics.log("Weighted sorting has been DISABLED\nSorting by Top instead")
                     break;
                 case "newest":

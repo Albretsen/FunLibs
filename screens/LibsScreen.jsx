@@ -139,6 +139,12 @@ export default function LibsScreen() {
 			if (currentTokenRef.current !== thisCallToken) return;
 			let dbItems = dbResult.data;
 
+			// Fetch the list of blocked users
+			const blockedUsers = await FirebaseManager.getAllBlockedUsers();
+
+			// Filter out items from blocked users
+			if (blockedUsers) dbItems = dbItems.filter(item => !blockedUsers.includes(item.user));
+
 			// If both localItems and dbItems are empty, unload the list
 			if (localItems.length === 0 && (!dbItems || dbItems.length === 0)) {
 				if (!lastDocument) {
@@ -671,13 +677,13 @@ export default function LibsScreen() {
 									icon: selectedSortBy === "likes" ? "done" : null,
 									buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
 									onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
-								} //,
-								// {
-								// 	label: "Trending",
-								// 	icon: selectedSortBy === "trending" ? "done" : null,
-								// 	buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-								// 	onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
-								// }
+								},
+								{
+									label: "Trending",
+									icon: selectedSortBy === "trending" ? "done" : null,
+									buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
+								}
 							]}
 							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
 							containerStyle={{justifyContent: "flex-start", gap: 20}}

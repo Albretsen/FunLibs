@@ -318,6 +318,7 @@ export default function CreateLibScreen({ route }) {
         lib.date = new Date();
         lib.id = new Date().getTime() / 1000;
         lib.likes = 0;
+        lib.weightedLikes = 0;
         lib.likesArray = [];
         lib.official = FirebaseManager.currentUserData?.firestoreData?.username === "Official";
         lib.playable = true;
@@ -426,6 +427,7 @@ export default function CreateLibScreen({ route }) {
         lib.date = new Date();
         lib.id = new Date().getTime() / 1000;
         lib.likes = 0;
+        lib.weightedLikes = 0;
         lib.likesArray = [];
         lib.official = FirebaseManager.currentUserData?.firestoreData?.username === "Official";
         lib.playable = true;
