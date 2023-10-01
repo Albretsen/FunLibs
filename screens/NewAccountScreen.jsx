@@ -98,6 +98,8 @@ export default function NewAccountScreen() {
                     navigation.navigate("Home");
                 })
                 .catch(error => {
+                    FirebaseManager.DeleteUser();
+
                     const errorMessage = FirebaseManager.getCreateAccountErrorMessage(error.code);
                     console.log("Error creating account: ", error.message);
 
@@ -111,7 +113,7 @@ export default function NewAccountScreen() {
                         case 'auth/weak-password':
                             break;
                         case 'auth/missing-password':
-                            break
+                            break;
                         default:
                             // Handle unknown errors
                             break;

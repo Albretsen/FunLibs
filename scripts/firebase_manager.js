@@ -61,7 +61,7 @@ export default class FirebaseManager {
 
     static async registerForPushNotificationsAsync() {
         let token = "invalid_token";
-        if (Device.isDevice || Platform.OS === "android") {
+        if (Device.isDevice && Platform.OS === "android") {
             const { status: existingStatus } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
             if (existingStatus !== 'granted') {
@@ -77,7 +77,7 @@ export default class FirebaseManager {
             });
             console.log(token);
         } else {
-            alert('Must use physical device for Push Notifications');
+            console.log('Must use physical device for Push Notifications');
         }
 
         if (Platform.OS === 'android') {
@@ -156,19 +156,21 @@ export default class FirebaseManager {
     }
 
     static async CreateUser(signUpMethod, email, password, username, avatarID) {
+        let user;
         return new Promise(async (resolve, reject) => {
             try {
                 switch (signUpMethod) {
                     case "email":
                         try {
-                            const user = await this.CreateUserWithEmailAndPassword(email, password);
+                            user = await this.CreateUserWithEmailAndPassword(email, password);
                             if (await this.storeUsername(username, user.uid)) {
                                 await this.UpdateUserAuthProfile({
                                     displayName: username,
                                     photoURL: avatarID
                                 }, user);
-                                await this.fetchUserData();
+                                this.currentUserData.auth = user;
                                 await this.AddUserDataToDatabase(user);
+                                await this.fetchUserData(user.uid);
                                 Analytics.log("Successfully created user");
                                 resolve(user);
                             } else {
@@ -180,9 +182,6 @@ export default class FirebaseManager {
                                 reject(error);
                             }
                         } catch (error) {
-                            if (user) {
-                                await deleteUser(user);
-                            }
                             throw error; // Re-throw the error after cleanup so it can be handled or logged elsewhere.
                         }
                         break;
@@ -311,7 +310,6 @@ export default class FirebaseManager {
     }
 
     static async fetchUserData(uid) {
-        console.log("FETCHING FOR " + uid);
         /*this.currentUserData = {
             auth: auth.currentUser,
             firestoreData: {
@@ -368,22 +366,17 @@ export default class FirebaseManager {
                 return;
             }
 
-            if (await this.storeUsername(profileData.displayName, user.uid)) {
-                updateProfile(user, profileData)
-                    .then(() => {
-                        Analytics.log("Updated profile for " + uid);
-                        this.currentUserData.auth = auth.user;
-                        this.RefreshList(null);
-                        resolve('Profile updated successfully');
-                    })
-                    .catch((error) => {
-                        this.RefreshList(null);
-                        Analytics.log("Error updating profile " + error.message);
-                    });
-            } else {
-                const error = new Error('Username is already taken');
-                reject(error);
-            }
+            updateProfile(user, profileData)
+                .then(() => {
+                    Analytics.log("Updated profile for " + uid);
+                    this.currentUserData.auth = auth.user;
+                    this.RefreshList(null);
+                    resolve('Profile updated successfully');
+                })
+                .catch((error) => {
+                    this.RefreshList(null);
+                    Analytics.log("Error updating profile " + error.message);
+                });
         });
     }
 
@@ -468,11 +461,42 @@ export default class FirebaseManager {
             if (snapshot.empty) {
                 break;
             }
-    
+
             lastVisible = snapshot.docs[snapshot.docs.length - 1];
-    
+
             const batch = writeBatch(db);
-    
+
+            snapshot.docs.forEach(doc => {
+                const postData = doc.data();
+
+                // Modify top-level comments
+                if (postData.comments) {
+                    postData.comments.forEach(comment => {
+                        if (comment.uid === uid) {
+                            comment.username = "[deleted]";
+                            comment.content = "[deleted]";
+                            comment.uid = "[deleted]";
+                        }
+
+                        // Modify replies to top-level comments
+                        if (comment.replies) {
+                            comment.replies.forEach(reply => {
+                                if (reply.uid === uid) {
+                                    reply.username = "[deleted]";
+                                    reply.content = "[deleted]";
+                                    reply.uid = "[deleted]";
+                                }
+                            });
+                        }
+                    });
+
+                    // Update the post in Firestore with the modified comments and replies
+                    batch.set(doc.ref, postData);
+                } else {
+                    batch.delete(doc.ref);
+                }
+            });
+
             snapshot.docs.forEach(doc => {
                 batch.delete(doc.ref);
             });
@@ -482,6 +506,15 @@ export default class FirebaseManager {
         } while (true);
     
         Analytics.log(`Deleted all posts associated with UID: ${uid}`);
+
+
+        try {
+            const usernameDocRef = doc(db, "usernames", this.currentUserData?.firestoreData?.username);
+            await deleteDoc(usernameDocRef);
+            Analytics.log(`Deleted username entry from 'usernames' collection for UID: ${uid}`);
+        } catch (error) {
+            Analytics.log(`Error deleting username entry from 'usernames' collection: ${error.message}`);
+        }
     
         // 3. Delete the Firebase Auth user
         try {
@@ -629,7 +662,6 @@ export default class FirebaseManager {
                 }
                 if (lastVisibleDoc) localResult = [];
                 if (this.currentUserData?.auth) {
-                    console.log("ADDING AUTH TAG: " + this.currentUserData.auth.uid);
                     q = query(q, where("user", "==", this.currentUserData.auth.uid));
                 } else {
                     q = query(q, where("user", "==", "not logged in"));

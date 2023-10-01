@@ -221,13 +221,17 @@ export default function CommentSection(props) {
                                         iconMore
                                     }
                                     anchorStyle={null}
-                                    containerStyle={{height: "auto", alignSelf: "center"}}
-                                    options={[
-                                        {
-                                            name: "Delete comment",
-                                            onPress: () => handleDeleteComment(index)
-                                        }
-                                    ]}
+                                    containerStyle={{ height: "auto", alignSelf: "center" }}
+                                    options={
+                                        comment.uid === FirebaseManager.currentUserData?.auth?.uid
+                                            ? [
+                                                {
+                                                    name: "Delete comment",
+                                                    onPress: () => handleDeleteComment(index)
+                                                }
+                                            ]
+                                            : []
+                                    }
                                 />
                                 <TouchableOpacity style={styles.commentAction} onPress={() => {
                                     setReplyingToCommentIndex(index);
@@ -306,12 +310,16 @@ export default function CommentSection(props) {
                                         }
                                         anchorStyle={null}
                                         containerStyle={{height: "auto", alignSelf: "center"}}
-                                        options={[
-                                            {
-                                                name: "Delete reply",
-                                                onPress: () => handleDeleteComment(index, replyIndex)
-                                            }
-                                        ]}
+                                        options={
+                                            reply.uid === FirebaseManager.currentUserData?.auth?.uid
+                                                ? [
+                                                    {
+                                                        name: "Delete comment",
+                                                        onPress: () => handleDeleteComment(index, replyIndex)
+                                                    }
+                                                ]
+                                                : []
+                                        }
                                     />
                                     <TouchableOpacity style={styles.commentAction} onPress={() => {
                                         setReplyingToCommentIndex(index);
