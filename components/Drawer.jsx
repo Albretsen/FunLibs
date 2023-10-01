@@ -6,7 +6,9 @@ import { PanGestureHandler, State } from "react-native-gesture-handler";
 const Drawer = forwardRef((props, ref) => {
     const { isVisible, closeDrawer, component, header = {}, side = "right", onShare, width = 85, containerStyle, closeButton = true, closeSide = {left: true} } = props;
     const windowWidth = Dimensions.get("window").width;
-    const drawerWidth = (parseInt(width) / 100) * windowWidth;
+    let drawerWidth = (parseInt(width) / 100) * windowWidth;
+    console.log(drawerWidth)
+    if(drawerWidth >= 500) drawerWidth = 500; // Limit drawer width, looks crazy on big devices if not
     const maskWidth = windowWidth - drawerWidth;
     const initialSlideValue = side === "left" ? -windowWidth : windowWidth;
 

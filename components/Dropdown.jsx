@@ -7,7 +7,7 @@ import { ScreenHeight, ScreenWidth } from '@rneui/base';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Dropdown( props ) {
-    const { options, selected } = props;
+    const { options, selected, anchor, anchorStyle, containerStyle } = props;
     const [visible, setVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(selected || "Official libs");
 
@@ -97,29 +97,45 @@ export default function Dropdown( props ) {
     const screenHeight = Dimensions.get("window").height;
     const screenWidth = Dimensions.get("window").width;
 
+    let anchorContent = (
+        <>
+            <Text style={[{fontSize: 14}, globalStyles.bold]}>
+                {selectedOption}
+            </Text>
+            <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+                <MaterialIcons
+                    name="expand-less"
+                    size={20}
+                />
+            </Animated.View>
+        </>
+    )
+
+    if(anchor) {
+        anchorContent = anchor;
+    }
+
+    let anchorContainerStyle = {flexDirection: "row", alignItems: "center", gap: 5}
+
+    if(anchorStyle) {
+        anchorContainerStyle = anchorStyle;
+    }
+
     return (
-        <View style={[styles.container]}>
+        <View style={[styles.container, containerStyle]}>
             <Menu
                 style={{width: 200}}
                 visible={visible}
                 onDismiss={closeMenu}
                 anchor={
                     <TouchableOpacity
-                        style={{flexDirection: "row", alignItems: "center", gap: 5}}
+                        style={anchorContainerStyle}
                         onPress={openMenu}
                     >
-                        <Text style={[{fontSize: 14}, globalStyles.bold]}>
-                            {selectedOption}
-                        </Text>
-                        <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-                            <MaterialIcons
-                                name="expand-less"
-                                size={20}
-                            />
-                        </Animated.View>
+                        {anchorContent}
                     </TouchableOpacity>
                 }
-                contentStyle={{backgroundColor: "white", marginTop: ((ScreenHeight/ScreenWidth)*17)}}
+                contentStyle={{backgroundColor: "white", marginTop: ((screenHeight/screenWidth) * 17)}}
             >
                 {options.map((options, index) => (
                     <View key={index}>

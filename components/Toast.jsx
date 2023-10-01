@@ -5,7 +5,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ToastContext = createContext();
 
-const Toast = ({ title, message, setTitle, setMessage }) => {
+const Toast = ({ title, message, setTitle, setMessage, noBottomMargin }) => {
 	const fadeAnim = useRef(new Animated.Value(1)).current;
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -40,8 +40,13 @@ const Toast = ({ title, message, setTitle, setMessage }) => {
 		fadeOut();
 	};
 
+	let bottomMargin = 130;
+	if(noBottomMargin) {
+		bottomMargin = 50;
+	}
+
 	return (
-		<Animated.View style={[styles.container, { opacity: fadeAnim }, isKeyboardVisible ? {bottom: 10} : {bottom: 90}]}>
+		<Animated.View style={[styles.container, { opacity: fadeAnim }, isKeyboardVisible ? {bottom: 50} : {bottom: bottomMargin}]}>
 		<View style={{justifyContent: "center", width: "86%"}}>
 			{/* Quickly removed title to make sure text is centered on Android */}
 			{/* <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text> */}
@@ -78,12 +83,14 @@ export default Toast;
 export const ToastProvider = ({ children }) => {
 	const [message, setMessage] = useState(null);
 	const [title, setTitle] = useState(null);
+	const [bottomMarginBool, setBottomMarginBool] = useState(false);
 
 	const toastTimerRef = useRef(null);
 
-	const showToast = (message, title) => {
+	const showToast = (message, noBottomMargin, title) => {
 		setTitle(title);
 		setMessage(message);
+		setBottomMarginBool(noBottomMargin);
 	
 		if (toastTimerRef.current) {
 			clearTimeout(toastTimerRef.current);
@@ -92,6 +99,7 @@ export const ToastProvider = ({ children }) => {
 		toastTimerRef.current = setTimeout(() => {
 			setTitle(null);
 			setMessage(null);
+			setBottomMarginBool(false);
 		}, 8000);
 	};
 
@@ -101,7 +109,7 @@ export const ToastProvider = ({ children }) => {
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'position' : undefined}
 			>
-				{message && <Toast title={title} message={message} setTitle={setTitle} setMessage={setMessage} />}
+				{message && <Toast title={title} message={message} setTitle={setTitle} setMessage={setMessage} noBottomMargin={bottomMarginBool}/>}
 			</KeyboardAvoidingView>
 		</ToastContext.Provider>
 	);
