@@ -3,21 +3,19 @@ import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet,
 import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
-import globalStyles from "../styles/globalStyles";
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
+import Dropdown from "./Dropdown";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
 
+    const [expandedRepliesForComment, setExpandedRepliesForComment] = useState({});
+
+    const MAX_REPLIES_DISPLAY = 3; // Max replies displayed by default
+
     // Default, min, and max heights for the TextInput
     const defaultHeight = 30;
     const minHeight = 30;
-    const maxHeight = 120; // Adjust this value based on your design
+    const maxHeight = 120;
 
     // State variable to store the height of the TextInput.
     const [inputHeight, setInputHeight] = useState(defaultHeight);
@@ -30,11 +28,6 @@ export default function CommentSection(props) {
     const [commentList, setCommentList] = useState(comments);
 
     const [replyingToCommentIndex, setReplyingToCommentIndex] = useState(null);
-
-    const [shownPopupIndex, setShownPopupIndex] = useState(null);
-    const [shownPopupType, setShownPopupType] = useState("");
-
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const showToast = useContext(ToastContext);
 
@@ -93,7 +86,7 @@ export default function CommentSection(props) {
 
     const handleSubmitComment = (content, replyingToCommentIndex) => {
         if (!FirebaseManager.currentUserData?.firestoreData?.username) {
-            showToast("Please sign in to comment.");
+            showToast("Please sign in to comment.", true);
             return;
         }
         let comment = {
@@ -126,6 +119,8 @@ export default function CommentSection(props) {
                 return updatedComments; // Return the updated comments to update the state
             });
         }
+
+        showToast("Your comment has been posted!", true);
     };
 
     /**
@@ -155,9 +150,14 @@ export default function CommentSection(props) {
         });
     };
 
+    // Put icons here as these are used more than once
+    const iconMore = <MaterialIcons style={{color: "#49454F"}} name="more-vert" size={16} />
+    const iconSend = <MaterialIcons style={{ color: "#49454F", marginTop: 10, marginLeft: 3 }} name="send" size={20} />
+    const iconReply = <MaterialIcons style={{ color: "#49454F" }} name="reply" size={22} />
+
     return (
         <View>
-            <View style={[styles.comment, { paddingBottom: 6 }]}>
+            <View style={[styles.comment, {paddingBottom: 6, borderBottomWidth: 1}]}>
                 <View style={styles.commentAvatar}>
                     <Image
                         style={styles.avatar}
@@ -186,12 +186,12 @@ export default function CommentSection(props) {
                     />
                 </View>
                 <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(textValue)}>
-                    <MaterialIcons style={{ color: "#49454F" }} name="send" size={28} />
+                    {iconSend}
                 </TouchableOpacity>
             </View>
             <ScrollView>
                 {commentList.map((comment, index) => (
-                    <View key={index}>
+                    <View style={[styles.thread, comment.replies.length > 0 ? {paddingBottom: 25} : null]} key={index}>
                         <View style={styles.comment}>
                             <View style={styles.commentAvatar}>
                                 <Image
@@ -203,24 +203,34 @@ export default function CommentSection(props) {
                                 <Text style={styles.username}>
                                     {comment.username}
                                     {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                    <Text style={{ color: 'gray', marginLeft: 5 }}>{timeAgo(comment.date)}</Text>
+                                    <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
                                 </Text>
                                 <Text style={styles.commentText}>
                                     {comment.content}
                                 </Text>
                             </View>
-                            <TouchableOpacity style={styles.commentActions}>
-                                <TouchableOpacity style={styles.commentAction} onPress={() => handleDeleteComment(index)}>
-                                    <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
-                                </TouchableOpacity>
+                            <View style={styles.commentActions}>
+                                <Dropdown
+                                    anchor={
+                                        iconMore
+                                    }
+                                    anchorStyle={null}
+                                    containerStyle={{height: "auto", alignSelf: "center"}}
+                                    options={[
+                                        {
+                                            name: "Delete comment",
+                                            onPress: () => handleDeleteComment(index)
+                                        }
+                                    ]}
+                                />
                                 <TouchableOpacity style={styles.commentAction} onPress={() => {
                                     setReplyingToCommentIndex(index);
                                     setReplyTextValue("");
                                     setAtUser({});
                                 }}>
-                                    <MaterialIcons style={{ color: "#49454F" }} name="reply" size={28} />
+                                    {iconReply}
                                 </TouchableOpacity>
-                            </TouchableOpacity>
+                            </View>
                         </View>
 
                         {replyingToCommentIndex === index && (
@@ -231,7 +241,7 @@ export default function CommentSection(props) {
                                         source={FirebaseManager.avatars[avatarID]}
                                     />
                                 </View>
-                                <View style={styles.commentCenter}>
+                                <View style={[styles.commentCenter, styles.replyCenter]}>
                                     <Text style={styles.username}>
                                         {username}
                                     </Text>
@@ -240,7 +250,7 @@ export default function CommentSection(props) {
                                         placeholderTextColor={"gray"}
                                         multiline
                                         textAlignVertical="top"
-                                        style={{ height: inputHeight, color: "#505050" }}
+                                        style={{ height: inputHeight, color: "#505050", borderBottomWidth: 1, borderBottomColor: "#007BFF" }}
                                         onChangeText={(text) => {
                                             if (atUser?.username) {
                                                 if (!text.startsWith("@" + atUser?.username)) {
@@ -261,10 +271,11 @@ export default function CommentSection(props) {
                                     />
                                 </View>
                                 <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(replyTextValue, replyingToCommentIndex)}>
-                                    <MaterialIcons style={{ color: "#49454F" }} name="send" size={28} />
+                                    {iconSend}
                                 </TouchableOpacity>
-                            </View>)}
-                        {comment.replies && comment.replies.map((reply, replyIndex) => (
+                            </View>
+                        )}
+                        {comment.replies && (expandedRepliesForComment[index] || comment.replies.length <= MAX_REPLIES_DISPLAY ? comment.replies : comment.replies.slice(0, MAX_REPLIES_DISPLAY)).map((reply, replyIndex) => (
                             <View key={replyIndex} style={[styles.comment, styles.reply]}>
                                 <View style={styles.commentAvatar}>
                                     <Image
@@ -276,16 +287,26 @@ export default function CommentSection(props) {
                                     <Text style={styles.username}>
                                         {reply.username}
                                         {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                        <Text style={{ color: 'gray', marginLeft: 5 }}>{timeAgo(comment.date)}</Text>
+                                        <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
                                     </Text>
                                     <Text style={styles.commentText}>
                                         {reply.content}
                                     </Text>
                                 </View>
-                                <TouchableOpacity style={styles.commentActions}>
-                                    <TouchableOpacity style={styles.commentAction} onPress={() => handleDeleteComment(index, replyIndex)}>
-                                        <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
-                                    </TouchableOpacity>
+                                <View style={styles.commentActions}>
+                                    <Dropdown
+                                        anchor={
+                                            iconMore
+                                        }
+                                        anchorStyle={null}
+                                        containerStyle={{height: "auto", alignSelf: "center"}}
+                                        options={[
+                                            {
+                                                name: "Delete reply",
+                                                onPress: () => handleDeleteComment(index, replyIndex)
+                                            }
+                                        ]}
+                                    />
                                     <TouchableOpacity style={styles.commentAction} onPress={() => {
                                         setReplyingToCommentIndex(index);
                                         setReplyTextValue("@" + reply.username + " ");
@@ -294,11 +315,23 @@ export default function CommentSection(props) {
                                             uid: reply.uid,
                                         });
                                     }}>
-                                        <MaterialIcons style={{ color: "#49454F" }} name="reply" size={28} />
+                                        {iconReply}
                                     </TouchableOpacity>
-                                </TouchableOpacity>
+                                </View>
                             </View>
                         ))}
+                        {comment.replies && comment.replies.length > MAX_REPLIES_DISPLAY && (
+                            <TouchableOpacity onPress={() => {
+                                setExpandedRepliesForComment(prev => ({
+                                    ...prev,
+                                    [index]: !prev[index] // Toggle expand/collapse
+                                }));
+                            }}>
+                                <Text style={{ color: "#007BFF", marginTop: 5, paddingLeft: 25 }}>
+                                    {expandedRepliesForComment[index] ? "View Less Replies" : `View ${comment.replies.length - MAX_REPLIES_DISPLAY} More ${(comment.replies.length - MAX_REPLIES_DISPLAY) === 1 ? "Reply" : "Replies"}`}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 ))}
             </ScrollView>
@@ -309,25 +342,20 @@ export default function CommentSection(props) {
 const fullWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-    popupMenu: {
-        position: "absolute",
-        right: 0,
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderColor: "#dfdfdf",
-        padding: 10,
-        zIndex: 1,
-        elevation: 1,
-    },
-
     comment: {
         flexDirection: "row",
         borderBottomColor: "#dfdfdf",
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         minHeight: 60,
         height: "auto",
         // alignItems: "center"
-        paddingVertical: 25
+        paddingVertical: 15
+    },
+
+    thread: {
+        borderBottomColor: "#b8b8b8",
+        // borderBottomWidth: 1,
+        paddingTop: 4
     },
 
     reply: {
@@ -340,21 +368,21 @@ const styles = StyleSheet.create({
     },
 
     commentCenter: {
-        width: (fullWidth * 0.8) - (45 + 16 + 6),
+        flex: 1,
         paddingLeft: 16,
         paddingRight: 6,
         gap: 5
     },
 
     replyCenter: {
-        width: (fullWidth * 0.8) - (45 + 16 + 6 + 25),
+        flex: 1
     },
 
     commentActions: {
-        width: "20%",
+        flex: 0.3,
         // height: 45,
-        // alignItems: "center"
         justifyContent: "flex-start",
+        alignItems: "center",
         gap: 7
     },
 
@@ -375,7 +403,13 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         color: "#505050"
     },
-
+    
+    date: {
+        color: "gray",
+        marginLeft: 5,
+        fontWeight: "normal"
+    },
+    
     content: {
         color: "#505050"
     },
@@ -383,5 +417,4 @@ const styles = StyleSheet.create({
     commentText: {
         lineHeight: 24
     }
-
 })

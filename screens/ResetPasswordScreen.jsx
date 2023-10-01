@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "../components/Drawer";
