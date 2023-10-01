@@ -55,7 +55,7 @@ export default function AppScreenStack() {
 		return unsubscribe;
 	}, [navigation]);
 
-	const avatarSrc = (FirebaseManager.currentUserData.firestoreData) 
+	const avatarSrc = (FirebaseManager.currentUserData?.firestoreData) 
 	? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
 	: FirebaseManager.avatars["no-avatar"]
 
@@ -113,9 +113,9 @@ export default function AppScreenStack() {
 						)}>
 							<Image
 								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
 								source={
-									(FirebaseManager.currentUserData.firestoreData) 
+									(FirebaseManager.currentUserData?.firestoreData) 
 									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
 									: FirebaseManager.avatars["no-avatar-24"]
 								}

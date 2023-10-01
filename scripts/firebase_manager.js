@@ -31,9 +31,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-  });
+let auth;
+
+if (Platform.OS !== "web") {
+    auth = initializeAuth(app, {
+        persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+    });
+} else {
+    auth = getAuth(app);
+}
 
 const db = getFirestore(app);
 
@@ -113,13 +119,13 @@ export default class FirebaseManager {
     }
 
     // This method can be called upon app initialization to set the user's auth data if they're "logged in"
-    static async initializeAuthState() {
+    /*static async initializeAuthState() {
         const authData = await this.getStoredAuthData();
         if (authData) {
             this.setAuthData(authData);
             //this.fetchUserData();
         }
-    }
+    }*/
 
     // Call this method to clear the auth state, simulating a logout
     static logout() {
@@ -226,11 +232,12 @@ export default class FirebaseManager {
         return new Promise((resolve, reject) => {
             FirebaseManager.SetAuthPersistenceToLocal();
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then(async (userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
                     this.currentUserData.auth = user;
                     this.storeAuthData(user);
+                    await this.fetchUserData(user.uid);
                     Analytics.log("Signed in as " + JSON.stringify(user.uid));
                     resolve(user); // or resolve('Signed in successfully')
                 })
@@ -303,13 +310,9 @@ export default class FirebaseManager {
         this.AddDocumentToCollection("users", fireStoreData, user.uid);
     }
 
-    static async fetchUserData() {
-        console.log("FETCHING USER DATA");
-        let uid = null;
-        if (this.currentUserData.auth) {
-            uid = this.currentUserData.auth.uid;
-        }
-        this.currentUserData = {
+    static async fetchUserData(uid) {
+        console.log("FETCHING FOR " + uid);
+        /*this.currentUserData = {
             auth: auth.currentUser,
             firestoreData: {
                 email:"",
@@ -321,8 +324,8 @@ export default class FirebaseManager {
         this.currentUserData.firestoreData.username = this.currentUserData.auth.displayName;
         this.currentUserData.firestoreData.avatarID = this.currentUserData.auth.photoURL;
 
-        console.log("DATA: " + JSON.stringify(this.currentUserData));
-        /*try {
+        console.log("DATA: " + JSON.stringify(this.currentUserData));*/
+        try {
             if (uid) {
                 const userDocSnap = await getDoc(doc(db, "users", uid));
                 if (userDocSnap.exists()) {
@@ -341,7 +344,7 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
             this.currentUserData = null;
-        }*/
+        }
     }
 
     static async updatePassword(newPassword) {
@@ -954,7 +957,7 @@ export default class FirebaseManager {
 }
 
 // Sets auth state listener
-FirebaseManager.initializeAuthState();
+//FirebaseManager.initializeAuthState();
 FirebaseManager.setLocalUID();
 FirebaseManager.OnAuthStateChanged();
 //FirebaseManager.convertDateStringsToTimestamps();

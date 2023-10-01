@@ -8,8 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
 
 export default function SignInScreen() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("test@email.com");
+    const [password, setPassword] = useState("Test123");
     const [passwordVisible, setPasswordVisible] = useState(true);
 
     const showToast = useContext(ToastContext);
