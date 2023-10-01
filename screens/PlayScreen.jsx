@@ -24,6 +24,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from "react-native";
 import CommentSection from "../components/CommentSection";
+import { BackHandler } from 'react-native';
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -208,22 +209,7 @@ export default function PlayScreen({ route }) {
 						onPress={async () => {
 							let progressFound = await handleSaveProgress();
 							if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
-								openDialog('savedChangesDialog', {
-									onCancel: () => {
-										onPress();
-									},
-									onConfirm: () => {
-										
-									},
-									children: (
-										<>
-											<Text style={globalStyles.dialogTitle}>Unsaved progress!</Text>
-											<Text style={globalStyles.dialogText}>Do you want to continue writing, or discard the progress?</Text>
-										</>
-									),
-									cancelLabel: "Discard",
-									confirmLabel: "Continue"
-								});
+								saveChangesDialog(onPress);
 							} else {
 								onPress();
 							}
@@ -237,6 +223,62 @@ export default function PlayScreen({ route }) {
 		});
 	}, [navigation]);
 
+	useEffect(() => {
+		const handleBackPress = async () => {
+			
+			let progressFound = await handleSaveProgress();
+			if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
+				saveChangesDialog();
+				return true;  // Prevents the default back action
+			}
+			return false;  // Allows the default back action
+		};
+	
+		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+	
+		// Cleanup to avoid memory leaks
+		return () => {
+			BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+		};
+	}, []);
+
+	React.useEffect(() => {
+		const unsubscribe = navigation.addListener('beforeRemove', async (e) => {
+			let progressFound = await handleSaveProgress();
+			if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
+				// Prevent the default action
+				e.preventDefault();
+	
+				saveChangesDialog();
+			}
+		});
+	
+		return unsubscribe;
+	}, [navigation]);
+
+	const saveChangesDialog = (onPress) => {
+		openDialog('savedChangesDialog', {
+			onCancel: () => {
+				if (onPress) onPress();
+				else {
+					navigation.navigate("Home");
+					return false;
+				};
+			},
+			onConfirm: () => {
+				
+			},
+			children: (
+				<>
+					<Text style={globalStyles.dialogTitle}>Unsaved progress!</Text>
+					<Text style={globalStyles.dialogText}>Do you want to continue writing, or discard the progress?</Text>
+				</>
+			),
+			cancelLabel: "Discard",
+			confirmLabel: "Continue"
+		});
+	}
+ 
 	const handleBack = () => {
 		if (currentPromptIndex > 0) {
 			// If there are previous prompts, show the previous one
