@@ -191,7 +191,7 @@ export default function CommentSection(props) {
             </View>
             <ScrollView>
                 {commentList.map((comment, index) => (
-                    <View style={styles.thread} key={index}>
+                    <View style={[styles.thread, comment.replies.length > 0 ? {paddingBottom: 25} : null]} key={index}>
                         <View style={styles.comment}>
                             <View style={styles.commentAvatar}>
                                 <Image
@@ -203,7 +203,7 @@ export default function CommentSection(props) {
                                 <Text style={styles.username}>
                                     {comment.username}
                                     {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                    <Text style={{ color: 'gray', marginLeft: 5 }}>| {timeAgo(comment.date)}</Text>
+                                    <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
                                 </Text>
                                 <Text style={styles.commentText}>
                                     {comment.content}
@@ -287,7 +287,7 @@ export default function CommentSection(props) {
                                     <Text style={styles.username}>
                                         {reply.username}
                                         {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                        <Text style={{ color: 'gray', marginLeft: 5 }}>| {timeAgo(comment.date)}</Text>
+                                        <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
                                     </Text>
                                     <Text style={styles.commentText}>
                                         {reply.content}
@@ -355,7 +355,6 @@ const styles = StyleSheet.create({
     thread: {
         borderBottomColor: "#b8b8b8",
         // borderBottomWidth: 1,
-        paddingBottom: 25,
         paddingTop: 4
     },
 
@@ -404,7 +403,13 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         color: "#505050"
     },
-
+    
+    date: {
+        color: "gray",
+        marginLeft: 5,
+        fontWeight: "normal"
+    },
+    
     content: {
         color: "#505050"
     },
