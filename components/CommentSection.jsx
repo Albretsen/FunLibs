@@ -89,6 +89,12 @@ export default function CommentSection(props) {
             showToast("Please sign in to comment.", true);
             return;
         }
+
+        if (!content) {
+            showToast("Can't submit an empty comment.", true);
+            return;
+        }
+
         let comment = {
             username: FirebaseManager.currentUserData.firestoreData.username,
             uid: FirebaseManager.currentUserData.auth.uid,

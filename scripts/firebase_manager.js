@@ -151,15 +151,31 @@ export default class FirebaseManager {
             try {
                 switch (signUpMethod) {
                     case "email":
-                        const user = await this.CreateUserWithEmailAndPassword(email, password);
-                        await this.UpdateUserAuthProfile({
-                            displayName: username,
-                            photoURL: avatarID
-                        }, user);
-                        await this.fetchUserData();
-                        await this.AddUserDataToDatabase(user);
-                        Analytics.log("Successfully created user");
-                        resolve(user);
+                        try {
+                            const user = await this.CreateUserWithEmailAndPassword(email, password);
+                            if (await this.storeUsername(username, user.uid)) {
+                                await this.UpdateUserAuthProfile({
+                                    displayName: username,
+                                    photoURL: avatarID
+                                }, user);
+                                await this.fetchUserData();
+                                await this.AddUserDataToDatabase(user);
+                                Analytics.log("Successfully created user");
+                                resolve(user);
+                            } else {
+                                const error = { 
+                                    message: "Username is already taken",
+                                    code: "auth/username-taken"
+                                };
+                                Analytics.log(error);
+                                reject(error);
+                            }
+                        } catch (error) {
+                            if (user) {
+                                await deleteUser(user);
+                            }
+                            throw error; // Re-throw the error after cleanup so it can be handled or logged elsewhere.
+                        }
                         break;
                     default:
                         const error = "Could not find signUpMethod";
@@ -179,11 +195,28 @@ export default class FirebaseManager {
             'auth/invalid-email': 'The email address is not valid.',
             'auth/operation-not-allowed': 'Email/password accounts are not enabled.',
             'auth/weak-password': 'The password is too weak.',
-            'auth/missing-password': 'Please add a password',
+            'auth/missing-password': 'Please add a password.',
+            'auth/username-taken': 'Username is taken.'
             // Add more error codes and their messages as needed
         };
     
         return errorMessages[errorCode] || 'An unknown error occurred.';
+    }
+
+    static async isUsernameAvailable(username) {
+        const lowercaseUsername = username.toLowerCase();
+        const usernameDoc = await getDoc(doc(db, "usernames", lowercaseUsername));
+        return !usernameDoc.exists();
+    }
+
+    static async storeUsername(username, uid) {
+        const lowercaseUsername = username.toLowerCase();
+        if (await this.isUsernameAvailable(lowercaseUsername)) {
+            await setDoc(doc(db, "usernames", lowercaseUsername), { uid: uid });
+            return true;
+        } else {
+            return false;
+        }
     }
 
     static SignInWithEmailAndPassword(email, password) {
@@ -321,7 +354,7 @@ export default class FirebaseManager {
 
     static UpdateUserAuthProfile(profileData, user) {
         let uid = user.uid;
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             if (!user) {
                 const error = new Error('User not found');
                 Analytics.log("Error updating profile " + error.message);
@@ -329,17 +362,22 @@ export default class FirebaseManager {
                 return;
             }
 
-            updateProfile(user, profileData)
-                .then(() => {
-                    Analytics.log("Updated profile for " + uid);
-                    this.currentUserData.auth = auth.user;
-                    this.RefreshList(null);
-                    resolve('Profile updated successfully');
-                })
-                .catch((error) => {
-                    this.RefreshList(null);
-                    Analytics.log("Error updating profile " + error.message);
-                });
+            if (await this.storeUsername(profileData.displayName, user.uid)) {
+                updateProfile(user, profileData)
+                    .then(() => {
+                        Analytics.log("Updated profile for " + uid);
+                        this.currentUserData.auth = auth.user;
+                        this.RefreshList(null);
+                        resolve('Profile updated successfully');
+                    })
+                    .catch((error) => {
+                        this.RefreshList(null);
+                        Analytics.log("Error updating profile " + error.message);
+                    });
+            } else {
+                const error = new Error('Username is already taken');
+                reject(error);
+            }
         });
     }
 
