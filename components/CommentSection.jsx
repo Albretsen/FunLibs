@@ -308,7 +308,11 @@ export default function CommentSection(props) {
                                     <TouchableOpacity style={styles.commentAction} onPress={() => {
                                         setReplyingToCommentIndex(index);
                                         setReplyTextValue("");
-                                        setAtUser({});
+                                        setAtUser({ 
+                                            username: comment.username,
+                                            uid: comment.uid,
+                                            visible: false,
+                                        });
                                     }}>
                                         {iconReply}
                                     </TouchableOpacity>
@@ -335,7 +339,7 @@ export default function CommentSection(props) {
                                             style={{ height: inputHeight, color: "#505050", borderBottomWidth: 1, borderBottomColor: "#007BFF" }}
                                             onChangeText={(text) => {
                                                 if (atUser?.username) {
-                                                    if (!text.startsWith("@" + atUser?.username)) {
+                                                    if (!text.startsWith("@" + atUser?.username) && atUser?.visible) {
                                                         // Reset to the original prefix if user tries to backspace away @username
                                                         setReplyTextValue("@" + atUser?.username + " ");
                                                     } else {
@@ -412,6 +416,7 @@ export default function CommentSection(props) {
                                                 setAtUser({
                                                     username: reply.username,
                                                     uid: reply.uid,
+                                                    visible: true,
                                                 });
                                             }}>
                                                 {iconReply}
