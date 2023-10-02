@@ -1,6 +1,5 @@
-import React from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, Dimensions } from "react-native";
-import UserProfile from "../components/UserProfile";
+import React, { useState } from "react";
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput } from "react-native";
 import ListItem from "../components/ListItem";
 import { LinearGradient } from 'expo-linear-gradient';
 import globalStyles from "../styles/globalStyles";
@@ -9,25 +8,49 @@ import Dropdown from "../components/Dropdown";
 
 export default function ProfileScreen({ route }) {
     const userId = route.userId;
+
+    // Simply set this to an object with the correct userdata
+    const [userData, setUserData] = useState({
+        username: "Hallvard",
+        avatarID: 21,
+        likesCount: 234,
+        libsCount: 5,
+        memberSince: "Member since 2. October 2023",
+        bio: "Hey there! I'm Hallvard, Bergen's very own beanstalk. I'm so tall, I sometimes bump my head on the moon. Between my awkward dance moves and serenading my plants (yes, they're my only roommates), I also dabble in programming. Living solo means no one sees me talk to my ferns... until now. Oops!"
+    });
+
+    // True if viewing your own profile
+    // Mostly turns text into input fields
+    const [yourOwnProfile, setYourOwnProfile] = useState(true);
+
+    // Default, min, and max heights for the TextInput
+    const defaultHeight = 30;
+    const minHeight = 30;
+    const maxHeight = 99999;
+
+    const [inputHeight, setInputHeight] = useState(defaultHeight);
+
+    const [textValue, setTextValue] = useState(userData.bio);
+
     return (
-        <View style={[{flex: 1, backgroundColor: "white"}, {maxHeight: Dimensions.get("window").height - 64}]}>
+        <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
             <LinearGradient
                 colors={['#19BB77', '#3E99ED']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
             />
-            <View style={{overflow: "hidden", maxHeight: Dimensions.get("window").height - 64}}>
+            <View style={[{overflow: "hidden"}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
                 <View style={styles.imageContainer}>
                     <Image
                         style={styles.image}
-                        source={FirebaseManager.avatars[21]} // Avatar id goes here!
+                        source={FirebaseManager.avatars[userData.avatarID]}
                     />
                 </View>
                 <View style={{alignSelf: "center", zIndex: 100, gap: 10, paddingVertical: 10}}>
                     <Dropdown
-                        title={"Hallvard"} // Username goes here!
+                        title={userData.username}
                         titleStyle={[globalStyles.fontMedium, {color: "#1D1B20"}]}
                         containerStyle={{alignSelf: "center", height: "auto"}}
                         options={[
@@ -39,12 +62,46 @@ export default function ProfileScreen({ route }) {
                     />
                 </View>
                 <ScrollView>
-                <UserProfile 
-                    memberSince={"Member since 2. October 2023"}
-                    likes={21}
-                    libsCount={2}
-                    bio={"Hey there! I'm Hallvard, Bergen's very own beanstalk. I'm so tall, I sometimes bump my head on the moon. Between my awkward dance moves and serenading my plants (yes, they're my only roommates), I also dabble in programming. Living solo means no one sees me talk to my ferns... until now. Oops!"}
-                />
+                    <View style={[globalStyles.screenStandard, globalStyles.bigWhitespacePadding, {gap: 10, alignSelf: "center", marginTop: 5}]}>
+                        <Text style={[globalStyles.grayText]}>
+                            {userData.memberSince}
+                        </Text>
+                        <View style={styles.userStats}>
+                            <View style={styles.userStat}>
+                                <Text style={styles.userStatNum}>{userData.likesCount}</Text>
+                                <Text style={[styles.userStatText, globalStyles.grayText]}>likes</Text>
+                            </View>
+                            <View style={styles.userStat}>
+                                <Text style={styles.userStatNum}>{userData.libsCount}</Text>
+                                <Text style={[styles.userStatText, globalStyles.grayText]}>libs</Text>
+                            </View>
+                        </View>
+                        <Text style={globalStyles.title}>About me</Text>
+                        {yourOwnProfile ?
+                            <TextInput
+                                placeholder="Say something about yorself..."
+                                placeholderTextColor={"#505050"}
+                                multiline
+                                textAlignVertical="top"
+                                style={[styles.bio, {height: inputHeight, width: "100%"}]}
+                                onChangeText={(text) => {
+                                    setTextValue(text);
+                                }}
+                                value={textValue}
+                                onContentSizeChange={(e) => {
+                                    const newHeight = e.nativeEvent.contentSize.height;
+                                    setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
+                                    console.log(newHeight)
+                                }}
+                            />
+                            :
+                            <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio}</Text>
+                        }
+                        <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text>
+                        <View>
+                            {/* Render List items here */}
+                        </View>
+                    </View>
                 </ScrollView>
             </View>
         </View>
@@ -95,4 +152,29 @@ const styles = StyleSheet.create({
         top: -64,
         height: 64 + 75 + 100,
     },
+
+    userStats: {
+        flexDirection: "row",
+        gap: 75,
+        marginTop: 10,
+        marginBottom: 20
+    },
+
+    userStat: {
+        alignItems: "center"
+    },
+
+    userStatNum: {
+        fontWeight: 500,
+        fontSize: 15
+    },
+
+    userStatText: {
+
+    },
+
+    bio: {
+        lineHeight: 26,
+        color: "#505050"
+    }
 })

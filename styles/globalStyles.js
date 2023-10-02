@@ -40,6 +40,11 @@ const globalStyles = StyleSheet.create({
 
     bigWhitespacePadding: {
         paddingHorizontal: fullWidth / 12,
+        width: "100%"
+    },
+
+    headerAccountedHeight: {
+        maxHeight: Dimensions.get("window").height - 64,
     },
 
     defaultFont: {
@@ -218,7 +223,14 @@ const globalStyles = StyleSheet.create({
 
     dialogText: {
         fontSize: 15
-    }
+    },
+
+    title: {
+        fontSize: 20,
+        textAlign: "left",
+        width: "100%",
+        fontWeight: 500
+    },
 })
 
 export default globalStyles;
