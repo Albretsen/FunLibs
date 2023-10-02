@@ -301,6 +301,7 @@ export default class FirebaseManager {
             email: user.email,
             username: user.displayName,
             avatarID: user.photoURL,
+            date: new Date(),
             push_notification_token: push_notification_token,
         }
 
@@ -829,7 +830,9 @@ export default class FirebaseManager {
 
         if (startDate) {
             q = query(q, where("date", ">=", startDate));
-            q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
+            if (filterOptions?.sortBy !== "trending") {
+                q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
+            }
         }
 
         // Adjusted sorting options
@@ -840,7 +843,6 @@ export default class FirebaseManager {
                     break;
                 case "trending":
                     q = query(q, orderBy("weightedLikes", "desc"));
-                    Analytics.log("Weighted sorting has been DISABLED\nSorting by Top instead")
                     break;
                 case "newest":
                     // Remove this condition since we're already ordering by date above

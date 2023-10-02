@@ -63,6 +63,10 @@ export default function LibsScreen() {
 
 	const quickload = false;
 
+	useEffect(() => {
+		console.log(`loadingCircle changed to: ${loadingCircle}`);
+	}, [loadingCircle]);
+
 	async function loadListItems(
 		filterOptions = {
 			"category": selectedCategory,
@@ -74,7 +78,6 @@ export default function LibsScreen() {
 	) {
 		if (filterOptions.category) { 
 			setSelectedCategory(filterOptions.category);
-			console.log("SET TO CATEGORY: " + filterOptions.category);
 		}
 		const thisCallToken = Math.random().toString();
 		currentTokenRef.current = thisCallToken;
@@ -86,7 +89,7 @@ export default function LibsScreen() {
 
 		let localItems = [];
 		let updatedItems_ = [];
-		if (
+		/*if (
 			filterOptions.category === "official" &&
 			filterOptions.sortBy === "newest" &&
 			filterOptions.dateRange === "allTime" &&
@@ -107,7 +110,13 @@ export default function LibsScreen() {
 			} catch {
 
 			}
-		} else if (filterOptions.playable === false) {
+			
+		} */
+		if (filterOptions.category === "Offline") {
+			console.log("OFFLINE LIBS");
+			return;
+		}
+		else if (filterOptions.playable === false) {
 			localItems = await FileManager._retrieveData("read");
 			if (currentTokenRef.current !== thisCallToken) return;
 			if (localItems) localItems = JSON.parse(localItems);
@@ -638,12 +647,17 @@ export default function LibsScreen() {
 								}
 							}, 200)} // Call the loadListItems function when the end is reached
 						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-						//ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "Loading..." : "No results"}</Text>}
+						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
 						ListFooterComponent={renderFooter}
 					/>
-				<BottomSheet
-					ref={bottomSheetRef}
-					index={-1}
+					{loadingCircle && (
+						<View style={styles.loadingOverlay}>
+							<ActivityIndicator size="large" color="#006D40" />
+						</View>
+					)}
+					<BottomSheet
+						ref={bottomSheetRef}
+						index={-1}
 					// Bug causes bottom sheet to reappear on navigation
 					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
 					// 10ms
@@ -737,5 +751,13 @@ export default function LibsScreen() {
 }
   
 const styles = StyleSheet.create({
-
+	loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
