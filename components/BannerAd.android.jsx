@@ -51,7 +51,7 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
     // Memoize the BannerAd component to prevent re-creating it on each render
     const memoizedBannerAd = useMemo(
         () => (
-            <View style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 200 }}>
+            <View style={{ bottom: 0, left: 0, zIndex: 200 }}>
                 {showBannerAd && (
                     <BannerAd
                         unitId={adUnitId}

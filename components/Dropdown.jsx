@@ -31,6 +31,9 @@ export default function Dropdown( props ) {
                 case "myContent":
                     setSelectedOption("My libs");
                     break;
+                case "offline":
+                    setSelectedOption("Offline libs");
+                    break;
                 default:
                     setSelectedOption(selected);
                     break;
@@ -54,6 +57,9 @@ export default function Dropdown( props ) {
                 break;
             case "myContent":
                 setSelectedOption("My libs");
+                break;
+            case "offline":
+                setSelectedOption("Offline libs");
                 break;
             default:
                 setSelectedOption(selected);
