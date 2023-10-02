@@ -32,6 +32,9 @@ export default function Dropdown( props ) {
                 case "myContent":
                     setSelectedOption("My libs");
                     break;
+                case "offline":
+                    setSelectedOption("Offline libs");
+                    break;
                 default:
                     console.log("USEFOCUESFEFET DEFUALT \n\n\n")
                     setSelectedOption(selected);
@@ -41,7 +44,6 @@ export default function Dropdown( props ) {
     );
 
     useEffect(() => {
-        console.log("SETTING TO: " + selected);
         switch (selected) {
             case "official":
                 setSelectedOption("Official libs");
@@ -58,8 +60,10 @@ export default function Dropdown( props ) {
             case "myContent":
                 setSelectedOption("My libs");
                 break;
+            case "offline":
+                setSelectedOption("Offline libs");
+                break;
             default:
-                console.log("\n\n\n USE EFFECT DAFAITL");
                 setSelectedOption(selected);
                 break;
         }

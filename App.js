@@ -85,7 +85,7 @@ export default function App() {
                   <DrawerProvider>
                     <TabProvider>
                       <NavigationContainer>
-                        <GestureHandlerRootView style={{ flex: 1, paddingBottom: bannerAdHeight }}>
+                        <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
                           <AppScreenStack />
                           <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
                         </GestureHandlerRootView>

@@ -112,8 +112,25 @@ export default function LibsScreen() {
 			}
 			
 		} */
-		if (filterOptions.category === "Offline") {
-			console.log("OFFLINE LIBS");
+		if (filterOptions.category === "offline") {
+			localItems = await FileManager._retrieveData("libs");
+			if (currentTokenRef.current !== thisCallToken) return;
+			if (localItems) localItems = JSON.parse(localItems);
+			try {
+				localItems.sort((a, b) => {
+					const dateA = convertToDate(a.date);
+					const dateB = convertToDate(b.date);
+
+					return dateB.getTime() - dateA.getTime();
+				});
+				setListItems(localItems);
+				setLoadingCircle(false);
+			} catch (error){
+				setListItems([]);
+			}
+			setLoading(false);
+			setLoadingCircle(false);
+			setLoadingAdditional(false);
 			return;
 		}
 		else if (filterOptions.playable === false) {
@@ -596,6 +613,13 @@ export default function LibsScreen() {
 							updateFilterOptions(playReadValue, "myContent");
 						}
 					},
+					{
+						name: "Offline libs",
+						onPress: () => {
+							setSelectedCategory("offline");
+							updateFilterOptions(playReadValue, "offline");
+						}
+					}
 				]}/>
 			</View>
 			{isLoading ? (
