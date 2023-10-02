@@ -61,7 +61,8 @@
     "react-native-web": "^0.18.12",
     "react-redux": "^8.1.1",
     "redux": "^4.2.1",
-    "unit.js": "^2.1.1"
+    "unit.js": "^2.1.1",
+    "expo-linear-gradient": "~12.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

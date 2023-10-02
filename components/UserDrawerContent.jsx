@@ -7,12 +7,18 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 	return (
 		<View style={{gap: 35, marginTop: 30}}>
 			<TouchableOpacity onPress={() => {
-					navigation.navigate("FeedbackScreen");
+				navigation.navigate("FeedbackScreen");
+				closeDrawer();
+			}}>
+				<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Feedback</Text>
+			</TouchableOpacity>
+			{FirebaseManager.currentUserData.auth && (<>
+				<TouchableOpacity onPress={() => {
+					navigation.navigate("ProfileScreen", {userId: "INSERT USER ID HERE"});
 					closeDrawer();
 				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Feedback</Text>
+					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>My profile</Text>
 				</TouchableOpacity>
-			{FirebaseManager.currentUserData.auth && (<>
 				<TouchableOpacity onPress={() => {
 					navigation.navigate("ResetPasswordScreen");
 					closeDrawer();

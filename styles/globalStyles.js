@@ -23,7 +23,7 @@ const globalStyles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         // justifyContent: 'center',
-        paddingTop: 1,
+        // paddingTop: 1,
         // paddingBottom: 100,
         flexDirection: "column",
         // maxHeight: fullHeight - 140
@@ -36,6 +36,10 @@ const globalStyles = StyleSheet.create({
 
     bigWhitespace: {
         width: fullWidth - fullWidth / 6,
+    },
+
+    bigWhitespacePadding: {
+        paddingHorizontal: fullWidth / 12,
     },
 
     defaultFont: {
@@ -56,6 +60,10 @@ const globalStyles = StyleSheet.create({
 
     touchableText: {
         color: "#5C9BEB",
+    },
+
+    grayText: {
+        color: "#635f6a"
     },
 
     title: {
