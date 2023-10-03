@@ -440,6 +440,10 @@ export default function PlayScreen({ route }) {
 		FirebaseManager.submitComment(comment, replyingToCommentIndex, currentLib.id);
 	} 
 
+	const deleteComment = (comment, replyingToCommentIndex) => {
+		FirebaseManager.deleteComment(currentLib.id, comment, replyingToCommentIndex);
+	}
+
 	return (
 		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
 			<ScrollView>
@@ -506,6 +510,7 @@ export default function PlayScreen({ route }) {
 					avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
 					onCommentChange={handleCommentChange}
 					onSubmitComment={submitComment}
+					onDeleteComment={deleteComment}
 					comments={currentLib.comments ? currentLib.comments : []}
 					opUid={currentLib.user}
 				/>

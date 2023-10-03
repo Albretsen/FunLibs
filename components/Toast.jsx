@@ -10,39 +10,65 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin }) => {
 	const translateYAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current; // Using screen height
 	const scaleAnim = useRef(new Animated.Value(0.8)).current; // For playful scaling effect
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+	const [isToastVisible, setIsToastVisible] = useState(false);
+	const [hasToastAnimated, setHasToastAnimated] = useState(false);
 
 	const timerRef = useRef(null);
 
 	useEffect(() => {
-		Animated.parallel([ // Animate opacity, translationY, and scale simultaneously
-			Animated.timing(fadeAnim, {
-				toValue: 1,
-				duration: 200,
-				easing: Easing.out(Easing.back(0.5)), // Bouncy effect
-				useNativeDriver: true
-			}),
-			Animated.timing(translateYAnim, {
-				toValue: 0,
-				duration: 500,
-				easing: Easing.out(Easing.back(0.5)), // Bouncy effect
-				useNativeDriver: true
-			}),
-			Animated.timing(scaleAnim, {
-				toValue: 1,
-				duration: 600,
-				easing: Easing.bounce, // Bouncy scaling
-				useNativeDriver: true
-			})
-		]).start();
+		if (title || message) {
+			Animated.parallel([ // Animate opacity, translationY, and scale simultaneously
+				Animated.timing(fadeAnim, {
+					toValue: 1,
+					duration: 200,
+					easing: Easing.out(Easing.back(0.5)), // Bouncy effect
+					useNativeDriver: true
+				}),
+				Animated.timing(translateYAnim, {
+					toValue: 0,
+					duration: 500,
+					easing: Easing.out(Easing.back(0.5)), // Bouncy effect
+					useNativeDriver: true
+				}),
+				Animated.timing(scaleAnim, {
+					toValue: 1,
+					duration: 500,
+					easing: Easing.bounce, // Bouncy scaling
+					useNativeDriver: true
+				})
+			]).start(() => {
+				setIsToastVisible(true);  // set toast visibility to true after the animation
+				setTimeout(() => {
+					setHasToastAnimated(true);
+				}, 600);
+			});
 
-		timerRef.current = setTimeout(() => {
-			fadeOut();
-		}, 8000);
+			timerRef.current = setTimeout(() => {
+				fadeOut();
+			}, 8000);
+		}
 
 		return () => {
 			clearTimeout(timerRef.current);
 		};
-	}, [fadeAnim]);
+	}, [title, message, fadeAnim]);
+
+	useEffect(() => {
+		if (isToastVisible && hasToastAnimated && (title || message)) {
+			Animated.sequence([
+				Animated.timing(scaleAnim, {
+					toValue: 1.1,
+					duration: 100,
+					useNativeDriver: true
+				}),
+				Animated.timing(scaleAnim, {
+					toValue: 1,
+					duration: 200,
+					useNativeDriver: true
+				})
+			]).start();
+		}
+	}, [title, message]);
 
 	const fadeOut = () => {
 		Animated.parallel([
@@ -64,6 +90,8 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin }) => {
 		]).start(() => {
 			setTitle(null);
 			setMessage(null);
+			setIsToastVisible(false);  // set toast visibility to false after fade out
+			setHasToastAnimated(false);
 		});
 	};
 

@@ -7,7 +7,7 @@ import Dropdown from "./Dropdown";
 import { useNavigation } from "@react-navigation/native";
 
 export default function CommentSection(props) {
-    const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
+    const { comments, username, avatarID, onCommentChange, onSubmitComment, onDeleteComment, opUid } = props;
 
     const [loading, setLoading] = useState(true);
 
@@ -156,7 +156,7 @@ export default function CommentSection(props) {
                 updatedComments.splice(commentIndex, 1);
             }
 
-            onSubmitComment(updatedComments, 1);
+            onDeleteComment(commentIndex, replyIndex);
             return updatedComments;
         });
     };

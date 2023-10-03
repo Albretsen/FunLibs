@@ -900,6 +900,49 @@ export default class FirebaseManager {
     }
 
     /**
+     * Deletes a comment or reply from a post.
+     *
+     * @param {string} postId - The ID of the post from which the comment or reply is being deleted.
+     * @param {number} commentIndex - The index of the comment being deleted.
+     * @param {number|null} replyingToCommentIndex - The index of the comment being replied to if deleting a reply. Null if deleting a top-level comment.
+     */
+    static async deleteComment(postId, commentIndex, replyingToCommentIndex = null) {
+        if (!this.currentUserData?.auth?.uid) {
+            console.log("Not logged in");
+            return;
+        }
+
+        const postRef = doc(db, "posts", postId);
+        const postSnapshot = await getDoc(postRef);
+
+        if (!postSnapshot.exists()) {
+            console.error("Post not found!");
+            return;
+        }
+
+        const post = postSnapshot.data();
+        if (!post.comments || post.comments.length <= commentIndex) {
+            console.error("Invalid comment index!");
+            return;
+        }
+
+        if (replyingToCommentIndex === null) {
+            // Delete top-level comment
+            post.comments.splice(commentIndex, 1);
+        } else {
+            // Handle deletion of a reply to a comment
+            if (!post.comments[commentIndex].replies || post.comments[commentIndex].replies.length <= replyingToCommentIndex) {
+                console.error("Invalid reply index!");
+                return;
+            }
+            post.comments[commentIndex].replies.splice(replyingToCommentIndex, 1);
+        }
+
+        // Update the post
+        await this.UpdateDocument("posts", postId, { comments: post.comments });
+    }
+
+    /**
      * Updates the likes of a post atomically using a Firestore transaction.
      * 
      * @param {string} postId - The ID of the post to update.
