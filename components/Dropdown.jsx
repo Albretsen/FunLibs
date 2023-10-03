@@ -3,11 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions } from '
 import { Menu } from 'react-native-paper';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { ScreenHeight, ScreenWidth } from '@rneui/base';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Dropdown( props ) {
-    const { options, selected, anchor, anchorStyle, containerStyle } = props;
+    const { options, selected, anchor, anchorStyle, containerStyle, title, titleStyle } = props;
     const [visible, setVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(selected || "Official libs");
 
@@ -36,7 +35,6 @@ export default function Dropdown( props ) {
                     setSelectedOption("Offline libs");
                     break;
                 default:
-                    console.log("USEFOCUESFEFET DEFUALT \n\n\n")
                     setSelectedOption(selected);
                     break;
             }
@@ -114,6 +112,23 @@ export default function Dropdown( props ) {
             </Animated.View>
         </>
     )
+
+    // console.log(title)
+    if(title) {
+        anchorContent = (
+            <>
+                <Text style={[{fontSize: 14}, globalStyles.bold, titleStyle]}>
+                    {title}
+                </Text>
+                <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+                    <MaterialIcons
+                        name="expand-less"
+                        size={20}
+                    />
+                </Animated.View>
+            </>
+        )
+    }
 
     if(anchor) {
         anchorContent = anchor;

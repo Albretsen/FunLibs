@@ -498,7 +498,8 @@ export default function PlayScreen({ route }) {
 				/>
 			</View>
 
-			<View style={[globalStyles.containerWhitespace]}>
+			<View style={[globalStyles.containerWhitespace, {marginTop: 25 /* Some whitespace between card and comment section*/}]}>
+				<Text style={globalStyles.title}>Comments</Text>
 				<CommentSection
 					// Username and avatar to be displayed in the "write your comment" box
 					username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}

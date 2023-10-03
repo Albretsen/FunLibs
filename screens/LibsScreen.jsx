@@ -528,18 +528,18 @@ export default function LibsScreen() {
 	  
 		// This should be something else, not just text
 		return (
-		  <View style={{
-			position: 'absolute',
-			bottom: -50,
-			left: 0,
-			right: 0,
-			padding: 10,
-			backgroundColor: 'white', // adjust the background color as needed
-		  }}>
-			<Text style={{ textAlign: 'center' }}>Loading more libs...</Text>
-		  </View>
+			<View style={{
+				position: 'absolute',
+				bottom: -50,
+				left: 0,
+				right: 0,
+				padding: 10,
+				backgroundColor: 'white', // adjust the background color as needed
+			}}>
+				<Text style={{ textAlign: 'center' }}>Loading more libs...</Text>
+			</View>
 		);
-	  }
+	}
 
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard]}>

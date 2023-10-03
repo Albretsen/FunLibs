@@ -287,15 +287,15 @@ export default function CommentSection(props) {
                                         }
                                         anchorStyle={null}
                                         containerStyle={{ height: "auto", alignSelf: "center" }}
-                                        options={
+                                        options={[
                                             comment.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                ? [
+                                                ? 
                                                     {
                                                         name: "Delete comment",
                                                         onPress: () => handleDeleteComment(index)
                                                     }
-                                                ]
-                                                : [
+                                                
+                                                : 
                                                     {
                                                         name: "Block " + comment.username,
                                                         onPress: () => {

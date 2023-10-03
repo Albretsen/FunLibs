@@ -7,6 +7,7 @@ import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
 import DeleteAccountScreen from './DeleteAccountScreen';
+import ProfileScreen from './ProfileScreen';
 import { useDrawer } from "../components/Drawer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -193,6 +194,20 @@ export default function AppScreenStack() {
 				options={{
 					headerTitle: "",
 					headerStyle: standardHeaderStyle,
+				}}
+			/>
+			<Stack.Screen
+				name="ProfileScreen"
+				component={ProfileScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: {
+						elevation: 0,
+						shadowOpacity: 0,
+						borderBottomWidth: 0,
+						
+						backgroundColor: "transparent"
+					},
 				}}
 			/>
 		</Stack.Navigator>

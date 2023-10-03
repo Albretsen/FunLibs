@@ -238,7 +238,7 @@ function ListItem(props) {
                 </View>
                 <View style={[styles.textRow, {flex: 1, alignSelf: "center"}]}>
                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
-                    <Text style={[{ fontSize: 13, color: "#49454F" }]}>
+                    <Text style={[{ fontSize: 13 }, globalStyles.grayText]}>
                         by <Text style={username === "Official" ? {color: "#419764", fontWeight: 600} : null}>{username}</Text> {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : '| Not published'}
                     </Text>
                 </View>

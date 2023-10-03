@@ -23,7 +23,7 @@ const globalStyles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         // justifyContent: 'center',
-        paddingTop: 1,
+        // paddingTop: 1,
         // paddingBottom: 100,
         flexDirection: "column",
         // maxHeight: fullHeight - 140
@@ -36,6 +36,15 @@ const globalStyles = StyleSheet.create({
 
     bigWhitespace: {
         width: fullWidth - fullWidth / 6,
+    },
+
+    bigWhitespacePadding: {
+        paddingHorizontal: fullWidth / 12,
+        width: "100%"
+    },
+
+    headerAccountedHeight: {
+        maxHeight: Dimensions.get("window").height - 64,
     },
 
     defaultFont: {
@@ -56,6 +65,10 @@ const globalStyles = StyleSheet.create({
 
     touchableText: {
         color: "#5C9BEB",
+    },
+
+    grayText: {
+        color: "#635f6a"
     },
 
     title: {
@@ -210,7 +223,14 @@ const globalStyles = StyleSheet.create({
 
     dialogText: {
         fontSize: 15
-    }
+    },
+
+    title: {
+        fontSize: 20,
+        textAlign: "left",
+        width: "100%",
+        fontWeight: 500
+    },
 })
 
 export default globalStyles;
