@@ -35,6 +35,7 @@ export default function UnblockScreen() {
     }, []);
 
     const handleUnblock = async (uid) => {
+        showToast("Unblocking user...");
         try {
             await FirebaseManager.unblockUser(uid);
             setBlockedUsers(prevUsers => prevUsers.filter(user => user.uid !== uid));

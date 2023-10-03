@@ -740,32 +740,42 @@ export default function LibsScreen() {
 							buttons={[
 								{
 									label: "All time",
-									icon: selectedDate === "allTime" ? "done" : null,
-									buttonStyle: selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									icon: selectedSortBy === "trending" ? "done" : (selectedDate === "allTime" ? "done" : null),
+									buttonStyle: selectedSortBy === "trending" 
+										? {borderColor: "transparent", backgroundColor: "#D1E8D5"} 
+										: (selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
 									onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
 								},
 								{
 									label: "Today",
-									icon: selectedDate === "today" ? "done" : null,
-									buttonStyle: selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									icon: selectedSortBy === "trending" ? null : (selectedDate === "today" ? "done" : null),
+									buttonStyle: selectedSortBy === "trending" 
+										? { backgroundColor: "#CFD8DC" } 
+										: (selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
 									onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
 								},
 								{
 									label: "This week",
-									icon: selectedDate === "thisWeek" ? "done" : null,
-									buttonStyle: selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisWeek" ? "done" : null),
+									buttonStyle: selectedSortBy === "trending" 
+										? { backgroundColor: "#CFD8DC" } 
+										: (selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
 									onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
 								},
 								{
 									label: "This month",
-									icon: selectedDate === "thisMonth" ? "done" : null,
-									buttonStyle: selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisMonth" ? "done" : null),
+									buttonStyle: selectedSortBy === "trending" 
+										? { backgroundColor: "#CFD8DC" } 
+										: (selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
 									onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
 								},
 								{
 									label: "This year",
-									icon: selectedDate === "thisYear" ? "done" : null,
-									buttonStyle: selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisYear" ? "done" : null),
+									buttonStyle: selectedSortBy === "trending" 
+										? { backgroundColor: "#CFD8DC" } 
+										: (selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
 									onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
 								},
 							]}
