@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity } from "react-native";
 import ListItem from "../components/ListItem";
 import { LinearGradient } from 'expo-linear-gradient';
 import globalStyles from "../styles/globalStyles";
 import FirebaseManager from "../scripts/firebase_manager";
 import Dropdown from "../components/Dropdown";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function ProfileScreen({ route }) {
     const userId = route.userId;
@@ -23,6 +24,8 @@ export default function ProfileScreen({ route }) {
     // Mostly turns text into input fields
     const [yourOwnProfile, setYourOwnProfile] = useState(true);
 
+    const [editUsername, setEditUsername] = useState(false);
+
     // Default, min, and max heights for the TextInput
     const defaultHeight = 30;
     const minHeight = 30;
@@ -30,7 +33,14 @@ export default function ProfileScreen({ route }) {
 
     const [inputHeight, setInputHeight] = useState(defaultHeight);
 
+    const defaultWidth = 60;
+    const minWidth = 30;
+    const maxWidth = 99999;
+
+    const [inputWidth, setInputWidth] = useState(defaultWidth);
+
     const [textValue, setTextValue] = useState(userData.bio);
+    const [nameValue, setNameValue] = useState(userData.username);
 
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
@@ -49,17 +59,37 @@ export default function ProfileScreen({ route }) {
                     />
                 </View>
                 <View style={{alignSelf: "center", zIndex: 100, gap: 10, paddingVertical: 10}}>
-                    <Dropdown
-                        title={userData.username}
-                        titleStyle={[globalStyles.fontMedium, {color: "#1D1B20"}]}
-                        containerStyle={{alignSelf: "center", height: "auto"}}
-                        options={[
-                            {
-                                name: "User options?",
-                                onPress: null
-                            }
-                        ]}
-                    />
+                    {editUsername ? 
+                        <TextInput
+                            style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: inputWidth}]}
+                            placeholder="Username..."
+                            value={nameValue}
+                            onChangeText={(text) => {
+                                setTextValue(text);
+                            }}
+                            onContentSizeChange={(e) => {
+                                const newWidth = e.nativeEvent.contentSize.width;
+                                setInputHeight(Math.max(minWidth, Math.min(newWidth, maxWidth)));
+                            }}
+                        />
+                        :
+                        <View style={{flexDirection: "row"}}>
+                            <Dropdown
+                                title={nameValue}
+                                titleStyle={[globalStyles.fontMedium, {color: "#1D1B20"}]}
+                                containerStyle={{alignSelf: "center", height: "auto"}}
+                                options={[
+                                    {
+                                        name: "User options?",
+                                        onPress: null
+                                    }
+                                ]}
+                            />
+                            <TouchableOpacity onPress={() => setEditUsername(true)}>
+                                <MaterialIcons name="edit" size={20} color="#333" />
+                            </TouchableOpacity>
+                        </View>
+                    }
                 </View>
                 <ScrollView>
                     <View style={[globalStyles.screenStandard, globalStyles.bigWhitespacePadding, {gap: 10, alignSelf: "center", marginTop: 5}]}>
@@ -91,7 +121,6 @@ export default function ProfileScreen({ route }) {
                                 onContentSizeChange={(e) => {
                                     const newHeight = e.nativeEvent.contentSize.height;
                                     setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                                    console.log(newHeight)
                                 }}
                             />
                             :
