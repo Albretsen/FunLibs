@@ -301,6 +301,9 @@ export default class FirebaseManager {
             email: user.email,
             username: user.displayName,
             avatarID: user.photoURL,
+            likesCount: 0,
+            libsCount: 0,
+            bio: "",
             date: new Date(),
             push_notification_token: push_notification_token,
         }
@@ -379,6 +382,154 @@ export default class FirebaseManager {
                     Analytics.log("Error updating profile " + error.message);
                 });
         });
+    }
+
+    static async UpdateUsername(uid, newUsername) {
+        // First, update the authentication profile for the user
+        const profileData = { displayName: newUsername };
+        await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);
+
+        // Then, update the Firestore user data for the user
+        const userDocRef = doc(db, "users", uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            userData.username = newUsername; // Update the username in the user data
+            await this.AddUserDataToDatabase(userData);
+        }
+
+        let operationsCount = 0;
+        const batches = [writeBatch(db)];
+
+        const addToBatch = (ref, data) => {
+            batches[batches.length - 1].update(ref, data);
+            operationsCount += 1;
+            if (operationsCount >= 500) {
+                batches.push(writeBatch(db));
+                operationsCount = 0;
+            }
+        };
+
+        const postsQuery = collection(db, "posts");
+        const snapshot = await getDocs(postsQuery);
+    
+        const batch = writeBatch(db);
+    
+        snapshot.docs.forEach(doc => {
+            const postData = doc.data();
+            let postModified = false;
+    
+            // Check if main post user matches the uid
+            if (postData.user === uid) {
+                postModified = true;
+                addToBatch(doc.ref, { username: newUsername });
+            }
+    
+            // Check each comment
+            if (postData.comments) {
+                postData.comments.forEach(comment => {
+                    if (comment.uid === uid) {
+                        comment.username = newUsername;
+                        postModified = true;
+                    }
+    
+                    // Check replies of each comment
+                    if (comment.replies) {
+                        comment.replies.forEach(reply => {
+                            if (reply.uid === uid) {
+                                reply.username = newUsername;
+                                postModified = true;
+                            }
+                        });
+                    }
+                });
+    
+                // Update the post with modified comments and replies only if needed
+                if (postModified) {
+                    batch.update(doc.ref, { comments: postData.comments });
+                }
+            }
+        });
+    
+        for (const batch of batches) {
+            await batch.commit();
+        }
+        Analytics.log(`Updated username for UID: ${uid} to ${newUsername}`);
+    }
+    
+    static async UpdateAvatar(uid, newAvatarID) {
+        // First, update the authentication profile for the user
+        // Assuming the avatarID is stored in the photoURL field of the auth profile
+        const profileData = { photoURL: newAvatarID };
+        await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);
+
+        // Then, update the Firestore user data for the user
+        const userDocRef = doc(db, "users", uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            userData.avatarID = newAvatarID; // Update the avatarID in the user data
+            await this.AddUserDataToDatabase(userData);
+        }
+
+        let operationsCount = 0;
+        const batches = [writeBatch(db)];
+
+        const addToBatch = (ref, data) => {
+            batches[batches.length - 1].update(ref, data);
+            operationsCount += 1;
+            if (operationsCount >= 500) {
+                batches.push(writeBatch(db));
+                operationsCount = 0;
+            }
+        };
+
+        const postsQuery = collection(db, "posts");
+        const snapshot = await getDocs(postsQuery);
+    
+        const batch = writeBatch(db);
+    
+        snapshot.docs.forEach(doc => {
+            const postData = doc.data();
+            let postModified = false;
+    
+            // Check if main post user matches the uid
+            if (postData.user === uid) {
+                postModified = true;
+                addToBatch(doc.ref, { avatarID: newAvatarID });
+            }
+    
+            // Check each comment
+            if (postData.comments) {
+                postData.comments.forEach(comment => {
+                    if (comment.uid === uid) {
+                        comment.avatarID = newAvatarID;
+                        postModified = true;
+                    }
+    
+                    // Check replies of each comment
+                    if (comment.replies) {
+                        comment.replies.forEach(reply => {
+                            if (reply.uid === uid) {
+                                reply.avatarID = newAvatarID;
+                                postModified = true;
+                            }
+                        });
+                    }
+                });
+    
+                // Update the post with modified comments and replies only if needed
+                if (postModified) {
+                    batch.update(doc.ref, { comments: postData.comments });
+                }
+            }
+        });
+    
+        for (const batch of batches) {
+            await batch.commit();
+        }
+
+        Analytics.log(`Updated avatar ID for UID: ${uid} to ${newAvatarID}`);
     }
 
     static async sendPasswordResetEmail(email) {
