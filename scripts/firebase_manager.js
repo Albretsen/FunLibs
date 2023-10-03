@@ -310,6 +310,38 @@ export default class FirebaseManager {
         this.AddDocumentToCollection("users", fireStoreData, user.uid);
     }
 
+    static async fetchUserDataForProfile(uid) {
+        /*this.currentUserData = {
+            auth: auth.currentUser,
+            firestoreData: {
+                email:"",
+                username:"",
+                avatarID:"",
+            }
+        };
+        this.currentUserData.firestoreData.email = this.currentUserData.auth.email;
+        this.currentUserData.firestoreData.username = this.currentUserData.auth.displayName;
+        this.currentUserData.firestoreData.avatarID = this.currentUserData.auth.photoURL;
+
+        console.log("DATA: " + JSON.stringify(this.currentUserData));*/
+        let data;
+        try {
+            if (uid) {
+                const userDocSnap = await getDoc(doc(db, "users", uid));
+                if (userDocSnap.exists()) {
+                    data = userDocSnap.data();
+                } else {
+                    console.log("No document found for UID: " + uid);
+                }
+            }
+        } catch (error) {
+            Analytics.log("Error fetching user data: " + error);
+            this.currentUserData = null;
+        }
+
+        return data;
+    }
+
     static async fetchUserData(uid) {
         /*this.currentUserData = {
             auth: auth.currentUser,

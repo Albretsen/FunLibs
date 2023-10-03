@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import ListItem from "../components/ListItem";
 import { LinearGradient } from 'expo-linear-gradient';
 import globalStyles from "../styles/globalStyles";
@@ -9,19 +9,37 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AvatarSelect from "../components/AvatarSelect";
 import BottomSheet from '@gorhom/bottom-sheet';
 import CustomBackground from "../components/CustomBackground";
+import { ToastContext } from "../components/Toast";
 
 export default function ProfileScreen({ route }) {
-    const userId = route.userId;
+    const uid = route.params.uid;
+
+    const showToast = useContext(ToastContext);
+
+    const [loading, setLoading] = useState(true);
 
     // Simply set this to an object with the correct userdata
-    const [userData, setUserData] = useState({
-        username: "Hallvard",
-        avatarID: 21,
-        likesCount: 234,
-        libsCount: 5,
-        memberSince: "Member since 2. October 2023",
-        bio: "Hey there! I'm Hallvard, Bergen's very own beanstalk. I'm so tall, I sometimes bump my head on the moon. Between my awkward dance moves and serenading my plants (yes, they're my only roommates), I also dabble in programming. Living solo means no one sees me talk to my ferns... until now. Oops!"
-    });
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        setLoading(true);
+        fetchUserData(uid);
+    }, []);
+
+    const fetchUserData = async (uid) => {
+        let data = await FirebaseManager.fetchUserDataForProfile(uid);
+        if (!data) {
+            showToast("Profile was not found.");
+            setLoading(false);
+            return;
+        }
+        data.memberSince = "test";
+        setUserData(data);
+        setBioValue(data.bio);
+        setNameValue(data.username);
+        setAvatarIndex(data.avatarID);
+        setLoading(false);
+    }
 
     // True if viewing your own profile
     // Mostly turns text into input fields
@@ -170,6 +188,11 @@ export default function ProfileScreen({ route }) {
                     containerStyle={{paddingVertical: 20}}
                 />
             </BottomSheet>
+            {loading && (
+                <View style={styles.loadingOverlay}>
+                    <ActivityIndicator size="large" color="#006D40" />
+                </View>
+			)}
         </View>
     )
 }
@@ -257,5 +280,16 @@ const styles = StyleSheet.create({
     bio: {
         lineHeight: 26,
         color: "#505050"
+    },
+
+    loadingOverlay: {
+        position: 'absolute',
+        top: -64,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
     }
 })

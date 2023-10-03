@@ -4,9 +4,12 @@ import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
 import Dropdown from "./Dropdown";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
+
+    const navigation = useNavigation();
 
     const [expandedRepliesForComment, setExpandedRepliesForComment] = useState({});
 
@@ -285,20 +288,26 @@ export default function CommentSection(props) {
                                         containerStyle={{ height: "auto", alignSelf: "center" }}
                                         options={[
                                             comment.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                ? 
-                                                    {
-                                                        name: "Delete comment",
-                                                        onPress: () => handleDeleteComment(index)
+                                            ? 
+                                                {
+                                                    name: "Delete comment",
+                                                    onPress: () => handleDeleteComment(index)
+                                                }
+                                            
+                                            : 
+                                                {
+                                                    name: "Block " + comment.username,
+                                                    onPress: () => {
+                                                        blockUser(comment.uid, comment.username);
                                                     }
-                                                
-                                                : 
-                                                    {
-                                                        name: "Block " + comment.username,
-                                                        onPress: () => {
-                                                            blockUser(comment.uid, comment.username);
-                                                        }
-                                                    }
-                                                ]
+                                                },
+                                                {
+                                                    name: "Visit profile",
+                                                    onPress: () => {
+                                                        navigation.navigate("ProfileScreen", { uid: comment.uid });
+                                                    } 
+                                                }
+                                            ]
                                         }
                                     />
                                     <TouchableOpacity style={styles.commentAction} onPress={() => {
@@ -402,6 +411,12 @@ export default function CommentSection(props) {
                                                                 onPress: () => {
                                                                     blockUser(reply.uid, reply.username);
                                                                 }
+                                                            },
+                                                            {
+                                                                name: "Visit profile",
+                                                                onPress: () => {
+                                                                    navigation.navigate("ProfileScreen", { uid: reply.uid });
+                                                                } 
                                                             }
                                                         ]
                                                 }
