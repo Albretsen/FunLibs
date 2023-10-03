@@ -442,6 +442,9 @@ export default function CreateLibScreen({ route }) {
         let id = await FirebaseManager.AddDocumentToCollection("posts", lib)
         await FirebaseManager.UpdateDocument("posts", id, { id: id });
 
+        const userId = FirebaseManager.currentUserData.auth.uid;
+        await FirebaseManager.updateNumericField("users", userId, "libsCount", 1);
+
         finished("Your text has been published", { category: "all" });
     }
 
@@ -473,6 +476,9 @@ export default function CreateLibScreen({ route }) {
 
         let id = await FirebaseManager.AddDocumentToCollection("posts", lib)
         await FirebaseManager.UpdateDocument("posts", id, { id: id });
+
+        const userId = FirebaseManager.currentUserData.auth.uid;
+        await FirebaseManager.updateNumericField("users", userId, "libsCount", 1);
 
         finished("Your text has been published.", { category: "all" });
     }
@@ -549,6 +555,8 @@ export default function CreateLibScreen({ route }) {
         if (editLibID && !item?.local) {
             await FirebaseManager.DeleteDocument("posts", item.id);
 
+            const userId = FirebaseManager.currentUserData.auth.uid;
+            await FirebaseManager.updateNumericField("users", userId, "libsCount", -1);
             finished("Your text has been deleted.", { category: "myContent" });
             return;
         }

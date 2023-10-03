@@ -10,6 +10,7 @@ export default class CompatibilityVerification {
 
     static RunCompatibilityVerification = async () => {
         this.version = await FileManager._retrieveData("version");
+        if (!this.version) this.version = "0";
         if (parseInt(this.version) < parseInt(this.newestVersion)) {
             console.log("Old version detected. Running old account recovery scheme.");
             try {
@@ -33,8 +34,9 @@ export default class CompatibilityVerification {
         if (localAuthData?.uid) {
             if (localAuthData.uid.length > 5) {
                 console.log("Local account looks valid, uploading...");
-                FirebaseManager.AddUserDataToDatabase(localAuthData);
-                FirebaseManager.storeUsername(localAuthData.displayName, localAuthData.uid);
+                await FirebaseManager.AddUserDataToDatabase(localAuthData);
+                await FirebaseManager.storeUsername(localAuthData.displayName, localAuthData.uid);
+                await FirebaseManager.updatePostsAndLikesCountForUser(localAuthData.uid);
                 console.log("Local account has been uploaded.");
             }
         } else {

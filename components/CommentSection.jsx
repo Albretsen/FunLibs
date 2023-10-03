@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
@@ -7,6 +7,8 @@ import Dropdown from "./Dropdown";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
+
+    const [loading, setLoading] = useState(true);
 
     const [expandedRepliesForComment, setExpandedRepliesForComment] = useState({});
 
@@ -189,6 +191,7 @@ export default function CommentSection(props) {
         async function fetchBlockedUsers() {
             const blocked = await Promise.all(commentList.map(comment => FirebaseManager.isUserBlocked(comment.uid)));
             setBlockedUsers(blocked);
+            setLoading(false);
         }
 
         fetchBlockedUsers();
@@ -207,8 +210,9 @@ export default function CommentSection(props) {
                 })
             );
             setBlockedReplies(allBlockedReplies);
+            setLoading(false);
         }
-        
+
         fetchBlockedReplies();
     }, [commentList]);
 
@@ -217,168 +221,77 @@ export default function CommentSection(props) {
     const iconSend = <MaterialIcons style={{ color: "#49454F", marginTop: 10, marginLeft: 3 }} name="send" size={20} />
     const iconReply = <MaterialIcons style={{ color: "#49454F" }} name="reply" size={22} />
 
+    const stylesLoading = {
+        loadingIndicator: {
+            position: 'absolute',
+            top: 10,
+            left: '50%',
+            transform: [{ translateX: -25 }] // Assuming the ActivityIndicator size is "large" which is 50x50
+        }
+    };
+
     return (
         <View key={refreshKey}>
-            <View style={[styles.comment, { paddingBottom: 6, borderBottomWidth: 1 }]}>
-                <View style={styles.commentAvatar}>
-                    <Image
-                        style={styles.avatar}
-                        source={FirebaseManager.avatars[avatarID]}
-                    />
-                </View>
-                <View style={styles.commentCenter}>
-                    <Text style={styles.username}>
-                        {username}
-                    </Text>
-                    <TextInput
-                        placeholder="New comment..."
-                        placeholderTextColor={"gray"}
-                        multiline
-                        textAlignVertical="top"
-                        style={{ height: inputHeight, color: "#505050" }}
-                        onChangeText={(text) => {
-                            setTextValue(text);
-                        }}
-                        value={textValue}
-                        onContentSizeChange={(e) => {
-                            const newHeight = e.nativeEvent.contentSize.height;
-                            setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                            console.log(newHeight)
-                        }}
-                    />
-                </View>
-                <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(textValue)}>
-                    {iconSend}
-                </TouchableOpacity>
-            </View>
-            <ScrollView>
-                {commentList.map((comment, index) => {
-                    if (blockedUsers[index]) {
-                        console.log("USER IS BLOCKED");
-                        return null;
-                    }
-                    return (
-                        <View style={[styles.thread, comment.replies.length > 0 ? { paddingBottom: 25 } : null]} key={index}>
-                            <View style={styles.comment}>
-                                <View style={styles.commentAvatar}>
-                                    <Image
-                                        style={styles.avatar}
-                                        source={FirebaseManager.avatars[comment.avatarID]}
-                                    />
-                                </View>
-                                <View style={styles.commentCenter}>
-                                    <Text style={styles.username}>
-                                        {comment.username}
-                                        {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                        <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
-                                    </Text>
-                                    <Text style={styles.commentText}>
-                                        {comment.content}
-                                    </Text>
-                                </View>
-                                <View style={styles.commentActions}>
-                                    <Dropdown
-                                        anchor={
-                                            iconMore
-                                        }
-                                        anchorStyle={null}
-                                        containerStyle={{ height: "auto", alignSelf: "center" }}
-                                        options={[
-                                            comment.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                ? 
-                                                    {
-                                                        name: "Delete comment",
-                                                        onPress: () => handleDeleteComment(index)
-                                                    }
-                                                
-                                                : 
-                                                    {
-                                                        name: "Block " + comment.username,
-                                                        onPress: () => {
-                                                            blockUser(comment.uid, comment.username);
-                                                        }
-                                                    }
-                                                ]
-                                        }
-                                    />
-                                    <TouchableOpacity style={styles.commentAction} onPress={() => {
-                                        setReplyingToCommentIndex(index);
-                                        setReplyTextValue("");
-                                        setAtUser({ 
-                                            username: comment.username,
-                                            uid: comment.uid,
-                                            visible: false,
-                                        });
-                                    }}>
-                                        {iconReply}
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-
-                            {replyingToCommentIndex === index && (
-                                <View style={[styles.comment, styles.reply, { paddingBottom: 6 }]}>
-                                    <View style={styles.commentAvatar}>
-                                        <Image
-                                            style={styles.avatar}
-                                            source={FirebaseManager.avatars[avatarID]}
-                                        />
-                                    </View>
-                                    <View style={[styles.commentCenter, styles.replyCenter]}>
-                                        <Text style={styles.username}>
-                                            {username}
-                                        </Text>
-                                        <TextInput
-                                            placeholder="New reply..."
-                                            placeholderTextColor={"gray"}
-                                            multiline
-                                            textAlignVertical="top"
-                                            style={{ height: inputHeight, color: "#505050", borderBottomWidth: 1, borderBottomColor: "#007BFF" }}
-                                            onChangeText={(text) => {
-                                                if (atUser?.username) {
-                                                    if (!text.startsWith("@" + atUser?.username) && atUser?.visible) {
-                                                        // Reset to the original prefix if user tries to backspace away @username
-                                                        setReplyTextValue("@" + atUser?.username + " ");
-                                                    } else {
-                                                        setReplyTextValue(text);
-                                                    }
-                                                } else {
-                                                    setReplyTextValue(text);
-                                                }
-                                            }}
-                                            value={replyTextValue}
-                                            onContentSizeChange={(e) => {
-                                                const newHeight = e.nativeEvent.contentSize.height;
-                                                setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                                            }}
-                                        />
-                                    </View>
-                                    <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(replyTextValue, replyingToCommentIndex)}>
-                                        {iconSend}
-                                    </TouchableOpacity>
-                                </View>
-                            )}
-                            {comment.replies && (expandedRepliesForComment[index] || comment.replies.length <= MAX_REPLIES_DISPLAY ? comment.replies : comment.replies.slice(0, MAX_REPLIES_DISPLAY)).map((reply, replyIndex) => {
-                                    if (blockedReplies[index] && blockedReplies[index][replyIndex]) {
-                                        console.log("THE USER IS BLOCKED");
-                                        return null;
-                                    }
-
-                                    return (
-                                    <View key={replyIndex} style={[styles.comment, styles.reply]}>
+            {loading ? (
+                // Render a loading spinner or some other placeholder here
+                <ActivityIndicator style={stylesLoading.loadingIndicator} size="large" color="#006D40" />
+            ) : (
+                <View>
+                    <View style={[styles.comment, { paddingBottom: 6, borderBottomWidth: 1 }]}>
+                        <View style={styles.commentAvatar}>
+                            <Image
+                                style={styles.avatar}
+                                source={FirebaseManager.avatars[avatarID]}
+                            />
+                        </View>
+                        <View style={styles.commentCenter}>
+                            <Text style={styles.username}>
+                                {username}
+                            </Text>
+                            <TextInput
+                                placeholder="New comment..."
+                                placeholderTextColor={"gray"}
+                                multiline
+                                textAlignVertical="top"
+                                style={{ height: inputHeight, color: "#505050" }}
+                                onChangeText={(text) => {
+                                    setTextValue(text);
+                                }}
+                                value={textValue}
+                                onContentSizeChange={(e) => {
+                                    const newHeight = e.nativeEvent.contentSize.height;
+                                    setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
+                                    console.log(newHeight)
+                                }}
+                            />
+                        </View>
+                        <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(textValue)}>
+                            {iconSend}
+                        </TouchableOpacity>
+                    </View>
+                    <ScrollView>
+                        {commentList.map((comment, index) => {
+                            if (blockedUsers[index]) {
+                                console.log("USER IS BLOCKED");
+                                return null;
+                            }
+                            return (
+                                <View style={[styles.thread, comment.replies.length > 0 ? { paddingBottom: 25 } : null]} key={index}>
+                                    <View style={styles.comment}>
                                         <View style={styles.commentAvatar}>
                                             <Image
                                                 style={styles.avatar}
-                                                source={FirebaseManager.avatars[reply.avatarID]}
+                                                source={FirebaseManager.avatars[comment.avatarID]}
                                             />
                                         </View>
-                                        <View style={[styles.commentCenter, styles.replyCenter]}>
+                                        <View style={styles.commentCenter}>
                                             <Text style={styles.username}>
-                                                {reply.username}
-                                                {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                {comment.username}
+                                                {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
                                                 <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
                                             </Text>
                                             <Text style={styles.commentText}>
-                                                {reply.content}
+                                                {comment.content}
                                             </Text>
                                         </View>
                                         <View style={styles.commentActions}>
@@ -388,55 +301,161 @@ export default function CommentSection(props) {
                                                 }
                                                 anchorStyle={null}
                                                 containerStyle={{ height: "auto", alignSelf: "center" }}
-                                                options={
-                                                    reply.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                        ? [
-                                                            {
-                                                                name: "Delete comment",
-                                                                onPress: () => handleDeleteComment(index, replyIndex)
+                                                options={[
+                                                    comment.uid === FirebaseManager.currentUserData?.auth?.uid
+                                                        ?
+                                                        {
+                                                            name: "Delete comment",
+                                                            onPress: () => handleDeleteComment(index)
+                                                        }
+
+                                                        :
+                                                        {
+                                                            name: "Block " + comment.username,
+                                                            onPress: () => {
+                                                                blockUser(comment.uid, comment.username);
                                                             }
-                                                        ]
-                                                        : [
-                                                            {
-                                                                name: "Block " + reply.username,
-                                                                onPress: () => {
-                                                                    blockUser(reply.uid, reply.username);
-                                                                }
-                                                            }
-                                                        ]
+                                                        }
+                                                ]
                                                 }
                                             />
                                             <TouchableOpacity style={styles.commentAction} onPress={() => {
                                                 setReplyingToCommentIndex(index);
-                                                setReplyTextValue("@" + reply.username + " ");
+                                                setReplyTextValue("");
                                                 setAtUser({
-                                                    username: reply.username,
-                                                    uid: reply.uid,
-                                                    visible: true,
+                                                    username: comment.username,
+                                                    uid: comment.uid,
+                                                    visible: false,
                                                 });
                                             }}>
                                                 {iconReply}
                                             </TouchableOpacity>
                                         </View>
                                     </View>
-                                )
-                            })}
-                            {comment.replies && comment.replies.length > MAX_REPLIES_DISPLAY && (
-                                <TouchableOpacity onPress={() => {
-                                    setExpandedRepliesForComment(prev => ({
-                                        ...prev,
-                                        [index]: !prev[index] // Toggle expand/collapse
-                                    }));
-                                }}>
-                                    <Text style={{ color: "#007BFF", marginTop: 5, paddingLeft: 25 }}>
-                                        {expandedRepliesForComment[index] ? "View Less Replies" : `View ${comment.replies.length - MAX_REPLIES_DISPLAY} More ${(comment.replies.length - MAX_REPLIES_DISPLAY) === 1 ? "Reply" : "Replies"}`}
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                    )
-                })}
-            </ScrollView>
+
+                                    {replyingToCommentIndex === index && (
+                                        <View style={[styles.comment, styles.reply, { paddingBottom: 6 }]}>
+                                            <View style={styles.commentAvatar}>
+                                                <Image
+                                                    style={styles.avatar}
+                                                    source={FirebaseManager.avatars[avatarID]}
+                                                />
+                                            </View>
+                                            <View style={[styles.commentCenter, styles.replyCenter]}>
+                                                <Text style={styles.username}>
+                                                    {username}
+                                                </Text>
+                                                <TextInput
+                                                    placeholder="New reply..."
+                                                    placeholderTextColor={"gray"}
+                                                    multiline
+                                                    textAlignVertical="top"
+                                                    style={{ height: inputHeight, color: "#505050", borderBottomWidth: 1, borderBottomColor: "#007BFF" }}
+                                                    onChangeText={(text) => {
+                                                        if (atUser?.username) {
+                                                            if (!text.startsWith("@" + atUser?.username) && atUser?.visible) {
+                                                                // Reset to the original prefix if user tries to backspace away @username
+                                                                setReplyTextValue("@" + atUser?.username + " ");
+                                                            } else {
+                                                                setReplyTextValue(text);
+                                                            }
+                                                        } else {
+                                                            setReplyTextValue(text);
+                                                        }
+                                                    }}
+                                                    value={replyTextValue}
+                                                    onContentSizeChange={(e) => {
+                                                        const newHeight = e.nativeEvent.contentSize.height;
+                                                        setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
+                                                    }}
+                                                />
+                                            </View>
+                                            <TouchableOpacity style={styles.commentActions} onPress={() => handleSubmitComment(replyTextValue, replyingToCommentIndex)}>
+                                                {iconSend}
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
+                                    {comment.replies && (expandedRepliesForComment[index] || comment.replies.length <= MAX_REPLIES_DISPLAY ? comment.replies : comment.replies.slice(0, MAX_REPLIES_DISPLAY)).map((reply, replyIndex) => {
+                                        if (blockedReplies[index] && blockedReplies[index][replyIndex]) {
+                                            console.log("THE USER IS BLOCKED");
+                                            return null;
+                                        }
+
+                                        return (
+                                            <View key={replyIndex} style={[styles.comment, styles.reply]}>
+                                                <View style={styles.commentAvatar}>
+                                                    <Image
+                                                        style={styles.avatar}
+                                                        source={FirebaseManager.avatars[reply.avatarID]}
+                                                    />
+                                                </View>
+                                                <View style={[styles.commentCenter, styles.replyCenter]}>
+                                                    <Text style={styles.username}>
+                                                        {reply.username}
+                                                        {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                        <Text style={styles.date}>| {timeAgo(comment.date)}</Text>
+                                                    </Text>
+                                                    <Text style={styles.commentText}>
+                                                        {reply.content}
+                                                    </Text>
+                                                </View>
+                                                <View style={styles.commentActions}>
+                                                    <Dropdown
+                                                        anchor={
+                                                            iconMore
+                                                        }
+                                                        anchorStyle={null}
+                                                        containerStyle={{ height: "auto", alignSelf: "center" }}
+                                                        options={
+                                                            reply.uid === FirebaseManager.currentUserData?.auth?.uid
+                                                                ? [
+                                                                    {
+                                                                        name: "Delete comment",
+                                                                        onPress: () => handleDeleteComment(index, replyIndex)
+                                                                    }
+                                                                ]
+                                                                : [
+                                                                    {
+                                                                        name: "Block " + reply.username,
+                                                                        onPress: () => {
+                                                                            blockUser(reply.uid, reply.username);
+                                                                        }
+                                                                    }
+                                                                ]
+                                                        }
+                                                    />
+                                                    <TouchableOpacity style={styles.commentAction} onPress={() => {
+                                                        setReplyingToCommentIndex(index);
+                                                        setReplyTextValue("@" + reply.username + " ");
+                                                        setAtUser({
+                                                            username: reply.username,
+                                                            uid: reply.uid,
+                                                            visible: true,
+                                                        });
+                                                    }}>
+                                                        {iconReply}
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        )
+                                    })}
+                                    {comment.replies && comment.replies.length > MAX_REPLIES_DISPLAY && (
+                                        <TouchableOpacity onPress={() => {
+                                            setExpandedRepliesForComment(prev => ({
+                                                ...prev,
+                                                [index]: !prev[index] // Toggle expand/collapse
+                                            }));
+                                        }}>
+                                            <Text style={{ color: "#007BFF", marginTop: 5, paddingLeft: 25 }}>
+                                                {expandedRepliesForComment[index] ? "View Less Replies" : `View ${comment.replies.length - MAX_REPLIES_DISPLAY} More ${(comment.replies.length - MAX_REPLIES_DISPLAY) === 1 ? "Reply" : "Replies"}`}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
+                </View>)}
         </View>
     )
 }

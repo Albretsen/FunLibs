@@ -20,6 +20,12 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>My profile</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => {
+					navigation.navigate("UnblockScreen");
+					closeDrawer();
+				}}>
+					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Unblock</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => {
 					navigation.navigate("ResetPasswordScreen");
 					closeDrawer();
 				}}>
