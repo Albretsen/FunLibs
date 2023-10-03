@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, query, where, orderBy, limit, doc, writeBatch, arrayUnion, arrayRemove, deleteDoc, setDoc, startAfter, runTransaction, Timestamp, increment } from "firebase/firestore";
 import { initializeAuth, getReactNativePersistence, getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updatePassword, deleteUser, browserLocalPersistence, signOut, setPersistence, sendPasswordResetEmail, updateProfile, signInWithCustomToken } from "firebase/auth";
 import Analytics from './analytics';
 import FileManager from './file_manager';
@@ -301,6 +301,9 @@ export default class FirebaseManager {
             email: user.email,
             username: user.displayName,
             avatarID: user.photoURL,
+            likesCount: 0,
+            libsCount: 0,
+            bio: "",
             date: new Date(),
             push_notification_token: push_notification_token,
         }
@@ -411,6 +414,171 @@ export default class FirebaseManager {
                     Analytics.log("Error updating profile " + error.message);
                 });
         });
+    }
+
+    /**
+     * Updates a numeric field value in a Firestore document
+     * @param {string} collection - The name of the Firestore collection.
+     * @param {string} docId - The ID of the document to update.
+     * @param {string} field - The name of the numeric field to update.
+     * @param {number} changeValue - The value to increment or decrement by.
+     */
+    static async updateNumericField(collection, docId, field, changeValue) {
+        try {
+            const fieldValueUpdate = {};
+            fieldValueUpdate[field] = increment(changeValue);
+            await this.UpdateDocument(collection, docId, fieldValueUpdate);
+        } catch (error) {
+            Analytics.log("Error updating numeric field in Firestore: " + error.message);
+        }
+    }
+
+    static async UpdateUsername(uid, newUsername) {
+        // First, update the authentication profile for the user
+        const profileData = { displayName: newUsername };
+        await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);
+
+        // Then, update the Firestore user data for the user
+        const userDocRef = doc(db, "users", uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            userData.username = newUsername; // Update the username in the user data
+            await this.AddUserDataToDatabase(userData);
+        }
+
+        let operationsCount = 0;
+        const batches = [writeBatch(db)];
+
+        const addToBatch = (ref, data) => {
+            batches[batches.length - 1].update(ref, data);
+            operationsCount += 1;
+            if (operationsCount >= 500) {
+                batches.push(writeBatch(db));
+                operationsCount = 0;
+            }
+        };
+
+        const postsQuery = collection(db, "posts");
+        const snapshot = await getDocs(postsQuery);
+    
+        const batch = writeBatch(db);
+    
+        snapshot.docs.forEach(doc => {
+            const postData = doc.data();
+            let postModified = false;
+    
+            // Check if main post user matches the uid
+            if (postData.user === uid) {
+                postModified = true;
+                addToBatch(doc.ref, { username: newUsername });
+            }
+    
+            // Check each comment
+            if (postData.comments) {
+                postData.comments.forEach(comment => {
+                    if (comment.uid === uid) {
+                        comment.username = newUsername;
+                        postModified = true;
+                    }
+    
+                    // Check replies of each comment
+                    if (comment.replies) {
+                        comment.replies.forEach(reply => {
+                            if (reply.uid === uid) {
+                                reply.username = newUsername;
+                                postModified = true;
+                            }
+                        });
+                    }
+                });
+    
+                // Update the post with modified comments and replies only if needed
+                if (postModified) {
+                    batch.update(doc.ref, { comments: postData.comments });
+                }
+            }
+        });
+    
+        for (const batch of batches) {
+            await batch.commit();
+        }
+        Analytics.log(`Updated username for UID: ${uid} to ${newUsername}`);
+    }
+    
+    static async UpdateAvatar(uid, newAvatarID) {
+        // First, update the authentication profile for the user
+        // Assuming the avatarID is stored in the photoURL field of the auth profile
+        const profileData = { photoURL: newAvatarID };
+        await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);
+
+        // Then, update the Firestore user data for the user
+        const userDocRef = doc(db, "users", uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            userData.avatarID = newAvatarID; // Update the avatarID in the user data
+            await this.AddUserDataToDatabase(userData);
+        }
+
+        let operationsCount = 0;
+        const batches = [writeBatch(db)];
+
+        const addToBatch = (ref, data) => {
+            batches[batches.length - 1].update(ref, data);
+            operationsCount += 1;
+            if (operationsCount >= 500) {
+                batches.push(writeBatch(db));
+                operationsCount = 0;
+            }
+        };
+
+        const postsQuery = collection(db, "posts");
+        const snapshot = await getDocs(postsQuery);
+    
+        const batch = writeBatch(db);
+    
+        snapshot.docs.forEach(doc => {
+            const postData = doc.data();
+            let postModified = false;
+    
+            // Check if main post user matches the uid
+            if (postData.user === uid) {
+                postModified = true;
+                addToBatch(doc.ref, { avatarID: newAvatarID });
+            }
+    
+            // Check each comment
+            if (postData.comments) {
+                postData.comments.forEach(comment => {
+                    if (comment.uid === uid) {
+                        comment.avatarID = newAvatarID;
+                        postModified = true;
+                    }
+    
+                    // Check replies of each comment
+                    if (comment.replies) {
+                        comment.replies.forEach(reply => {
+                            if (reply.uid === uid) {
+                                reply.avatarID = newAvatarID;
+                                postModified = true;
+                            }
+                        });
+                    }
+                });
+    
+                // Update the post with modified comments and replies only if needed
+                if (postModified) {
+                    batch.update(doc.ref, { comments: postData.comments });
+                }
+            }
+        });
+    
+        for (const batch of batches) {
+            await batch.commit();
+        }
+
+        Analytics.log(`Updated avatar ID for UID: ${uid} to ${newAvatarID}`);
     }
 
     static async sendPasswordResetEmail(email) {
@@ -675,6 +843,22 @@ export default class FirebaseManager {
         }
     }
 
+    static async getUserData(uid) {
+        try {
+            const userDocRef = doc(db, "users", uid);
+            const userDocSnap = await getDoc(userDocRef);
+            
+            if (userDocSnap.exists()) {
+                return userDocSnap.data();
+            } else {
+                console.log(`No user data found for UID: ${uid}`);
+                return null;
+            }
+        } catch (error) {
+            Analytics.log("Error fetching user data from 'users' collection: " + error.message);
+        }
+    }
+
     /**
      * Submits a comment or reply to a post.
      *
@@ -724,30 +908,38 @@ export default class FirebaseManager {
      * @returns {Promise<void>} - Returns a promise that resolves when the update is complete.
      */
     static async updateLikesWithTransaction(postId, userUid) {
-        Analytics.increment("database_updates");
-        const postRef = doc(db, "posts", postId);
-    
-        return runTransaction(db, async (transaction) => {
-            const postSnapshot = await transaction.get(postRef);
-            
-            if (!postSnapshot.exists()) {
-                throw new Error(`Document with ID ${postId} does not exist.`);
-            }
-    
-            const currentLikesArray = postSnapshot.data().likesArray || [];
-            let updatedLikesArray;
-    
-            if (currentLikesArray.includes(userUid)) {
-                updatedLikesArray = currentLikesArray.filter(uid => uid !== userUid);
-            } else {
-                updatedLikesArray = [...currentLikesArray, userUid];
-            }
-    
-            transaction.update(postRef, {
-                likesArray: updatedLikesArray,
-                likes: updatedLikesArray.length
+        try {
+            Analytics.increment("database_updates");
+            const postRef = doc(db, "posts", postId);
+
+            return runTransaction(db, async (transaction) => {
+                const postSnapshot = await transaction.get(postRef);
+
+                if (!postSnapshot.exists()) {
+                    throw new Error(`Document with ID ${postId} does not exist.`);
+                }
+
+                const currentLikesArray = postSnapshot.data().likesArray || [];
+                let updatedLikesArray;
+
+                if (currentLikesArray.includes(userUid)) {
+                    const userId = postSnapshot.data().user;
+                    await FirebaseManager.updateNumericField("users", userId, "likesCount", -1);
+                    updatedLikesArray = currentLikesArray.filter(uid => uid !== userUid);
+                } else {
+                    const userId = postSnapshot.data().user;
+                    await FirebaseManager.updateNumericField("users", userId, "likesCount", 1);
+                    updatedLikesArray = [...currentLikesArray, userUid];
+                }
+
+                transaction.update(postRef, {
+                    likesArray: updatedLikesArray,
+                    likes: updatedLikesArray.length
+                });
             });
-        });
+        } catch {
+            console.log("Error updating likes");
+        }
     }
 
     /**
@@ -1061,6 +1253,35 @@ export default class FirebaseManager {
         /*if (collection_ === "posts") {
             this.RefreshList(null);
         }*/
+    }
+
+    static async updatePostsAndLikesCountForUser(uid) {
+        // Get posts by the user
+        const postsQuery = query(collection(db, "posts"), where("user", "==", uid));
+        const snapshot = await getDocs(postsQuery);
+        let totalLikes = 0;
+    
+        snapshot.forEach(doc => {
+            const postData = doc.data();
+            if (postData.likes) {
+                totalLikes += postData.likes;
+            }
+        });
+    
+        const userDocRef = doc(db, "users", uid);
+        
+        // Update the libsCount and likesCount for the user in the users collection
+        try {
+            await setDoc(userDocRef, {
+                libsCount: snapshot.size,
+                likesCount: totalLikes
+            }, { merge: true });  // Using merge: true to only update these fields and not overwrite the entire document
+    
+            console.log(`Updated libsCount and likesCount for user ${uid}`);
+        } catch (error) {
+            console.error(`Error updating libsCount and likesCount for user ${uid}: ${error.message}`);
+            throw error;
+        }
     }
 
     static async RefreshList(filterOptions) {

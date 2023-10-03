@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import ResetPasswordScreen from "./ResetPasswordScreen";
 import { BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import UnblockScreen from './UnblockScreen';
 
 const Stack = createStackNavigator();
 
@@ -208,6 +209,14 @@ export default function AppScreenStack() {
 						
 						backgroundColor: "transparent"
 					},
+				}}
+			/>
+			<Stack.Screen
+				name="UnblockScreen"
+				component={UnblockScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: standardHeaderStyle,
 				}}
 			/>
 		</Stack.Navigator>
