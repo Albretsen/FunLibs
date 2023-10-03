@@ -121,7 +121,7 @@ export default function CommentSection(props) {
                         ? { ...commentItem, replies: [...commentItem.replies, comment] }
                         : commentItem // If you don't want this line, you can remove it
                 );
-                onSubmitComment(updatedComments, replyingToCommentIndex);
+                onSubmitComment(comment, replyingToCommentIndex);
                 return updatedComments; // Return the updated comments to update the state
             });
         }
@@ -167,11 +167,7 @@ export default function CommentSection(props) {
         FirebaseManager.blockUser(uid);
 
         // Update blockedUsers array
-        const updatedBlockedUsers = [...blockedUsers];
-        const blockedUserIndex = commentList.findIndex(comment => comment.uid === uid);
-        if (blockedUserIndex !== -1) {
-            updatedBlockedUsers[blockedUserIndex] = true;
-        }
+        const updatedBlockedUsers = commentList.map(comment => comment.uid === uid || blockedUsers[comment.uid]);
         setBlockedUsers(updatedBlockedUsers);
 
         // Update blockedReplies array
