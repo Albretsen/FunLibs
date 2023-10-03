@@ -121,7 +121,7 @@ export default function CommentSection(props) {
                         ? { ...commentItem, replies: [...commentItem.replies, comment] }
                         : commentItem // If you don't want this line, you can remove it
                 );
-                onSubmitComment(updatedComments, replyingToCommentIndex);
+                onSubmitComment(comment, replyingToCommentIndex);
                 return updatedComments; // Return the updated comments to update the state
             });
         }

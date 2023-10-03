@@ -644,6 +644,46 @@ export default class FirebaseManager {
     }
 
     /**
+     * Submits a comment or reply to a post.
+     *
+     * @param {Object} comment - The comment object to add.
+     * @param {number|null} replyingToCommentIndex - The index of the comment being replied to. Null for top-level comments.
+     * @param {string} postId - The ID of the post to which the comment is being added.
+     */
+    static async submitComment(comment, replyingToCommentIndex, postId) {
+        if (!this.currentUserData?.auth?.uid) {
+            console.log("Not logged in");
+            return;
+        }
+
+        const postRef = doc(db, "posts", postId);
+
+        if (replyingToCommentIndex == null) {
+            // Add top-level comment
+            await this.UpdateDocument("posts", postId, {}, { comments: [comment] });
+        } else {
+            // Handle reply to a comment
+            const postSnapshot = await getDoc(postRef);
+            if (!postSnapshot.exists()) {
+                console.error("Post not found!");
+                return;
+            }
+
+            const post = postSnapshot.data();
+            if (!post.comments || post.comments.length <= replyingToCommentIndex) {
+                console.error("Invalid comment index!");
+                return;
+            }
+
+            // Add the reply to the appropriate comment's replies array
+            post.comments[replyingToCommentIndex].replies.push(comment);
+
+            // Update the post
+            await this.UpdateDocument("posts", postId, { comments: post.comments });
+        }
+    }
+
+    /**
      * Updates the likes of a post atomically using a Firestore transaction.
      * 
      * @param {string} postId - The ID of the post to update.

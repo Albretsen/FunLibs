@@ -437,8 +437,7 @@ export default function PlayScreen({ route }) {
 			return;
 		}
 
-		if (replyingToCommentIndex == null) FirebaseManager.UpdateDocument("posts", currentLib.id, {}, { comments: [comment] });
-		else FirebaseManager.UpdateDocument("posts", currentLib.id, {comments: comment});
+		FirebaseManager.submitComment(comment, replyingToCommentIndex, currentLib.id);
 	} 
 
 	return (
