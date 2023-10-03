@@ -19,9 +19,11 @@ import { useTab } from "../components/TabContext";
 import Dropdown from "../components/Dropdown";
 import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
+import { ToastContext } from "../components/Toast";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
+	const showToast = useContext(ToastContext);
 
 	// This does not look nice
 	const [selectedCategory, setSelectedCategory] = useState("official");
@@ -162,6 +164,11 @@ export default function LibsScreen() {
 
 		try {
 			let dbResult = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
+			if (dbResult.data === "no-internet") {
+				// This error sometimes shows when there is internet. Do not display it to the user.
+				console.log("Connection issue detected. Sort by 'Offline libs' if the issue persists");
+				return;
+			}
 			if (currentTokenRef.current !== thisCallToken) return;
 			let dbItems = dbResult.data;
 

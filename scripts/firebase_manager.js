@@ -754,16 +754,16 @@ export default class FirebaseManager {
         pageSize = 10
     ) {
         if (!isConnected) {
-            console.log("No internet: data may be out of date");
+            /*console.log("No internet: data may be out of date");
             let localResult = await FileManager._retrieveData("libs");
             if (localResult) {
                 localResult = JSON.parse(localResult);
             } else {
                 localResult = [];
-            }
+            }*/
             return {
-                data: localResult,
-                lastDocument: { local: true }
+                data: "no-internet",
+                //lastDocument: { local: true }
             };
         }
 
