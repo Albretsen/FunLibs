@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity } from "react-native";
 import ListItem from "../components/ListItem";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,6 +6,9 @@ import globalStyles from "../styles/globalStyles";
 import FirebaseManager from "../scripts/firebase_manager";
 import Dropdown from "../components/Dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AvatarSelect from "../components/AvatarSelect";
+import BottomSheet from '@gorhom/bottom-sheet';
+import CustomBackground from "../components/CustomBackground";
 
 export default function ProfileScreen({ route }) {
     const userId = route.userId;
@@ -33,14 +36,25 @@ export default function ProfileScreen({ route }) {
 
     const [inputHeight, setInputHeight] = useState(defaultHeight);
 
-    const defaultWidth = 60;
-    const minWidth = 30;
-    const maxWidth = 99999;
-
-    const [inputWidth, setInputWidth] = useState(defaultWidth);
-
-    const [textValue, setTextValue] = useState(userData.bio);
+    const [bioValue, setBioValue] = useState(userData.bio);
     const [nameValue, setNameValue] = useState(userData.username);
+
+    // For avatar selection
+    const [avatarIndex, setAvatarIndex] = useState(userData.avatarID);
+    const handleAvatarChange = (index) => {
+        setAvatarIndex(index);
+        closeBottomSheet();
+    }
+
+    const bottomSheetRef = useRef(null);
+
+    const openBottomSheet = () => {
+		bottomSheetRef.current?.snapToIndex(0);
+	};
+
+	const closeBottomSheet = () => {
+		bottomSheetRef.current?.close();
+	};
 
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
@@ -52,24 +66,29 @@ export default function ProfileScreen({ route }) {
             />
             <View style={[{overflow: "hidden"}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
-                <View style={styles.imageContainer}>
+                <TouchableOpacity style={styles.imageContainer} onPress={
+                    () => {
+                        if(yourOwnProfile) openBottomSheet();
+                    }
+                }>
                     <Image
                         style={styles.image}
-                        source={FirebaseManager.avatars[userData.avatarID]}
+                        source={FirebaseManager.avatars[avatarIndex]}
                     />
-                </View>
+                    {yourOwnProfile && (
+                        <View style={styles.addImage}>
+                            <MaterialIcons name="add" size={20} style={{color: "white"}} />
+                        </View>
+                    )}
+                </TouchableOpacity>
                 <View style={{alignSelf: "center", zIndex: 100, gap: 10, paddingVertical: 10}}>
                     {editUsername ? 
                         <TextInput
-                            style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: inputWidth}]}
+                            style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%"}]}
                             placeholder="Username..."
                             value={nameValue}
                             onChangeText={(text) => {
-                                setTextValue(text);
-                            }}
-                            onContentSizeChange={(e) => {
-                                const newWidth = e.nativeEvent.contentSize.width;
-                                setInputHeight(Math.max(minWidth, Math.min(newWidth, maxWidth)));
+                                setNameValue(text);
                             }}
                         />
                         :
@@ -115,9 +134,9 @@ export default function ProfileScreen({ route }) {
                                 textAlignVertical="top"
                                 style={[styles.bio, {height: inputHeight, width: "100%"}]}
                                 onChangeText={(text) => {
-                                    setTextValue(text);
+                                    setBioValue(text);
                                 }}
-                                value={textValue}
+                                value={bioValue}
                                 onContentSizeChange={(e) => {
                                     const newHeight = e.nativeEvent.contentSize.height;
                                     setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
@@ -133,6 +152,24 @@ export default function ProfileScreen({ route }) {
                     </View>
                 </ScrollView>
             </View>
+            <BottomSheet
+                ref={bottomSheetRef}
+                index={-1}
+                snapPoints={['80%']}
+                // enablePanDownToClose={true} // Needs to be false to allow scrollView to work normally
+                style={[globalStyles.bigWhitespacePadding]}
+                backgroundComponent={CustomBackground}
+                // onChange={handleBottomSheetChange}
+            >
+                <Text style={[globalStyles.title, {marginBottom: 20}]}>Select a new avatar</Text>
+                <AvatarSelect
+                    onAvatarChange={handleAvatarChange}
+                    selectedDefaultIndex={avatarIndex}
+                    height={8}
+                    bottomSheet={true}
+                    containerStyle={{paddingVertical: 20}}
+                />
+            </BottomSheet>
         </View>
     )
 }
@@ -164,6 +201,7 @@ const styles = StyleSheet.create({
     },
 
     imageContainer: {
+        position: "relative",
         height: imageSize + 6,
         width: imageSize + 6,
         justifyContent: "center",
@@ -171,6 +209,20 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: "100%",
         zIndex: 100
+    },
+
+    addImage: {
+        position: "absolute",
+        right: 10,
+        top: imageSize - 25,
+        borderRadius: "100%",
+        height: 24,
+        width: 24,
+        backgroundColor: "#19BB77",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 3,
+        borderColor: "white",
     },
 
     background: {

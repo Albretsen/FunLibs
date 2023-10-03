@@ -682,22 +682,22 @@ export default function LibsScreen() {
 					<BottomSheet
 						ref={bottomSheetRef}
 						index={-1}
-					// Bug causes bottom sheet to reappear on navigation
-					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
-					// 10ms
-					snapPoints={['1%', '25%', '50%', '70%', '90%']}
-					enablePanDownToClose={true}
-					style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
-					backgroundComponent={CustomBackground}
-					onChange={handleBottomSheetChange}
-					onAnimate={(fromIndex, toIndex) => {
-						if (toIndex === -1) {
-							console.log('The bottom sheet is hidden');
-						} else {
-							console.log('The bottom sheet is shown');
-						}
-					}}
-				>
+						// Bug causes bottom sheet to reappear on navigation
+						// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
+						// 10ms
+						snapPoints={['1%', '25%', '50%', '70%', '90%']}
+						enablePanDownToClose={true}
+						style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
+						backgroundComponent={CustomBackground}
+						onChange={handleBottomSheetChange}
+						onAnimate={(fromIndex, toIndex) => {
+							if (toIndex === -1) {
+								console.log('The bottom sheet is hidden');
+							} else {
+								console.log('The bottom sheet is shown');
+							}
+						}}
+					>
 					{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
 					{/* <BottomSheetScrollView> */}
 					<View>

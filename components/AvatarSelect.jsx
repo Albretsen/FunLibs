@@ -3,13 +3,16 @@ import { Image, Text, View, ScrollView, TouchableOpacity, StyleSheet, Dimensions
 import FirebaseManager from '../scripts/firebase_manager';
 
 const avatarKeys = Object.keys(FirebaseManager.avatars).filter(key => !isNaN(key));
+let containerHeight = 2; // The height of the container, the unit being the height of an avatar
+// In other words, the height of the container is set to the height of two avatars by defaut
+export default function AvatarSelect({ onAvatarChange, height, containerStyle, selectedDefaultIndex = null }) {
 
-export default function AvatarSelect({ onAvatarChange }) {
+    const [selectedAvatar, setSelectedAvatar] = useState(selectedDefaultIndex);
 
-    const [selectedAvatar, setSelectedAvatar] = useState(null);
+    if(height) containerHeight = height;
 
     return (
-        <ScrollView style={styles.selectorContainer}>
+        <ScrollView style={[styles.selectorContainer, {height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2)}, containerStyle ? containerStyle : null]}>
             <View style={styles.rowContainer}>
                 {avatarKeys.map((key, index) => (
                     <TouchableOpacity
@@ -51,7 +54,7 @@ while((containerWidth + avatarWithGap) < screenWidthWithMargin) {
 
 const styles = StyleSheet.create({
     selectorContainer: {
-        height: (avatarSize * 2 + gapSize) + (avatarSize / 2), // Plus half an avatar, to let users know there is more
+        height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2), // Plus half an avatar, to let users know there is more
         flexShrink: 0
     },
 
