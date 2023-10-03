@@ -4,11 +4,14 @@ import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
 import Dropdown from "./Dropdown";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, opUid } = props;
 
     const [loading, setLoading] = useState(true);
+
+    const navigation = useNavigation();
 
     const [expandedRepliesForComment, setExpandedRepliesForComment] = useState({});
 
@@ -420,6 +423,12 @@ export default function CommentSection(props) {
                                                                         onPress: () => {
                                                                             blockUser(reply.uid, reply.username);
                                                                         }
+                                                            },
+                                                            {
+                                                                name: "Visit profile",
+                                                                onPress: () => {
+                                                                    navigation.navigate("ProfileScreen", { uid: reply.uid });
+                                                                } 
                                                                     }
                                                                 ]
                                                         }

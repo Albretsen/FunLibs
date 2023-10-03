@@ -14,7 +14,8 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 			</TouchableOpacity>
 			{FirebaseManager.currentUserData.auth && (<>
 				<TouchableOpacity onPress={() => {
-					navigation.navigate("ProfileScreen", {userId: "INSERT USER ID HERE"});
+					console.log("TEST: " + FirebaseManager.currentUserData?.auth?.uid);
+					navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
 					closeDrawer();
 				}}>
 					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>My profile</Text>

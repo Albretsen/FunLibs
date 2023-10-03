@@ -23,6 +23,8 @@ export default class CompatibilityVerification {
             /*await LibManager.initialize();
             await FirebaseManager.RefreshList(null);*/
 
+        if (parseInt(this.version) < parseInt(this.newestVersion)) {
+            console.log("old version detected!");
         } else {
             console.log("Version OK. (Version " + this.newestVersion + ")");
         }
