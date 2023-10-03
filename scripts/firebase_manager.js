@@ -295,6 +295,7 @@ export default class FirebaseManager {
     }
 
     static async AddUserDataToDatabase(user) {
+        console.log("USER: " + JSON.stringify(user));
         let push_notification_token = await this.registerForPushNotificationsAsync();
         let fireStoreData = {
             uid: user.uid,
@@ -405,7 +406,7 @@ export default class FirebaseManager {
             updateProfile(user, profileData)
                 .then(() => {
                     Analytics.log("Updated profile for " + uid);
-                    this.currentUserData.auth = auth.user;
+                    this.currentUserData.auth = user;
                     this.RefreshList(null);
                     resolve('Profile updated successfully');
                 })
@@ -434,6 +435,10 @@ export default class FirebaseManager {
     }
 
     static async UpdateUsername(uid, newUsername) {
+        if (!FirebaseManager.isUsernameAvailable(newUsername)) { 
+            console.log("The username is not available!")
+            return "username-not-available"; 
+        }
         // First, update the authentication profile for the user
         const profileData = { displayName: newUsername };
         await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);
@@ -444,7 +449,7 @@ export default class FirebaseManager {
         if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
             userData.username = newUsername; // Update the username in the user data
-            await this.AddUserDataToDatabase(userData);
+            await this.UpdateDocument("users", userData.uid, userData);
         }
 
         let operationsCount = 0;
@@ -467,35 +472,35 @@ export default class FirebaseManager {
         snapshot.docs.forEach(doc => {
             const postData = doc.data();
             let postModified = false;
-    
+        
             // Check if main post user matches the uid
             if (postData.user === uid) {
                 postModified = true;
                 addToBatch(doc.ref, { username: newUsername });
             }
-    
+        
             // Check each comment
             if (postData.comments) {
                 postData.comments.forEach(comment => {
                     if (comment.uid === uid) {
-                        comment.username = newUsername;
+                        comment.username = newUsername; // Update the username in the comment
                         postModified = true;
                     }
-    
+        
                     // Check replies of each comment
                     if (comment.replies) {
                         comment.replies.forEach(reply => {
                             if (reply.uid === uid) {
-                                reply.username = newUsername;
+                                reply.username = newUsername; // Update the username in the reply
                                 postModified = true;
                             }
                         });
                     }
                 });
-    
+        
                 // Update the post with modified comments and replies only if needed
                 if (postModified) {
-                    batch.update(doc.ref, { comments: postData.comments });
+                    batches[batches.length - 1].update(doc.ref, { comments: postData.comments });
                 }
             }
         });
@@ -504,6 +509,8 @@ export default class FirebaseManager {
             await batch.commit();
         }
         Analytics.log(`Updated username for UID: ${uid} to ${newUsername}`);
+        FirebaseManager.fetchUserData(uid);
+        FirebaseManager.RefreshList(null);
     }
     
     static async UpdateAvatar(uid, newAvatarID) {
@@ -518,7 +525,7 @@ export default class FirebaseManager {
         if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
             userData.avatarID = newAvatarID; // Update the avatarID in the user data
-            await this.AddUserDataToDatabase(userData);
+            await this.UpdateDocument("users", userData.uid, userData);
         }
 
         let operationsCount = 0;
@@ -539,6 +546,7 @@ export default class FirebaseManager {
         const batch = writeBatch(db);
     
         snapshot.docs.forEach(doc => {
+            console.log("LOOPING POST");
             const postData = doc.data();
             let postModified = false;
     
@@ -552,15 +560,13 @@ export default class FirebaseManager {
             if (postData.comments) {
                 postData.comments.forEach(comment => {
                     if (comment.uid === uid) {
-                        comment.avatarID = newAvatarID;
+                        comment.avatarID = newAvatarID; // Update the avatarID in the comment
                         postModified = true;
                     }
-    
-                    // Check replies of each comment
                     if (comment.replies) {
                         comment.replies.forEach(reply => {
                             if (reply.uid === uid) {
-                                reply.avatarID = newAvatarID;
+                                reply.avatarID = newAvatarID; // Update the avatarID in the reply
                                 postModified = true;
                             }
                         });
@@ -569,7 +575,7 @@ export default class FirebaseManager {
     
                 // Update the post with modified comments and replies only if needed
                 if (postModified) {
-                    batch.update(doc.ref, { comments: postData.comments });
+                    batches[batches.length - 1].update(doc.ref, { comments: postData.comments });
                 }
             }
         });
@@ -579,6 +585,8 @@ export default class FirebaseManager {
         }
 
         Analytics.log(`Updated avatar ID for UID: ${uid} to ${newAvatarID}`);
+        FirebaseManager.fetchUserData(uid);
+        FirebaseManager.RefreshList(null);
     }
 
     static async sendPasswordResetEmail(email) {

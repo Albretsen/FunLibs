@@ -49,7 +49,7 @@ export default function UnblockScreen() {
     const styles = {
         loadingOverlay: {
             position: 'absolute',
-            top: 0,
+            top: 200,
             left: 0,
             right: 0,
             bottom: 0,

@@ -61,6 +61,8 @@ export default function ProfileScreen({ route }) {
     const [avatarIndex, setAvatarIndex] = useState(userData.avatarID);
     const handleAvatarChange = (index) => {
         setAvatarIndex(index);
+        let uid = FirebaseManager.currentUserData?.auth?.uid;
+        if (uid) FirebaseManager.UpdateAvatar(uid, index);
         closeBottomSheet();
     }
 
