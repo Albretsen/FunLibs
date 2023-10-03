@@ -869,8 +869,8 @@ export default class FirebaseManager {
         }
 
         if (startDate) {
-            q = query(q, where("date", ">=", startDate));
             if (filterOptions?.sortBy !== "trending") {
+                q = query(q, where("date", ">=", startDate));
                 q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
             }
         }
