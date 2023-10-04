@@ -295,9 +295,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         gap: 15,
-        paddingTop: 20,
         justifyContent: "center",
-        marginBottom: 16,
+        marginVertical: 15
     },
 
     textRow: {
