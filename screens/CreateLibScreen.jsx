@@ -19,6 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import AudioPlayer from "../scripts/audio";
 import { DialogTrigger, useDialog } from "../components/Dialog";
 import AdManager from "../scripts/ad_manager";
+import AvatarDisplay from "../components/AvatarDisplay";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -581,31 +582,44 @@ export default function CreateLibScreen({ route }) {
             <ScrollView style={{ marginHorizontal: 14 }}
                 keyboardShouldPersistTaps={'always'}
             >
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <AvatarDisplay
+                    avatarID={23}
+                    titleComponent={(
+                        <TextInput
+                            style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}
+                            placeholder="Write your title here..."
+                            placeholderTextColor={"#9e9e9e"}
+                            onChangeText={text => setLibNameText(text)}
+                            value={libNameText}
+                        />
+                    )}
+                    text={"by Asgeir Albretsen"}
+                    rightComponent={(
+                        <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center", paddingRight: 4 }}>
+                            <TouchableOpacity onPress={saveLib}>
+                                <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500}]}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
+
+                <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
                     <TextInput
-                        style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 24, borderColor: "white", width: Dimensions.get("window").width - 28 - 40 }]}
-                        placeholder="Title"
+                        ref={libTextInputRef}
+                        style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: 140}]}
+                        multiline={true}
+                        numberOfLines={10}
+                        onChangeText={text => setLibText(text)}
+                        placeholder="Write your text here..."
                         placeholderTextColor={"#9e9e9e"}
-                        onChangeText={text => setLibNameText(text)}
-                        value={libNameText}
+                        onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+                        selection={newCursorPosition}
+                        value={libText}
                     />
-                    <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
-                        <MaterialIcons style={{ color: "#49454F" }} name="help" size={28} />
+                    <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
+                        <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
                     </TouchableOpacity>
                 </View>
-
-                <TextInput
-                    ref={libTextInputRef}
-                    style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: 140, flexGrow: 0.75 }]}
-                    multiline={true}
-                    numberOfLines={10}
-                    onChangeText={text => setLibText(text)}
-                    placeholder="Write your text here..."
-                    placeholderTextColor={"#9e9e9e"}
-                    onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
-                    selection={newCursorPosition}
-                    value={libText}
-                />
                 <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
                 <View style={{ flexGrow: 0 }}>
                     <Buttons
@@ -690,20 +704,6 @@ export default function CreateLibScreen({ route }) {
                         sideScroll={true}
                     />
                 </View>
-
-                <Buttons
-                    buttons={
-                        [{
-                            label: "Next",
-                            icon: "arrow-forward",
-                            iconSide: "right",
-                            onPress: saveLib
-                        }]
-                    }
-                    buttonStyle={{ borderRadius: 50, borderColor: "transparent", backgroundColor: "#D1E8D5", minWidth: 120, height: 50 }}
-                    containerStyle={{ justifyContent: "flex-end" }}
-                    labelStyle={{ fontSize: 17, fontWeight: 500 }}
-                />
 
                 <DialogTrigger
                     id="dialogCustom"
