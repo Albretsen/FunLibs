@@ -15,6 +15,7 @@ export default function UnblockScreen() {
         const fetchBlockedUsers = async () => {
             try {
                 const userIDs = await FirebaseManager.getAllBlockedUsers();
+                console.log("" + JSON.stringify(userIDs));
                 const users = [];
 
                 for (let uid of userIDs) {

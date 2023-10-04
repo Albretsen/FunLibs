@@ -455,6 +455,7 @@ export default function PlayScreen({ route }) {
 					text={(
 						<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
 					)}
+					onPress={ () => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) } }
 				/>
 				<View style={{position: "relative", height: 60, maxHeight: 60}}>
 					<TextInput

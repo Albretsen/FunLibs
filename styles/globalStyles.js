@@ -110,7 +110,7 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        paddingBottom: 50,
+        // paddingBottom: 50,
         // Top bar height: 64
         // Segmented button and filter button height: 40
         // Dropdown height: 40

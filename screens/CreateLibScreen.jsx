@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, KeyboardEvent } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -32,6 +32,25 @@ export default function CreateLibScreen({ route }) {
     const [editLibID, setEditLibID] = useState(null);
     const { playAudio } = AudioPlayer();
     const navigation = useNavigation();
+
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    useEffect(() => {
+        function onKeyboardDidShow(e) { // Remove type here if not using TypeScript
+            setKeyboardHeight(e.endCoordinates.height);
+        }
+
+        function onKeyboardDidHide() {
+            setKeyboardHeight(0);
+        }
+
+        const showSubscription = Keyboard.addListener('keyboardDidShow', onKeyboardDidShow);
+        const hideSubscription = Keyboard.addListener('keyboardDidHide', onKeyboardDidHide);
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
 
     const [initialLibText, setInitialLibText] = useState(libText);
     const [initialLibNameText, setInitialLibNameText] = useState(libNameText);
@@ -84,7 +103,7 @@ export default function CreateLibScreen({ route }) {
 
     useEffect(() => {
         return () => {
-            navigation.setOptions({ swipeEnabled: true });
+            navigation.setOptions({ swipeEnabled: false });
         };
     }, []);
 
@@ -606,7 +625,7 @@ export default function CreateLibScreen({ route }) {
                 <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
                     <TextInput
                         ref={libTextInputRef}
-                        style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: 140}]}
+                        style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74 + 40) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight)}]}
                         multiline={true}
                         numberOfLines={10}
                         onChangeText={text => setLibText(text)}

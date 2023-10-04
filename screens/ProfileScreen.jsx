@@ -27,6 +27,7 @@ export default function ProfileScreen({ route }) {
     }, []);
 
     const fetchUserData = async (uid) => {
+        if (uid === FirebaseManager.currentUserData?.auth?.uid) setYourOwnProfile(true);
         let data = await FirebaseManager.fetchUserDataForProfile(uid);
         if (!data) {
             showToast("Profile was not found.");
@@ -43,7 +44,7 @@ export default function ProfileScreen({ route }) {
 
     // True if viewing your own profile
     // Mostly turns text into input fields
-    const [yourOwnProfile, setYourOwnProfile] = useState(true);
+    const [yourOwnProfile, setYourOwnProfile] = useState(false);
 
     const [editUsername, setEditUsername] = useState(false);
 
@@ -103,14 +104,27 @@ export default function ProfileScreen({ route }) {
                 </TouchableOpacity>
                 <View style={{alignSelf: "center", zIndex: 100, gap: 10, paddingVertical: 10}}>
                     {editUsername ? 
-                        <TextInput
-                            style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%"}]}
-                            placeholder="Username..."
-                            value={nameValue}
-                            onChangeText={(text) => {
-                                setNameValue(text);
-                            }}
-                        />
+                        <>
+                            <TextInput
+                                style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%"}]}
+                                placeholder="Username..."
+                                value={nameValue}
+                                onChangeText={(text) => {
+                                    setNameValue(text);
+                                }}
+                            />
+                            <TouchableOpacity onPress={ async () => {
+                                setEditUsername(false);
+                                let result = await FirebaseManager.UpdateUsername(uid, nameValue);
+                                if (result === "username-not-available") {
+                                    showToast("Username is not available.");
+                                    return;
+                                }
+                                showToast("Username has been updated.");
+                            }}>
+                                <Text>Save username</Text>
+                            </TouchableOpacity>
+                        </>
                         :
                         <View style={{flexDirection: "row"}}>
                             <Dropdown
@@ -124,9 +138,11 @@ export default function ProfileScreen({ route }) {
                                     }
                                 ]}
                             />
-                            <TouchableOpacity onPress={() => setEditUsername(true)}>
-                                <MaterialIcons name="edit" size={20} color="#333" />
-                            </TouchableOpacity>
+                            {yourOwnProfile ? 
+                                <TouchableOpacity onPress={() => setEditUsername(true)}>
+                                    <MaterialIcons name="edit" size={20} color="#333" />
+                                </TouchableOpacity>
+                            : null}
                         </View>
                     }
                 </View>
@@ -147,21 +163,29 @@ export default function ProfileScreen({ route }) {
                         </View>
                         <Text style={globalStyles.title}>About me</Text>
                         {yourOwnProfile ?
-                            <TextInput
-                                placeholder="Say something about yorself..."
-                                placeholderTextColor={"#505050"}
-                                multiline
-                                textAlignVertical="top"
-                                style={[styles.bio, {height: inputHeight, width: "100%"}]}
-                                onChangeText={(text) => {
-                                    setBioValue(text);
-                                }}
-                                value={bioValue}
-                                onContentSizeChange={(e) => {
-                                    const newHeight = e.nativeEvent.contentSize.height;
-                                    setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                                }}
-                            />
+                            <>
+                                <TextInput
+                                    placeholder="Say something about yorself..."
+                                    placeholderTextColor={"#505050"}
+                                    multiline
+                                    textAlignVertical="top"
+                                    style={[styles.bio, {height: inputHeight, width: "100%"}]}
+                                    onChangeText={(text) => {
+                                        setBioValue(text);
+                                    }}
+                                    value={bioValue}
+                                    onContentSizeChange={(e) => {
+                                        const newHeight = e.nativeEvent.contentSize.height;
+                                        setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
+                                    }}
+                                />
+                                <TouchableOpacity onPress={ async () => {
+                                    await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
+                                    showToast("Bio updated.")
+                                }}>
+                                    <Text>Save description</Text>
+                                </TouchableOpacity>
+                            </>
                             :
                             <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio}</Text>
                         }
