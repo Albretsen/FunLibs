@@ -25,6 +25,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Platform } from "react-native";
 import CommentSection from "../components/CommentSection";
 import { BackHandler } from 'react-native';
+import AvatarDisplay from "../components/AvatarDisplay";
 
 function isNum(n) {
     return /.*[0-9].*/.test(n);
@@ -448,16 +449,13 @@ export default function PlayScreen({ route }) {
 		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
 			<ScrollView>
 			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
-				<View style={{flexDirection: "row", gap: 15}}>
-					<Image
-						style={{height: 45, width: 45, justifyContent: "center", alignSelf: "center", justifyContent: "center"}}
-						source={FirebaseManager.avatars[currentLib.avatarID]} 
-					/>
-					<View style={[{width: "75%", gap: 0, flexDirection: "column",}]}>
-						<Text numberOfLines={1} ellipsizeMode="tail" style={[{fontSize: 16, color: "#505050", fontWeight: 500}]}>{currentLib.name}</Text>
-						<Text style={[{fontSize: 13, color: "#49454F"}]}>by {currentLib.username} | {currentLib.likes} likes</Text>
-					</View>
-				</View>
+				<AvatarDisplay 
+					avatarID={currentLib.avatarID}
+					title={currentLib.name}
+					text={(
+						<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
+					)}
+				/>
 				<View style={{position: "relative", height: 60, maxHeight: 60}}>
 					<TextInput
 						label={displayPrompts[currentPromptIndex]}

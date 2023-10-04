@@ -15,6 +15,7 @@ import FunLibsShare from "../scripts/share";
 import Lib from "../scripts/lib";
 import { useDialog } from "./Dialog";
 import { ToastContext } from "../components/Toast";
+import AvatarDisplay from "./AvatarDisplay";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item } = props;
@@ -216,7 +217,6 @@ function ListItem(props) {
     }, [index]);
 
     return (
-        <TouchableOpacity onPress={() => playLib(id, type)}>
             <Animated.View
                 style={[
                     styles.container,
@@ -225,63 +225,59 @@ function ListItem(props) {
                     {justifyContent: "space-between"}
                 ]}
             >
-                <View style={{justifyContent: "flex-start", alignItems: "flex-start"}}>
-                    <Image
-                        style={{
-                            height: 45,
-                            width: 45,
-                            justifyContent: "center",
-                            alignSelf: "center",
-                        }}
-                        source={FirebaseManager.avatars[avatarID]}
-                    />
-                </View>
-                <View style={[styles.textRow, {flex: 1, alignSelf: "center"}]}>
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.title, { fontSize: 16, color: "#505050", fontWeight: 500 }]}>{name}</Text>
-                    <Text style={[{ fontSize: 13 }, globalStyles.grayText]}>
-                        by <Text style={username === "Official" ? {color: "#419764", fontWeight: 600} : null}>{username}</Text> {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : '| Not published'}
-                    </Text>
-                </View>
-                {icon && (
-                    <View style={{alignSelf: "center"}}>
-                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
-                            <TouchableOpacity
+                <AvatarDisplay 
+                    onPress={() => playLib(id, type)}
+                    avatarID={avatarID}
+                    title={name}
+                    text={(
+                        <Text>
+                            by
+                            <Text style={username === "Official" ? {color: "#419764", fontWeight: 600} : null}>
+                                {username}
+                            </Text>
+                            {!local ? `| ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : '| Not published'}
+                        </Text>
+                    )}
+                    rightComponent={icon ? (
+                        <View style={{alignSelf: "center"}}>
+                            {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
+                                <TouchableOpacity
+                                    style={styles.icon}
+                                    onPress={edit}
+                                >
+                                    <Image
+                                        style={styles.iconImage}
+                                        source={require("../assets/images/icons/edit.png")}
+                                    />
+                                </TouchableOpacity>
+                            ) : (playable ? (
+                                <TouchableOpacity
+                                    style={styles.icon}
+                                    onPress={favorite}
+                                >
+                                    <Image
+                                        style={styles.iconImage}
+                                        source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
+                                    />
+                                </TouchableOpacity>
+                            ) : <TouchableOpacity
                                 style={styles.icon}
-                                onPress={edit}
+                                onPress={showDeleteDialogHandler}
                             >
                                 <Image
                                     style={styles.iconImage}
-                                    source={require("../assets/images/icons/edit.png")}
+                                    source={require("../assets/images/icons/delete.png")}
                                 />
-                            </TouchableOpacity>
-                        ) : (playable ? (
-                            <TouchableOpacity
-                                style={styles.icon}
-                                onPress={favorite}
-                            >
-                                <Image
-                                    style={styles.iconImage}
-                                    source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
-                                />
-                            </TouchableOpacity>
-                        ) : <TouchableOpacity
-                            style={styles.icon}
-                            onPress={showDeleteDialogHandler}
-                        >
-                            <Image
-                                style={styles.iconImage}
-                                source={require("../assets/images/icons/delete.png")}
-                            />
-                        </TouchableOpacity>)
-                        }
-                    </View>
-                )}
+                            </TouchableOpacity>)
+                            }
+                        </View>
+                    ) : null}
+                />
                 {/* Conditionally render the delete confirmation dialog */}
                 {showDeleteDialog && (
                     <Dialog
                         onCancel={hideDeleteDialogHandler}
                         onConfirm={() => {
-                            //onDelete(id);
                             deleteLib();
                             setShowDeleteDialog(false); // Hide the dialog after deletion
                         }}
@@ -291,7 +287,6 @@ function ListItem(props) {
                     </Dialog>
                 )}
             </Animated.View>
-        </TouchableOpacity>
     );
 }
 
