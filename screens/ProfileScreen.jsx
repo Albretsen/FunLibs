@@ -116,13 +116,11 @@ export default function ProfileScreen({ route }) {
                             />
                             <TouchableOpacity style={styles.editButton} onPress={ async () => {
                                 showToast({text: "Updating username...", loading: true});
-                                setLoading(true);
                                 let result = await FirebaseManager.UpdateUsername(uid, nameValue);
                                 if (result === "username-not-available") {
                                     showToast("Username is not available.");
                                     return;
                                 }
-                                setLoading(false);
                                 setEditUsername(false);
                                 showToast({text: "Username has been updated.", loading: false});
                             }}>
@@ -190,12 +188,10 @@ export default function ProfileScreen({ route }) {
                                     }}
                                 />
                                 <TouchableOpacity style={styles.editButton} onPress={ async () => {
-                                    showToast("Updating description...")
-                                    setLoading(true);
+                                    showToast({text: "Updating description...", loading: true});
                                     await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
-                                    setLoading(false);
                                     setEditBio(false);
-                                    showToast("Description updated.")
+                                    showToast({text: "Description updated", loading: false});
                                 }}>
                                     <Text style={[styles.highlightColor, {fontSize: 14}]}>Save new description</Text>
                                     <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />

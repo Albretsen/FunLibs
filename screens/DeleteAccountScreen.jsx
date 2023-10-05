@@ -78,11 +78,11 @@ export default function DeleteAccountScreen() {
                                 console.log("Wrong credentials");
                                 return;
                             }
-                            showToast("Deleting account...")
+                            showToast({text: "Deleting account...", loading: true})
                             await FileManager._storeData("uid", "");
                             FirebaseManager.localUID = "";
                             await FirebaseManager.DeleteUser();
-                            showToast("Account deleted.");
+                            showToast({text: "Account deleted.", loading: false});
                             navigation.navigate("Home");
                         } catch (error) {
                             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
