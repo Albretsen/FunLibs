@@ -11,6 +11,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import CustomBackground from "../components/CustomBackground";
 import { ToastContext } from "../components/Toast";
 import ListManager from "../components/ListManager";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -18,6 +19,8 @@ export default function ProfileScreen({ route }) {
     const showToast = useContext(ToastContext);
 
     const [loading, setLoading] = useState(true);
+
+    const navigation = useNavigation();
 
     // Simply set this to an object with the correct userdata
     const [userData, setUserData] = useState({});
@@ -78,6 +81,24 @@ export default function ProfileScreen({ route }) {
 	const closeBottomSheet = () => {
 		bottomSheetRef.current?.close();
 	};
+
+    const blockUser = (uid, username) => {
+        if (!FirebaseManager.currentUserData?.auth?.uid) {
+            showToast("Please log in to block users.");
+            return;
+        }
+
+        if (uid === "HOv8K8Z1Q6bUuGxENrPrleECIWe2") {
+            showToast(":(");
+            return;
+        }
+
+        FirebaseManager.blockUser(uid);
+
+        showToast(username + " has been blocked.", true);
+        navigation.navigate("Home");
+        FirebaseManager.RefreshList(null);
+    }
 
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
@@ -146,8 +167,8 @@ export default function ProfileScreen({ route }) {
                                     containerStyle={{alignSelf: "center", height: "auto"}}
                                     options={[
                                         {
-                                            name: "User options?",
-                                            onPress: null
+                                            name: "Block " + nameValue,
+                                            onPress: () => blockUser(uid, nameValue),
                                         }
                                     ]}
                                 />

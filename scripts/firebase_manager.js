@@ -1411,7 +1411,7 @@ export default class FirebaseManager {
             playable: undefined
         },
         lastVisibleDoc = null,
-        pageSize = 10
+        pageSize = 30
     ) {
         if (!isConnected) return this.handleNoInternet();
 
