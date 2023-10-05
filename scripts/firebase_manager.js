@@ -435,10 +435,17 @@ export default class FirebaseManager {
     }
 
     static async UpdateUsername(uid, newUsername) {
-        if (!FirebaseManager.isUsernameAvailable(newUsername)) { 
+        if (!(await this.storeUsername(newUsername, uid))) { 
             console.log("The username is not available!")
             return "username-not-available"; 
         }
+
+        try {
+            await this.DeleteDocument("usernames", FirebaseManager.currentUserData?.firestoreData?.username.toLowerCase());
+        } catch {
+            
+        }
+
         // First, update the authentication profile for the user
         const profileData = { displayName: newUsername };
         await this.UpdateUserAuthProfile(profileData, this.currentUserData.auth);

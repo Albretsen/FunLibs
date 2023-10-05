@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, createContext } from 'react';
-import { View, Text, Animated, StyleSheet, Dimensions, Platform, TouchableOpacity, KeyboardAvoidingView, Easing } from 'react-native';
+import { View, Text, Animated, StyleSheet, Dimensions, Platform, TouchableOpacity, KeyboardAvoidingView, Easing, Keyboard, KeyboardEvent } from 'react-native';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ToastContext = createContext();
 
-const Toast = ({ title, message, setTitle, setMessage, noBottomMargin }) => {
+const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardHeight }) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current;
 	const translateYAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current; // Using screen height
 	const scaleAnim = useRef(new Animated.Value(0.8)).current; // For playful scaling effect
@@ -100,20 +100,20 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin }) => {
 		fadeOut();
 	};
 
-	let bottomMargin = 130;
+	let bottomMargin = 150;
 	if (noBottomMargin) {
 		bottomMargin = 50;
 	}
 
 	return (
 		<Animated.View style={[
-			styles.container,
-			{
-				opacity: fadeAnim,
-				transform: [{ translateY: translateYAnim }, { scale: scaleAnim }] // Apply transformations
-			},
-			isKeyboardVisible ? { bottom: 50 } : { bottom: bottomMargin }
-		]}>
+            styles.container,
+            {
+                opacity: fadeAnim,
+                transform: [{ translateY: translateYAnim }, { scale: scaleAnim }],
+                bottom: keyboardHeight !== 0 ? (50 + keyboardHeight) : bottomMargin  // Adjust bottom margin based on keyboard height
+            },
+        ]}>
 			<View style={{ justifyContent: "center", width: "86%" }}>
 				{/* Quickly removed title to make sure text is centered on Android */}
 				{/* <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text> */}
@@ -154,6 +154,27 @@ export const ToastProvider = ({ children }) => {
 
 	const toastTimerRef = useRef(null);
 
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    useEffect(() => {
+        function onKeyboardDidShow(e) {
+			console.log("KEYBOARD HEIGHT: " + e.endCoordinates.height);
+            setKeyboardHeight(e.endCoordinates.height);
+        }
+
+        function onKeyboardDidHide() {
+			console.log("0");
+            setKeyboardHeight(0);
+        }
+
+        const showSubscription = Keyboard.addListener('keyboardDidShow', onKeyboardDidShow);
+        const hideSubscription = Keyboard.addListener('keyboardDidHide', onKeyboardDidHide);
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
+
 	const showToast = (message, noBottomMargin, title) => {
 		setTitle(title);
 		setMessage(message);
@@ -176,7 +197,7 @@ export const ToastProvider = ({ children }) => {
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'position' : undefined}
 			>
-				{message && <Toast title={title} message={message} setTitle={setTitle} setMessage={setMessage} noBottomMargin={bottomMarginBool} />}
+				{message && <Toast keyboardHeight={keyboardHeight} title={title} message={message} setTitle={setTitle} setMessage={setMessage} noBottomMargin={bottomMarginBool} />}
 			</KeyboardAvoidingView>
 		</ToastContext.Provider>
 	);

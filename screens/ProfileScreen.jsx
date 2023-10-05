@@ -114,12 +114,13 @@ export default function ProfileScreen({ route }) {
                                 }}
                             />
                             <TouchableOpacity onPress={ async () => {
-                                setEditUsername(false);
+                                showToast("Updating username...")
                                 let result = await FirebaseManager.UpdateUsername(uid, nameValue);
                                 if (result === "username-not-available") {
                                     showToast("Username is not available.");
                                     return;
                                 }
+                                setEditUsername(false);
                                 showToast("Username has been updated.");
                             }}>
                                 <Text>Save username</Text>
