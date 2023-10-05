@@ -34,13 +34,21 @@ const globalStyles = StyleSheet.create({
         maxWidth: 700
     },
 
+    containerWhitespacePadding: {
+        paddingHorizontal: fullWidth / 20,
+        width: "100%",
+        maxWidth: 700
+    },
+
     bigWhitespace: {
         width: fullWidth - fullWidth / 6,
+        maxWidth: 700
     },
 
     bigWhitespacePadding: {
         paddingHorizontal: fullWidth / 12,
-        width: "100%"
+        width: "100%",
+        maxWidth: 700
     },
 
     headerAccountedHeight: {
@@ -110,13 +118,18 @@ const globalStyles = StyleSheet.create({
     },
 
     listItemContainer: {
-        // paddingBottom: 50,
         // Top bar height: 64
         // Segmented button and filter button height: 40
         // Dropdown height: 40
         // Tab bar height: 74
         // +2 to be sure
         maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2),
+        maxWidth: 700,
+
+        // For reasons which vex me, the listItem container is rendered twice, which means instead of putting the normal whitespace padding, it needs to be halved.
+        paddingHorizontal: fullWidth / 40,
+        width: "100%",
+        maxWidth: 700,
     },
 
     drawerContainer: {

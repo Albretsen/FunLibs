@@ -220,7 +220,7 @@ function ListItem(props) {
             <Animated.View
                 style={[
                     styles.container,
-                    globalStyles.containerWhitespace,
+                    // globalStyles.containerWhitespace,
                     {opacity: fadeAnim},
                     {justifyContent: "space-between"}
                 ]}

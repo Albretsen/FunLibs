@@ -550,12 +550,12 @@ export default function LibsScreen() {
 
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard]}>
-			<View style={[globalStyles.containerWhitespace, {
+			<View style={[globalStyles.containerWhitespacePadding, {
 				flexDirection: "row",
 				justifyContent: "space-between",
 				alignItems: "center",
 				gap: 10,
-				padding: 2,
+				// padding: 2,
 				height: 40
 			}]}>
 				<SegmentedButtons
@@ -590,7 +590,7 @@ export default function LibsScreen() {
 					isOpen={isBottomSheetOpen}
 				/>
 			</View>
-			<View style={globalStyles.containerWhitespace}>
+			<View style={globalStyles.containerWhitespacePadding}>
 				<Dropdown selected={selectedCategory} options={[
 					{
 						name: "Official libs",
@@ -634,79 +634,77 @@ export default function LibsScreen() {
 					<ActivityIndicator animating={true} color="#006D40" size="large" />
 				</View>
 			) : (<>
-					<FlatList
-						data={listItems}
-						renderItem={({ item, index }) => (
-							<ListItem
-								name={item.name}
-								description={item.display_with_prompts}
-								promptAmount={item.prompts.length}
-								prompts={item.prompts}
-								text={item.text}
-								id={item.id}
-								type="libs"
-								key={item.id}
-								length={item.percent}
-								icon="favorite"
-								username={item.username}
-								likes={item.likes}
-								avatarID={item.avatarID}
-								index={index}
-								user={item.user}
-								local={item.local}
-								likesArray={item.likesArray}
-								playable={item.playable}
-								item={item}
-							/>
-						)}
-						keyExtractor={item => `${item.id}-${item.likes}`}
-						//contentContainerStyle={{ paddingBottom: 50 }}
-						refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
-						onRefresh={() => { // Define the function that will be called when the user pulls to refresh
-							//console.log("REFRESH");
-							updateFilterOptions();
-						}}
-						style={[globalStyles.listItemContainer, { height: Dimensions.get("window").height - (74 + 0 + 64 + 60) }]}
-						onEndReached={_.debounce(() => {
-								if (!loading) {
-									loadListItems({
-										"category": selectedCategory,
-										"sortBy": selectedSortBy,
-										"dateRange": selectedDate,
-										"playable": playReadValue
-									}, lastDocument);
-								}
-							}, 200)} // Call the loadListItems function when the end is reached
-						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
-						ListFooterComponent={renderFooter}
-					/>
-					{loadingCircle && (
-						<View style={styles.loadingOverlay}>
-							<ActivityIndicator size="large" color="#006D40" />
-						</View>
+				<FlatList
+					data={listItems}
+					renderItem={({ item, index }) => (
+						<ListItem
+							name={item.name}
+							description={item.display_with_prompts}
+							promptAmount={item.prompts.length}
+							prompts={item.prompts}
+							text={item.text}
+							id={item.id}
+							type="libs"
+							key={item.id}
+							length={item.percent}
+							icon="favorite"
+							username={item.username}
+							likes={item.likes}
+							avatarID={item.avatarID}
+							index={index}
+							user={item.user}
+							local={item.local}
+							likesArray={item.likesArray}
+							playable={item.playable}
+							item={item}
+						/>
 					)}
-					<BottomSheet
-						ref={bottomSheetRef}
-						index={-1}
-						// Bug causes bottom sheet to reappear on navigation
-						// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
-						// 10ms
-						snapPoints={['1%', '25%', '50%', '70%', '90%']}
-						enablePanDownToClose={true}
-						style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
-						backgroundComponent={CustomBackground}
-						onChange={handleBottomSheetChange}
-						onAnimate={(fromIndex, toIndex) => {
-							if (toIndex === -1) {
-								console.log('The bottom sheet is hidden');
-							} else {
-								console.log('The bottom sheet is shown');
+					keyExtractor={item => `${item.id}-${item.likes}`}
+					refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
+					onRefresh={() => { // Function that will be called when the user pulls to refresh
+						updateFilterOptions();
+					}}
+					style={[globalStyles.listItemContainer]}
+					onEndReached={_.debounce(() => {
+							if (!loading) {
+								loadListItems({
+									"category": selectedCategory,
+									"sortBy": selectedSortBy,
+									"dateRange": selectedDate,
+									"playable": playReadValue
+								}, lastDocument);
 							}
-						}}
-					>
-					{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
-					{/* <BottomSheetScrollView> */}
+						}, 200)} // Call the loadListItems function when the end is reached
+					onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
+					ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
+					ListFooterComponent={renderFooter}
+				/>
+				{loadingCircle && (
+					<View style={styles.loadingOverlay}>
+						<ActivityIndicator size="large" color="#006D40" />
+					</View>
+				)}
+				<BottomSheet
+					ref={bottomSheetRef}
+					index={-1}
+					// Bug causes bottom sheet to reappear on navigation
+					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
+					// 10ms
+					snapPoints={['1%', '25%', '50%', '70%', '90%']}
+					enablePanDownToClose={true}
+					style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
+					backgroundComponent={CustomBackground}
+					onChange={handleBottomSheetChange}
+					onAnimate={(fromIndex, toIndex) => {
+						if (toIndex === -1) {
+							console.log('The bottom sheet is hidden');
+						} else {
+							console.log('The bottom sheet is shown');
+						}
+					}}
+				>
+				{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
+				{/* <BottomSheetScrollView> */}
 					<View>
 						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
 						<Buttons 
