@@ -91,12 +91,12 @@ export default function CommentSection(props) {
 
     const handleSubmitComment = (content, replyingToCommentIndex) => {
         if (!FirebaseManager.currentUserData?.firestoreData?.username) {
-            showToast("Please sign in to comment.", true);
+            showToast({text: "Please sign in to comment.", noBottomMargin: true});
             return;
         }
 
         if (!content) {
-            showToast("Can't submit an empty comment.", true);
+            showToast({text: "Can't submit an empty comment.", noBottomMargin: true});
             return;
         }
 
@@ -131,7 +131,7 @@ export default function CommentSection(props) {
             });
         }
 
-        showToast("Your comment has been posted!", true);
+        showToast({text: "Your comment has been posted!", noBottomMargin: true});
     };
 
     /**
@@ -184,7 +184,7 @@ export default function CommentSection(props) {
         });
         setBlockedReplies(updatedBlockedReplies);
 
-        showToast(username + " has been blocked.");
+        showToast(username + " has been blocked.", true);
         setRefreshKey(prevKey => prevKey + 1);
     }
 
