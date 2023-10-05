@@ -10,6 +10,7 @@ import AvatarSelect from "../components/AvatarSelect";
 import BottomSheet from '@gorhom/bottom-sheet';
 import CustomBackground from "../components/CustomBackground";
 import { ToastContext } from "../components/Toast";
+import ListManager from "../components/ListManager";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -214,10 +215,16 @@ export default function ProfileScreen({ route }) {
                                 }
                             </View>
                         }
+                        <Text style={[globalStyles.title, { marginTop: 15 }]}>Templates by {userData.username}</Text>
 
                         {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
                         <View>
-                            {/* Render List items here */}
+                            <ListManager filterOptions={{
+                                "sortBy": "newest",
+                                "dateRange": "allTime",
+                                "playable": true,
+                                "uid": uid,
+                            }}></ListManager>
                         </View>
                     </View>
                 </ScrollView>

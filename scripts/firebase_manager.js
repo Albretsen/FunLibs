@@ -443,7 +443,7 @@ export default class FirebaseManager {
         try {
             await this.DeleteDocument("usernames", FirebaseManager.currentUserData?.firestoreData?.username.toLowerCase());
         } catch {
-            
+
         }
 
         // First, update the authentication profile for the user
@@ -1399,6 +1399,171 @@ export default class FirebaseManager {
 
     static setLocalUID = async () => {
         this.localUID = await FileManager._retrieveData("uid");
+    }
+
+    static async getDatabaseData(
+        collectionName,
+        filterOptions = {
+            category: "all",
+            docIds: undefined,
+            sortBy: undefined,
+            dateRange: undefined,
+            playable: undefined
+        },
+        lastVisibleDoc = null,
+        pageSize = 10
+    ) {
+        if (!isConnected) return this.handleNoInternet();
+
+        const q = this.buildQuery(collectionName, filterOptions, lastVisibleDoc, pageSize);
+        return await this.fetchData(q);
+    }
+
+    static handleNoInternet() {
+        // Handle no internet scenario
+        return {
+            data: "no-internet",
+        };
+    }
+
+    static buildQuery(collectionName, filterOptions, lastVisibleDoc, pageSize) {
+        let q = collection(db, collectionName);
+
+        q = this.applyUIDFilter(q, filterOptions.uid);
+        q = this.applyCategoryFilter(q, filterOptions.category);
+        q = this.applyPlayableFilter(q, filterOptions.playable);
+        q = this.applyPublishedFilter(q, filterOptions.published);
+        q = this.applyDocIdsFilter(q, filterOptions.docIds);
+        q = this.applyDateRangeFilter(q, filterOptions.dateRange, filterOptions.sortBy);
+        q = this.applySortByFilter(q, filterOptions.sortBy);
+
+        console.log("Q: " + JSON.stringify(q));
+
+        // Pagination
+        q = query(q, limit(pageSize));
+        if (lastVisibleDoc) {
+            q = query(q, startAfter(lastVisibleDoc));
+        }
+
+        return q;
+    }
+
+    static applyCategoryFilter(q, category) {
+        if (category === 'official') {
+            q = query(q, where("official", "==", true));
+        } else if (category === 'all' || category === 'All') {
+            q = query(q, where("official", "==", false));
+        }
+        return q;
+    }
+
+    static applyPlayableFilter(q, playable) {
+        if (playable !== undefined) {
+            q = query(q, where("playable", "==", playable));
+        }
+        return q;
+    }
+
+    static applyPublishedFilter(q, published) {
+        if (published !== undefined) {
+            q = query(q, where("published", "==", published));
+        }
+        return q;
+    }
+
+    static applyDocIdsFilter(q, docIds) {
+        if (docIds && docIds.length > 0) {
+            q = query(q, where("__name__", "in", docIds.filter(id => id !== null)));
+        }
+        return q;
+    }
+
+    static applyDateRangeFilter(q, dateRange, sortBy) {
+        const now = new Date();
+        let startDate;
+        switch (dateRange) {
+            case "today":
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                break;
+            case "thisWeek":
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                break;
+            case "thisMonth":
+                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                break;
+            case "thisYear":
+                startDate = new Date(now.getFullYear(), 0, 1);
+                break;
+            case "allTime":
+                startDate = new Date(now.getFullYear() - 10, 0, 1);
+                break;
+            default:
+                startDate = null;
+                break;
+        }
+
+        if (startDate && sortBy !== "trending") {
+            q = query(q, where("date", ">=", startDate));
+            q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
+        }
+        return q;
+    }
+
+    static applySortByFilter(q, sortBy) {
+        switch (sortBy) {
+            case "likes":
+                q = query(q, orderBy("likes", "desc"));
+                break;
+            case "trending":
+                q = query(q, orderBy("weightedLikes", "desc"));
+                break;
+            case "newest":
+                // Already ordered by date in applyDateRangeFilter
+                break;
+            default:
+                break;
+        }
+        return q;
+    }
+
+    static applyUIDFilter(q, uid) {
+        console.log("UID: " + uid);
+        if (uid !== undefined) {
+            q = query(q, where("user", "==", uid));
+        }
+        return q;
+    }
+
+    static async fetchData(q) {
+        try {
+            const result = await getDocs(q);
+            Analytics.increment("database_reads");
+            return this.parseResult(result);
+        } catch (error) {
+            Analytics.log("Database read error " + error);
+            return this.handleReadError();
+        }
+    }
+
+    static parseResult(result) {
+        const resultArray = result.docs.map(doc => {
+            const documentData = doc.data();
+            documentData.id = doc.id;  // Add the document ID to the data
+            return documentData;
+        });
+
+        const lastDoc = result.docs[result.docs.length - 1];
+        return {
+            data: resultArray,
+            lastDocument: lastDoc
+        };
+    }
+
+    static handleReadError() {
+        return {
+            data: [],
+            lastDocument: null
+        };
     }
 
     static avatars = {
