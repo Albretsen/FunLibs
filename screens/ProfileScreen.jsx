@@ -220,7 +220,6 @@ export default function ProfileScreen({ route }) {
                         {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
                         <View>
                             <ListManager filterOptions={{
-                                "category": "all",
                                 "sortBy": "newest",
                                 "dateRange": "allTime",
                                 "playable": true,
