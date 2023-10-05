@@ -48,6 +48,7 @@ export default function ProfileScreen({ route }) {
     const [yourOwnProfile, setYourOwnProfile] = useState(false);
 
     const [editUsername, setEditUsername] = useState(false);
+    const [editBio, setEditBio] = useState(false);
 
     // Default, min, and max heights for the TextInput
     const defaultHeight = 30;
@@ -99,52 +100,58 @@ export default function ProfileScreen({ route }) {
                     />
                     {yourOwnProfile && (
                         <View style={styles.addImage}>
-                            <MaterialIcons name="add" size={20} style={{color: "white"}} />
+                            <MaterialIcons name="add" size={26} style={{color: "white"}} />
                         </View>
                     )}
                 </TouchableOpacity>
-                <View style={{alignSelf: "center", zIndex: 100, gap: 10, paddingVertical: 10}}>
+                <View style={{alignSelf: "center", zIndex: 100, paddingVertical: 10}}>
                     {editUsername ? 
                         <>
                             <TextInput
-                                style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%"}]}
+                                style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
                                 placeholder="Username..."
                                 value={nameValue}
                                 onChangeText={(text) => {
                                     setNameValue(text);
                                 }}
                             />
-                            <TouchableOpacity onPress={ async () => {
-                                showToast("Updating username...")
+                            <TouchableOpacity style={styles.editButton} onPress={ async () => {
+                                showToast({text: "Updating username...", loading: true});
                                 let result = await FirebaseManager.UpdateUsername(uid, nameValue);
                                 if (result === "username-not-available") {
                                     showToast("Username is not available.");
                                     return;
                                 }
                                 setEditUsername(false);
-                                showToast("Username has been updated.");
+                                showToast({text: "Username has been updated.", loading: false});
                             }}>
-                                <Text>Save username</Text>
+                                <Text style={[styles.highlightColor, {fontSize: 14}]}>Save new username</Text>
+                                <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
                             </TouchableOpacity>
                         </>
                         :
-                        <View style={{flexDirection: "row"}}>
-                            <Dropdown
-                                title={nameValue}
-                                titleStyle={[globalStyles.fontMedium, {color: "#1D1B20"}]}
-                                containerStyle={{alignSelf: "center", height: "auto"}}
-                                options={[
-                                    {
-                                        name: "User options?",
-                                        onPress: null
-                                    }
-                                ]}
-                            />
+                        <View>
                             {yourOwnProfile ? 
-                                <TouchableOpacity onPress={() => setEditUsername(true)}>
-                                    <MaterialIcons name="edit" size={20} color="#333" />
+                                <TouchableOpacity
+                                    onPress={() => setEditUsername(true)}
+                                    style={{flexDirection: "row", gap: 6, alignItems: "center"}}
+                                >
+                                    <Text style={[globalStyles.fontMedium, {color: "#1D1B20"}]}>{nameValue}</Text>
+                                    <MaterialIcons style={styles.highlightColor} name="edit" size={17} color="#333" />
                                 </TouchableOpacity>
-                            : null}
+                            :
+                                <Dropdown
+                                    title={nameValue}
+                                    titleStyle={[globalStyles.fontMedium, {color: "#1D1B20"}]}
+                                    containerStyle={{alignSelf: "center", height: "auto"}}
+                                    options={[
+                                        {
+                                            name: "User options?",
+                                            onPress: null
+                                        }
+                                    ]}
+                                />
+                            }
                         </View>
                     }
                 </View>
@@ -164,14 +171,14 @@ export default function ProfileScreen({ route }) {
                             </View>
                         </View>
                         <Text style={globalStyles.title}>About me</Text>
-                        {yourOwnProfile ?
+                        {editBio ? 
                             <>
                                 <TextInput
                                     placeholder="Say something about yorself..."
                                     placeholderTextColor={"#505050"}
                                     multiline
                                     textAlignVertical="top"
-                                    style={[styles.bio, {height: inputHeight, width: "100%"}]}
+                                    style={[styles.bio, {height: inputHeight, width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
                                     onChangeText={(text) => {
                                         setBioValue(text);
                                     }}
@@ -181,17 +188,36 @@ export default function ProfileScreen({ route }) {
                                         setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
                                     }}
                                 />
-                                <TouchableOpacity onPress={ async () => {
+                                <TouchableOpacity style={styles.editButton} onPress={ async () => {
+                                    showToast({text: "Updating description...", loading: true});
                                     await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
-                                    showToast("Bio updated.")
+                                    setEditBio(false);
+                                    showToast({text: "Description updated", loading: false});
                                 }}>
-                                    <Text>Save description</Text>
+                                    <Text style={[styles.highlightColor, {fontSize: 14}]}>Save new description</Text>
+                                    <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
                                 </TouchableOpacity>
                             </>
-                            :
-                            <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio}</Text>
+                        :
+                            <View style={{width: "100%"}}>
+                                {yourOwnProfile ?
+                                    <TouchableOpacity
+                                        style={{flexDirection: "row"}}
+                                        onPress={() => {
+                                            setEditBio(true);
+                                        }}
+                                    >
+                                        <Text style={[styles.bio, globalStyles.grayText, {flex: 1, width: "100%"}]}>{bioValue ? bioValue : nameValue + " has not written anything about themself yet..."}</Text>
+                                        <MaterialIcons style={[styles.highlightColor, {flexBasis: 20, marginTop: 3}]} name="edit" size={17}/>
+                                    </TouchableOpacity>
+                                    :
+                                    <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio ? userData.bio : nameValue + " has not written anything about themself yet..."}</Text>
+                                }
+                            </View>
                         }
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>Templates by {userData.username}</Text>
+
+                        {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
                         <View>
                             <ListManager filterOptions={{
                                 "category": "all",
@@ -273,9 +299,9 @@ const styles = StyleSheet.create({
         right: 10,
         top: imageSize - 25,
         borderRadius: "100%",
-        height: 24,
-        width: 24,
-        backgroundColor: "#19BB77",
+        height: 30,
+        width: 30,
+        backgroundColor: "#3E99ED",
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 3,
@@ -325,5 +351,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white'
-    }
+    },
+
+    editButton: {
+        flexDirection: "row",
+        paddingVertical: 10,
+        paddingTop: 4,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 4
+    },
+
+    highlightColor: {
+        color: "#3E99ED",
+    },
 })

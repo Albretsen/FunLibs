@@ -1,22 +1,80 @@
+/**
+ * @component Toast
+ *
+ * @overview
+ * Renders a toast on the bottom of the screen.
+ * Can be used anywhere in the application, as long as the app is wrapped in the provider
+ * 
+ * @param message {String, Object} the message that is shown by the toast (Not recommended, always call with object)
+ * @param noBottomMargin {Bool} toast has 150 bottom margin by default which places it above the bottom navigation. Setting this to true lowers the bottom margin to 50, used when there is no bottom navigation on screen
+ * @param message.text {String} same as message
+ * @param message.noBottomMargin {Bool} same as noBottomMargin
+ * @param message.loading {Bool} will display a loading animation on the toast, can be cancelled by calling the toast with this bool as false
+ * 
+ * @example initialization in App.js
+ * import { ToastProvider } from "path/Toast";
+ * export default function App() {
+ * 		return(
+ * 			<ToastProvider>
+ * 				{children}
+ * 			</ToastProvider>
+ * 		)
+ * }
+ * 
+ * @example showToast
+ * import { ToastContext } from "path/Toast";
+ * function myComponent() {
+ * 		const showToast = useContext(ToastContext);
+ * 
+ * 		showToast("Here's a toast!");
+ * 		showToast({text: "Here's another toast, it has a loading animation!", loading: true});
+ * 		showToast({text: "This toast tells you that loading has ended.", loading: false});
+ * }
+ * 
+ */
+
 import React, { useEffect, useRef, useState, createContext } from 'react';
 import { View, Text, Animated, StyleSheet, Dimensions, Platform, TouchableOpacity, KeyboardAvoidingView, Easing, Keyboard, KeyboardEvent } from 'react-native';
-import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ToastContext = createContext();
 
-const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardHeight }) => {
+const toastWidth = Dimensions.get('window').width * 0.9;
+
+const Toast = ({ message, setMessage, noBottomMargin, keyboardHeight, showLoading }) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current;
 	const translateYAnim = useRef(new Animated.Value(Dimensions.get('window').height)).current; // Using screen height
 	const scaleAnim = useRef(new Animated.Value(0.8)).current; // For playful scaling effect
+	const loadingAnim = useRef(new Animated.Value(0)).current;
 	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 	const [isToastVisible, setIsToastVisible] = useState(false);
 	const [hasToastAnimated, setHasToastAnimated] = useState(false);
 
+    useEffect(() => {
+        let anim;
+        if (showLoading) {
+            anim = Animated.loop(
+                Animated.sequence([
+                    Animated.timing(loadingAnim, {
+                        toValue: 1,
+                        duration: 1500,
+                        useNativeDriver: false,
+                    }),
+                    Animated.timing(loadingAnim, {
+                        toValue: 0,
+                        duration: 0,
+                        useNativeDriver: false,
+                    }),
+                ])
+            ).start();
+        }
+        return () => anim && anim.stop();
+    }, [showLoading]);
+
 	const timerRef = useRef(null);
 
 	useEffect(() => {
-		if (title || message) {
+		if (message) {
 			Animated.parallel([ // Animate opacity, translationY, and scale simultaneously
 				Animated.timing(fadeAnim, {
 					toValue: 1,
@@ -51,10 +109,10 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardH
 		return () => {
 			clearTimeout(timerRef.current);
 		};
-	}, [title, message, fadeAnim]);
+	}, [message, fadeAnim]);
 
 	useEffect(() => {
-		if (isToastVisible && hasToastAnimated && (title || message)) {
+		if (isToastVisible && hasToastAnimated && (message)) {
 			Animated.sequence([
 				Animated.timing(scaleAnim, {
 					toValue: 1.1,
@@ -68,7 +126,7 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardH
 				})
 			]).start();
 		}
-	}, [title, message]);
+	}, [message]);
 
 	const fadeOut = () => {
 		Animated.parallel([
@@ -88,7 +146,6 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardH
 				useNativeDriver: true
 			})
 		]).start(() => {
-			setTitle(null);
 			setMessage(null);
 			setIsToastVisible(false);  // set toast visibility to false after fade out
 			setHasToastAnimated(false);
@@ -115,13 +172,19 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardH
             },
         ]}>
 			<View style={{ justifyContent: "center", width: "86%" }}>
-				{/* Quickly removed title to make sure text is centered on Android */}
-				{/* <Text allowFontScaling style={[styles.text, {fontSize: 18}, globalStyles.bold]}>{title}</Text> */}
 				<Text allowFontScaling style={[styles.text, { fontSize: 16, flexWrap: "wrap" }]}>{message}</Text>
 			</View>
 			<TouchableOpacity onPress={handleClose} style={{ justifyContent: "center", flex: 1 }}>
 				<MaterialIcons style={{ color: "white", alignSelf: "flex-end" }} name="close" size={24} />
 			</TouchableOpacity>
+			{showLoading && (
+                <Animated.View style={[styles.loadingBar, {
+                    left: loadingAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [-50, toastWidth]
+                    })
+                }]} />
+            )}
 		</Animated.View>
 	);
 };
@@ -129,7 +192,6 @@ const Toast = ({ title, message, setTitle, setMessage, noBottomMargin, keyboardH
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
-		// bottom: 90,
 		flexDirection: "row",
 		backgroundColor: '#322F35',
 		padding: 20,
@@ -137,20 +199,30 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		alignContent: "center",
 		marginHorizontal: Dimensions.get('window').width * 0.05,
-		width: Dimensions.get('window').width * 0.9,
+		width: toastWidth,
+		overflow: "hidden"
 	},
 
 	text: {
 		color: 'white',
-	}
+	},
+
+	loadingBar: {
+        height: 4,
+        backgroundColor: "#419764",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+		width: 50
+    },
 });
 
 export default Toast;
 
 export const ToastProvider = ({ children }) => {
 	const [message, setMessage] = useState(null);
-	const [title, setTitle] = useState(null);
 	const [bottomMarginBool, setBottomMarginBool] = useState(false);
+	const [showLoading, setShowLoading] = useState(false);
 
 	const toastTimerRef = useRef(null);
 
@@ -175,17 +247,26 @@ export const ToastProvider = ({ children }) => {
         };
     }, []);
 
-	const showToast = (message, noBottomMargin, title) => {
-		setTitle(title);
-		setMessage(message);
-		setBottomMarginBool(noBottomMargin);
+	const showToast = (message, noBottomMargin) => {
+		// Message can be passed as a string simply containing the text of the toast, or as an object to allow for settings
+		if(typeof message === "string") {
+			setMessage(message);
+		} else {
+			setMessage(message.text);
+			setBottomMarginBool(message?.noBottomMargin);
+			setShowLoading(message?.loading);
+		}
+
+		// To avoid refactoring, noBottomMargin can still be called as a separate argument
+		if(noBottomMargin) {
+			setBottomMarginBool(noBottomMargin);
+		}
 
 		if (toastTimerRef.current) {
 			clearTimeout(toastTimerRef.current);
 		}
 
 		toastTimerRef.current = setTimeout(() => {
-			setTitle(null);
 			setMessage(null);
 			setBottomMarginBool(false);
 		}, 8000);
@@ -197,7 +278,7 @@ export const ToastProvider = ({ children }) => {
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'position' : undefined}
 			>
-				{message && <Toast keyboardHeight={keyboardHeight} title={title} message={message} setTitle={setTitle} setMessage={setMessage} noBottomMargin={bottomMarginBool} />}
+				{message && <Toast keyboardHeight={keyboardHeight} message={message} setMessage={setMessage} noBottomMargin={bottomMarginBool} showLoading={showLoading} />}
 			</KeyboardAvoidingView>
 		</ToastContext.Provider>
 	);
