@@ -596,191 +596,185 @@ export default function CreateLibScreen({ route }) {
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
-        <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[{ flex: 1 }, { backgroundColor: "white" }]}>
+            <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {backgroundColor: "white", flex: 1}]}>
+                <ScrollView style={globalStyles.standardWhitespace}
+                    keyboardShouldPersistTaps={'always'}
+                >
+                    <AvatarDisplay
+                        avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
+                        titleComponent={(
+                            <TextInput
+                                style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}
+                                placeholder="Write your title here..."
+                                placeholderTextColor={"#9e9e9e"}
+                                onChangeText={text => setLibNameText(text)}
+                                value={libNameText}
+                            />
+                        )}
+                        text={"by " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : "You")}
+                        rightComponent={(
+                            <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center", paddingRight: 4 }}>
+                                <TouchableOpacity onPress={saveLib}>
+                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500}]}>Next</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    />
 
-            <ScrollView style={{ marginHorizontal: 14 }}
-                keyboardShouldPersistTaps={'always'}
-            >
-                <AvatarDisplay
-                    avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
-                    titleComponent={(
+                    <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
                         <TextInput
-                            style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}
-                            placeholder="Write your title here..."
+                            ref={libTextInputRef}
+                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74 + 40) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight)}]}
+                            multiline={true}
+                            numberOfLines={10}
+                            onChangeText={text => setLibText(text)}
+                            placeholder="Write your text here..."
                             placeholderTextColor={"#9e9e9e"}
-                            onChangeText={text => setLibNameText(text)}
-                            value={libNameText}
+                            onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+                            selection={newCursorPosition}
+                            value={libText}
                         />
-                    )}
-                    text={"by " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : "You")}
-                    rightComponent={(
-                        <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center", paddingRight: 4 }}>
-                            <TouchableOpacity onPress={saveLib}>
-                                <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500}]}>Next</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
-
-                <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
-                    <TextInput
-                        ref={libTextInputRef}
-                        style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74 + 40) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight)}]}
-                        multiline={true}
-                        numberOfLines={10}
-                        onChangeText={text => setLibText(text)}
-                        placeholder="Write your text here..."
-                        placeholderTextColor={"#9e9e9e"}
-                        onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
-                        selection={newCursorPosition}
-                        value={libText}
-                    />
-                    <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
-                        <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
-                    </TouchableOpacity>
-                </View>
-                <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
-                <View style={{ flexGrow: 0 }}>
-                    <Buttons
-                        buttons={
-                            [{
-                                label: "Custom",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    setShowDialogCustom(true)
-                                }
-                            },
-                            {
-                                label: "Adjective",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Adjective");
-                                },
-                            },
-                            {
-                                label: "Verb",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Verb");
-                                },
-                            },
-                            {
-                                label: "Noun",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Noun");
-                                },
-                            },
-                            {
-                                label: "Occupation",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Occupation");
-                                },
-                            },
-                            {
-                                label: "Name",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Name");
-                                },
-                            },
-                            {
-                                label: "Emotion",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Emotion");
-                                },
-                            },
-                            {
-                                label: "Place",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Place");
-                                },
-                            },
-                            {
-                                label: "Animal",
-                                icon: "add",
-                                onPress: () => {
-                                    setButtonPressed(true);
-                                    addPrompt("Animal");
-                                },
-                            },
-                            ]
-                        }
-                        buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 50 }}
-                        containerStyle={{ justifyContent: "flex-start" }}
-                        labelStyle={{ fontSize: 17, fontWeight: 500 }}
-                        sideScroll={true}
-                    />
-                </View>
-
-                <DialogTrigger
-                    id="dialogCustom"
-                    show={showDialogCustom}
-                    onCancel={() => setShowDialogCustom(false)}
-                    onConfirm={() => {
-                        addCustomPrompt(customPromptTextRef.current);
-                        setShowDialogCustom(false);
-                    }}
-                    confirmLabel="Add"
-                    cancelLabel="Cancel"
-                // modalStyle={{backgroundColor: "white"}}
-                // confirmStyle={{backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}}
-                // buttonStyle={globalStyles.buttonDefault}
-                // labelStyle={{color: "black"}}
-                // containerStyle={{gap: 0}}
-                >
-                    <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
-                        <View style={styles.iconCircle}>
-                            <MaterialIcons style={{ color: "white" }} name="add" size={28} />
-                        </View>
-                        <View>
-                            <Text style={[{ fontSize: 20 }, globalStyles.bold]}>Custom prompt</Text>
-                            <Text style={{ fontSize: 18 }}>Add a custom prompt</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
+                            <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
+                        </TouchableOpacity>
                     </View>
-                    <TextInput
-                        style={[globalStyles.input, globalStyles.inputSmall, { paddingHorizontal: 14, marginVertical: 10, fontSize: 18 }]}
-                        numberOfLines={1}
-                        placeholder="Your prompt..."
-                        onChangeText={text => {
-                            customPromptTextRef.current = text;
-                            setCustomPromptText(text)
+                    <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
+                    <View style={{ flexGrow: 0 }}>
+                        <Buttons
+                            buttons={
+                                [{
+                                    label: "Custom",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        setShowDialogCustom(true)
+                                    }
+                                },
+                                {
+                                    label: "Adjective",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Adjective");
+                                    },
+                                },
+                                {
+                                    label: "Verb",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Verb");
+                                    },
+                                },
+                                {
+                                    label: "Noun",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Noun");
+                                    },
+                                },
+                                {
+                                    label: "Occupation",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Occupation");
+                                    },
+                                },
+                                {
+                                    label: "Name",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Name");
+                                    },
+                                },
+                                {
+                                    label: "Emotion",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Emotion");
+                                    },
+                                },
+                                {
+                                    label: "Place",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Place");
+                                    },
+                                },
+                                {
+                                    label: "Animal",
+                                    icon: "add",
+                                    onPress: () => {
+                                        setButtonPressed(true);
+                                        addPrompt("Animal");
+                                    },
+                                },
+                                ]
+                            }
+                            buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 50 }}
+                            containerStyle={{ justifyContent: "flex-start" }}
+                            labelStyle={{ fontSize: 17, fontWeight: 500 }}
+                            sideScroll={true}
+                        />
+                    </View>
+
+                    <DialogTrigger
+                        id="dialogCustom"
+                        show={showDialogCustom}
+                        onCancel={() => setShowDialogCustom(false)}
+                        onConfirm={() => {
+                            addCustomPrompt(customPromptTextRef.current);
+                            setShowDialogCustom(false);
                         }}
-                    />
-                </DialogTrigger>
-                <DialogTrigger
-                    id="dialogInfo"
-                    show={showDialogInfo}
-                    onCancel={() => setShowDialogInfo(false)}
-                    onConfirm={() => setShowDialogInfo(false)}
-                    cancelLabel=" "
-                >
-                    <Text style={styles.paragraph}>
-                        Write your text by using prompts enclosed in parentheses. For example:
-                    </Text>
-                    <Text style={styles.paragraph}>
-                        They built an <Text style={styles.highlighted}>(adjective)</Text> house.
-                    </Text>
-                    <Text style={styles.paragraph}>
-                        You can repeat words by adding a number at the end, like so:
-                    </Text>
-                    <Text style={styles.paragraph}>
-                        <Text style={styles.highlighted}>(Name 1)</Text> is building a table. <Text style={styles.highlighted}>(Name 1)</Text> is a carpenter.
-                    </Text>
-                </DialogTrigger>
-            </ScrollView>
-        </ParentTag>
+                        confirmLabel="Add"
+                        cancelLabel="Cancel"
+                    >
+                        <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
+                            <View style={styles.iconCircle}>
+                                <MaterialIcons style={{ color: "white" }} name="add" size={28} />
+                            </View>
+                            <View>
+                                <Text style={[{ fontSize: 20 }, globalStyles.bold]}>Custom prompt</Text>
+                                <Text style={{ fontSize: 18 }}>Add a custom prompt</Text>
+                            </View>
+                        </View>
+                        <TextInput
+                            style={[globalStyles.input, globalStyles.inputSmall, { paddingHorizontal: 14, marginVertical: 10, fontSize: 18 }]}
+                            numberOfLines={1}
+                            placeholder="Your prompt..."
+                            onChangeText={text => {
+                                customPromptTextRef.current = text;
+                                setCustomPromptText(text)
+                            }}
+                        />
+                    </DialogTrigger>
+                    <DialogTrigger
+                        id="dialogInfo"
+                        show={showDialogInfo}
+                        onCancel={() => setShowDialogInfo(false)}
+                        onConfirm={() => setShowDialogInfo(false)}
+                        cancelLabel=" "
+                    >
+                        <Text style={styles.paragraph}>
+                            Write your text by using prompts enclosed in parentheses. For example:
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            They built an <Text style={styles.highlighted}>(adjective)</Text> house.
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            You can repeat words by adding a number at the end, like so:
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            <Text style={styles.highlighted}>(Name 1)</Text> is building a table. <Text style={styles.highlighted}>(Name 1)</Text> is a carpenter.
+                        </Text>
+                    </DialogTrigger>
+                </ScrollView>
+            </ParentTag>
         </TouchableWithoutFeedback>
     )
 }
