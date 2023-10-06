@@ -483,7 +483,7 @@ export default function PlayScreen({ route }) {
 							color="#006D40"
 							unfilledColor="#D1E8D5"
 							borderWidth={0}
-							borderRadius={0}comment
+							borderRadius={0}
 						/>
 						<Buttons
 							buttons={

@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import FirebaseManager from '../scripts/firebase_manager';
+import { useEffect } from 'react';
 
 export default function UserDrawerContent({ navigation, closeDrawer }) {
+
+	useEffect(() => {
+		console.log("LOL")
+        console.log("FIREBASE UAHT: " + JSON.stringify(FirebaseManager.currentUserData.auth));
+		console.log("FIREBASE UAHT: " + JSON.stringify(FirebaseManager.currentUserData.firestoreData)); 
+    }, []);
 
 	return (
 		<View style={{gap: 35, marginTop: 30}}>

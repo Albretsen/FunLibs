@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import FirebaseManager from '../scripts/firebase_manager';
 import ListItem from './ListItem';
 
@@ -9,36 +10,45 @@ const ListManager = (props) => {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    const fetchData = useCallback(async () => {
+    const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
+    const [page, setPage] = useState(1);
+
+    const fetchData = useCallback(async (newFetch = true) => {
         setRefreshing(true);
         setLoading(true);
         try {
-            // Assume getDatabaseData() is your function to fetch data from the database.
-            const result = await FirebaseManager.getDatabaseData("posts", filterOptions);
-            console.log("RESULT: " + JSON.stringify(result))
-            setData(result.data);
+            const result = await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc);
+            if (!result.data) throw error;
+            setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
+            setLastVisibleDoc(result.lastDocument);
             setLoading(false);
         } catch (error) {
             console.error(error);
         } finally {
             setRefreshing(false);
         }
-    }, []);
+    }, [filterOptions, lastVisibleDoc]);
 
     useEffect(() => {
         fetchData();
-    }, [fetchData]);
+    }, []);
 
     const handleRefresh = () => {
         fetchData();
     };
 
-    if (loading && !refreshing) return <div>Loading...</div>;
+    const handleLoadMore = () => {
+        console.log("test");
+        fetchData(false);
+    };
+
+    if (loading && !refreshing) return <View><Text>Loading...</Text></View>;
 
     return (
-        <div>
-            <button onClick={handleRefresh}>Refresh</button>
-            {data.map((item, index) => (
+        <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => (
                 <ListItem
                     name={item.name}
                     description={item.display_with_prompts}
@@ -60,8 +70,16 @@ const ListManager = (props) => {
                     playable={item.playable}
                     item={item}
                 />
-            ))}
-        </div>
+            )}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                />
+            }
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+        />
     );
 };
 

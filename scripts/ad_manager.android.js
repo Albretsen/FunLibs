@@ -1,6 +1,7 @@
 import mobileAds from 'react-native-google-mobile-ads';
 import { AppState } from 'react-native';
 import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography } from 'react-native-google-mobile-ads';
+import FileManager from './file_manager';
 
 export default class AdManager {
   static production = false;
@@ -9,6 +10,7 @@ export default class AdManager {
   static interstitial;
   static interstitialID;
   static interstitialLoaded = false;
+  static interstitialShownRecently = false;
 
   static rewarded;
   static rewardedID;
@@ -81,7 +83,8 @@ export default class AdManager {
     if (
       AdManager.appState &&
       AdManager.appState.match(/inactive|background/) &&
-      nextAppState === 'active'
+      nextAppState === 'active' &&
+      !AdManager.interstitialShownRecently  // Only show if interstitial wasn't shown recently
     ) {
       console.log('App has come to the foreground!');
       AdManager.showAppOpenAd();
@@ -89,13 +92,14 @@ export default class AdManager {
     AdManager.appState = nextAppState;
   }
 
+
   static async showAppOpenAd() {
     if (AdManager.appOpenAd) {
       try {
-        let result = await FileManager._retrieveData("");
+        let result = await FileManager._retrieveData("database_reads");
         if (result) {
           result = parseInt(result)
-          if (result > 4) { AdManager.showAd("appOpen") }
+          if (result > 30) { AdManager.showAd("appOpen") }
         }
       } catch {
         console.log("App open not loaded");
@@ -194,6 +198,10 @@ export default class AdManager {
         if (AdManager.interstitialLoaded) {
           AdManager.interstitial.show();
           AdManager.interstitialLoaded = false;
+          AdManager.interstitialShownRecently = true;
+          setTimeout(() => {
+            AdManager.interstitialShownRecently = false;
+          }, 50000);  // Reset the flag after 5 seconds
         }
         break;
       case "rewarded":
