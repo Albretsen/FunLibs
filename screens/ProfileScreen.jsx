@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
         left: `${leftPercentage}%`,
         top: 75,
         height: 200,
-        borderRadius: "50%",
+        borderRadius: 50, // USED TO BE "50%"
         backgroundColor: "white",
         width: screenWidth + extraBgWidth
     },
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         backgroundColor: "white",
-        borderRadius: "100%",
+        borderRadius: 100, // USED TO BE "100%"
         zIndex: 100
     },
 
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10,
         top: imageSize - 25,
-        borderRadius: "100%",
+        borderRadius: 100, // USED TO BE "100%"
         height: 30,
         width: 30,
         backgroundColor: "#3E99ED",

@@ -312,7 +312,7 @@ export default function CreateLibScreen({ route }) {
 
     const save = () => {
         // Brand new lib
-        showToast("Saving...");
+        showToast({text: "Saving", loading: true});
         closeDrawer();
 
         if (!editLibID && !item?.local) {
@@ -328,7 +328,7 @@ export default function CreateLibScreen({ route }) {
             saveChangesPublished();
             return;
         }
-        showToast("Error saving. Try again later.");
+        showToast({text: "Error saving", loading: false});
     }
 
     const saveNew = async () => {
@@ -406,7 +406,7 @@ export default function CreateLibScreen({ route }) {
             return;
         }
         closeDrawer();
-        showToast("Publishing...");
+        showToast({text: "Publishing", loading: true});
         const wasRewardGiven = await AdManager.showRewardedAd();
 
         if (wasRewardGiven === true) {
@@ -420,11 +420,11 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast("Error publishing. Try again later.");
+            showToast({text: "Error publishing", loading: false});
         } else if (wasRewardGiven === false) {
             // The user did not watch the ad or did not earn the reward
             // Show a toast message to inform the user
-            showToast("You need to watch the ad to proceed with publishing.");
+            showToast({text: "You need to watch the ad to proceed with publishing.", loading: false});
         } else {
             // The ad failed.
             // Continue with the publish action
@@ -436,7 +436,7 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast("Error publishing. Try again later.");
+            showToast({text: "Error publishing, try again later.", loading: false});
         }
     };    
 
@@ -516,7 +516,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID("");
         setItem(undefined);
-        showToast(message);
+        showToast({text: message, loading: false});
     }
 
     const showDeleteConfirmation = () => {
@@ -557,7 +557,7 @@ export default function CreateLibScreen({ route }) {
 
     const delete_ = async () => {
         closeDrawer();
-        showToast("Deleting...");
+        showToast({text: "Deleting", loading: true});
         if (editLibID && item?.local) {
             let local_libs = await getLocalLibs();
 
@@ -602,7 +602,7 @@ export default function CreateLibScreen({ route }) {
                 keyboardShouldPersistTaps={'always'}
             >
                 <AvatarDisplay
-                    avatarID={23}
+                    avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
                     titleComponent={(
                         <TextInput
                             style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}
@@ -612,7 +612,7 @@ export default function CreateLibScreen({ route }) {
                             value={libNameText}
                         />
                     )}
-                    text={"by Asgeir Albretsen"}
+                    text={"by " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : "You")}
                     rightComponent={(
                         <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center", paddingRight: 4 }}>
                             <TouchableOpacity onPress={saveLib}>

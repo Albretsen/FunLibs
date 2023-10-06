@@ -15,14 +15,14 @@ export default function SignInScreen() {
     const showToast = useContext(ToastContext);
 
     const signIn = async () => {
-        showToast("Signing in...");
+        showToast({text: "Signing in", loading: true});
         try {
             let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
             if (result?.uid) {
-                showToast("Signed in as " + FirebaseManager.currentUserData.firestoreData.username);
+                showToast({text: "Signed in as " + FirebaseManager.currentUserData.firestoreData.username, loading: false});
                 navigation.navigate("Home");
             } else {
-                showToast("Error signing in.");
+                showToast({text: "Error signing in", loading: false});
                 console.log("SIGN IN FAILED: Unexpected result format");
             }
         } catch (error) {
@@ -45,7 +45,7 @@ export default function SignInScreen() {
                     break;
             }
 
-            showToast(errorMessage);
+            showToast({text: errorMessage, loading: false});
         }
     }
 

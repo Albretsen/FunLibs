@@ -1,6 +1,7 @@
 import mobileAds from 'react-native-google-mobile-ads';
 import { AppState } from 'react-native';
 import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType, TestIds, AdEventType, AdsConsent, AdsConsentStatus, AdsConsentDebugGeography } from 'react-native-google-mobile-ads';
+import FileManager from './file_manager';
 
 export default class AdManager {
   static production = false;
@@ -92,10 +93,10 @@ export default class AdManager {
   static async showAppOpenAd() {
     if (AdManager.appOpenAd) {
       try {
-        let result = await FileManager._retrieveData("");
+        let result = await FileManager._retrieveData("database_reads");
         if (result) {
           result = parseInt(result)
-          if (result > 4) { AdManager.showAd("appOpen") }
+          if (result > 30) { AdManager.showAd("appOpen") }
         }
       } catch {
         console.log("App open not loaded");

@@ -340,7 +340,10 @@ export default class FirebaseManager {
             }
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
-            this.currentUserData = null;
+            let local = await FileManager._retrieveData("authData");
+            if (local.fireStoreData) {
+                data.fireStoreData = local.fireStoreData;
+            }
         }
 
         return data;
@@ -373,12 +376,14 @@ export default class FirebaseManager {
                 // Handle the case where uid is null or undefined
                 this.currentUserData = {
                     auth: auth.currentUser,
-                    firestoreData: null
                 };
             }
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
-            this.currentUserData = null;
+            let local = await FileManager._retrieveData("authData");
+            if (local.fireStoreData) {
+                FirebaseManager.currentUserData.fireStoreData = local.fireStoreData;
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import FirebaseManager from '../scripts/firebase_manager';
 import ListItem from './ListItem';
 
@@ -18,6 +18,7 @@ const ListManager = (props) => {
         setLoading(true);
         try {
             const result = await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc);
+            if (!result.data) throw error;
             setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
             setLastVisibleDoc(result.lastDocument);
             setLoading(false);
@@ -41,7 +42,7 @@ const ListManager = (props) => {
         fetchData(false);
     };
 
-    if (loading && !refreshing) return <div>Loading...</div>;
+    if (loading && !refreshing) return <View><Text>Loading...</Text></View>;
 
     return (
         <FlatList
