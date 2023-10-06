@@ -29,6 +29,22 @@ const globalStyles = StyleSheet.create({
         // maxHeight: fullHeight - 140
     },
 
+    standardWhitespace: {
+        marginHorizontal: fullWidth / 20,
+        width: fullWidth - fullWidth / 10,
+        maxWidth: 700
+    },
+
+    standardHeight: {
+        height: fullHeight - 64,
+        maxHeight: fullHeight - 64,
+    },
+
+    standardHeightBottomNav: {
+        height: fullHeight - (64 + 74),
+        maxHeight: fullHeight - (64 + 74),
+    },
+
     containerWhitespace: {
         width: fullWidth - fullWidth / 10,
         maxWidth: 700
@@ -124,12 +140,8 @@ const globalStyles = StyleSheet.create({
         // Tab bar height: 74
         // +2 to be sure
         maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2),
-        maxWidth: 700,
-
-        // For reasons which vex me, the listItem container is rendered twice, which means instead of putting the normal whitespace padding, it needs to be halved.
-        paddingHorizontal: fullWidth / 40,
-        width: "100%",
-        maxWidth: 700,
+        // Explicitly setting height, to have loading indicator be centered vertically
+        height: fullHeight - (64 + 40 + 40 + 74 + 2),
     },
 
     drawerContainer: {

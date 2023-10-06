@@ -549,242 +549,244 @@ export default function LibsScreen() {
 	}
 
 	return (
-		<SafeAreaView style={[globalStyles.screenStandard]}>
-			<View style={[globalStyles.containerWhitespacePadding, {
-				flexDirection: "row",
-				justifyContent: "space-between",
-				alignItems: "center",
-				gap: 10,
-				// padding: 2,
-				height: 40
-			}]}>
-				<SegmentedButtons
-					value={playReadValue}
-					onValueChange={playReadToggle}
-					style={{ width: 190 }}
-					density="small"
-					theme={{
-						colors: {
-							primary: '#49454F',
-							outline: "#79747E",
-							secondaryContainer: "#D1E8D5"
-						},
-					}}
-					buttons={[
-						{
-							label: "Play",
-							value: true,
-							showSelectedCheck: true
+		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav]}>
+			<View style={[globalStyles.standardWhitespace]}>
+				<View style={[{
+					flexDirection: "row",
+					justifyContent: "space-between",
+					alignItems: "center",
+					gap: 10,
+					// padding: 2,
+					height: 40,
+				}]}>
+					<SegmentedButtons
+						value={playReadValue}
+						onValueChange={playReadToggle}
+						style={{ width: 190 }}
+						density="small"
+						theme={{
+							colors: {
+								primary: '#49454F',
+								outline: "#79747E",
+								secondaryContainer: "#D1E8D5"
+							},
+						}}
+						buttons={[
+							{
+								label: "Play",
+								value: true,
+								showSelectedCheck: true
 
+							},
+							{
+								label: "Read",
+								value: false,
+								showSelectedCheck: true,
+							}
+						]}
+					/>
+					<FilterToggle
+						open={handleOpenBottomSheet}
+						close={handleCloseBottomSheet}
+						isOpen={isBottomSheetOpen}
+					/>
+				</View>
+				<View>
+					<Dropdown selected={selectedCategory} options={[
+						{
+							name: "Official libs",
+							onPress: () => { 
+								setSelectedCategory("official");
+								updateFilterOptions(playReadValue, "official");
+							}
 						},
 						{
-							label: "Read",
-							value: false,
-							showSelectedCheck: true,
-						}
-					]}
-				/>
-				<FilterToggle
-					open={handleOpenBottomSheet}
-					close={handleCloseBottomSheet}
-					isOpen={isBottomSheetOpen}
-				/>
-			</View>
-			<View style={globalStyles.containerWhitespacePadding}>
-				<Dropdown selected={selectedCategory} options={[
-					{
-						name: "Official libs",
-						onPress: () => { 
-							setSelectedCategory("official");
-							updateFilterOptions(playReadValue, "official");
-						}
-					},
-					{
-						name: "User created libs",
-						onPress: () => {
-							setSelectedCategory("All");
-							updateFilterOptions(playReadValue, "All");
-						}
-					},
-					{
-						name: "Liked libs",
-						onPress: () => {
-							setSelectedCategory("myFavorites");
-							updateFilterOptions(playReadValue, "myFavorites");
-						}
-					},
-					{
-						name: "My libs",
-						onPress: () => {
-							setSelectedCategory("myContent");
-							updateFilterOptions(playReadValue, "myContent");
-						}
-					},
-					{
-						name: "Offline libs",
-						onPress: () => {
-							setSelectedCategory("offline");
-							updateFilterOptions(playReadValue, "offline");
-						}
-					}
-				]}/>
-			</View>
-			{isLoading ? (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
-					<ActivityIndicator animating={true} color="#006D40" size="large" />
-				</View>
-			) : (<>
-				<FlatList
-					data={listItems}
-					renderItem={({ item, index }) => (
-						<ListItem
-							name={item.name}
-							description={item.display_with_prompts}
-							promptAmount={item.prompts.length}
-							prompts={item.prompts}
-							text={item.text}
-							id={item.id}
-							type="libs"
-							key={item.id}
-							length={item.percent}
-							icon="favorite"
-							username={item.username}
-							likes={item.likes}
-							avatarID={item.avatarID}
-							index={index}
-							user={item.user}
-							local={item.local}
-							likesArray={item.likesArray}
-							playable={item.playable}
-							item={item}
-						/>
-					)}
-					keyExtractor={item => `${item.id}-${item.likes}`}
-					refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
-					onRefresh={() => { // Function that will be called when the user pulls to refresh
-						updateFilterOptions();
-					}}
-					style={[globalStyles.listItemContainer]}
-					onEndReached={_.debounce(() => {
-							if (!loading) {
-								loadListItems({
-									"category": selectedCategory,
-									"sortBy": selectedSortBy,
-									"dateRange": selectedDate,
-									"playable": playReadValue
-								}, lastDocument);
+							name: "User created libs",
+							onPress: () => {
+								setSelectedCategory("All");
+								updateFilterOptions(playReadValue, "All");
 							}
-						}, 200)} // Call the loadListItems function when the end is reached
-					onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-					ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
-					ListFooterComponent={renderFooter}
-				/>
-				{loadingCircle && (
-					<View style={styles.loadingOverlay}>
-						<ActivityIndicator size="large" color="#006D40" />
-					</View>
-				)}
-				<BottomSheet
-					ref={bottomSheetRef}
-					index={-1}
-					// Bug causes bottom sheet to reappear on navigation
-					// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
-					// 10ms
-					snapPoints={['1%', '25%', '50%', '70%', '90%']}
-					enablePanDownToClose={true}
-					style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
-					backgroundComponent={CustomBackground}
-					onChange={handleBottomSheetChange}
-					onAnimate={(fromIndex, toIndex) => {
-						if (toIndex === -1) {
-							console.log('The bottom sheet is hidden');
-						} else {
-							console.log('The bottom sheet is shown');
+						},
+						{
+							name: "Liked libs",
+							onPress: () => {
+								setSelectedCategory("myFavorites");
+								updateFilterOptions(playReadValue, "myFavorites");
+							}
+						},
+						{
+							name: "My libs",
+							onPress: () => {
+								setSelectedCategory("myContent");
+								updateFilterOptions(playReadValue, "myContent");
+							}
+						},
+						{
+							name: "Offline libs",
+							onPress: () => {
+								setSelectedCategory("offline");
+								updateFilterOptions(playReadValue, "offline");
+							}
 						}
-					}}
-				>
-				{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
-				{/* <BottomSheetScrollView> */}
-					<View>
-						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
-						<Buttons 
-							buttons={[
-								{
-									label: "Newest",
-									icon: selectedSortBy === "newest" ? "done" : null,
-									buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
-								},
-								{
-									label: "Top",
-									icon: selectedSortBy === "likes" ? "done" : null,
-									buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
-								},
-								{
-									label: "Trending",
-									icon: selectedSortBy === "trending" ? "done" : null,
-									buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
-									onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
-								}
-							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
-							containerStyle={{justifyContent: "flex-start", gap: 20}}
-							labelStyle={{fontSize: 14, fontWeight: 500}}
-						/>
-						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
-						<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
-						<Buttons 
-							buttons={[
-								{
-									label: "All time",
-									icon: selectedSortBy === "trending" ? "done" : (selectedDate === "allTime" ? "done" : null),
-									buttonStyle: selectedSortBy === "trending" 
-										? {borderColor: "transparent", backgroundColor: "#D1E8D5"} 
-										: (selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
-									onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
-								},
-								{
-									label: "Today",
-									icon: selectedSortBy === "trending" ? null : (selectedDate === "today" ? "done" : null),
-									buttonStyle: selectedSortBy === "trending" 
-										? { backgroundColor: "#CFD8DC" } 
-										: (selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
-									onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
-								},
-								{
-									label: "This week",
-									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisWeek" ? "done" : null),
-									buttonStyle: selectedSortBy === "trending" 
-										? { backgroundColor: "#CFD8DC" } 
-										: (selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
-									onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
-								},
-								{
-									label: "This month",
-									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisMonth" ? "done" : null),
-									buttonStyle: selectedSortBy === "trending" 
-										? { backgroundColor: "#CFD8DC" } 
-										: (selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
-									onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
-								},
-								{
-									label: "This year",
-									icon: selectedSortBy === "trending" ? null : (selectedDate === "thisYear" ? "done" : null),
-									buttonStyle: selectedSortBy === "trending" 
-										? { backgroundColor: "#CFD8DC" } 
-										: (selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
-									onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
-								},
-							]}
-							buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
-							containerStyle={{justifyContent: "flex-start", gap: 20}}
-							labelStyle={{fontSize: 14, fontWeight: 500}}
-						/>
-						<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+					]}/>
+				</View>
+				{isLoading ? (
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
+						<ActivityIndicator animating={true} color="#006D40" size="large" />
 					</View>
-				</BottomSheet>
-			</>)}
+				) : (<>
+					<FlatList
+						data={listItems}
+						renderItem={({ item, index }) => (
+							<ListItem
+								name={item.name}
+								description={item.display_with_prompts}
+								promptAmount={item.prompts.length}
+								prompts={item.prompts}
+								text={item.text}
+								id={item.id}
+								type="libs"
+								key={item.id}
+								length={item.percent}
+								icon="favorite"
+								username={item.username}
+								likes={item.likes}
+								avatarID={item.avatarID}
+								index={index}
+								user={item.user}
+								local={item.local}
+								likesArray={item.likesArray}
+								playable={item.playable}
+								item={item}
+							/>
+						)}
+						keyExtractor={item => `${item.id}-${item.likes}`}
+						refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
+						onRefresh={() => { // Function that will be called when the user pulls to refresh
+							updateFilterOptions();
+						}}
+						style={[globalStyles.listItemContainer]}
+						onEndReached={_.debounce(() => {
+								if (!loading) {
+									loadListItems({
+										"category": selectedCategory,
+										"sortBy": selectedSortBy,
+										"dateRange": selectedDate,
+										"playable": playReadValue
+									}, lastDocument);
+								}
+							}, 200)} // Call the loadListItems function when the end is reached
+						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
+						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
+						ListFooterComponent={renderFooter}
+					/>
+					{loadingCircle && (
+						<View style={styles.loadingOverlay}>
+							<ActivityIndicator size="large" color="#006D40" />
+						</View>
+					)}
+					<BottomSheet
+						ref={bottomSheetRef}
+						index={-1}
+						// Bug causes bottom sheet to reappear on navigation
+						// Kind of fixed with hack that sets it to the lowest snap point possible, then removes it after
+						// 10ms
+						snapPoints={['1%', '25%', '50%', '70%', '90%']}
+						enablePanDownToClose={true}
+						style={[{width: (Dimensions.get("window").width), paddingHorizontal: 20}]} // Required to work with the bottom navigation
+						backgroundComponent={CustomBackground}
+						onChange={handleBottomSheetChange}
+						onAnimate={(fromIndex, toIndex) => {
+							if (toIndex === -1) {
+								console.log('The bottom sheet is hidden');
+							} else {
+								console.log('The bottom sheet is shown');
+							}
+						}}
+					>
+					{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
+					{/* <BottomSheetScrollView> */}
+						<View>
+							<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
+							<Buttons 
+								buttons={[
+									{
+										label: "Newest",
+										icon: selectedSortBy === "newest" ? "done" : null,
+										buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+										onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
+									},
+									{
+										label: "Top",
+										icon: selectedSortBy === "likes" ? "done" : null,
+										buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+										onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
+									},
+									{
+										label: "Trending",
+										icon: selectedSortBy === "trending" ? "done" : null,
+										buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
+										onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
+									}
+								]}
+								buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+								containerStyle={{justifyContent: "flex-start", gap: 20}}
+								labelStyle={{fontSize: 14, fontWeight: 500}}
+							/>
+							<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+							<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
+							<Buttons 
+								buttons={[
+									{
+										label: "All time",
+										icon: selectedSortBy === "trending" ? "done" : (selectedDate === "allTime" ? "done" : null),
+										buttonStyle: selectedSortBy === "trending" 
+											? {borderColor: "transparent", backgroundColor: "#D1E8D5"} 
+											: (selectedDate === "allTime" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
+										onPress: () => { setSelectedDate("allTime"); updateFilterOptions(playReadValue, undefined, undefined, "allTime"); }
+									},
+									{
+										label: "Today",
+										icon: selectedSortBy === "trending" ? null : (selectedDate === "today" ? "done" : null),
+										buttonStyle: selectedSortBy === "trending" 
+											? { backgroundColor: "#CFD8DC" } 
+											: (selectedDate === "today" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
+										onPress: () => { setSelectedDate("today"); updateFilterOptions(playReadValue, undefined, undefined, "today"); }
+									},
+									{
+										label: "This week",
+										icon: selectedSortBy === "trending" ? null : (selectedDate === "thisWeek" ? "done" : null),
+										buttonStyle: selectedSortBy === "trending" 
+											? { backgroundColor: "#CFD8DC" } 
+											: (selectedDate === "thisWeek" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
+										onPress: () => { setSelectedDate("thisWeek"); updateFilterOptions(playReadValue, undefined, undefined, "thisWeek"); }
+									},
+									{
+										label: "This month",
+										icon: selectedSortBy === "trending" ? null : (selectedDate === "thisMonth" ? "done" : null),
+										buttonStyle: selectedSortBy === "trending" 
+											? { backgroundColor: "#CFD8DC" } 
+											: (selectedDate === "thisMonth" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
+										onPress: () => { setSelectedDate("thisMonth"); updateFilterOptions(playReadValue, undefined, undefined, "thisMonth"); }
+									},
+									{
+										label: "This year",
+										icon: selectedSortBy === "trending" ? null : (selectedDate === "thisYear" ? "done" : null),
+										buttonStyle: selectedSortBy === "trending" 
+											? { backgroundColor: "#CFD8DC" } 
+											: (selectedDate === "thisYear" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null),
+										onPress: () => { setSelectedDate("thisYear"); updateFilterOptions(playReadValue, undefined, undefined, "thisYear"); }
+									},
+								]}
+								buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+								containerStyle={{justifyContent: "flex-start", gap: 20}}
+								labelStyle={{fontSize: 14, fontWeight: 500}}
+							/>
+							<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+						</View>
+					</BottomSheet>
+				</>)}
+			</View>
 	  	</SafeAreaView>
 	);
 }
