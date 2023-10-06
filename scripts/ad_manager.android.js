@@ -10,6 +10,7 @@ export default class AdManager {
   static interstitial;
   static interstitialID;
   static interstitialLoaded = false;
+  static interstitialShownRecently = false;
 
   static rewarded;
   static rewardedID;
@@ -82,13 +83,15 @@ export default class AdManager {
     if (
       AdManager.appState &&
       AdManager.appState.match(/inactive|background/) &&
-      nextAppState === 'active'
+      nextAppState === 'active' &&
+      !AdManager.interstitialShownRecently  // Only show if interstitial wasn't shown recently
     ) {
       console.log('App has come to the foreground!');
       AdManager.showAppOpenAd();
     }
     AdManager.appState = nextAppState;
   }
+
 
   static async showAppOpenAd() {
     if (AdManager.appOpenAd) {
@@ -195,6 +198,10 @@ export default class AdManager {
         if (AdManager.interstitialLoaded) {
           AdManager.interstitial.show();
           AdManager.interstitialLoaded = false;
+          AdManager.interstitialShownRecently = true;
+          setTimeout(() => {
+            AdManager.interstitialShownRecently = false;
+          }, 50000);  // Reset the flag after 5 seconds
         }
         break;
       case "rewarded":
