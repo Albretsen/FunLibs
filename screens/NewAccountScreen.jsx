@@ -168,9 +168,9 @@ export default function NewAccountScreen() {
 
     return (
         <View style={[{ alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height - 64 }]}>
-            <ScrollView horizontal={false} vertical={true} style={[{ marginBottom: 40, paddingBottom: 40 }]}>
+            <ScrollView horizontal={false} vertical={true} style={[{ marginBottom: 160, paddingBottom: 0 }]}>
                 <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>Create New Account</Text>
-                <View style={globalStyles.form}>
+                <View style={[globalStyles.form]}>
                     <TextInput
                         label="Username"
                         value={username}
@@ -228,12 +228,12 @@ export default function NewAccountScreen() {
                         </TouchableOpacity>
                     </View>
                     <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: 600, alignSelf: "center" }]}>Select your avatar</Text>
-                    <AvatarSelect onAvatarChange={handleAvatarChange} />
-                    <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={createAccount}>
-                        <Text style={[globalStyles.formButtonLabel]}>Create</Text>
-                    </TouchableOpacity>
+                    <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>
+            <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 80}]} onPress={createAccount}>
+                        <Text style={[globalStyles.formButtonLabel]}>Create</Text>
+                    </TouchableOpacity>
         </View>
     )
 }

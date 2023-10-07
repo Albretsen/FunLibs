@@ -21,7 +21,7 @@ export default function FeedbackScreen() {
                         placeholderTextColor={"gray"}
                         multiline
                         textAlignVertical="top"
-                        style={{ height: 300, color: "#505050", width: "100%" }}
+                        style={{ height: 150, color: "#505050", width: "100%" }}
                         value={feedbackText} // Set the value prop to feedbackText
                         onChangeText={text => setFeedbackText(text)} // Update feedbackText state when the value of the TextInput changes
                     />

@@ -115,6 +115,7 @@ export default class AdManager {
   }
 
   static showRewardedAd() {
+    return true;
     return new Promise((resolve) => {
       if (!AdManager.rewardedLoaded) {
         console.log('Rewarded ad not loaded');

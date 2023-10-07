@@ -408,8 +408,7 @@ export default function CreateLibScreen({ route }) {
         }
         closeDrawer();
         showToast({text: "Publishing", loading: true});
-        const wasRewardGiven = true;
-        if (Platform.OS !== "ios") wasRewardGiven = await AdManager.showRewardedAd();
+        const wasRewardGiven = await AdManager.showRewardedAd(); 
 
         if (wasRewardGiven === true) {
             // The user has watched the ad and earned the reward

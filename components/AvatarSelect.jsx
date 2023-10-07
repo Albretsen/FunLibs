@@ -5,14 +5,16 @@ import FirebaseManager from '../scripts/firebase_manager';
 const avatarKeys = Object.keys(FirebaseManager.avatars).filter(key => !isNaN(key));
 let containerHeight = 2; // The height of the container, the unit being the height of an avatar
 // In other words, the height of the container is set to the height of two avatars by defaut
-export default function AvatarSelect({ onAvatarChange, height, containerStyle, selectedDefaultIndex = null }) {
+export default function AvatarSelect({ onAvatarChange, height, containerStyle, selectedDefaultIndex = null, containerIsView }) {
 
     const [selectedAvatar, setSelectedAvatar] = useState(selectedDefaultIndex);
 
     if(height) containerHeight = height;
 
+    let ContainerTag = ScrollView;
+    if(containerIsView) ContainerTag = View;
     return (
-        <ScrollView style={[styles.selectorContainer, {height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2)}, containerStyle ? containerStyle : null]}>
+        <ContainerTag style={[styles.selectorContainer, {height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2)}, containerStyle ? containerStyle : null]}>
             <View style={styles.rowContainer}>
                 {avatarKeys.map((key, index) => (
                     <TouchableOpacity
@@ -29,7 +31,7 @@ export default function AvatarSelect({ onAvatarChange, height, containerStyle, s
                     </TouchableOpacity>
                 ))}
             </View>
-        </ScrollView>
+        </ContainerTag>
     )
 }
 
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
 
     rowContainer: {
         flexDirection: "row",
-        width: containerWidth,
+        width: Math.min(Math.max(parseInt(containerWidth), 1), 700),
         flexWrap: "wrap",
         gap: gapSize
     },

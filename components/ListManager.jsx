@@ -73,14 +73,6 @@ const ListManager = (props) => {
                     item={item}
                 />
             )}
-            refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={handleRefresh}
-                />
-            }
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.5}
             ListEmptyComponent={<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>No results</Text></View>}
         />
     );

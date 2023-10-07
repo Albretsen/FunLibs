@@ -63,6 +63,8 @@ export default function LibsScreen() {
 	const [loadingCircle, setLoadingCircle] = useState(false);
 	const [loadingAdditional, setLoadingAdditional] = useState(false);
 
+	const [endReached, setEndReached] = useState(false);
+
 	const quickload = false;
 
 	useEffect(() => {
@@ -190,6 +192,12 @@ export default function LibsScreen() {
 				setLoadingCircle(false);
 				setLoadingAdditional(false);
 				return; // Exit the function early
+			}
+
+			if (dbItems.length === 0) { 
+				setEndReached(true); 
+			} else {
+				setEndReached(false);
 			}
 			
 			if (dbItems && dbItems.length > 0) {
@@ -533,20 +541,20 @@ export default function LibsScreen() {
 	};
 
 	function renderFooter() {
-		if (!loadingAdditional) return null;
+		if (!loadingAdditional && !endReached) return null;
 	  
 		// This should be something else, not just text
 		return (
-			<View style={{
-				position: 'absolute',
-				bottom: -50,
-				left: 0,
-				right: 0,
-				padding: 10,
-				backgroundColor: 'white', // adjust the background color as needed
-			}}>
-				<Text style={{ textAlign: 'center' }}>Loading more libs...</Text>
-			</View>
+			<></>
+			// <View style={{
+			// 	position: 'absolute',
+			// 	bottom: 150,
+			// 	padding: 10,
+			// 	left: 100,
+			// 	zIndex: 100
+			// }}>
+			// 	<ActivityIndicator animating={true} color="#006D40" size="large" />
+			// </View>
 		);
 	}
 
@@ -632,7 +640,7 @@ export default function LibsScreen() {
 						}
 					]}/>
 				</View>
-				{isLoading ? (
+				{(isLoading && !endReached)? (
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
 						<ActivityIndicator animating={true} color="#006D40" size="large" />
 					</View>
@@ -665,11 +673,11 @@ export default function LibsScreen() {
 						keyExtractor={item => `${item.id}-${item.likes}`}
 						refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
 						onRefresh={() => { // Function that will be called when the user pulls to refresh
-							updateFilterOptions();
+							if (listItems.length > 0) updateFilterOptions();
 						}}
 						style={[globalStyles.listItemContainer]}
 						onEndReached={_.debounce(() => {
-								if (!loading) {
+								if (!loading && listItems.length > 0) {
 									loadListItems({
 										"category": selectedCategory,
 										"sortBy": selectedSortBy,
@@ -682,9 +690,16 @@ export default function LibsScreen() {
 						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
 						ListFooterComponent={renderFooter}
 					/>
-					{loadingCircle && (
-						<View style={styles.loadingOverlay}>
+					{(loadingCircle || (loadingAdditional && !endReached)) && (
+						<View style={styles.loadingOverlay} pointerEvents="none">
 							<ActivityIndicator size="large" color="#006D40" />
+							{loadingAdditional ? (
+								<View style={{backgroundColor: "white", padding: 10}}>
+									<Text style={{color: "black", fontSize: 14}}>Loading more libs...</Text>
+								</View>
+							): null
+							
+						}
 						</View>
 					)}
 				</>)}

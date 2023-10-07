@@ -177,7 +177,7 @@ export default function ProfileScreen({ route }) {
                         </View>
                     }
                 </View>
-                <ScrollView>
+                <ScrollView contentContainerStyle={{paddingBottom: 50}}>
                     <View style={[globalStyles.screenStandard, globalStyles.bigWhitespacePadding, {gap: 10, alignSelf: "center", marginTop: 5}]}>
                         <Text style={[globalStyles.grayText]}>
                             {userData.memberSince}
