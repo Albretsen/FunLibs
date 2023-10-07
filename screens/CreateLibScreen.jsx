@@ -408,7 +408,8 @@ export default function CreateLibScreen({ route }) {
         }
         closeDrawer();
         showToast({text: "Publishing", loading: true});
-        const wasRewardGiven = await AdManager.showRewardedAd();
+        const wasRewardGiven = true;
+        if (Platform.OS !== "ios") wasRewardGiven = await AdManager.showRewardedAd();
 
         if (wasRewardGiven === true) {
             // The user has watched the ad and earned the reward
@@ -600,6 +601,7 @@ export default function CreateLibScreen({ route }) {
             <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {backgroundColor: "white", flex: 1}]}>
                 <ScrollView style={globalStyles.standardWhitespace}
                     keyboardShouldPersistTaps={'always'}
+                    keyboardDismissMode='on-drag'
                 >
                     <AvatarDisplay
                         avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
@@ -625,7 +627,7 @@ export default function CreateLibScreen({ route }) {
                     <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
                         <TextInput
                             ref={libTextInputRef}
-                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74 + 40) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight)}]}
+                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight + 40)}]}
                             multiline={true}
                             numberOfLines={10}
                             onChangeText={text => setLibText(text)}
