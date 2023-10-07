@@ -281,7 +281,7 @@ export default class FirebaseManager {
 
                 // Fetch user data from Firestore and store in currentUserData
                 await this.fetchUserData(uid);
-                this.RefreshList(user);
+                this.RefreshList(null);
                 Analytics.log("Auth stated changed to Signed in for " + uid);
             } else {
                 // User is signed out

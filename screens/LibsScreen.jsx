@@ -419,6 +419,8 @@ export default function LibsScreen() {
 				if (filterOptions.playable) {
 					playReadValueRef.current = filterOptions.playable;
 				}
+			} else {
+				setListItems([]);
 			}
 			loadListItems({"category":selectedCategoryRef.current,"sortBy":selectedSortByRef.current,"dateRange":selectedDateRef.current,"playable":playReadValueRef.current});
 		};
