@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -420,7 +420,7 @@ export default function PlayScreen({ route }) {
 				onShare={onShare}
 				onSave={onSave}
 				likesArray={currentLib.likesArray}
-				//onFavorite={onFavorite} sdsdf
+				//onFavorite={onFavorite}
 				//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
 			/>
 		</>
@@ -446,75 +446,75 @@ export default function PlayScreen({ route }) {
 	}
 
 	return (
-		<View style={[globalStyles.screenStandard, {maxHeight: Dimensions.get("window").height - 64}]}>
-			<ScrollView>
-			<View style={[styles.promptContainer, globalStyles.containerWhitespace]}>
-				<AvatarDisplay 
-					avatarID={currentLib.avatarID}
-					title={currentLib.name}
-					text={(
-						<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
-					)}
-					onPress={ () => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) } }
-				/>
-				<View style={{position: "relative", height: 60, maxHeight: 60}}>
-					<TextInput
-						label={displayPrompts[currentPromptIndex]}
-						value={currentInput}
-						onChangeText={setCurrentInput}
-						mode="outlined"
-						autoCapitalize="none"
-						theme={{
-							colors: {
-								primary: '#49454F', // For the outline color
-							},
-						}}
-					/>
-					{fillAvailable && ( // Render only if autofill is available
-						<TouchableOpacity onPress={autofill} style={{position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center"}}>
-							<Text style={[globalStyles.touchableText, {fontSize: 16}]}>Fill</Text>
-						</TouchableOpacity>
-					)}
-				</View>
-				<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
-				<Progress.Bar
-					progress={progress}
-					width={null}
-					color="#006D40"
-					unfilledColor="#D1E8D5"
-					borderWidth={0}
-					borderRadius={0}
-				/>
-				<Buttons
-					buttons={
-						[{
-							label: "Back",
-							onPress: handleBack,
-						},
-						{
-							label: "Next",
-							onPress: handleNext,
-							buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-						}]
-					}
-					labelStyle={{fontWeight: 600}}
-				/>
-			</View>
+		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
+				<ScrollView contentContainerStyle={[globalStyles.standardWhitespace]}>
+					<View style={[styles.promptContainer]}>
+						<AvatarDisplay 
+							avatarID={currentLib.avatarID}
+							title={currentLib.name}
+							text={(
+								<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
+							)}
+							onPress={ () => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) } }
+						/>
+						<View style={{position: "relative", height: 60, maxHeight: 60}}>
+							<TextInput
+								label={displayPrompts[currentPromptIndex]}
+								value={currentInput}
+								onChangeText={setCurrentInput}
+								mode="outlined"
+								autoCapitalize="none"
+								theme={{
+									colors: {
+										primary: '#49454F', // For the outline color
+									},
+								}}
+							/>
+							{fillAvailable && ( // Render only if autofill is available
+								<TouchableOpacity onPress={autofill} style={{position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center"}}>
+									<Text style={[globalStyles.touchableText, {fontSize: 16}]}>Fill</Text>
+								</TouchableOpacity>
+							)}
+						</View>
+						<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+						<Progress.Bar
+							progress={progress}
+							width={null}
+							color="#006D40"
+							unfilledColor="#D1E8D5"
+							borderWidth={0}
+							borderRadius={0}
+						/>
+						<Buttons
+							buttons={
+								[{
+									label: "Back",
+									onPress: handleBack,
+								},
+								{
+									label: "Next",
+									onPress: handleNext,
+									buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
+								}]
+							}
+							labelStyle={{fontWeight: 600}}
+						/>
+					</View>
 
-			<View style={[globalStyles.containerWhitespace, {marginTop: 25 /* Some whitespace between card and comment section*/}]}>
-				<Text style={globalStyles.title}>Comments</Text>
-				<CommentSection
-					// Username and avatar to be displayed in the "write your comment" box
-					username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
-					avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
-					onCommentChange={handleCommentChange}
-					onSubmitComment={submitComment}
-					onDeleteComment={deleteComment}
-					comments={currentLib.comments ? currentLib.comments : []}
-					opUid={currentLib.user}
-				/>
-			</View>
-			</ScrollView>
+					<View style={[{width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/}]}>
+						<Text style={globalStyles.title}>Comments</Text>
+						<CommentSection
+							// Username and avatar is what is to be displayed in the "write your comment" box
+							username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
+							avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
+							onCommentChange={handleCommentChange}
+							onSubmitComment={submitComment}
+							onDeleteComment={deleteComment}
+							comments={currentLib.comments ? currentLib.comments : []}
+							opUid={currentLib.user}
+						/>
+					</View>
+				</ScrollView>
 		</View>
 	);
 }
@@ -526,7 +526,9 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		padding: 20,
 		rowGap: 10,
+		width: "100%"
 	},
+
 	input: {
 		height: 60,
 		borderWidth: 1,
@@ -535,18 +537,23 @@ const styles = StyleSheet.create({
 		padding: 10,
 		paddingLeft: 16
 	},
+	
 	leftPadding: {
 		paddingLeft: 16
 	},
+
 	explanation: {
+		// Gap makes this too far away from input, so quick fix
 		marginTop: -6
 	},
+
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "flex-end",
 		gap: 10,
 		marginTop: 10
 	},
+
 	button: {
 		borderRadius: 40,
 		backgroundColor: "white",
@@ -558,19 +565,23 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center"
 	},
+
 	buttonNext: {
 		backgroundColor: "#D1E8D5",
 		borderColor: "#D1E8D5",
 	},
+
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
 	},
+
 	bottomLeftContainer: {
 		position: "absolute",
 		bottom: 0,
 		left: 0,
 	},
+	
 	image: {
 		width: 207,
 		height: 212,
