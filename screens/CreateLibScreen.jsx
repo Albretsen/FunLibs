@@ -599,10 +599,11 @@ export default function CreateLibScreen({ route }) {
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
             <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {backgroundColor: "white", flex: 1}]}>
-                <ScrollView style={globalStyles.standardWhitespace}
+                {/* <ScrollView style={[globalStyles.standardWhitespace]}
                     keyboardShouldPersistTaps={'always'}
                     keyboardDismissMode='on-drag'
-                >
+                > */}
+                <View style={[{flex: 1, paddingBottom: (keyboardHeight - (70 + 20))}, globalStyles.standardWhitespace]}>
                     <AvatarDisplay
                         avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
                         titleComponent={(
@@ -624,12 +625,12 @@ export default function CreateLibScreen({ route }) {
                         )}
                     />
 
-                    <View style={{flexDirection: "row", flex: 1, marginTop: 14}}>
+                    <View style={{flexDirection: "row", flex: 1, marginTop: 14, }}>
                         <TextInput
                             ref={libTextInputRef}
-                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, fontSize: 18, height: keyboardHeight === 0 ? (Dimensions.get("window").height) - (64 + 177 + 74) : (Dimensions.get("window").height) - (64 + 177 + keyboardHeight + 40)}]}
+                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, flexGrow: 1, fontSize: 18}]}
                             multiline={true}
-                            numberOfLines={10}
+                            // numberOfLines={10}
                             onChangeText={text => setLibText(text)}
                             placeholder="Write your text here..."
                             placeholderTextColor={"#9e9e9e"}
@@ -802,7 +803,8 @@ export default function CreateLibScreen({ route }) {
                             <Text style={styles.highlighted}>(Name 1)</Text> is building a table. <Text style={styles.highlighted}>(Name 1)</Text> is a carpenter.
                         </Text>
                     </DialogTrigger>
-                </ScrollView>
+                </View>
+                {/* </ScrollView> */}
             </ParentTag>
         </TouchableWithoutFeedback>
     )

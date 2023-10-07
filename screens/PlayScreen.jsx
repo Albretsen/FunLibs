@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions, SafeAreaView, Keyboard } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -28,7 +28,7 @@ import { BackHandler } from 'react-native';
 import AvatarDisplay from "../components/AvatarDisplay";
 
 function isNum(n) {
-    return /.*[0-9].*/.test(n);
+	return /.*[0-9].*/.test(n);
 }
 
 export default function PlayScreen({ route }) {
@@ -36,14 +36,14 @@ export default function PlayScreen({ route }) {
 	const { playAudio } = AudioPlayer();
 
 	const isFocused = useIsFocused();
-    const { setCurrentScreenName } = useContext(ScreenContext);
+	const { setCurrentScreenName } = useContext(ScreenContext);
 
-    useEffect(() => {
-        if (isFocused) {
-        	setCurrentScreenName("PlayScreen");
+	useEffect(() => {
+		if (isFocused) {
+			setCurrentScreenName("PlayScreen");
 			if (Platform.OS === "ios") AdManager.showAd("interstitial");
-        }
-    }, [isFocused]);
+		}
+	}, [isFocused]);
 
 	// The id passed from ListItem component is received here
 	const libId = route.params.libId;
@@ -79,17 +79,17 @@ export default function PlayScreen({ route }) {
 	const currentPromptIndexRef = useRef(currentPromptIndex);
 	useEffect(() => {
 		currentPromptIndexRef.current = currentPromptIndex;
-	  }, [currentPromptIndex]);
+	}, [currentPromptIndex]);
 	const [responses, setResponses] = useState([]);
 	const responsesRef = useRef(responses);
 	useEffect(() => {
 		responsesRef.current = responses;
-	  }, [responses]);
+	}, [responses]);
 	const [currentInput, setCurrentInput] = useState("");
 	const currentInputRef = useRef(currentInput);
 	useEffect(() => {
 		currentInputRef.current = currentInput;
-	  }, [currentInput]);
+	}, [currentInput]);
 	const [finishedLib, displayLib] = useState([]);
 
 	// Calculate progress
@@ -99,14 +99,14 @@ export default function PlayScreen({ route }) {
 	const showToast = useContext(ToastContext);
 
 	const autofill = () => {
-		if(fillAvailable) {
+		if (fillAvailable) {
 			let fill = LibManager.getPromptFill(Object.keys(currentLib.prompts[currentPromptIndex])[0]);
 			if (fill === "" || fill === null) {
 				return "";
 			}
 			setCurrentInput(fill);
 		} else {
-			showToast({text: "Autofill is unavailable for this promt.", noBottomMargin: true});
+			showToast({ text: "Autofill is unavailable for this promt.", noBottomMargin: true });
 		}
 	};
 
@@ -114,15 +114,15 @@ export default function PlayScreen({ route }) {
 
 	const { openDialog } = useDialog();
 
-    const drawerClosed = async () => {
-        let libsPlayed = await FileManager._retrieveData("libsPlayed");
-        let reviewPopupShowed = await FileManager._retrieveData("reviewPopupShowed");
+	const drawerClosed = async () => {
+		let libsPlayed = await FileManager._retrieveData("libsPlayed");
+		let reviewPopupShowed = await FileManager._retrieveData("reviewPopupShowed");
 
-        if (libsPlayed) {
-            libsPlayed = parseInt(libsPlayed);
-            if ((libsPlayed % 10 === 0) && reviewPopupShowed != "1" && Platform.OS !== "ios") {
-                // Trigger the review dialog here
-                openDialog('reviewDialog', {
+		if (libsPlayed) {
+			libsPlayed = parseInt(libsPlayed);
+			if ((libsPlayed % 10 === 0) && reviewPopupShowed != "1" && Platform.OS !== "ios") {
+				// Trigger the review dialog here
+				openDialog('reviewDialog', {
 					onCancel: () => FileManager._storeData("reviewPopupShowed", "1"),
 					onConfirm: () => {
 						console.log("User agreed to review");
@@ -132,15 +132,15 @@ export default function PlayScreen({ route }) {
 					children: (
 						<>
 							<Text style={globalStyles.dialogTitle}>🌟 Enjoying our app? 🌟</Text>
-                    		<Text style={globalStyles.dialogText}>Your feedback helps us grow. Mind leaving a review?</Text>
+							<Text style={globalStyles.dialogText}>Your feedback helps us grow. Mind leaving a review?</Text>
 						</>
 					),
 					cancelLabel: "No thanks",
 					confirmLabel: "Of Course!"
 				});
-            }
-        }
-    }
+			}
+		}
+	}
 
 	useEffect(() => {
 		if (shouldOpenDrawer) {
@@ -149,9 +149,9 @@ export default function PlayScreen({ route }) {
 					component: finishedLibDrawerContent,
 					header: {
 						middleComponent: (
-							<View style={{flex: 1}}>
-								<Text style={{fontSize: 18}}>{currentLib.name}</Text>
-								<Text style={{fontSize: 14}}>by {currentLib.username}</Text>
+							<View style={{ flex: 1 }}>
+								<Text style={{ fontSize: 18 }}>{currentLib.name}</Text>
+								<Text style={{ fontSize: 14 }}>by {currentLib.username}</Text>
 							</View>
 						)
 					},
@@ -160,7 +160,7 @@ export default function PlayScreen({ route }) {
 			);
 			setShouldOpenDrawer(false);  // Reset the flag
 		}
-	  }, [shouldOpenDrawer, finishedLibDrawerContent]);
+	}, [shouldOpenDrawer, finishedLibDrawerContent]);
 
 	const handleNext = () => {
 		// Add the current response to the responses array
@@ -204,9 +204,9 @@ export default function PlayScreen({ route }) {
 		navigation.setOptions({
 			headerLeft: (props) => {
 				const { onPress } = props;  // Extract default onPress
-	
+
 				return (
-					<TouchableOpacity 
+					<TouchableOpacity
 						onPress={async () => {
 							let progressFound = await handleSaveProgress();
 							if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
@@ -215,7 +215,7 @@ export default function PlayScreen({ route }) {
 								onPress();
 							}
 						}}
-						style={{ marginLeft: 10 }} 
+						style={{ marginLeft: 10 }}
 					>
 						<Ionicons name="arrow-back" size={24} color="black" />
 					</TouchableOpacity>
@@ -226,7 +226,7 @@ export default function PlayScreen({ route }) {
 
 	useEffect(() => {
 		const handleBackPress = async () => {
-			
+
 			let progressFound = await handleSaveProgress();
 			if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
 				saveChangesDialog();
@@ -234,9 +234,9 @@ export default function PlayScreen({ route }) {
 			}
 			return false;  // Allows the default back action
 		};
-	
+
 		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-	
+
 		// Cleanup to avoid memory leaks
 		return () => {
 			BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
@@ -249,11 +249,11 @@ export default function PlayScreen({ route }) {
 			if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
 				// Prevent the default action
 				e.preventDefault();
-	
+
 				saveChangesDialog();
 			}
 		});
-	
+
 		return unsubscribe;
 	}, [navigation]);
 
@@ -267,7 +267,7 @@ export default function PlayScreen({ route }) {
 				};
 			},
 			onConfirm: () => {
-				
+
 			},
 			children: (
 				<>
@@ -279,7 +279,7 @@ export default function PlayScreen({ route }) {
 			confirmLabel: "Continue"
 		});
 	}
- 
+
 	const handleBack = () => {
 		if (currentPromptIndex > 0) {
 			// If there are previous prompts, show the previous one
@@ -305,7 +305,7 @@ export default function PlayScreen({ route }) {
 	// Check prompt availability on first prompt when the screen is first opened
 	useEffect(() => {
 		promptFillCheck(currentPromptIndex);
-    }, []);
+	}, []);
 
 	const onPublish = () => {
 		console.log('Publish');
@@ -323,19 +323,19 @@ export default function PlayScreen({ route }) {
 		currentLib_.date = new Date();
 		currentLib.official = false;
 		let readArray = []
-        if (currentLib_) {
-            let result = await FileManager._retrieveData("read");
-            if (!result) result = [];
-            if (Object.keys(result).length >= 1) {
-                readArray = JSON.parse(result);
-            }
+		if (currentLib_) {
+			let result = await FileManager._retrieveData("read");
+			if (!result) result = [];
+			if (Object.keys(result).length >= 1) {
+				readArray = JSON.parse(result);
+			}
 			currentLib_.id = readArray.length;
-            readArray.push(currentLib_);
-        }
-        FileManager._storeData("read", JSON.stringify(readArray));
-		showToast({text: "Your story is saved under Read!", noBottomMargin: true});
-        closeDrawer();
-        navigation.navigate("Home");
+			readArray.push(currentLib_);
+		}
+		FileManager._storeData("read", JSON.stringify(readArray));
+		showToast({ text: "Your story is saved under Read!", noBottomMargin: true });
+		closeDrawer();
+		navigation.navigate("Home");
 	}
 
 	const [isUpdating, setIsUpdating] = useState(false);
@@ -345,22 +345,22 @@ export default function PlayScreen({ route }) {
 	}, [currentLib]);
 
 	const onFavorite = async () => {
-        if (isUpdating) return;  // Prevent further interactions while updating
-        if (!FirebaseManager.currentUserData?.auth?.uid) {
-			showToast({text: "You have to be signed in to like a post.", noBottomMargin: true});
-            return;
-        }
+		if (isUpdating) return;  // Prevent further interactions while updating
+		if (!FirebaseManager.currentUserData?.auth?.uid) {
+			showToast({ text: "You have to be signed in to like a post.", noBottomMargin: true });
+			return;
+		}
 
-        setIsUpdating(true);
+		setIsUpdating(true);
 		closeDrawer();
 
-        const userUid = FirebaseManager.currentUserData.auth.uid;
+		const userUid = FirebaseManager.currentUserData.auth.uid;
 		if (!currentLib.likesArray) currentLib.likesArray = [];
-        let isUserLiked = currentLib.likesArray.includes(userUid);
-        let updatedLikesArray = [...currentLib.likesArray];
+		let isUserLiked = currentLib.likesArray.includes(userUid);
+		let updatedLikesArray = [...currentLib.likesArray];
 
-        if (isUserLiked) {
-            updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
+		if (isUserLiked) {
+			updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
 			setCurrentLib(prevLib => ({
 				...prevLib,
 				likesArray: updatedLikesArray
@@ -369,25 +369,25 @@ export default function PlayScreen({ route }) {
 			await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
 			setIsUpdating(false);
 			return;
-        } else {
-            updatedLikesArray.push(userUid);
-        }
+		} else {
+			updatedLikesArray.push(userUid);
+		}
 
-        try {
-            await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
-            playAudio("pop");
-            setCurrentLib(prevLib => ({
+		try {
+			await FirebaseManager.updateLikesWithTransaction(currentLib.id, userUid);
+			playAudio("pop");
+			setCurrentLib(prevLib => ({
 				...prevLib,
 				likesArray: updatedLikesArray
 			}));
 			console.log("ADDED LIKE TO FIREBASE");
-        } catch (error) {
-            console.error("Failed to update likes in Firebase:", error);
-            // Revert the UI changes
-        } finally {
-            setIsUpdating(false);  // Allow further interactions
-        }
-    };
+		} catch (error) {
+			console.error("Failed to update likes in Firebase:", error);
+			// Revert the UI changes
+		} finally {
+			setIsUpdating(false);  // Allow further interactions
+		}
+	};
 
 	const handleSaveProgress = () => {
 		try {
@@ -409,7 +409,7 @@ export default function PlayScreen({ route }) {
 	const { openDrawer, closeDrawer, drawerRef } = useDrawer();
 
 	const finishedLibDrawerContent = (
-			// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}
+		// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}
 		<>
 			<ScrollView >
 				<View style={globalStyles.drawerTop}>
@@ -420,8 +420,8 @@ export default function PlayScreen({ route }) {
 				onShare={onShare}
 				onSave={onSave}
 				likesArray={currentLib.likesArray}
-				//onFavorite={onFavorite}
-				//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
+			//onFavorite={onFavorite}
+			//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
 			/>
 		</>
 	)
@@ -429,8 +429,8 @@ export default function PlayScreen({ route }) {
 	const [commentText, setCommentText] = useState("");
 
 	function handleCommentChange(text) {
-        setCommentText(text);
-    }
+		setCommentText(text);
+	}
 
 	const submitComment = (comment, replyingToCommentIndex) => {
 		if (!FirebaseManager.currentUserData?.auth?.uid) {
@@ -439,82 +439,115 @@ export default function PlayScreen({ route }) {
 		}
 
 		FirebaseManager.submitComment(comment, replyingToCommentIndex, currentLib.id);
-	} 
+	}
 
 	const deleteComment = (comment, replyingToCommentIndex) => {
 		FirebaseManager.deleteComment(currentLib.id, comment, replyingToCommentIndex);
 	}
 
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+	const [scrollY, setScrollY] = useState(0);
+	const scrollViewRef = useRef(null);
+
+	useEffect(() => {
+		function onKeyboardDidShow(e) {
+			const keyboardHeight = e.endCoordinates.height;
+			const newScrollPosition = scrollY + keyboardHeight;
+			scrollViewRef.current.scrollTo({ y: newScrollPosition, animated: true });
+			setKeyboardHeight(e.endCoordinates.height);
+		}
+
+		function onKeyboardDidHide() {
+			setKeyboardHeight(0);
+		}
+
+		const showSubscription = Keyboard.addListener('keyboardDidShow', onKeyboardDidShow);
+		const hideSubscription = Keyboard.addListener('keyboardDidHide', onKeyboardDidHide);
+		return () => {
+			showSubscription.remove();
+			hideSubscription.remove();
+		};
+	}, []);
+
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
-				<ScrollView contentContainerStyle={[globalStyles.standardWhitespace]}>
-					<View style={[styles.promptContainer]}>
-						<AvatarDisplay 
-							avatarID={currentLib.avatarID}
-							title={currentLib.name}
-							text={(
-								<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
-							)}
-							onPress={ () => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) } }
-						/>
-						<View style={{position: "relative", height: 60, maxHeight: 60}}>
-							<TextInput
-								label={displayPrompts[currentPromptIndex]}
-								value={currentInput}
-								onChangeText={setCurrentInput}
-								mode="outlined"
-								autoCapitalize="none"
-								theme={{
-									colors: {
-										primary: '#49454F', // For the outline color
-									},
-								}}
-							/>
-							{fillAvailable && ( // Render only if autofill is available
-								<TouchableOpacity onPress={autofill} style={{position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center"}}>
-									<Text style={[globalStyles.touchableText, {fontSize: 16}]}>Fill</Text>
-								</TouchableOpacity>
-							)}
-						</View>
-						<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
-						<Progress.Bar
-							progress={progress}
-							width={null}
-							color="#006D40"
-							unfilledColor="#D1E8D5"
-							borderWidth={0}
-							borderRadius={0}
-						/>
-						<Buttons
-							buttons={
-								[{
-									label: "Back",
-									onPress: handleBack,
+			<ScrollView ref={scrollViewRef}
+				onScroll={event => {
+					setScrollY(event.nativeEvent.contentOffset.y);
+				}}
+				scrollEventThrottle={16}
+				contentContainerStyle={[
+					globalStyles.standardWhitespace,
+					// Did our own custom keyboard avoiding view because we are better
+					{ paddingBottom: keyboardHeight }
+				]}>
+				<View style={[styles.promptContainer]}>
+					<AvatarDisplay
+						avatarID={currentLib.avatarID}
+						title={currentLib.name}
+						text={(
+							<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
+						)}
+						onPress={() => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) }}
+					/>
+					<View style={{ position: "relative", height: 60, maxHeight: 60 }}>
+						<TextInput
+							label={displayPrompts[currentPromptIndex]}
+							value={currentInput}
+							onChangeText={setCurrentInput}
+							mode="outlined"
+							autoCapitalize="none"
+							theme={{
+								colors: {
+									primary: '#49454F', // For the outline color
 								},
-								{
-									label: "Next",
-									onPress: handleNext,
-									buttonStyle: {backgroundColor: "#D1E8D5", borderColor: "#D1E8D5"}
-								}]
-							}
-							labelStyle={{fontWeight: 600}}
+							}}
 						/>
+						{fillAvailable && ( // Render only if autofill is available
+							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center" }}>
+								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>Fill</Text>
+							</TouchableOpacity>
+						)}
 					</View>
+					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					<Progress.Bar
+						progress={progress}
+						width={null}
+						color="#006D40"
+						unfilledColor="#D1E8D5"
+						borderWidth={0}
+						borderRadius={0}
+					/>
+					<Buttons
+						buttons={
+							[{
+								label: "Back",
+								onPress: handleBack,
+							},
+							{
+								label: "Next",
+								onPress: handleNext,
+								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
+							}]
+						}
+						labelStyle={{ fontWeight: 600 }}
+					/>
+				</View>
 
-					<View style={[{width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/}]}>
-						<Text style={globalStyles.title}>Comments</Text>
-						<CommentSection
-							// Username and avatar is what is to be displayed in the "write your comment" box
-							username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
-							avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
-							onCommentChange={handleCommentChange}
-							onSubmitComment={submitComment}
-							onDeleteComment={deleteComment}
-							comments={currentLib.comments ? currentLib.comments : []}
-							opUid={currentLib.user}
-						/>
-					</View>
-				</ScrollView>
+				<View style={[{ width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/ }]}>
+					<Text style={globalStyles.title}>Comments</Text>
+					<CommentSection
+						// Username and avatar is what is to be displayed in the "write your comment" box
+						username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
+						avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
+						onCommentChange={handleCommentChange}
+						onSubmitComment={submitComment}
+						onDeleteComment={deleteComment}
+						comments={currentLib.comments ? currentLib.comments : []}
+						opUid={currentLib.user}
+					/>
+				</View>
+			</ScrollView>
 		</View>
 	);
 }
@@ -537,7 +570,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		paddingLeft: 16
 	},
-	
+
 	leftPadding: {
 		paddingLeft: 16
 	},
@@ -581,7 +614,7 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 	},
-	
+
 	image: {
 		width: 207,
 		height: 212,
