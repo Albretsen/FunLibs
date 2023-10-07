@@ -26,7 +26,7 @@ export default function FeedbackScreen() {
                         onChangeText={text => setFeedbackText(text)} // Update feedbackText state when the value of the TextInput changes
                     />
                     <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={() => {
-                        showToast("Thank you for your feedback!");
+                        showToast({text: "Thank you for your feedback!", noBottomMargin: true});
                         navigation.navigate("Home");
                         try {
                             let feedback = {

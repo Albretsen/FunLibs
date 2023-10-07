@@ -26,7 +26,7 @@ export default function UnblockScreen() {
                 }
                 setBlockedUsers(users);
             } catch (error) {
-                showToast("Error fetching blocked users.");
+                showToast({text: "Error fetching blocked users.", noBottomMargin: true});
             } finally {
                 setIsLoading(false);
             }
@@ -36,14 +36,14 @@ export default function UnblockScreen() {
     }, []);
 
     const handleUnblock = async (uid) => {
-        showToast("Unblocking user...");
+        showToast({text: "Unblocking user", noBottomMargin: true, loading: true});
         try {
             await FirebaseManager.unblockUser(uid);
             setBlockedUsers(prevUsers => prevUsers.filter(user => user.uid !== uid));
-            showToast("User unblocked successfully.");
+            showToast({text: "User unblocked successfully", noBottomMargin: true, loading: false});
         } catch (error) {
             console.log(error);
-            showToast("Error unblocking user, please contact support.");
+            showToast({text: "Error unblocking user, please contact support.", noBottomMargin: true, loading: false});
         }
     };
 

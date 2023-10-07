@@ -10,8 +10,8 @@ import { ToastContext } from "../components/Toast";
 import FileManager from "../scripts/file_manager";
 
 export default function DeleteAccountScreen() {
-    const [email, setEmail] = useState("test@email.com");
-    const [password, setPassword] = useState("Test123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(true);
 
     const showToast = useContext(ToastContext);

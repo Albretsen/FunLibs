@@ -10,9 +10,6 @@ import FileManager from "../scripts/file_manager";
 
 export default function DeleteAccountScreen() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [passwordVisible, setPasswordVisible] = useState(true);
 
     const showToast = useContext(ToastContext);
 
@@ -21,7 +18,6 @@ export default function DeleteAccountScreen() {
     const { closeDrawer } = useDrawer();
 
     const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
 
     let minimum_password_length = 6;
     const validatePassword = (password) => {
@@ -68,16 +64,16 @@ export default function DeleteAccountScreen() {
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
                         if (!FirebaseManager.currentUserData?.auth?.email || !email) {
-                            showToast("Please enter your email!");
+                            showToast({text: "Please enter your email!", noBottomMargin: true});
                             return;
                         }
                         navigation.navigate("Home");
                         try {
                             FirebaseManager.sendPasswordResetEmail(email);
                         } catch {
-                            showToast("There was an error. Please try again later.")
+                            showToast({text: "There was an error. Please try again later.", noBottomMargin: true});
                         }
-                        showToast("A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email);
+                        showToast({text: "A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email, noBottomMargin: true});
                     }}>
                         <Text style={[globalStyles.formButtonLabel]}>Send</Text>
                     </TouchableOpacity>

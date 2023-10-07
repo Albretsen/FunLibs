@@ -20,6 +20,7 @@ import AudioPlayer from "../scripts/audio";
 import { DialogTrigger, useDialog } from "../components/Dialog";
 import AdManager from "../scripts/ad_manager";
 import AvatarDisplay from "../components/AvatarDisplay";
+import Dropdown from "../components/Dropdown";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -613,9 +614,9 @@ export default function CreateLibScreen({ route }) {
                         )}
                         text={"by " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : "You")}
                         rightComponent={(
-                            <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center", paddingRight: 4 }}>
+                            <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center" }}>
                                 <TouchableOpacity onPress={saveLib}>
-                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500}]}>Next</Text>
+                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500, paddingRight: 4}]}>Next</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -634,9 +635,35 @@ export default function CreateLibScreen({ route }) {
                             selection={newCursorPosition}
                             value={libText}
                         />
-                        <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
+                        {/* <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
+                        
                             <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <Dropdown
+                            anchor={
+                                <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={20} />
+                            }
+                            // anchorStyle={}
+                            containerStyle={{ height: "auto", flexBasis: 24, paddingTop: 10}}
+                            options={[
+                                {
+                                    name: "Save",
+                                    onPress: () => {
+                                        saveLib();
+                                    },
+                                }, {
+                                    name: "Delete",
+                                    onPress: () => {
+                                        showDeleteConfirmation();
+                                    },
+                                }, {
+                                    name: "Help",
+                                    onPress: () => {
+                                        setShowDialogInfo(true);
+                                    }
+                                }
+                            ]}
+                        />
                     </View>
                     <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
                     <View style={{ flexGrow: 0 }}>

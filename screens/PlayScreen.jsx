@@ -106,7 +106,7 @@ export default function PlayScreen({ route }) {
 			}
 			setCurrentInput(fill);
 		} else {
-			showToast("Autofill is unavailable for this promt.")
+			showToast({text: "Autofill is unavailable for this promt.", noBottomMargin: true});
 		}
 	};
 
@@ -333,7 +333,7 @@ export default function PlayScreen({ route }) {
             readArray.push(currentLib_);
         }
         FileManager._storeData("read", JSON.stringify(readArray));
-        showToast('Your story is saved under Read!');
+		showToast({text: "Your story is saved under Read!", noBottomMargin: true});
         closeDrawer();
         navigation.navigate("Home");
 	}
@@ -347,7 +347,7 @@ export default function PlayScreen({ route }) {
 	const onFavorite = async () => {
         if (isUpdating) return;  // Prevent further interactions while updating
         if (!FirebaseManager.currentUserData?.auth?.uid) {
-            showToast("You have to be signed in to like a post.");
+			showToast({text: "You have to be signed in to like a post.", noBottomMargin: true});
             return;
         }
 

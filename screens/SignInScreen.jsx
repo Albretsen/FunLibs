@@ -8,21 +8,21 @@ import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
 
 export default function SignInScreen() {
-    const [email, setEmail] = useState("test@email.com");
-    const [password, setPassword] = useState("Test123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(true);
 
     const showToast = useContext(ToastContext);
 
     const signIn = async () => {
-        showToast({text: "Signing in", loading: true});
+        showToast({text: "Signing in", noBottomMargin: true, loading: true});
         try {
             let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
             if (result?.uid) {
-                showToast({text: "Signed in as " + FirebaseManager.currentUserData.firestoreData.username, loading: false});
+                showToast({text: "Signed in as " + FirebaseManager.currentUserData.firestoreData.username, noBottomMargin: true, loading: false});
                 navigation.navigate("Home");
             } else {
-                showToast({text: "Error signing in", loading: false});
+                showToast({text: "Error signing in", noBottomMargin: true, loading: false});
                 console.log("SIGN IN FAILED: Unexpected result format");
             }
         } catch (error) {
@@ -45,7 +45,7 @@ export default function SignInScreen() {
                     break;
             }
 
-            showToast({text: errorMessage, loading: false});
+            showToast({text: errorMessage, noBottomMargin: true, loading: false});
         }
     }
 

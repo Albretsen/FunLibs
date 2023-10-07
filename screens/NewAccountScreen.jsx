@@ -9,12 +9,12 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
 
 export default function NewAccountScreen() {
-    const [username, setUsername] = useState("test");
-    const [email, setEmail] = useState("test@email.com");
-    const [password, setPassword] = useState("Test123");
-    const [passwordVisible, setPasswordVisible] = useState(true);
-    const [confirmPassword, setConfirmPassword] = useState("Test123");
-    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const initialCarouselAvatarID = 15;
     const [avatarIndex, setAvatarIndex] = useState(-1); // Use a state to hold the current avatar index
 

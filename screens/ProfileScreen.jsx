@@ -7,7 +7,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import Dropdown from "../components/Dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AvatarSelect from "../components/AvatarSelect";
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import CustomBackground from "../components/CustomBackground";
 import { ToastContext } from "../components/Toast";
 import ListManager from "../components/ListManager";
@@ -39,7 +39,7 @@ export default function ProfileScreen({ route }) {
             setLoading(false);
             return;
         }
-        data.memberSince = "test";
+        if (!data.memberSince) { data.memberSince = ""; } 
         setUserData(data);
         setBioValue(data.bio);
         setNameValue(data.username);
@@ -254,20 +254,22 @@ export default function ProfileScreen({ route }) {
             <BottomSheet
                 ref={bottomSheetRef}
                 index={-1}
-                snapPoints={['80%']}
-                // enablePanDownToClose={true} // Needs to be false to allow scrollView to work normally
+                snapPoints={['50%', '80%']}
+                enablePanDownToClose={true} // Needs to be false to allow scrollView to work normally
                 style={[globalStyles.bigWhitespacePadding]}
                 backgroundComponent={CustomBackground}
                 // onChange={handleBottomSheetChange}
             >
                 <Text style={[globalStyles.title, {marginBottom: 20}]}>Select a new avatar</Text>
-                <AvatarSelect
-                    onAvatarChange={handleAvatarChange}
-                    selectedDefaultIndex={avatarIndex}
-                    height={8}
-                    bottomSheet={true}
-                    containerStyle={{paddingVertical: 20}}
-                />
+                <BottomSheetScrollView>
+                    <AvatarSelect
+                        onAvatarChange={handleAvatarChange}
+                        selectedDefaultIndex={avatarIndex}
+                        height={9}
+                        bottomSheet={true}
+                        containerStyle={{paddingVertical: 20}}
+                    />
+                </BottomSheetScrollView>
             </BottomSheet>
             {loading && (
                 <View style={styles.loadingOverlay}>
@@ -282,7 +284,7 @@ const imageSize = 120;
 const screenWidth = Dimensions.get("window").width;
 // Width added to background circle, in this case 30 percent of the screen width
 // I'm adding extra width to it in order to get a smoother border radius as a background
-const extraBgWidth = screenWidth * 0.3;
+const extraBgWidth = screenWidth * 2;
 // Calculate the amount of width in order to center it by placing it half of itself to the left
 const leftPercentage = -(extraBgWidth / 2 / screenWidth) * 100;
 
@@ -291,8 +293,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: `${leftPercentage}%`,
         top: 75,
-        height: 200,
-        borderRadius: 50, // USED TO BE "50%"
+        height: screenWidth + extraBgWidth,
+        borderRadius: (screenWidth + extraBgWidth) / 2, // USED TO BE "50%"
         backgroundColor: "white",
         width: screenWidth + extraBgWidth
     },
@@ -311,7 +313,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         backgroundColor: "white",
-        borderRadius: 100, // USED TO BE "100%"
+        borderRadius: 100, // "100%"
         zIndex: 100
     },
 
@@ -319,7 +321,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10,
         top: imageSize - 25,
-        borderRadius: 100, // USED TO BE "100%"
+        borderRadius: 100, // "100%"
         height: 30,
         width: 30,
         backgroundColor: "#3E99ED",

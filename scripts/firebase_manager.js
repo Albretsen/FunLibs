@@ -296,21 +296,44 @@ export default class FirebaseManager {
     static async AddUserDataToDatabase(user) {
         console.log("USER: " + JSON.stringify(user));
         let push_notification_token = await this.registerForPushNotificationsAsync();
+
+        let currentDate = new Date();
+        let day = currentDate.getDate();
+        let month = currentDate.toLocaleString('default', { month: 'short' });
+        let year = currentDate.getFullYear();
+
+        let memberSinceString = `Member since ${day}. ${month}. ${year}`;
+
+        // If user.displayName is undefined, generate a random username string
+        let randomUsername = 'user' + Math.random().toString(36).substring(2, 8); // This creates a username like "user4g1h2k3r"
+        let username = user.displayName || randomUsername;
+
+        // If user.photoURL is undefined, generate a random string from "0" to "20"
+        let randomAvatarID = Math.floor(Math.random() * 21).toString(); // This creates a number from 0 to 20 as a string
+        let avatarID = user.photoURL || randomAvatarID;
+
         let fireStoreData = {
             uid: user.uid,
             email: user.email,
-            username: user.displayName,
-            avatarID: user.photoURL,
+            username: username,
+            avatarID: avatarID,
             likesCount: 0,
             libsCount: 0,
             bio: "",
             date: new Date(),
             push_notification_token: push_notification_token,
+            memberSince: memberSinceString,
         }
 
         this.storeAuthData(user, push_notification_token);
 
         this.AddDocumentToCollection("users", fireStoreData, user.uid);
+
+        try {
+            FirebaseManager.currentUserData.firestoreData = fireStoreData;
+        } catch {
+
+        }
     }
 
     static async fetchUserDataForProfile(uid) {
@@ -367,16 +390,26 @@ export default class FirebaseManager {
                 const userDocSnap = await getDoc(doc(db, "users", uid));
                 console.log("EXISTS?" + userDocSnap.exists());
                 if (userDocSnap.exists()) {
-                    console.log("HERE:::: " + console.log(JSON.stringify(userDocSnap.data())))
                     this.currentUserData.firestoreData = userDocSnap.data();
                 } else {
-                    console.log("No document found for UID: " + uid);
+                    let local = await FileManager._retrieveData("authData");
+                    local = JSON.parse(local);
+                    if (local.firestoreData) {
+                        FirebaseManager.currentUserData.firestoreData = local.firestoreData;
+                    }
+                    if (local.auth) {
+                        FirebaseManager.currentUserData.auth = local.auth;
+                    }
+                    if (local.firestoreData && local.auth) {
+                        FirebaseManager.AddUserDataToDatabase(local.auth);
+                    }
                 }
             } else {
                 // Handle the case where uid is null or undefined
                 let local = await FileManager._retrieveData("authData");
-                if (local.fireStoreData) {
-                    FirebaseManager.currentUserData.fireStoreData = local.fireStoreData;
+                local = JSON.parse(local);
+                if (local.firestoreData) {
+                    FirebaseManager.currentUserData.firestoreData = local.firestoreData;
                 }
                 if (local.auth) {
                     FirebaseManager.currentUserData.auth = local.auth;
@@ -388,8 +421,12 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
             let local = await FileManager._retrieveData("authData");
-            if (local.fireStoreData) {
-                FirebaseManager.currentUserData.fireStoreData = local.fireStoreData;
+            local = JSON.parse(local);
+            if (local.firestoreData) {
+                FirebaseManager.currentUserData.firestoreData = local.firestoreData;
+            }
+            if (local.auth) {
+                FirebaseManager.currentUserData.auth = local.auth;
             }
         }
     }
