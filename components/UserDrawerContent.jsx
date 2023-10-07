@@ -40,12 +40,6 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Reset password</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => {
-					navigation.navigate("IAPScreen");
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>IAP</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
 					FirebaseManager.SignOut();
 					closeDrawer();
 				}}>

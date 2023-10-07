@@ -34,7 +34,8 @@ export default function ProfileScreen({ route }) {
         if (uid === FirebaseManager.currentUserData?.auth?.uid) setYourOwnProfile(true);
         let data = await FirebaseManager.fetchUserDataForProfile(uid);
         if (!data) {
-            showToast("Profile was not found.");
+            showToast("This user does not have a public profile.");
+            navigation.navigate("Home");
             setLoading(false);
             return;
         }
@@ -140,7 +141,7 @@ export default function ProfileScreen({ route }) {
                                 showToast({text: "Updating username...", loading: true});
                                 let result = await FirebaseManager.UpdateUsername(uid, nameValue);
                                 if (result === "username-not-available") {
-                                    showToast("Username is not available.");
+                                    showToast({text: "Username is not available.", loading: false});
                                     return;
                                 }
                                 setEditUsername(false);

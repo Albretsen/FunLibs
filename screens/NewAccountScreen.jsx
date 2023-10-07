@@ -89,12 +89,12 @@ export default function NewAccountScreen() {
             return;
         }
 
-        showToast("Creating user...");
+        showToast({text: "Creating account", loading: true});
 
         try {
             FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
                 .then(user => {
-                    showToast("Welcome to Fun Libs, " + username + "!");
+                    showToast({text: "Welcome to Fun Libs, " + username + "!", loading: false});
                     navigation.navigate("Home");
                 })
                 .catch(error => {
@@ -119,12 +119,12 @@ export default function NewAccountScreen() {
                             break;
                     }
 
-                    showToast(errorMessage);
+                    showToast({text: errorMessage, loading: false});
                 });
         } catch (error) {
             const errorMessage = FirebaseManager.getCreateAccountErrorMessage(error.code);
             console.log("Error creating account: ", error.message);
-            showToast(errorMessage);
+            showToast({text: errorMessage, loading: false});
         }
     }
 

@@ -61,7 +61,7 @@ export default class FirebaseManager {
 
     static async registerForPushNotificationsAsync() {
         let token = "invalid_token";
-        if (Device.isDevice && Platform.OS === "android") {
+        if (Platform.OS === "android") {
             const { status: existingStatus } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
             if (existingStatus !== 'granted') {
@@ -236,7 +236,6 @@ export default class FirebaseManager {
                     const user = userCredential.user;
                     this.currentUserData.auth = user;
                     this.storeAuthData(user);
-                    await this.fetchUserData(user.uid);
                     Analytics.log("Signed in as " + JSON.stringify(user.uid));
                     resolve(user); // or resolve('Signed in successfully')
                 })
@@ -366,17 +365,25 @@ export default class FirebaseManager {
         try {
             if (uid) {
                 const userDocSnap = await getDoc(doc(db, "users", uid));
+                console.log("EXISTS?" + userDocSnap.exists());
                 if (userDocSnap.exists()) {
+                    console.log("HERE:::: " + console.log(JSON.stringify(userDocSnap.data())))
                     this.currentUserData.firestoreData = userDocSnap.data();
-                    console.log(JSON.stringify(userDocSnap.data()));
                 } else {
                     console.log("No document found for UID: " + uid);
                 }
             } else {
                 // Handle the case where uid is null or undefined
-                this.currentUserData = {
-                    auth: auth.currentUser,
-                };
+                let local = await FileManager._retrieveData("authData");
+                if (local.fireStoreData) {
+                    FirebaseManager.currentUserData.fireStoreData = local.fireStoreData;
+                }
+                if (local.auth) {
+                    FirebaseManager.currentUserData.auth = local.auth;
+                }
+                if (local.fireStoreData && local.auth) {
+                    FirebaseManager.AddUserDataToDatabase(local.auth);
+                }
             }
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
