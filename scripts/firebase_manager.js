@@ -235,6 +235,7 @@ export default class FirebaseManager {
                     // Signed in 
                     const user = userCredential.user;
                     this.currentUserData.auth = user;
+                    await this.fetchUserData(user.uid);
                     this.storeAuthData(user);
                     Analytics.log("Signed in as " + JSON.stringify(user.uid));
                     resolve(user); // or resolve('Signed in successfully')
@@ -406,28 +407,13 @@ export default class FirebaseManager {
                 }
             } else {
                 // Handle the case where uid is null or undefined
-                let local = await FileManager._retrieveData("authData");
-                local = JSON.parse(local);
-                if (local.firestoreData) {
-                    FirebaseManager.currentUserData.firestoreData = local.firestoreData;
-                }
-                if (local.auth) {
-                    FirebaseManager.currentUserData.auth = local.auth;
-                }
-                if (local.fireStoreData && local.auth) {
-                    FirebaseManager.AddUserDataToDatabase(local.auth);
-                }
+                FirebaseManager.currentUserData.firestoreData = undefined;
+                FirebaseManager.currentUserData.auth = undefined;
             }
         } catch (error) {
             Analytics.log("Error fetching user data: " + error);
-            let local = await FileManager._retrieveData("authData");
-            local = JSON.parse(local);
-            if (local.firestoreData) {
-                FirebaseManager.currentUserData.firestoreData = local.firestoreData;
-            }
-            if (local.auth) {
-                FirebaseManager.currentUserData.auth = local.auth;
-            }
+            FirebaseManager.currentUserData.firestoreData = undefined;
+            FirebaseManager.currentUserData.auth = undefined;
         }
     }
 

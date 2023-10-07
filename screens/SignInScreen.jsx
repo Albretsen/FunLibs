@@ -27,6 +27,7 @@ export default function SignInScreen() {
             }
         } catch (error) {
             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
+            console.log("ACTUAL ERROR: " + error);
             switch (error.code) {
                 case 'auth/wrong-password':
                     break;

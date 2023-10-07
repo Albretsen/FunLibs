@@ -24,6 +24,8 @@ const ListManager = (props) => {
             setLoading(false);
         } catch (error) {
             console.error(error);
+            setLoading(false);
+            setData([]);
         } finally {
             setRefreshing(false);
         }
