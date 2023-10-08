@@ -1259,6 +1259,23 @@ export default class FirebaseManager {
         };
     }
 
+    static async getDocumentFromCollectionById(collectionName, docId) {
+        try {
+            const docRef = doc(db, collectionName, docId);
+            const docSnapshot = await getDoc(docRef);
+    
+            if (docSnapshot.exists()) {
+                return docSnapshot.data();
+            } else {
+                console.log(`No document found with ID: ${docId} in collection: ${collectionName}`);
+                return null;
+            }
+        } catch (error) {
+            Analytics.log(`Error fetching document from '${collectionName}' collection: ${error.message}`);
+            throw error;
+        }
+    }
+
     static FindUnsupportedPrompts(array) {
         try {
             array.forEach(lib => {

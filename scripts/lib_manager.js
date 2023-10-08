@@ -277,8 +277,11 @@ export default class LibManager {
         FileManager._storeData("libs", JSON.stringify(LibManager.libs));
     }
 
-    static getLibByID(id, key = "libs") {
-        const lib = LibManager.libs.find(item => item.id === id);
+    static async getLibByID(id, key = "libs") {
+        let lib = LibManager.libs.find(item => item.id === id);
+        if (!lib) {
+            lib = await FirebaseManager.getDocumentFromCollectionById("posts", id);
+        }
         return lib;
     }
 

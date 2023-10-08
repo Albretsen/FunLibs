@@ -44,9 +44,12 @@ function ListItem(props) {
     const isInitialRender = useRef(true);
 
     const debouncedNavigationRef = useRef(
-        _.debounce((id, type) => {
+        _.debounce(async (id, type) => {
             if (playable) {
-                navigation.navigate("PlayScreen", { libId: id, type: type });
+                let lib = await LibManager.getLibByID(id, type);
+                console.log("HEEEEEEEEEEEEEERE");
+                console.log(JSON.stringify(lib.name));
+                navigation.navigate("PlayScreen", { libId: id, type: type, lib: lib, key: Math.random().toString() });
             } else {
                 openDrawer(
                     {

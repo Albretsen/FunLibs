@@ -46,12 +46,14 @@ export default function PlayScreen({ route }) {
 	}, [isFocused]);
 
 	// The id passed from ListItem component is received here
-	const libId = route.params.libId;
-
-	const type = route.params.type;
 	// Find the right lib from data
 	//const currentLib = data.find(lib => lib.id === libId);
-	const [currentLib, setCurrentLib] = useState(LibManager.getLibByID(libId, type));
+	const [currentLib, setCurrentLib] = useState(route.params.lib);
+
+	useEffect(() => {
+		// This will run every time you navigate to the screen
+		if (route.params.lib) setCurrentLib(route.params.lib);
+	  }, [route.params.lib]);
 
 	// Extract prompts from the current lib
 	const prompts = [];
@@ -254,6 +256,7 @@ export default function PlayScreen({ route }) {
 	}, [navigation]);
 
 	const saveChangesDialog = (onPress) => {
+		return;
 		openDialog('savedChangesDialog', {
 			onCancel: () => {
 				if (onPress) onPress();
@@ -263,7 +266,7 @@ export default function PlayScreen({ route }) {
 				};
 			},
 			onConfirm: () => {
-
+				navigation.navigate("PlayScreen");
 			},
 			children: (
 				<>
