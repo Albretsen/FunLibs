@@ -4,7 +4,7 @@ import { InterstitialAd, AppOpenAd, RewardedInterstitialAd, RewardedAdEventType,
 import FileManager from './file_manager';
 
 export default class AdManager {
-  static production = false;
+  static production = true;
   static requestNonPersonalizedAdsOnly = true;
 
   static interstitial;
