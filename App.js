@@ -72,6 +72,17 @@ export default function App() {
     return children;
   };
 
+  const ConditionalSafeAreaView = ({ children }) => {
+    if (Platform.OS === 'android') {
+      return (
+        <SafeAreaView>
+          {children}
+        </SafeAreaView>
+      );
+    }
+    return children;
+  };
+
   return (
     // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
     <ConditionalWrapper>
@@ -87,9 +98,9 @@ export default function App() {
                       <NavigationContainer>
                         <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
                           <AppScreenStack />
-                          <SafeAreaView>
+                          <ConditionalSafeAreaView>
                           <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                          </SafeAreaView>
+                          </ConditionalSafeAreaView>
                         </GestureHandlerRootView>
                       </NavigationContainer>
                     </TabProvider>
