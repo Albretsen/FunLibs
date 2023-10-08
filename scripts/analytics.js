@@ -2,7 +2,7 @@ import FileManager from "./file_manager";
 
 export default class Analytics {
     // Production flag. Used all throughout the codebase.
-    static production = true;
+    static production = false;
 
     static log(message) {
         try {

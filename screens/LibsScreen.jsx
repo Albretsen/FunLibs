@@ -166,10 +166,12 @@ export default function LibsScreen() {
 
 		try {
 			let dbResult = await FirebaseManager.ReadDataFromDatabase("posts", filterOptions, lastDocument);
-			if (dbResult.data === "no-internet") {
-				// This error sometimes shows when there is internet. Do not display it to the user.
-				console.log("Connection issue detected. Sort by 'Offline libs' if the issue persists");
-				return;
+			if (dbResult?.data) {
+				if (dbResult.data === "no-internet") {
+					// This error sometimes shows when there is internet. Do not display it to the user.
+					console.log("Connection issue detected. Sort by 'Offline libs' if the issue persists");
+					return;
+				}
 			}
 			if (currentTokenRef.current !== thisCallToken) return;
 			let dbItems = dbResult.data;
