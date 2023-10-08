@@ -468,6 +468,7 @@ export default function PlayScreen({ route }) {
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
 			<ScrollView ref={scrollViewRef}
+				keyboardShouldPersistTaps="handled"
 				onScroll={event => {
 					setScrollY(event.nativeEvent.contentOffset.y);
 				}}
@@ -492,6 +493,7 @@ export default function PlayScreen({ route }) {
 							value={currentInput}
 							onChangeText={setCurrentInput}
 							mode="outlined"
+							style={{paddingRight: 40}}
 							autoCapitalize="none"
 							theme={{
 								colors: {

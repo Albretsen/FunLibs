@@ -76,7 +76,7 @@ export default function ProfileScreen({ route }) {
     const bottomSheetRef = useRef(null);
 
     const openBottomSheet = () => {
-		bottomSheetRef.current?.snapToIndex(0);
+		bottomSheetRef.current?.snapToIndex(1);
 	};
 
 	const closeBottomSheet = () => {
@@ -122,7 +122,7 @@ export default function ProfileScreen({ route }) {
                     />
                     {yourOwnProfile && (
                         <View style={styles.addImage}>
-                            <MaterialIcons name="add" size={26} style={{color: "white"}} />
+                            <MaterialIcons name="add" size={20} style={{color: "white", alignSelf: "center"}} />
                         </View>
                     )}
                 </TouchableOpacity>
@@ -254,9 +254,9 @@ export default function ProfileScreen({ route }) {
             <BottomSheet
                 ref={bottomSheetRef}
                 index={-1}
-                snapPoints={['50%', '80%']}
+                snapPoints={['50%', '80%', '90%']}
                 enablePanDownToClose={true} // Needs to be false to allow scrollView to work normally
-                style={[globalStyles.bigWhitespacePadding]}
+                style={[globalStyles.bigWhitespacePadding, {justifyContent: "center", alignItems: "center"}]}
                 backgroundComponent={CustomBackground}
                 // onChange={handleBottomSheetChange}
             >

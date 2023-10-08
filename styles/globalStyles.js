@@ -139,9 +139,9 @@ const globalStyles = StyleSheet.create({
         // Dropdown height: 40
         // Tab bar height: 74
         // +2 to be sure
-        maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2 + 60),
+        maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2 + 60 + 40),
         // Explicitly setting height, to have loading indicator be centered vertically
-        height: fullHeight - (64 + 40 + 40 + 74 + 2 + 60),
+        height: fullHeight - (64 + 40 + 40 + 74 + 2 + 60 + 40),
     },
 
     drawerContainer: {

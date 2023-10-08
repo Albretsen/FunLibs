@@ -15,7 +15,7 @@ import { DrawerProvider } from "./components/Drawer";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CompatibilityVerification from "./scripts/compatibility_verification.js";
 import { MenuProvider } from 'react-native-popup-menu';
 import DeepLinkHandler from './components/DeepLinkHandler.jsx'
@@ -87,7 +87,9 @@ export default function App() {
                       <NavigationContainer>
                         <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
                           <AppScreenStack />
+                          <SafeAreaView>
                           <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                          </SafeAreaView>
                         </GestureHandlerRootView>
                       </NavigationContainer>
                     </TabProvider>

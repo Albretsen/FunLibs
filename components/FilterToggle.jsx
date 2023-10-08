@@ -57,7 +57,7 @@ export default function FilterToggle({ open, close, isOpen }) {
                 onPress={openMenu}
             >
                 <Text style={[{fontSize: 14}, globalStyles.bold]}>
-                    Filters
+                    Sort by
                 </Text>
                 <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                     <MaterialIcons

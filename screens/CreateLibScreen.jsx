@@ -595,6 +595,9 @@ export default function CreateLibScreen({ route }) {
         setButtonPressed(false);
     };
 
+    const promptButtonsHeight = Platform.OS == "ios" ? 0 : 70;
+    const dividerHeight = Platform.OS == "ios" ? 0 : 20;
+
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
             <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {backgroundColor: "white", flex: 1}]}>
@@ -602,9 +605,9 @@ export default function CreateLibScreen({ route }) {
                     keyboardShouldPersistTaps={'always'}
                     keyboardDismissMode='on-drag'
                 > */}
-                <View style={[{flex: 1, paddingBottom: (keyboardHeight - (70 + 20))}, globalStyles.standardWhitespace]}>
+                <View style={[{flex: 1, paddingBottom: (keyboardHeight - (promptButtonsHeight + dividerHeight))}, globalStyles.standardWhitespace]}>
                     <AvatarDisplay
-                        avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-24")}
+                        avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48")}
                         titleComponent={(
                             <TextInput
                                 style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}

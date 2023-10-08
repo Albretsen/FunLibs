@@ -673,7 +673,7 @@ export default function LibsScreen() {
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}
-						refreshing={loadingCircle} // Use the loading state to indicate whether the list is being refreshed
+						refreshing={false} // Use the loading state to indicate whether the list is being refreshed
 						onRefresh={() => { // Function that will be called when the user pulls to refresh
 							if (listItems.length > 0) updateFilterOptions();
 						}}
@@ -750,7 +750,7 @@ export default function LibsScreen() {
 								onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }
 							}
 						]}
-						buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 40}}
+						buttonStyle={{borderRadius: 10, borderColor: "#454247", backgroundColor: "#F0F1EC", minWidth: 50, height: 45}}
 						containerStyle={{justifyContent: "flex-start", gap: 20}}
 						labelStyle={{fontSize: 14, fontWeight: 500}}
 					/>
