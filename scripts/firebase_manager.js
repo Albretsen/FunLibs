@@ -61,32 +61,36 @@ export default class FirebaseManager {
 
     static async registerForPushNotificationsAsync() {
         let token = "invalid_token";
-        if (Platform.OS === "android") {
-            const { status: existingStatus } = await Notifications.getPermissionsAsync();
-            let finalStatus = existingStatus;
-            if (existingStatus !== 'granted') {
-                const { status } = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
+        try {
+            if (Platform.OS === "android" || Platform.OS === "ios") {
+                const { status: existingStatus } = await Notifications.getPermissionsAsync();
+                let finalStatus = existingStatus;
+                if (existingStatus !== 'granted') {
+                    const { status } = await Notifications.requestPermissionsAsync();
+                    finalStatus = status;
+                }
+                if (finalStatus !== 'granted') {
+                    alert('Failed to get push token for push notification!');
+                    return "invalid_token";
+                }
+                token = await Notifications.getExpoPushTokenAsync({
+                    projectId: Constants.expoConfig.extra.eas.projectId,
+                });
+                console.log(token);
+            } else {
+                console.log('Must use physical device for Push Notifications');
             }
-            if (finalStatus !== 'granted') {
-                alert('Failed to get push token for push notification!');
-                return "invalid_token";
-            }
-            token = await Notifications.getExpoPushTokenAsync({
-                projectId: Constants.expoConfig.extra.eas.projectId,
-            });
-            console.log(token);
-        } else {
-            console.log('Must use physical device for Push Notifications');
-        }
 
-        if (Platform.OS === 'android') {
-            Notifications.setNotificationChannelAsync('default', {
-                name: 'default',
-                importance: Notifications.AndroidImportance.MAX,
-                vibrationPattern: [0, 250, 250, 250],
-                lightColor: '#FF231F7C',
-            });
+            if (Platform.OS === 'android') {
+                Notifications.setNotificationChannelAsync('default', {
+                    name: 'default',
+                    importance: Notifications.AndroidImportance.MAX,
+                    vibrationPattern: [0, 250, 250, 250],
+                    lightColor: '#FF231F7C',
+                });
+            }
+        } catch (error) {
+            console.log(error);
         }
 
         return token;
@@ -805,6 +809,12 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log(`Error deleting Firebase Auth user: ${error.message}`);
             throw error;
+        }
+
+        try {
+            FileManager._storeData("authData", "");
+        } catch (error) {
+
         }
     }
 

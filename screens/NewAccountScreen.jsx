@@ -12,9 +12,9 @@ export default function NewAccountScreen() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(true);
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
     const initialCarouselAvatarID = 15;
     const [avatarIndex, setAvatarIndex] = useState(-1); // Use a state to hold the current avatar index
 
@@ -172,6 +172,7 @@ export default function NewAccountScreen() {
                 <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>Create New Account</Text>
                 <View style={[globalStyles.form]}>
                     <TextInput
+                        autoCapitalize="none"
                         label="Username"
                         value={username}
                         onChangeText={username => setUsername(username)}
@@ -180,6 +181,8 @@ export default function NewAccountScreen() {
                         style={[globalStyles.bigWhitespace]}
                     />
                     <TextInput
+                        autoCapitalize="none"
+                        keyboardType="email-address"
                         label="Email"
                         value={email}
                         onChangeText={email => setEmail(email)}
@@ -189,6 +192,7 @@ export default function NewAccountScreen() {
                     />
                     <View style={{ position: "relative" }}>
                         <TextInput
+                            autoCapitalize="none"
                             label="Password"
                             secureTextEntry={passwordVisible}
                             value={password}
@@ -209,6 +213,7 @@ export default function NewAccountScreen() {
                     </View>
                     <View style={{ position: "relative" }}>
                         <TextInput
+                            autoCapitalize="none"
                             label="Confirm password"
                             secureTextEntry={confirmPasswordVisible}
                             value={confirmPassword}
@@ -231,7 +236,7 @@ export default function NewAccountScreen() {
                     <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>
-            <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 80}]} onPress={createAccount}>
+            <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 120}]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>Create</Text>
                     </TouchableOpacity>
         </View>

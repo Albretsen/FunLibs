@@ -33,6 +33,8 @@ export default function DeleteAccountScreen() {
                 <View style={globalStyles.form}>
                     <View style={globalStyles.formField}>
                         <TextInput
+                            autoCapitalize="none"
+                            keyboardType="email-address"
                             label="Email"
                             value={email}
                             onChangeText={email => setEmail(email)}
@@ -45,6 +47,7 @@ export default function DeleteAccountScreen() {
                     <View style={globalStyles.formField}>
                         <View style={{position: "relative"}}>
                             <TextInput
+                                autoCapitalize="none"
                                 label="Password"
                                 secureTextEntry={passwordVisible}
                                 value={password}

@@ -58,6 +58,8 @@ export default function SignInScreen() {
                 <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Sign in</Text>
                 <View style={globalStyles.form}>
                     <TextInput
+                        autoCapitalize="none"
+                        keyboardType="email-address"
                         label="Email"
                         value={email}
                         onChangeText={email => setEmail(email)}
@@ -67,6 +69,7 @@ export default function SignInScreen() {
                     />
                     <View style={{position: "relative"}}>
                         <TextInput
+                            autoCapitalize="none"
                             label="Password"
                             secureTextEntry={passwordVisible}
                             value={password}

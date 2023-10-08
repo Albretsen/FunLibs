@@ -570,7 +570,7 @@ export default function CreateLibScreen({ route }) {
 
             await FileManager._storeData("my_content", JSON.stringify(local_libs));
 
-            finished("Your text has been deleted.", { category: "myContent" });
+            finished("Your text has been deleted.", { category: "all" });
             return;
         }
         if (editLibID && !item?.local) {
@@ -578,11 +578,11 @@ export default function CreateLibScreen({ route }) {
 
             const userId = FirebaseManager.currentUserData.auth.uid;
             await FirebaseManager.updateNumericField("users", userId, "libsCount", -1);
-            finished("Your text has been deleted.", { category: "myContent" });
+            finished("Your text has been deleted.", { category: "all" });
             return;
         }
 
-        finished("Your text has been deleted.", { category: "myContent" });
+        finished("Your text has been deleted.", { category: "all" });
     }
 
     const scrollViewRef = useRef(null);
