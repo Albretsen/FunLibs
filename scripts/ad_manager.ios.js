@@ -202,6 +202,7 @@ export default class AdManager {
 
     switch (type) {
       case "interstitial":
+        return;
         if (AdManager.interstitialLoaded) {
           AdManager.interstitial.show();
           AdManager.interstitialLoaded = false;
