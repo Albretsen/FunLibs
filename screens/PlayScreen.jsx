@@ -208,12 +208,7 @@ export default function PlayScreen({ route }) {
 				return (
 					<TouchableOpacity
 						onPress={async () => {
-							let progressFound = await handleSaveProgress();
-							if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
-								saveChangesDialog(onPress);
-							} else {
-								onPress();
-							}
+							onPress();
 						}}
 						style={{ marginLeft: 10 }}
 					>
@@ -229,6 +224,7 @@ export default function PlayScreen({ route }) {
 
 			let progressFound = await handleSaveProgress();
 			if (progressFound && ((parseInt(responsesRef.current.length) - parseInt(currentPromptIndexRef.current)) !== 2)) {
+				console.log("here 62");
 				saveChangesDialog();
 				return true;  // Prevents the default back action
 			}

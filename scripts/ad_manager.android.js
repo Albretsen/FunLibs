@@ -222,6 +222,7 @@ export default class AdManager {
         }
         break;
       case "appOpen":
+        return;
         AdManager.appOpenAd.show();
         break;
       default:

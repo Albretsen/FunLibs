@@ -752,7 +752,7 @@ export default function LibsScreen() {
 						containerStyle={{justifyContent: "flex-start", gap: 20}}
 						labelStyle={{fontSize: 14, fontWeight: 500}}
 					/>
-					<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+					{/* <Divider color="#CAC4D0" style={{marginVertical: 10}}/>
 					<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Date</Text>
 					<Buttons 
 						buttons={[
@@ -801,7 +801,7 @@ export default function LibsScreen() {
 						containerStyle={{justifyContent: "flex-start", gap: 20}}
 						labelStyle={{fontSize: 14, fontWeight: 500}}
 					/>
-					<Divider color="#CAC4D0" style={{marginVertical: 10}}/>
+					<Divider color="#CAC4D0" style={{marginVertical: 10}}/> */}
 				</View>
 			</BottomSheet>
 	  	</SafeAreaView>
