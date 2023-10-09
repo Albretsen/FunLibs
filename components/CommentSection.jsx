@@ -273,9 +273,7 @@ export default function CommentSection(props) {
                             {iconSend}
                         </TouchableOpacity>
                     </View>
-                    <ScrollView
-                        keyboardShouldPersistTaps="handled"
-                    >
+                    <View>
                         {commentList.map((comment, index) => {
                             if (blockedUsers[index]) {
                                 console.log("USER IS BLOCKED");
@@ -466,7 +464,7 @@ export default function CommentSection(props) {
                                 </View>
                             )
                         })}
-                    </ScrollView>
+                    </View>
                 </View>)}
         </View>
     )
