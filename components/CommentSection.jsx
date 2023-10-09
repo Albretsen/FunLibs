@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet, Dimensions, ActivityIndicator, Keyboard } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
@@ -132,6 +132,7 @@ export default function CommentSection(props) {
         }
 
         showToast({text: "Your comment has been posted!", noBottomMargin: true});
+        Keyboard.dismiss();
     };
 
     /**
@@ -272,7 +273,9 @@ export default function CommentSection(props) {
                             {iconSend}
                         </TouchableOpacity>
                     </View>
-                    <ScrollView>
+                    <ScrollView
+                        keyboardShouldPersistTaps="handled"
+                    >
                         {commentList.map((comment, index) => {
                             if (blockedUsers[index]) {
                                 console.log("USER IS BLOCKED");
