@@ -109,7 +109,7 @@ export default function ProfileScreen({ route }) {
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
             />
-            <View style={[{overflow: "hidden"}, globalStyles.headerAccountedHeight]}>
+            <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
                 <TouchableOpacity style={styles.imageContainer} onPress={
                     () => {
@@ -177,7 +177,7 @@ export default function ProfileScreen({ route }) {
                         </View>
                     }
                 </View>
-                <ScrollView contentContainerStyle={{paddingBottom: 50}}>
+                <ScrollView>
                     <View style={[globalStyles.screenStandard, globalStyles.bigWhitespacePadding, {gap: 10, alignSelf: "center", marginTop: 5}]}>
                         <Text style={[globalStyles.grayText]}>
                             {userData.memberSince}
@@ -240,7 +240,7 @@ export default function ProfileScreen({ route }) {
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>Templates by {userData.username}</Text>
 
                         {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
-                        <View>
+                        <View style={{flex: 1}}>
                             <ListManager filterOptions={{
                                 "sortBy": "newest",
                                 "dateRange": "allTime",
