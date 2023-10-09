@@ -595,8 +595,8 @@ export default function CreateLibScreen({ route }) {
         setButtonPressed(false);
     };
 
-    const promptButtonsHeight = Platform.OS == "ios" ? 0 : 70;
-    const dividerHeight = Platform.OS == "ios" ? 0 : 20;
+    const promptButtonsHeight = 70; // OLD Platform.OS == "ios" ? 0 : 70;
+    const dividerHeight = 20; // OLD Platform.OS == "ios" ? 0 : 20;
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>

@@ -270,7 +270,7 @@ export default function LibsScreen() {
 		setIsLoading(false);
 		setLoadingCircle(false);
 		setLoadingAdditional(false);
-		if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy, thisCallToken);
+		//if (filterOptions.category === "official") updateOfficialDataInListItems(filterOptions.sortBy, thisCallToken);
 		//else updateDataInListItems(updatedItems_);
 	}
 
