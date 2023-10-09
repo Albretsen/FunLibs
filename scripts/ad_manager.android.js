@@ -26,7 +26,7 @@ export default class AdManager {
     mobileAds().initialize().then(adapterStatuses => { });
 
     AdManager.interstitialID = AdManager.production ? 'ca-app-pub-1354741235649835/2967045976' : TestIds.INTERSTITIAL;
-    AdManager.rewardedID = AdManager.production ? 'ca-app-pub-1354741235649835/1179321589' : TestIds.REWARDED_INTERSTITIAL;
+    AdManager.rewardedID = AdManager.production ? 'ca-app-pub-1354741235649835/6730355149' : TestIds.REWARDED_INTERSTITIAL;
     AdManager.appOpenID = AdManager.production ? 'ca-app-pub-1354741235649835/5809402553' : TestIds.APP_OPEN;
     //AdsConsent.reset();
     AdManager.consentInfo = await AdsConsent.requestInfoUpdate();
