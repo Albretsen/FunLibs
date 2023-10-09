@@ -340,7 +340,7 @@ export default function PlayScreen({ route }) {
 	const [isUpdating, setIsUpdating] = useState(false);
 
 	useEffect(() => {
-		console.log("Updated currentLib:", currentLib);
+		
 	}, [currentLib]);
 
 	const onFavorite = async () => {

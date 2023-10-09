@@ -278,9 +278,14 @@ export default class LibManager {
     }
 
     static async getLibByID(id, key = "libs") {
-        let lib = LibManager.libs.find(item => item.id === id);
-        if (!lib) {
+        let lib;
+        try {
+            // Try to get lib from Database
             lib = await FirebaseManager.getDocumentFromCollectionById("posts", id);
+        } catch (error) {
+            // If database fails, try to get a local lib
+            lib = LibManager.libs.find(item => item.id === id);
+            console.log("Error getting lib from DB: " + error);
         }
         return lib;
     }

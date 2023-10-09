@@ -1268,7 +1268,7 @@ export default class FirebaseManager {
                 return docSnapshot.data();
             } else {
                 console.log(`No document found with ID: ${docId} in collection: ${collectionName}`);
-                return null;
+                throw `No document found with ID: ${docId} in collection: ${collectionName}`;
             }
         } catch (error) {
             Analytics.log(`Error fetching document from '${collectionName}' collection: ${error.message}`);
