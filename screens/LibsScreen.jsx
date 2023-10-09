@@ -543,20 +543,18 @@ export default function LibsScreen() {
 	};
 
 	function renderFooter() {
-		if (!loadingAdditional && !endReached) return null;
-	  
-		// This should be something else, not just text
+		// Define the style based on loadingAdditional's value
+		let activityIndicatorStyle = loadingAdditional ? {} : { opacity: 0 };
+
 		return (
-			<></>
-			// <View style={{
-			// 	position: 'absolute',
-			// 	bottom: 150,
-			// 	padding: 10,
-			// 	left: 100,
-			// 	zIndex: 100
-			// }}>
-			// 	<ActivityIndicator animating={true} color="#006D40" size="large" />
-			// </View>
+			<View>
+				<ActivityIndicator
+					animating={true}
+					color="#006D40"
+					size="large"
+					style={activityIndicatorStyle}
+				/>
+			</View>
 		);
 	}
 
@@ -692,16 +690,9 @@ export default function LibsScreen() {
 						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
 						ListFooterComponent={renderFooter}
 					/>
-					{(loadingCircle || (loadingAdditional && !endReached)) && (
+					{(loadingCircle) && (
 						<View style={styles.loadingOverlay} pointerEvents="none">
 							<ActivityIndicator size="large" color="#006D40" />
-							{loadingAdditional ? (
-								<View style={{backgroundColor: "white", padding: 10}}>
-									<Text style={{color: "black", fontSize: 14}}>Loading more libs...</Text>
-								</View>
-							): null
-							
-						}
 						</View>
 					)}
 				</>)}
