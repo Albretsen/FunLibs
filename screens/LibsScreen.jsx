@@ -562,7 +562,7 @@ export default function LibsScreen() {
 
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav]}>
-			<View style={[globalStyles.standardWhitespace]}>
+			<View style={[globalStyles.standardWhitespace, {flex: 1}]}>
 				<View style={[{
 					flexDirection: "row",
 					justifyContent: "space-between",
