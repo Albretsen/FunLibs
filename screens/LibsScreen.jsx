@@ -68,8 +68,8 @@ export default function LibsScreen() {
 	const quickload = false;
 
 	useEffect(() => {
-		console.log(`loadingCircle changed to: ${loadingCircle}`);
-	}, [loadingCircle]);
+		console.log(`endReached changed to: ${endReached}`);
+	}, [endReached]);
 
 	async function loadListItems(
 		filterOptions = {
@@ -176,6 +176,8 @@ export default function LibsScreen() {
 			if (currentTokenRef.current !== thisCallToken) return;
 			let dbItems = dbResult.data;
 
+			if (dbItems.length < 10) setEndReached(true);
+
 			// Fetch the list of blocked users
 			const blockedUsers = await FirebaseManager.getAllBlockedUsers();
 
@@ -193,13 +195,8 @@ export default function LibsScreen() {
 				setLoading(false);
 				setLoadingCircle(false);
 				setLoadingAdditional(false);
+				setEndReached(true);
 				return; // Exit the function early
-			}
-
-			if (dbItems.length === 0) { 
-				setEndReached(true); 
-			} else {
-				setEndReached(false);
 			}
 			
 			if (dbItems && dbItems.length > 0) {
@@ -492,6 +489,7 @@ export default function LibsScreen() {
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
 	const updateFilterOptions = (playableValue = playReadValue, categoryValue = selectedCategory, sortByValue = selectedSortBy, dateValue = selectedDate) => {
+		setEndReached(false);
 		setListItems([]);
 		setLastDocument(null);
 		let filterOptions = {
@@ -677,7 +675,8 @@ export default function LibsScreen() {
 						}}
 						style={[globalStyles.listItemContainer]}
 						onEndReached={_.debounce(() => {
-								if (!loading && listItems.length > 0) {
+								if (!loading && listItems.length > 0 && !endReached) {
+									console.log("THE IF");
 									loadListItems({
 										"category": selectedCategory,
 										"sortBy": selectedSortBy,
