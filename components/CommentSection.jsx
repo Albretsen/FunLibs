@@ -396,7 +396,7 @@ export default function CommentSection(props) {
                                                     <Text style={styles.username}>
                                                         {reply.username}
                                                         {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                                        <Text style={styles.date}> | {timeAgo(comment.date)}</Text>
+                                                        <Text style={styles.date}> | {timeAgo(reply.date)}</Text>
                                                     </Text>
                                                     <Text style={styles.commentText}>
                                                         {reply.content}
