@@ -242,9 +242,9 @@ export default function CreateLibScreen({ route }) {
     const MY_CONTENT_KEY = "my_content";
 
 
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : null
+    const keyboardVerticalOffset = 0;
 
-    const ParentTag = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+    const ParentTag = View;
 
     const buttonColor = "#006D40";
 
