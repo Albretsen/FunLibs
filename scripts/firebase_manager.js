@@ -304,10 +304,13 @@ export default class FirebaseManager {
 
         let currentDate = new Date();
         let day = currentDate.getDate();
-        let month = currentDate.toLocaleString('default', { month: 'short' });
+        let monthIndex  = currentDate.getMonth();
         let year = currentDate.getFullYear();
 
-        let memberSinceString = `Member since ${day}. ${month}. ${year}`;
+        // An array of month names in English
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+        let memberSinceString = `Member since ${day}. ${monthNames[monthIndex]}. ${year}`;
 
         // If user.displayName is undefined, generate a random username string
         let randomUsername = 'user' + Math.random().toString(36).substring(2, 8); // This creates a username like "user4g1h2k3r"
