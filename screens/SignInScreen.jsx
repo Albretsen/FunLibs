@@ -6,6 +6,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
+import i18n from "../scripts/i18n";
 
 export default function SignInScreen() {
     const [email, setEmail] = useState("");
@@ -15,14 +16,14 @@ export default function SignInScreen() {
     const showToast = useContext(ToastContext);
 
     const signIn = async () => {
-        showToast({text: "Signing in", noBottomMargin: true, loading: true});
+        showToast({text: i18n.t('signing_in'), noBottomMargin: true, loading: true});
         try {
             let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
             if (result?.uid) {
-                showToast({text: "Signed in as " + FirebaseManager.currentUserData.firestoreData.username, noBottomMargin: true, loading: false});
+                showToast({text: i18n.t('signed_in_as') + " " + FirebaseManager.currentUserData.firestoreData.username, noBottomMargin: true, loading: false});
                 navigation.navigate("Home");
             } else {
-                showToast({text: "Error signing in", noBottomMargin: true, loading: false});
+                showToast({text: i18n.t('error_signing_in'), noBottomMargin: true, loading: false});
                 console.log("SIGN IN FAILED: Unexpected result format");
             }
         } catch (error) {
@@ -55,12 +56,12 @@ export default function SignInScreen() {
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, {marginTop: 40, height: Dimensions.get("window").height - 128}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Sign in</Text>
+                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>{i18n.t('sign_in')}</Text>
                 <View style={globalStyles.form}>
                     <TextInput
                         autoCapitalize="none"
                         keyboardType="email-address"
-                        label="Email"
+                        label={i18n.t('email')}
                         value={email}
                         onChangeText={email => setEmail(email)}
                         mode="outlined"
@@ -70,7 +71,7 @@ export default function SignInScreen() {
                     <View style={{position: "relative"}}>
                         <TextInput
                             autoCapitalize="none"
-                            label="Password"
+                            label={i18n.t('password')}
                             secureTextEntry={passwordVisible}
                             value={password}
                             onChangeText={password => setPassword(password)}
@@ -91,16 +92,16 @@ export default function SignInScreen() {
                     <TouchableOpacity onPress={() => {
                         navigation.navigate("ResetPasswordScreen");
                     }}>
-                        <Text style={[globalStyles.bigWhitespace, { marginBottom: 20 }]}>Forgot password?</Text>
+                        <Text style={[globalStyles.bigWhitespace, { marginBottom: 20 }]}>{i18n.t('forgot_password')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={signIn}>
-                        <Text style={globalStyles.formButtonLabel}>Sign in</Text>
+                        <Text style={globalStyles.formButtonLabel}>{i18n.t('sign_in')}</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={globalStyles.formBottomText}>
-                    Don't have an account? 
+                    {i18n.t('dont_have_an_account')} 
                     <TouchableOpacity onPress={() => navigation.navigate("NewAccountScreen")}>
-                        <Text style={globalStyles.formBottomTextHighlight}> Create a new one</Text>
+                        <Text style={globalStyles.formBottomTextHighlight}> {i18n.t('create_a_new_one')}</Text>
                     </TouchableOpacity>
                 </Text>
             </View>
