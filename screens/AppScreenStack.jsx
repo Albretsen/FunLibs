@@ -18,6 +18,7 @@ import { BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import UnblockScreen from './UnblockScreen';
 import IAPScreen from './IAPScreen';
+import i18n from '../scripts/i18n';
 
 const Stack = createStackNavigator();
 
@@ -76,7 +77,7 @@ export default function AppScreenStack() {
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
+							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Image
 								source={require("../assets/images/heart.png")}
 								style={{ width: 21, height: 20 }}
@@ -106,7 +107,7 @@ export default function AppScreenStack() {
 									),
 									title: (FirebaseManager.currentUserData.firestoreData) 
 									? FirebaseManager.currentUserData.firestoreData.username
-									: "Not logged in",
+									: i18n.t('not_logged_in'),
 									titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
 								},
 								component: <UserDrawerContent navigation={navigation} closeDrawer={closeDrawer}/>,
@@ -133,7 +134,7 @@ export default function AppScreenStack() {
 				options={{
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>Fun Libs</Text>
+							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Image
 								source={require("../assets/images/heart.png")}
 								style={{ width: 22, height: 20 }}

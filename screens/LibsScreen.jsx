@@ -20,6 +20,7 @@ import Dropdown from "../components/Dropdown";
 import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
 import { ToastContext } from "../components/Toast";
+import i18n from "../scripts/i18n";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -581,13 +582,13 @@ export default function LibsScreen() {
 						}}
 						buttons={[
 							{
-								label: "Play",
+								label: i18n.t('play'),
 								value: true,
 								showSelectedCheck: true
 
 							},
 							{
-								label: "Read",
+								label: i18n.t('read'),
 								value: false,
 								showSelectedCheck: true,
 							}
@@ -602,35 +603,35 @@ export default function LibsScreen() {
 				<View>
 					<Dropdown selected={selectedCategory} options={[
 						{
-							name: "Official libs",
+							name: i18n.t('official_templates'),
 							onPress: () => { 
 								setSelectedCategory("official");
 								updateFilterOptions(playReadValue, "official");
 							}
 						},
 						{
-							name: "User created libs",
+							name: i18n.t('community_templates'),
 							onPress: () => {
 								setSelectedCategory("All");
 								updateFilterOptions(playReadValue, "All");
 							}
 						},
 						{
-							name: "Liked libs",
+							name: i18n.t('favorite_templates'),
 							onPress: () => {
 								setSelectedCategory("myFavorites");
 								updateFilterOptions(playReadValue, "myFavorites");
 							}
 						},
 						{
-							name: "My libs",
+							name: i18n.t('my_templates'),
 							onPress: () => {
 								setSelectedCategory("myContent");
 								updateFilterOptions(playReadValue, "myContent");
 							}
 						},
 						{
-							name: "Offline libs",
+							name: i18n.t('offline_templates'),
 							onPress: () => {
 								setSelectedCategory("offline");
 								updateFilterOptions(playReadValue, "offline");
@@ -686,7 +687,7 @@ export default function LibsScreen() {
 								}
 							}, 200)} // Call the loadListItems function when the end is reached
 						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : "No results"}</Text>}
+						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : i18n.t('no_results')}</Text>}
 						ListFooterComponent={renderFooter}
 					/>
 					{(loadingCircle) && (
@@ -722,19 +723,19 @@ export default function LibsScreen() {
 					<Buttons 
 						buttons={[
 							{
-								label: "Newest",
+								label: i18n.t('newest'),
 								icon: selectedSortBy === "newest" ? "done" : null,
 								buttonStyle: selectedSortBy === "newest" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
 								onPress: () => { setSelectedSortBy("newest"); updateFilterOptions(playReadValue, undefined, "newest"); }
 							},
 							{
-								label: "Top",
+								label: i18n.t('top'),
 								icon: selectedSortBy === "likes" ? "done" : null,
 								buttonStyle: selectedSortBy === "likes" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
 								onPress: () => { setSelectedSortBy("likes"); updateFilterOptions(playReadValue, undefined, "likes"); }
 							},
 							{
-								label: "Trending",
+								label: i18n.t('trending'),
 								icon: selectedSortBy === "trending" ? "done" : null,
 								buttonStyle: selectedSortBy === "trending" ? {borderColor: "transparent", backgroundColor: "#D1E8D5"} : null,
 								onPress: () => { setSelectedSortBy("trending"); updateFilterOptions(playReadValue, undefined, "trending"); }

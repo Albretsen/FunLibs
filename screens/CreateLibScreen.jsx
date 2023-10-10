@@ -21,6 +21,7 @@ import { DialogTrigger, useDialog } from "../components/Dialog";
 import AdManager from "../scripts/ad_manager";
 import AvatarDisplay from "../components/AvatarDisplay";
 import Dropdown from "../components/Dropdown";
+import i18n from "../scripts/i18n";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -37,7 +38,7 @@ export default function CreateLibScreen({ route }) {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     useEffect(() => {
-        function onKeyboardDidShow(e) { // Remove type here if not using TypeScript
+        function onKeyboardDidShow(e) {
             setKeyboardHeight(e.endCoordinates.height);
         }
 
@@ -86,12 +87,12 @@ export default function CreateLibScreen({ route }) {
                         },
                         children: (
                             <>
-                               <Text style={globalStyles.dialogTitle}>Unsaved progress!</Text>
-                               <Text style={globalStyles.dialogText}>Do you want to continue writing, or discard the changes?</Text>
+                               <Text style={globalStyles.dialogTitle}>{i18n.t('unsaved_progress')}</Text>
+                               <Text style={globalStyles.dialogText}>{i18n.t('continue_writing')}</Text>
                             </>
                         ),
-                        cancelLabel: "Discard",  // Custom text for the cancel button
-                        confirmLabel: "Continue"  // Custom text for the confirm button
+                        cancelLabel: i18n.t('discard'),
+                        confirmLabel: i18n.t('continue')
                     });
                 } else {
                     //setLibText("");
@@ -183,11 +184,11 @@ export default function CreateLibScreen({ route }) {
 
     const saveLib = () => {
         if (!libNameTextRef.current) {
-            showToast("Please add a title to your lib!");
+            showToast({text: i18n.t('please_add_a_title')});
             return;
         }
         if (!libTextRef.current) {
-            showToast("Please add some text to your lib!");
+            showToast({text: i18n.t('please_add_some_text')});
             return;
         }
         //console.log(libTextRef.current);
@@ -195,7 +196,7 @@ export default function CreateLibScreen({ route }) {
         let temp_finished_lib = Lib.createLib(libTextRef.current);
 
         if (temp_finished_lib.prompts.length < 1) {
-            showToast("Please add some prompts to your lib!");
+            showToast({text: i18n.t('please_add_some_prompts')});
             return;
         }
 
@@ -205,7 +206,7 @@ export default function CreateLibScreen({ route }) {
     let publishDialog = () => {
         openDrawer({
             header: {
-                title: "Publish Lib?"
+                title: i18n.t('publish_lib'),
             },
             component: (
                 <>
@@ -253,7 +254,7 @@ export default function CreateLibScreen({ route }) {
     let addPrompt = (prompt) => {
         playAudio('pop');
         const beforeCursor = libText.substring(0, cursorPosition.start);
-        const afterCursor = libText.substring(cursorPosition.start); // Note the change here
+        const afterCursor = libText.substring(cursorPosition.start);
         const updatedText = beforeCursor + '(' + prompt + ')' + afterCursor;
 
         newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
@@ -296,13 +297,13 @@ export default function CreateLibScreen({ route }) {
             <>
                 <ScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
                     <View style={globalStyles.drawerTop}>
-                        {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>No item selected</Text>}
+                        {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>{i18n.t('no_item_selected')}</Text>}
                     </View>
                 </ScrollView>
                 <DrawerActions
                     {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
                     onSave={() => { save() }}
-                    saveLabel={!editLibID ? "Save as draft" : "Save changes"}
+                    saveLabel={!editLibID ? i18n.t('save_as_draft') : i18n.t('save_changes')}
                     {...(editLibID ? { onDelete: () => { 
                         showDeleteConfirmation();
                     } } : {})}
@@ -313,7 +314,7 @@ export default function CreateLibScreen({ route }) {
 
     const save = () => {
         // Brand new lib
-        showToast({text: "Saving", loading: true});
+        showToast({text: i18n.t('saving'), loading: true});
         closeDrawer();
 
         if (!editLibID && !item?.local) {
@@ -329,7 +330,7 @@ export default function CreateLibScreen({ route }) {
             saveChangesPublished();
             return;
         }
-        showToast({text: "Error saving", loading: false});
+        showToast({text: i18n.t('error_saving'), loading: false});
     }
 
     const saveNew = async () => {
@@ -349,13 +350,13 @@ export default function CreateLibScreen({ route }) {
 
         lib.avatarID = FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "0";
         lib.user = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid : "NO_ACCOUNT";
-        lib.username =  FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "You";
+        lib.username =  FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('you');
 
         let local_libs = await getLocalLibs();
         local_libs.push(lib);
         await FileManager._storeData("my_content", JSON.stringify(local_libs));
 
-        finished("Your text has been saved under My libs", { category: "myContent" });
+        finished(i18n.t('your_text_has_been_saved_under_my_templates'), { category: "myContent" });
     }
 
     const saveChangesLocal = async () => {
@@ -375,7 +376,7 @@ export default function CreateLibScreen({ route }) {
 
         await FileManager._storeData("my_content", JSON.stringify(local_libs));
 
-        finished("Your changes have been saved.", { category: "myContent" });
+        finished(i18n.t('your_changes_have_been_saved'), { category: "myContent" });
     }
 
     const saveChangesPublished = async () => {
@@ -391,7 +392,7 @@ export default function CreateLibScreen({ route }) {
 
         await FirebaseManager.UpdateDocument("posts", lib.id, { name: lib.name, text: lib.text, prompts: lib.prompts, avatarID: lib.avatarID, user: lib.user, username: lib.username});
 
-        finished("Your changes have been saved.", { category: "all" });
+        finished(i18n.t('your_changes_have_been_saved'), { category: "all" });
     }
 
     const getLocalLibs = async () => {
@@ -407,7 +408,7 @@ export default function CreateLibScreen({ route }) {
             return;
         }
         closeDrawer();
-        showToast({text: "Publishing", loading: true});
+        showToast({text: i18n.t('publishing'), loading: true});
         const wasRewardGiven = await AdManager.showRewardedAd(); 
 
         if (wasRewardGiven === true) {
@@ -421,11 +422,11 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast({text: "Error publishing", loading: false});
+            showToast({text: i18n.t('error_publishing'), loading: false});
         } else if (wasRewardGiven === false) {
             // The user did not watch the ad or did not earn the reward
             // Show a toast message to inform the user
-            showToast({text: "You need to watch the ad to proceed with publishing.", loading: false});
+            showToast({text: i18n.t('you_need_to_watch_the_ad_to_proceed_with_publishing'), loading: false});
         } else {
             // The ad failed.
             // Continue with the publish action
@@ -437,7 +438,7 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast({text: "Error publishing, try again later.", loading: false});
+            showToast({text: i18n.t('error_publishing'), loading: false});
         }
     };    
 
@@ -466,7 +467,7 @@ export default function CreateLibScreen({ route }) {
         const userId = FirebaseManager.currentUserData.auth.uid;
         await FirebaseManager.updateNumericField("users", userId, "libsCount", 1);
 
-        finished("Your text has been published", { category: "all" });
+        finished(i18n.t('your_text_has_been_published'), { category: "all" });
     }
 
     const publishLocal = async () => {
@@ -501,11 +502,11 @@ export default function CreateLibScreen({ route }) {
         const userId = FirebaseManager.currentUserData.auth.uid;
         await FirebaseManager.updateNumericField("users", userId, "libsCount", 1);
 
-        finished("Your text has been published.", { category: "all" });
+        finished(i18n.t('your_text_has_been_published'), { category: "all" });
     }
 
     const notLoggedIn = () => {
-        showToast("You have to be logged in. Please 'Save as draft', then 'Publish' after signing in.");
+        showToast(i18n.t('you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in'));
         closeDrawer();
     }
 
@@ -523,17 +524,17 @@ export default function CreateLibScreen({ route }) {
     const showDeleteConfirmation = () => {
         openDrawer({
             header: {
-                title: "Delete story?"
+                title: i18n.t('delete_story'),
             },
             component: (
                 <>
                     <ScrollView>
                         <View style={[globalStyles.drawerTop, { height: "100%" }]}>
                             <Text style={styles.paragraph}>
-                                Are you sure you want to delete this story?
+                                {i18n.t('are_you_sure_you_want_to_delete_this_story')}
                             </Text>
                             <Text style={styles.paragraph}>
-                                By deleting, the story will be lost forever.
+                                {i18n.t('by_deleting_the_story_will_be_lost_forever')}
                             </Text>
                         </View>
                     </ScrollView>
@@ -545,11 +546,11 @@ export default function CreateLibScreen({ route }) {
                         onDelete={() => {
                             delete_();
                         }}
-                        deleteLabel="I'm sure, delete"
+                        deleteLabel={i18n.t('im_sure_delete')}
                         onUndo={() => {
                             openDrawer(saveDrawerContent);
                         }}
-                        undoLabel="Don't delete"
+                        undoLabel={i18n.t('dont_delete')}
                     />
                 </>
             )
@@ -558,7 +559,7 @@ export default function CreateLibScreen({ route }) {
 
     const delete_ = async () => {
         closeDrawer();
-        showToast({text: "Deleting", loading: true});
+        showToast({text: i18n.t('deleting'), loading: true});
         if (editLibID && item?.local) {
             let local_libs = await getLocalLibs();
 
@@ -570,7 +571,7 @@ export default function CreateLibScreen({ route }) {
 
             await FileManager._storeData("my_content", JSON.stringify(local_libs));
 
-            finished("Your text has been deleted.", { category: "all" });
+            finished(i18n.t('your_text_has_been_deleted'), { category: "all" });
             return;
         }
         if (editLibID && !item?.local) {
@@ -578,11 +579,11 @@ export default function CreateLibScreen({ route }) {
 
             const userId = FirebaseManager.currentUserData.auth.uid;
             await FirebaseManager.updateNumericField("users", userId, "libsCount", -1);
-            finished("Your text has been deleted.", { category: "all" });
+            finished(i18n.t('your_text_has_been_deleted'), { category: "all" });
             return;
         }
 
-        finished("Your text has been deleted.", { category: "all" });
+        finished(i18n.t('your_text_has_been_deleted'), { category: "all" });
     }
 
     const scrollViewRef = useRef(null);
@@ -611,17 +612,17 @@ export default function CreateLibScreen({ route }) {
                         titleComponent={(
                             <TextInput
                                 style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}
-                                placeholder="Write your title here..."
+                                placeholder={i18n.t('write_your_title_here')}
                                 placeholderTextColor={"#9e9e9e"}
                                 onChangeText={text => setLibNameText(text)}
                                 value={libNameText}
                             />
                         )}
-                        text={"by " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : "You")}
+                        text={i18n.t('by') + " " + (FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('you'))}
                         rightComponent={(
                             <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center" }}>
                                 <TouchableOpacity onPress={saveLib}>
-                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500, paddingRight: 4}]}>Next</Text>
+                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500, paddingRight: 4}]}>{i18n.t('next')}</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -634,7 +635,7 @@ export default function CreateLibScreen({ route }) {
                             multiline={true}
                             // numberOfLines={10}
                             onChangeText={text => setLibText(text)}
-                            placeholder="Write your text here..."
+                            placeholder={i18n.t('write_your_text_here')}
                             placeholderTextColor={"#9e9e9e"}
                             onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
                             selection={newCursorPosition}
@@ -652,17 +653,17 @@ export default function CreateLibScreen({ route }) {
                             containerStyle={{ height: "auto", flexBasis: 24, paddingTop: 10}}
                             options={[
                                 {
-                                    name: "Save",
+                                    name: i18n.t('save'),
                                     onPress: () => {
                                         saveLib();
                                     },
                                 }, {
-                                    name: "Delete",
+                                    name: i18n.t('delete'),
                                     onPress: () => {
                                         showDeleteConfirmation();
                                     },
                                 }, {
-                                    name: "Help",
+                                    name: i18n.t('help'),
                                     onPress: () => {
                                         setShowDialogInfo(true);
                                     }
@@ -675,7 +676,7 @@ export default function CreateLibScreen({ route }) {
                         <Buttons
                             buttons={
                                 [{
-                                    label: "Custom",
+                                    label: i18n.t('custom'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -683,7 +684,7 @@ export default function CreateLibScreen({ route }) {
                                     }
                                 },
                                 {
-                                    label: "Adjective",
+                                    label: i18n.t('adjective'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -691,7 +692,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Verb",
+                                    label: i18n.t('verb'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -699,7 +700,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Noun",
+                                    label: i18n.t('noun'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -707,7 +708,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Occupation",
+                                    label: i18n.t('occupation'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -715,7 +716,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Name",
+                                    label: i18n.t('name'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -723,7 +724,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Emotion",
+                                    label: i18n.t('emotion'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -731,7 +732,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Place",
+                                    label: i18n.t('place'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -739,7 +740,7 @@ export default function CreateLibScreen({ route }) {
                                     },
                                 },
                                 {
-                                    label: "Animal",
+                                    label: i18n.t('animal'),
                                     icon: "add",
                                     onPress: () => {
                                         setButtonPressed(true);
@@ -771,14 +772,14 @@ export default function CreateLibScreen({ route }) {
                                 <MaterialIcons style={{ color: "white" }} name="add" size={28} />
                             </View>
                             <View>
-                                <Text style={[{ fontSize: 20 }, globalStyles.bold]}>Custom prompt</Text>
-                                <Text style={{ fontSize: 18 }}>Add a custom prompt</Text>
+                                <Text style={[{ fontSize: 20 }, globalStyles.bold]}>{i18n.t('custom_prompt')}</Text>
+                                <Text style={{ fontSize: 18 }}>{i18n.t('add_a_custom_prompt')}</Text>
                             </View>
                         </View>
                         <TextInput
                             style={[globalStyles.input, globalStyles.inputSmall, { paddingHorizontal: 14, marginVertical: 10, fontSize: 18 }]}
                             numberOfLines={1}
-                            placeholder="Your prompt..."
+                            placeholder={i18n.t('your_prompt')}
                             onChangeText={text => {
                                 customPromptTextRef.current = text;
                                 setCustomPromptText(text)
@@ -793,16 +794,16 @@ export default function CreateLibScreen({ route }) {
                         cancelLabel=" "
                     >
                         <Text style={styles.paragraph}>
-                            Write your text by using prompts enclosed in parentheses. For example:
+                            {i18n.t('write_your_text_by_using_prompts_enclosed_in_parantheses_for_example')}:
                         </Text>
                         <Text style={styles.paragraph}>
-                            They built an <Text style={styles.highlighted}>(adjective)</Text> house.
+                            {i18n.t('they_built_an')} <Text style={styles.highlighted}>({i18n.t('adjective')})</Text> {i18n.t('house')}.
                         </Text>
                         <Text style={styles.paragraph}>
-                            You can repeat words by adding a number at the end, like so:
+                            {i18n.t('you_can_repeat_words_by_adding_a_number_at_the_end_like_so')}:
                         </Text>
                         <Text style={styles.paragraph}>
-                            <Text style={styles.highlighted}>(Name 1)</Text> is building a table. <Text style={styles.highlighted}>(Name 1)</Text> is a carpenter.
+                            <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_building_a_table')} <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_a_carpenter')}
                         </Text>
                     </DialogTrigger>
                 </View>
