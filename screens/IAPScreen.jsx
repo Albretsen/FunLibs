@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
 import FirebaseManager from "../scripts/firebase_manager";
 import IAP from "../components/IAP";
+import IAPOld from "../components/IAP_old";
 
 export default function FeedbackScreen() {
     const showToast = useContext(ToastContext);

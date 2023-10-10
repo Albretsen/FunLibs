@@ -95,7 +95,7 @@ const i18n = new I18n({
         "community_templates": "Plantillas de la comunidad",
         "favorite_templates": "Plantillas favoritas",
         "my_templates": "Mis plantillas",
-        "offline_libs": "Plantillas sin conexión",
+        "offline_templates": "Plantillas sin conexión",
         "no_results": "Sin resultados",
         "newest": "Más recientes",
         "top": "Top",
@@ -124,7 +124,7 @@ const i18n = new I18n({
         "error_publishing": "Error al publicar, intenta de nuevo más tarde.",
         "your_text_has_been_published": "Tu texto ha sido publicado",
         "you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in": "Necesitas haber iniciado sesión. Por favor, 'Guardar como borrador', y luego 'Publicar' después de iniciar sesión.",
-        "delete_tempalte": "¿Borrar plantilla?",
+        "delete_template": "¿Borrar plantilla?",
         "are_you_sure_you_want_to_delete_this_template": "¿Estás seguro de que quieres borrar esta plantilla?",
         "by_deleting_the_story_will_be_lost_forever": "Al borrar, la historia se perderá para siempre.",
         "im_sure_delete": "Estoy seguro, borrar",
@@ -159,7 +159,7 @@ const i18n = new I18n({
     },
 });
 
-i18n.defaultLocale = "es";
+i18n.defaultLocale = "en";
 i18n.locale = "es";
 
 export default i18n;

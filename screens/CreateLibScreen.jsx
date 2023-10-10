@@ -524,14 +524,14 @@ export default function CreateLibScreen({ route }) {
     const showDeleteConfirmation = () => {
         openDrawer({
             header: {
-                title: i18n.t('delete_story'),
+                title: i18n.t('delete_template'),
             },
             component: (
                 <>
                     <ScrollView>
                         <View style={[globalStyles.drawerTop, { height: "100%" }]}>
                             <Text style={styles.paragraph}>
-                                {i18n.t('are_you_sure_you_want_to_delete_this_story')}
+                                {i18n.t('are_you_sure_you_want_to_delete_this_template')}
                             </Text>
                             <Text style={styles.paragraph}>
                                 {i18n.t('by_deleting_the_story_will_be_lost_forever')}
@@ -803,7 +803,7 @@ export default function CreateLibScreen({ route }) {
                             {i18n.t('you_can_repeat_words_by_adding_a_number_at_the_end_like_so')}:
                         </Text>
                         <Text style={styles.paragraph}>
-                            <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_building_a_table')} <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_a_carpenter')}
+                            <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_building_a_table')}. <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_a_carpenter')}
                         </Text>
                     </DialogTrigger>
                 </View>

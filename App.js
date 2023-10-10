@@ -19,6 +19,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CompatibilityVerification from "./scripts/compatibility_verification.js";
 import { MenuProvider } from 'react-native-popup-menu';
 import DeepLinkHandler from './components/DeepLinkHandler.jsx'
+import Purchases from 'react-native-purchases';
+
+// Initialize RevenueCat with API key
+Purchases.configure({apiKey: 'goog_XgnhUeKjYuxuYkDsCnROqYgnPpK'});
 
 CompatibilityVerification.RunCompatibilityVerification();
 
