@@ -5,6 +5,7 @@
     "version": "2.1.2",
     "orientation": "portrait",
     "scheme": "funlibs",
+    "plugins": ["react-native-iap"],
     "notification": {
       "icon": "./assets/push_notification_icon.png"
     },

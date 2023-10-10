@@ -1,50 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import Purchases from 'react-native-purchases';
+import { Button, Text, View } from 'react-native';
+import {
+    initConnection,
+    getProducts,
+    requestPurchase,
+    finishTransaction,
+    purchaseUpdatedListener,
+    purchaseErrorListener
+} from 'react-native-iap';
 
-const IAP = () => {
+const productIds = ['test']; // Replace with your product IDs
+
+function IAP() {
     const [products, setProducts] = useState([]);
-    const [purchaserInfo, setPurchaserInfo] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Initialize RevenueCat
-        //Purchases.setDebugLogsEnabled(true);
-        Purchases.setup("goog_XgnhUeKjYuxuYkDsCnROqYgnPpK");
-
-        // Fetch available products
-        const fetchProducts = async () => {
+        async function prepareIAP() {
             try {
-                const offerings = await Purchases.getOfferings();
-                console.log(JSON.stringify(offerings));
-                if (offerings.current !== null) {
-                    setProducts(offerings.current.availablePackages);
-                } else {
-                    setProducts([]);
-                }
-            } catch (error) {
-                console.error("Error fetching products:", error);
+                console.log("INITTIGN");
+                await initConnection();
+                console.log("INNITED");
+                const fetchedProducts = await getProducts(['christmas_pack', 'test', 'mega_pack']);
+                console.log("FETCHED PRODUCST: " + fetchedProducts);
+                setProducts(fetchedProducts);
+            } catch (err) {
+                console.log("ERROR: " + err);
+                setError(err);
             }
-        };
+        }
 
-        fetchProducts();
+        const purchaseUpdateSubscription = purchaseUpdatedListener((purchase) => {
+            console.log('New purchase:', purchase);
+            finishTransaction(purchase);
+        });
+
+        const purchaseErrorSubscription = purchaseErrorListener((err) => {
+            setError(err);
+        });
+
+        prepareIAP();
+
+        return () => {
+            purchaseUpdateSubscription.remove();
+            purchaseErrorSubscription.remove();
+        };
     }, []);
 
-    const purchaseProduct = async (product) => {
-        /*try {
-            const purchaseResult = await Purchases.purchasePackage(product);
-            const { purchaserInfo } = purchaseResult;
-            setPurchaserInfo(purchaserInfo);
-        } catch (error) {
-            console.error("Purchase failed:", error);
-        }*/
-    };
+    async function handlePurchase(productId) {
+        try {
+            await requestPurchase(productId);
+        } catch (err) {
+            setError(err.message);
+        }
+    }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>RevenueCat IAP Component</Text>
-            {purchaserInfo && <Text>Thank you for your purchase!</Text>}
+        <View style={{flex: 1}}>
+            <Text>IAP Testing</Text>
+            {error && <Text>Error: {error}</Text>}
+            {products.map((product) => (
+                <View key={product.productId}>
+                    <Text>{product.title}</Text>
+                    <Text>{product.description}</Text>
+                    <Text>{product.priceString}</Text>
+                    <Button title="Buy" onPress={() => handlePurchase(product.productId)} />
+                </View>
+            ))}
         </View>
     );
-};
+}
 
 export default IAP;
