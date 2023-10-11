@@ -5,6 +5,7 @@ import Purchases from 'react-native-purchases';
 const IAP = () => {
     const [products, setProducts] = useState([]);
     const [purchased, setPurchased] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         // Fetch available products
@@ -16,6 +17,7 @@ const IAP = () => {
                 setProducts(products);
             } catch (error) {
                 console.log('Error fetching products:', error);
+                setError(error.message);
             }
         };
 
@@ -24,12 +26,7 @@ const IAP = () => {
 
     return (
         <View>
-            {/* {products.map((product) => (
-                <View key={product.identifier}>
-                    <Text>{product.title}: {product.priceString}</Text>
-                </View>
-            ))}
-            {purchased && <Text>Thank you for your purchase!</Text>} */}
+            {error && <Text>There was an error: {error}</Text>}
         </View>
     );
 };
