@@ -133,6 +133,7 @@ export default function ProfileScreen({ route }) {
                                 style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
                                 placeholder="Username..."
                                 value={nameValue}
+                                textAlign="center"
                                 onChangeText={(text) => {
                                     setNameValue(text);
                                 }}
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     circleBackground: {
         position: 'absolute',
         left: `${leftPercentage}%`,
-        top: 75,
+        top: 85,
         height: screenWidth + extraBgWidth,
         borderRadius: (screenWidth + extraBgWidth) / 2, // USED TO BE "50%"
         backgroundColor: "white",
@@ -308,6 +309,7 @@ const styles = StyleSheet.create({
 
     imageContainer: {
         position: "relative",
+        marginTop: 10,
         height: imageSize + 6,
         width: imageSize + 6,
         justifyContent: "center",
