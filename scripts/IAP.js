@@ -4,8 +4,9 @@ import FileManager from './file_manager';
 
 class IAP {
     static purchases = [];
+    static subscription = false;
 
-    static initialize() {
+    static async initialize() {
         this.getPurchases();
     }
 
@@ -37,6 +38,8 @@ class IAP {
     static async fetchProducts() {
         try {
             const fetchedProducts = await Purchases.getOfferings();
+            console.log("HEY");
+            console.log("FETCHE DPRODCUTS: " + JSON.stringify(fetchedProducts));
 
             if (
                 fetchedProducts &&
@@ -60,20 +63,34 @@ class IAP {
      * @throws {Error} - Throws an error with message "not_signed_in" if user isn't logged in. Non-cancellation errors are logged to the console.
      */
     static async purchasePackage(packageItem) {
-        try {  
+        try {
             if (!this.userIsSignedIn()) throw "not_signed_in";
 
             const { customerInfo } = await Purchases.purchasePackage(packageItem);
 
             let identifier = packageItem.product.identifier;
 
-            if (Object.keys(customerInfo.allPurchaseDates).includes(identifier)) {
-                this.purchases.push(identifier);
-                this.storePurchaseInfoLocally(identifier);
-                this.storePurchaseInfoDatabase(identifier);
-                return true;
+            // Check if the product is a subscription or consumable
+            if (packageItem.product.productType === "AUTO_RENEWABLE_SUBSCRIPTION") {
+                // It's a subscription
+                if (Object.keys(customerInfo.entitlements?.active || {}).includes(identifier)) {
+                    this.subscription = true;
+                    this.storeSubscriptionInfoLocally(true);
+                    this.storeSubscriptionInfoDatabase(true);
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                // It's a consumable or non-consumable product
+                if (Object.keys(customerInfo.allPurchaseDates).includes(identifier)) {
+                    this.purchases.push(identifier);
+                    this.storePurchaseInfoLocally(identifier);
+                    this.storePurchaseInfoDatabase(identifier);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (error) {
             console.log("Error: " + error);
@@ -107,6 +124,22 @@ class IAP {
             await FirebaseManager.UpdateDocument("users", FirebaseManager.currentUserData.auth.uid, {}, { purchases: [identifier] });
         } catch (error) {
             console.log("Error storing purchase info in database: " + error);
+        }
+    }
+
+    static async storeSubscriptionInfoLocally(status) {
+        try {
+            await FileManager._storeData("subscription", status);
+        } catch (error) {
+            console.log("Error storing subscription info locally: " + error);
+        }
+    }
+
+    static async storeSubscriptionInfoDatabase() {
+        try {
+            await FirebaseManager.UpdateDocument("users", FirebaseManager.currentUserData.auth.uid, { });
+        } catch (error) {
+            console.log("Error storing subscription info in database: " + error);
         }
     }
 
