@@ -10,6 +10,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import Purchases from 'react-native-purchases';
 
 // Global variable to store network status
 let isConnected = true;
@@ -278,6 +279,7 @@ export default class FirebaseManager {
             if (user) {
                 // User is signed in
                 const uid = user.uid;
+                const { customerInfo, created } = await Purchases.logIn(uid);
                 this.currentUserData.auth = user;
                 FileManager._storeData("uid", uid);
                 this.localUID = uid;

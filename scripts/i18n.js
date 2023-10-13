@@ -78,6 +78,7 @@ const i18n = new I18n({
         name_1: "Name 1",
         is_building_a_table: "is building a table",
         is_a_carpenter: "is a carpenter",
+        delete_account: "Delete account",
     },
     es: {
         sign_in: "Iniciar sesión",
