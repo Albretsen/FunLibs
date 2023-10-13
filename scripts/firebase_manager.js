@@ -11,6 +11,7 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import Purchases from 'react-native-purchases';
+import IAP from './IAP';
 
 // Global variable to store network status
 let isConnected = true;
@@ -398,9 +399,9 @@ export default class FirebaseManager {
         try {
             if (uid) {
                 const userDocSnap = await getDoc(doc(db, "users", uid));
-                console.log("EXISTS?" + userDocSnap.exists());
                 if (userDocSnap.exists()) {
                     this.currentUserData.firestoreData = userDocSnap.data();
+                    if (this.currentUserData?.firestoreData?.purchases) IAP.purchases = this.currentUserData.firestoreData.purchases;
                 } else {
                     let local = await FileManager._retrieveData("authData");
                     local = JSON.parse(local);

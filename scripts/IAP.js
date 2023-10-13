@@ -1,7 +1,33 @@
 import Purchases from 'react-native-purchases';
 import FirebaseManager from './firebase_manager';
+import FileManager from './file_manager';
 
 class IAP {
+    static purchases = [];
+
+    static initialize() {
+        this.getPurchases();
+    }
+
+    static async getPurchases() {
+        try {
+            let purchases = await FileManager._retrieveData("purchases");
+            if (!purchases) return;
+            purchases = JSON.parse(purchases);
+            this.purchases = purchases;
+        } catch (error) {
+            console.log("Error getting local purchases: " + error);
+        }
+
+        try {
+            if (!this.userIsSignedIn) throw "not_signed_in";
+            let purchases = await FirebaseManager.getDocumentFromCollectionById("users", FirebaseManager.currentUserData.auth.uid);
+            this.purchases = purchases.purchases;
+        } catch (error) {
+            console.log("Error getting database purchases: " + error);
+        }
+    }
+
     /**
      * Fetches product offerings from RevenueCat.
      *
@@ -35,20 +61,52 @@ class IAP {
      */
     static async purchasePackage(packageItem) {
         try {  
-            if (!userIsSignedIn()) throw "not_signed_in";
+            if (!this.userIsSignedIn()) throw "not_signed_in";
 
             const { customerInfo } = await Purchases.purchasePackage(packageItem);
 
-            if (Object.keys(customerInfo.allPurchaseDates).includes(packageItem.product.identifier)) {
+            let identifier = packageItem.product.identifier;
+
+            if (Object.keys(customerInfo.allPurchaseDates).includes(identifier)) {
+                this.purchases.push(identifier);
+                this.storePurchaseInfoLocally(identifier);
+                this.storePurchaseInfoDatabase(identifier);
                 return true;
             } else {
                 return false;
             }
         } catch (error) {
-            if (!e.userCancelled) {
+            console.log("Error: " + error);
+            if (!error.userCancelled) {
                 console.log(error);
             }
             return false;
+        }
+    }
+
+    static async storePurchaseInfoLocally(identifier) {
+        try {
+            let local_purchases = await FileManager._retrieveData("purchases");
+
+            if (!local_purchases) {
+                local_purchases = [identifier];
+                await FileManager._storeData("purchases", JSON.stringify(local_purchases));
+                return;
+            }
+
+            local_purchases = JSON.parse(local_purchases);
+            local_purchases.push(identifier);
+            await FileManager._storeData("purchases", JSON.stringify(local_purchases));
+        } catch (error) {
+            console.log("Error storing purchase info locally: " + error);
+        }
+    }
+
+    static async storePurchaseInfoDatabase(identifier) {
+        try {
+            await FirebaseManager.UpdateDocument("users", FirebaseManager.currentUserData.auth.uid, {}, { purchases: [identifier] });
+        } catch (error) {
+            console.log("Error storing purchase info in database: " + error);
         }
     }
 
@@ -78,7 +136,7 @@ class IAP {
         }
     }
 
-    userIsSignedIn() {
+    static userIsSignedIn() {
         if (FirebaseManager.currentUserData?.auth) return true;
         return false;
     }

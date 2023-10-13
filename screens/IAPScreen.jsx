@@ -31,6 +31,7 @@ const IAPScreen = () => {
                 setPurchaseStatus('Purchase failed. Please try again.');
             }
         } catch (error) {
+            console.log("Error:" + error);
             setPurchaseStatus('An error occurred during purchase.');
         }
     };
