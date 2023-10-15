@@ -345,6 +345,14 @@ export default class LibManager {
 
         return fixArticles(text.join(""));
     }
+
+    static createPromptContext(lib, promptIndex, input) {
+        console.log(promptIndex, "prompt index")
+        const text = lib.text;
+        const prompts = lib.prompts;
+        console.log(text, prompts)
+        return `${text[promptIndex - 1]} ${input} ${text[promptIndex + 1]}`
+    }
 }
 
 function fixArticles(txt) {

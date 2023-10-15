@@ -26,6 +26,7 @@ import { Platform } from "react-native";
 import CommentSection from "../components/CommentSection";
 import { BackHandler } from 'react-native';
 import AvatarDisplay from "../components/AvatarDisplay";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
@@ -40,7 +41,7 @@ export default function PlayScreen({ route }) {
 
 	useEffect(() => {
 		if (isFocused) {
-			setCurrentScreenName("PlayScreen");
+			setCurrentScreenName("Play Lib");
 			if (Platform.OS === "ios") AdManager.showAd("interstitial");
 		}
 	}, [isFocused]);
@@ -266,7 +267,7 @@ export default function PlayScreen({ route }) {
 				};
 			},
 			onConfirm: () => {
-				navigation.navigate("PlayScreen");
+				navigation.navigate("Play Lib");
 			},
 			children: (
 				<>
@@ -468,6 +469,16 @@ export default function PlayScreen({ route }) {
 		};
 	}, []);
 
+
+
+	// Prompt context:
+
+	const [showPromptContext, setShowPrompContext] = useState(true);
+
+	const createPromptContext = () => {
+		console.log(LibManager.createPromptContext(currentLib, currentPromptIndex, currentInput));
+	}
+
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
 			<ScrollView ref={scrollViewRef}
@@ -511,6 +522,16 @@ export default function PlayScreen({ route }) {
 						)}
 					</View>
 					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					<View style={[{flexDirection: "row", gap: 10}, styles.leftPadding]}>
+						<Text style={{fontSize: 16, color: "#505050", fontWeight: 500}}>See prompt in text</Text>
+						<TouchableOpacity onPress={createPromptContext}>
+							<MaterialIcons
+								name={showPromptContext ? "visibility" : "visibility-off"}
+								size={20}
+							/>
+						</TouchableOpacity>
+					</View>
+					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}></Text>
 					<Progress.Bar
 						progress={progress}
 						width={null}

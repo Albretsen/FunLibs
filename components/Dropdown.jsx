@@ -4,11 +4,12 @@ import { Menu } from 'react-native-paper';
 import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useFocusEffect } from '@react-navigation/native';
+import i18n from "../scripts/i18n";
 
 export default function Dropdown( props ) {
     const { options, selected, anchor, anchorStyle, containerStyle, title, titleStyle } = props;
     const [visible, setVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(selected || "Official libs");
+    const [selectedOption, setSelectedOption] = useState(selected || i18n.t('official_templates'));
 
     const rotateAnim = useRef(new Animated.Value(0)).current;
 
@@ -17,7 +18,7 @@ export default function Dropdown( props ) {
             // Force a state update or any other logic when the screen comes into focus
             switch (selected) {
                 case "official":
-                    setSelectedOption("Official libs");
+                    setSelectedOption(i18n.t('official_templates'));
                     break;
                 case "all":
                     setSelectedOption("User created libs");

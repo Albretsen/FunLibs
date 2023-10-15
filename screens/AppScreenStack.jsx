@@ -129,7 +129,7 @@ export default function AppScreenStack() {
 				})}
 			/>
 			<Stack.Screen
-				name="PlayScreen"
+				name="Play Lib"
 				component={PlayScreen}
 				options={{
 					headerTitle: () => (

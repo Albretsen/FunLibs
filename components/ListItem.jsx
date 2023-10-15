@@ -51,7 +51,7 @@ function ListItem(props) {
                     showToast({text: "There was an issue loading the template. Please refresh and try again."});
                     return;
                 }
-                navigation.navigate("PlayScreen", { libId: id, type: type, lib: lib, key: Math.random().toString() });
+                navigation.navigate("Play Lib", { libId: id, type: type, lib: lib, key: Math.random().toString() });
             } else {
                 openDrawer(
                     {

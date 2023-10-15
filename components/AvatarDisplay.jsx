@@ -18,7 +18,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
                 ) : (
                     <Text
                         style={[styles.title, titleStyle ? titleStyle : null]}
-                        numberOfLines={1}
+                        numberOfLines={2}
                         ellipsizeMode="tail"
                     >
                         {title}

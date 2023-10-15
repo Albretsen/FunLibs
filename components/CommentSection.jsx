@@ -282,16 +282,22 @@ export default function CommentSection(props) {
                             return (
                                 <View style={[styles.thread, comment.replies.length > 0 ? { paddingBottom: 25 } : null]} key={index}>
                                     <View style={styles.comment}>
-                                        <View style={styles.commentAvatar}>
+                                        <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
+                                            navigation.navigate("ProfileScreen", { uid: comment.uid });
+                                        }}>
                                             <Image
                                                 style={styles.avatar}
                                                 source={FirebaseManager.avatars[comment.avatarID]}
                                             />
-                                        </View>
+                                        </TouchableOpacity>
                                         <View style={styles.commentCenter}>
                                             <Text style={styles.username}>
-                                                {comment.username}
-                                                {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                <TouchableOpacity onPress={ () => {
+                                                    navigation.navigate("ProfileScreen", { uid: comment.uid });
+                                                }}>
+                                                    <Text>{comment.username}</Text>
+                                                    {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                </TouchableOpacity>
                                                 <Text style={styles.date}> | {timeAgo(comment.date)}</Text>
                                             </Text>
                                             <Text style={styles.commentText}>
@@ -305,22 +311,28 @@ export default function CommentSection(props) {
                                                 }
                                                 anchorStyle={null}
                                                 containerStyle={{ height: "auto", alignSelf: "center" }}
-                                                options={[
+                                                options={
                                                     comment.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                        ?
+                                                    ? [
                                                         {
                                                             name: "Delete comment",
                                                             onPress: () => handleDeleteComment(index)
                                                         }
-
-                                                        :
+                                                    ]
+                                                    : [
                                                         {
                                                             name: "Block " + comment.username,
                                                             onPress: () => {
                                                                 blockUser(comment.uid, comment.username);
                                                             }
+                                                        },
+                                                        {
+                                                            name: "Visit profile",
+                                                            onPress: () => {
+                                                                navigation.navigate("ProfileScreen", { uid: comment.uid });
+                                                            }
                                                         }
-                                                ]
+                                                    ]
                                                 }
                                             />
                                             <TouchableOpacity style={styles.commentAction} onPress={() => {
@@ -387,16 +399,22 @@ export default function CommentSection(props) {
 
                                         return (
                                             <View key={replyIndex} style={[styles.comment, styles.reply]}>
-                                                <View style={styles.commentAvatar}>
+                                                <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
+                                                    navigation.navigate("ProfileScreen", { uid: reply.uid });
+                                                }} >
                                                     <Image
                                                         style={styles.avatar}
                                                         source={FirebaseManager.avatars[reply.avatarID]}
                                                     />
-                                                </View>
+                                                </TouchableOpacity>
                                                 <View style={[styles.commentCenter, styles.replyCenter]}>
                                                     <Text style={styles.username}>
-                                                        {reply.username}
-                                                        {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                        <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
+                                                            navigation.navigate("ProfileScreen", { uid: reply.uid });
+                                                        }} >
+                                                            <Text>{reply.username}</Text>
+                                                            {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                        </TouchableOpacity>
                                                         <Text style={styles.date}> | {timeAgo(reply.date)}</Text>
                                                     </Text>
                                                     <Text style={styles.commentText}>
@@ -412,26 +430,26 @@ export default function CommentSection(props) {
                                                         containerStyle={{ height: "auto", alignSelf: "center" }}
                                                         options={
                                                             reply.uid === FirebaseManager.currentUserData?.auth?.uid
-                                                                ? [
-                                                                    {
-                                                                        name: "Delete comment",
-                                                                        onPress: () => handleDeleteComment(index, replyIndex)
+                                                            ? [
+                                                                {
+                                                                    name: "Delete comment",
+                                                                    onPress: () => handleDeleteComment(index, replyIndex)
+                                                                }
+                                                            ]
+                                                            : [
+                                                                {
+                                                                    name: "Block " + reply.username,
+                                                                    onPress: () => {
+                                                                        blockUser(reply.uid, reply.username);
                                                                     }
-                                                                ]
-                                                                : [
-                                                                    {
-                                                                        name: "Block " + reply.username,
-                                                                        onPress: () => {
-                                                                            blockUser(reply.uid, reply.username);
-                                                                        }
-                                                            },
-                                                            {
-                                                                name: "Visit profile",
-                                                                onPress: () => {
-                                                                    navigation.navigate("ProfileScreen", { uid: reply.uid });
-                                                                } 
+                                                                },
+                                                                {
+                                                                    name: "Visit profile",
+                                                                    onPress: () => {
+                                                                        navigation.navigate("ProfileScreen", { uid: reply.uid });
                                                                     }
-                                                                ]
+                                                                }
+                                                            ]
                                                         }
                                                     />
                                                     <TouchableOpacity style={styles.commentAction} onPress={() => {
