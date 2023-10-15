@@ -108,6 +108,8 @@ export default function PlayScreen({ route }) {
 				return "";
 			}
 			setCurrentInput(fill);
+			// Update prompt context display
+			createPromptContext(fill);
 		} else {
 			showToast({ text: "Autofill is unavailable for this promt.", noBottomMargin: true });
 		}
@@ -473,10 +475,19 @@ export default function PlayScreen({ route }) {
 
 	// Prompt context:
 
-	const [showPromptContext, setShowPrompContext] = useState(true);
+	const [showPromptContext, setShowPromptContext] = useState(false);
+	const [promptContext, setPromptContext] = useState("");
 
-	const createPromptContext = () => {
-		console.log(LibManager.createPromptContext(currentLib, currentPromptIndex, currentInput));
+	const createPromptContext = (text) => {
+		console.log(text)
+		setPromptContext(
+			LibManager.createPromptContext(
+				currentLib,
+				currentPromptIndex,
+				text,
+				displayPrompts[currentPromptIndex]
+			)
+		);
 	}
 
 	return (
@@ -505,7 +516,10 @@ export default function PlayScreen({ route }) {
 						<TextInput
 							label={displayPrompts[currentPromptIndex]}
 							value={currentInput}
-							onChangeText={setCurrentInput}
+							onChangeText={(text) => {
+								setCurrentInput(text);
+								createPromptContext(text);
+							}}
 							mode="outlined"
 							style={{paddingRight: 40}}
 							autoCapitalize="none"
@@ -521,16 +535,39 @@ export default function PlayScreen({ route }) {
 							</TouchableOpacity>
 						)}
 					</View>
-					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
-					<View style={[{flexDirection: "row", gap: 10}, styles.leftPadding]}>
-						<Text style={{fontSize: 16, color: "#505050", fontWeight: 500}}>See prompt in text</Text>
-						<TouchableOpacity onPress={createPromptContext}>
+					{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0]) != ' ' && (
+						<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					)}
+					{!showPromptContext && (
+						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
+							createPromptContext(currentInput);
+							setShowPromptContext(true);
+						}}>
 							<MaterialIcons
-								name={showPromptContext ? "visibility" : "visibility-off"}
-								size={20}
+								name={showPromptContext ? "visibility-off" : "visibility"}
+								size={24}
+								color="#635f6a"
 							/>
+							<Text style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}>Tap to see prompt in text</Text>
 						</TouchableOpacity>
-					</View>
+					)}
+					{showPromptContext && (
+						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
+							setShowPromptContext(false);
+						}}>
+							<MaterialIcons
+								name={showPromptContext ? "visibility-off" : "visibility"}
+								size={24}
+								color="#635f6a"
+							/>
+							<Text
+								style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}
+								// numberOfLines={1}
+								// ellipsizeMode="clip"
+							>{promptContext}</Text>
+						</TouchableOpacity>
+					)}
+
 					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}></Text>
 					<Progress.Bar
 						progress={progress}
@@ -544,11 +581,17 @@ export default function PlayScreen({ route }) {
 						buttons={
 							[{
 								label: "Back",
-								onPress: handleBack,
+								onPress: () => {
+									handleBack();
+									setShowPromptContext(false);
+								},
 							},
 							{
 								label: "Next",
-								onPress: handleNext,
+								onPress: () => {
+									handleNext();
+									setShowPromptContext(false);
+								},
 								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
 							}]
 						}

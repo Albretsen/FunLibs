@@ -346,12 +346,60 @@ export default class LibManager {
         return fixArticles(text.join(""));
     }
 
-    static createPromptContext(lib, promptIndex, input) {
-        console.log(promptIndex, "prompt index")
+    /**
+    * @returns Returns a JSX text node containing the context of a prompt within the given story
+    */
+    static createPromptContext(lib, promptIndex, input, currentPrompt) {
         const text = lib.text;
         const prompts = lib.prompts;
-        console.log(text, prompts)
-        return `${text[promptIndex - 1]} ${input} ${text[promptIndex + 1]}`
+        const promptPos = Object.values(prompts[promptIndex])[0][0];
+
+        // When the user hasn't written anything, show the name of the prompt
+        if(input == "") {
+            input = currentPrompt;
+        }
+
+        // Max length of each surrounding block of text
+        const maxTextLength = 30;
+
+        // Set text preceding the prompt
+        let beforeTextFull = text[promptPos - 1];
+        // Establish iterator
+        let beforeI = 2;
+        // Keep going backwards in the array until the before text is long enough, or stop of there is no more text
+        while(beforeTextFull.length < maxTextLength && text[promptPos - beforeI]) {
+            beforeTextFull = `${text[promptPos - beforeI]}${beforeTextFull}`;
+            beforeI++;
+        }
+
+        // Ditto, but the other way around
+        let afterTextFull = text[promptPos + 1];
+        let afterI = 2;
+        while(afterTextFull.length < maxTextLength && text[promptPos + afterI]) {
+            afterTextFull = `${afterTextFull}${text[promptPos + afterI]}`;
+            afterI++;
+        }
+
+
+        // Limit to maxTextLength characters, also subtracting the length of the input
+        const beforeSubtract = maxTextLength - Math.floor(input.length);
+        const beforeText = beforeTextFull.length > beforeSubtract
+            ? beforeTextFull.slice(-beforeSubtract) 
+            : beforeTextFull;
+        
+        const afterSubtract = maxTextLength - Math.ceil(input.length);
+        const afterText = afterTextFull.length > afterSubtract 
+            ? afterTextFull.slice(0, afterSubtract) 
+            : afterTextFull;
+
+
+        return (
+            <Text>
+                ...{beforeText}
+                <Text style={{color: "#006D40"}}>{input}</Text>
+                {afterText}...
+            </Text>
+        )
     }
 }
 
