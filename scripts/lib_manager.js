@@ -333,7 +333,7 @@ export default class LibManager {
     }
 
     /**
-    * @returns Returns a editable story
+    * @returns Returns an editable story
     */
     static display_edit(text, prompts) {
         for (let i = 0; i < prompts.length; i++) {
@@ -366,7 +366,7 @@ export default class LibManager {
         let beforeTextFull = text[promptPos - 1];
         // Establish iterator
         let beforeI = 2;
-        // Keep going backwards in the array until the before text is long enough, or stop of there is no more text
+        // Keep going backwards in the array until the before text is long enough, or stop if there is no more text
         while(beforeTextFull.length < maxTextLength && text[promptPos - beforeI]) {
             beforeTextFull = `${text[promptPos - beforeI]}${beforeTextFull}`;
             beforeI++;
@@ -382,12 +382,12 @@ export default class LibManager {
 
 
         // Limit to maxTextLength characters, also subtracting the length of the input
-        const beforeSubtract = maxTextLength - Math.floor(input.length);
+        const beforeSubtract = maxTextLength - Math.floor(input.length / 2);
         const beforeText = beforeTextFull.length > beforeSubtract
             ? beforeTextFull.slice(-beforeSubtract) 
             : beforeTextFull;
         
-        const afterSubtract = maxTextLength - Math.ceil(input.length);
+        const afterSubtract = maxTextLength - Math.ceil(input.length / 2);
         const afterText = afterTextFull.length > afterSubtract 
             ? afterTextFull.slice(0, afterSubtract) 
             : afterTextFull;
