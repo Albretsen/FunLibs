@@ -1668,6 +1668,36 @@ export default class FirebaseManager {
         "no-avatar-48": require(`../assets/images/avatars/no-avatar-48.png`),
         "no-avatar-24": require(`../assets/images/avatars/no-avatar-24.png`),
     }
+
+    /**
+    * @returns Returns a random color, used for generating a color when creating user profile
+    */
+    static getRandomColor() {
+        const colors = ['#19BB77', '#3E99ED', '#0f58d6'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    /**
+    * @returns Returns the given hex code for a color, brightened by whatever factor you desire 
+    */
+    static brightenColor(hexColor, factor) {
+        // Ensure the hex color starts with a hash symbol
+        hexColor = hexColor.replace(/^#/, '');
+    
+        // Convert hex to RGB
+        let r = parseInt(hexColor.substring(0, 2), 16);
+        let g = parseInt(hexColor.substring(2, 4), 16);
+        let b = parseInt(hexColor.substring(4, 6), 16);
+    
+        // Brighten each RGB component
+        r = Math.min(255, parseInt(r + (255 - r) * factor));
+        g = Math.min(255, parseInt(g + (255 - g) * factor));
+        b = Math.min(255, parseInt(b + (255 - b) * factor));
+    
+        // Convert RGB back to hex and return it
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    
 }
 
 // Sets auth state listener
