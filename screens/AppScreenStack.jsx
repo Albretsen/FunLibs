@@ -80,7 +80,7 @@ export default function AppScreenStack() {
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Image
 								source={require("../assets/images/heart.png")}
-								style={{ width: 21, height: 20 }}
+								style={{ width: 22, height: 20 }}
 							/>
 						</View>
 					),
