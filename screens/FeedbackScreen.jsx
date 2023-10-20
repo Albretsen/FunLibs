@@ -27,7 +27,7 @@ export default function FeedbackScreen() {
                     />
                     <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={() => {
                         showToast({text: "Thank you for your feedback!", noBottomMargin: true});
-                        navigation.navigate("Home");
+                        navigation.navigate("Browse");
                         try {
                             let feedback = {
                                 feedback: feedbackText,

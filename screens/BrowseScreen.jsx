@@ -7,8 +7,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
 
-export default function LibsHomeScreen({ route }) {
-    const initialTab = route.params?.initialTab ?? "Home";
+export default function BrowseScreen({ route }) {
+    const initialTab = route.params?.initialTab ?? "Browse";
 
     const { tab } = useTab();
 

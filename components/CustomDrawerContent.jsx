@@ -7,10 +7,10 @@ const CustomDrawerContent = ({ navigation, state }) => {
         <View style={styles.container}>
         <TouchableOpacity
             style={styles.drawerItem}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Browse')}
         >
             {/* <MaterialIcons name="home" size={24} color="#333" /> */}
-            <Text style={styles.drawerItemText}>Home</Text>
+            <Text style={styles.drawerItemText}>Browse</Text>
         </TouchableOpacity>
         {/* Add more items here */}
         </View>

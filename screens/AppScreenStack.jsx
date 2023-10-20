@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
-import LibsHomeScreen from "./LibsHomeScreen";
+import BrowseScreen from "./BrowseScreen";
 import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
@@ -48,8 +48,8 @@ export default function AppScreenStack() {
 
 	useEffect(() => {
 		const handleFocus = () => {
-			// Your desired code to run when "Home" screen is focused goes here
-			console.log('Navigated to Home screen!');
+			// Your desired code to run when "Browse" screen is focused goes here
+			console.log('Navigated to Browse screen!');
 		};
 	
 		// Add the listener for the focus event on the navigation object
@@ -72,8 +72,8 @@ export default function AppScreenStack() {
     return (
 		<Stack.Navigator>
 			<Stack.Screen
-				name="Home"
-				component={LibsHomeScreen}
+				name="Browse"
+				component={BrowseScreen}
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>

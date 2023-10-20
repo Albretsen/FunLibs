@@ -35,7 +35,7 @@ export default function ProfileScreen({ route }) {
         let data = await FirebaseManager.fetchUserDataForProfile(uid);
         if (!data) {
             showToast("This user does not have a public profile.");
-            navigation.navigate("Home");
+            navigation.navigate("Browse");
             setLoading(false);
             return;
         }
@@ -100,7 +100,7 @@ export default function ProfileScreen({ route }) {
         FirebaseManager.blockUser(uid);
 
         showToast(username + " has been blocked.", true);
-        navigation.navigate("Home");
+        navigation.navigate("Browse");
         FirebaseManager.RefreshList(null);
     }
 

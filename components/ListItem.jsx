@@ -140,7 +140,7 @@ function ListItem(props) {
     }
 
     const edit = () => {
-		navigation.navigate("Home", { 
+		navigation.navigate("Browse", { 
 			screen: "Create",
 			params: {
 				libText: LibManager.display_edit(text, prompts),

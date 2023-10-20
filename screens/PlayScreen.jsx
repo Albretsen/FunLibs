@@ -264,7 +264,7 @@ export default function PlayScreen({ route }) {
 			onCancel: () => {
 				if (onPress) onPress();
 				else {
-					navigation.navigate("Home");
+					navigation.navigate("Browse");
 					return false;
 				};
 			},
@@ -337,7 +337,7 @@ export default function PlayScreen({ route }) {
 		FileManager._storeData("read", JSON.stringify(readArray));
 		showToast({ text: "Your story is saved under Read!", noBottomMargin: true });
 		closeDrawer();
-		navigation.navigate("Home");
+		navigation.navigate("Browse");
 	}
 
 	const [isUpdating, setIsUpdating] = useState(false);

@@ -95,7 +95,7 @@ export default function NewAccountScreen() {
             FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
                 .then(user => {
                     showToast({text: "Welcome to Fun Libs, " + username + "!", loading: false});
-                    navigation.navigate("Home");
+                    navigation.navigate("Browse");
                 })
                 .catch(error => {
                     FirebaseManager.DeleteUser();
@@ -127,42 +127,6 @@ export default function NewAccountScreen() {
             showToast({text: errorMessage, loading: false});
         }
     }
-
-    /*const createAccount = async (email, password, username, avatarIndex, navigation) => {
-        try {
-            const user = await FirebaseManager.CreateUser("email", email, password, username, avatarIndex);
-            if (user?.uid) {
-                navigation.navigate("Home");
-            } else {
-                console.error("Error creating account: Unexpected result format");
-            }
-        } catch (error) {
-            const errorMessage = FirebaseManager.getCreateAccountErrorMessage(error.code);
-            console.error("Error creating account: ", errorMessage);
-    
-            switch (error.code) {
-                case 'auth/email-already-in-use':
-                    // Handle specific logic for this error if needed
-                    break;
-                case 'auth/invalid-email':
-                    // Handle specific logic for this error if needed
-                    break;
-                case 'auth/operation-not-allowed':
-                    // Handle specific logic for this error if needed
-                    break;
-                case 'auth/weak-password':
-                    // Handle specific logic for this error if needed
-                    break;
-                // Add more error codes and their handling logic as needed
-                default:
-                    // Handle unknown errors
-                    break;
-            }
-    
-            // Handle the error here, e.g. show an error message to the user
-            showToast(errorMessage);
-        }
-    }*/
 
     const navigation = useNavigation();
 
