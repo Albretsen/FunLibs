@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
+import HomeScreen from './HomeScreen';
 import BrowseScreen from "./BrowseScreen";
 import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
@@ -59,10 +60,6 @@ export default function AppScreenStack() {
 		return unsubscribe;
 	}, [navigation]);
 
-	const avatarSrc = (FirebaseManager.currentUserData?.firestoreData) 
-	? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-	: FirebaseManager.avatars["no-avatar"]
-
 	const standardHeaderStyle = {
 		elevation: 0, // remove shadow on Android
 		shadowOpacity: 0, // remove shadow on iOS
@@ -71,6 +68,14 @@ export default function AppScreenStack() {
 
     return (
 		<Stack.Navigator>
+			<Stack.Screen
+				name="Home"
+				component={HomeScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: standardHeaderStyle,
+				}}
+			/>
 			<Stack.Screen
 				name="Browse"
 				component={BrowseScreen}

@@ -66,7 +66,7 @@ export default function App() {
 
   const handleDeepLink = ({ path, queryParams }) => {
     // Handle the deep link: navigate to the correct screen or perform other actions
-    console.log('Received deep link:', path, queryParams);
+    // console.log('Received deep link:', path, queryParams);
   };
 
   const ConditionalWrapper = ({ children }) => {
@@ -91,8 +91,8 @@ export default function App() {
     return children;
   };
 
+  // The outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
   return (
-    // This outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
     <ConditionalWrapper>
       <StatusBar barStyle="dark-content" />
       <DeepLinkHandler onDeepLink={handleDeepLink} />
