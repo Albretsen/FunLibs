@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Platform, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import ListItem from "../components/ListItem";
 import { LinearGradient } from 'expo-linear-gradient';
 import globalStyles from "../styles/globalStyles";
@@ -44,8 +44,11 @@ export default function ProfileScreen({ route }) {
         setBioValue(data.bio);
         setNameValue(data.username);
         setAvatarIndex(data.avatarID);
+
         setLoading(false);
     }
+
+    const [userColor, setUserColor] = useState(FirebaseManager.getRandomColor());
 
     // True if viewing your own profile
     // Mostly turns text into input fields
@@ -101,17 +104,19 @@ export default function ProfileScreen({ route }) {
         FirebaseManager.RefreshList(null);
     }
 
+    const VariableScrollView = Platform.OS === "web" ? ScrollView : BottomSheetScrollView;
+
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
             <LinearGradient
-                colors={['#19BB77', '#3E99ED']}
+                colors={[userColor, FirebaseManager.brightenColor(userColor, 0.5)]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
             />
             <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
-                <TouchableOpacity style={styles.imageContainer} onPress={
+                <TouchableOpacity style={[styles.imageContainer, {backgroundColor: userColor}]} onPress={
                     () => {
                         if(yourOwnProfile) openBottomSheet();
                     }
@@ -241,7 +246,7 @@ export default function ProfileScreen({ route }) {
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>Templates by {userData.username}</Text>
 
                         {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
-                        <View style={{flex: 1}}>
+                        <View style={{flex: 1, maxWidth: "100%", minWidth: "100%"}}>
                             <ListManager filterOptions={{
                                 "sortBy": "newest",
                                 "dateRange": "allTime",
@@ -262,7 +267,7 @@ export default function ProfileScreen({ route }) {
                 // onChange={handleBottomSheetChange}
             >
                 <Text style={[globalStyles.title, {marginBottom: 20}]}>Select a new avatar</Text>
-                <BottomSheetScrollView>
+                <VariableScrollView>
                     <AvatarSelect
                         onAvatarChange={handleAvatarChange}
                         selectedDefaultIndex={avatarIndex}
@@ -270,7 +275,7 @@ export default function ProfileScreen({ route }) {
                         bottomSheet={true}
                         containerStyle={{paddingVertical: 20}}
                     />
-                </BottomSheetScrollView>
+                </VariableScrollView>
             </BottomSheet>
             {loading && (
                 <View style={styles.loadingOverlay}>
@@ -310,13 +315,15 @@ const styles = StyleSheet.create({
     imageContainer: {
         position: "relative",
         marginTop: 10,
-        height: imageSize + 6,
-        width: imageSize + 6,
+        height: imageSize + 10,
+        width: imageSize + 10,
         justifyContent: "center",
         alignSelf: "center",
         backgroundColor: "white",
-        borderRadius: 100, // "100%"
-        zIndex: 100
+        borderRadius: 100,
+        zIndex: 100,
+        // borderWidth: 1,
+        borderColor: "white",
     },
 
     addImage: {

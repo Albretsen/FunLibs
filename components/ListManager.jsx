@@ -46,6 +46,8 @@ const ListManager = (props) => {
 
     if (loading && !refreshing) return <View><Text>Loading...</Text></View>;
 
+    const userColor = FirebaseManager.getRandomColor();
+
     return (
         <FlatList
             data={data}
@@ -71,6 +73,7 @@ const ListManager = (props) => {
                     likesArray={item.likesArray}
                     playable={item.playable}
                     item={item}
+                    color={userColor}
                 />
             )}
             ListEmptyComponent={<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>No results</Text></View>}

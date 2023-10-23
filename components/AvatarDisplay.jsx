@@ -3,22 +3,24 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
 
-export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent }) {
+export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, color }) {
     const ParentTag = onPress ? TouchableOpacity : View;
 
     return (
         <ParentTag style={styles.container} onPress={onPress}>
-            <Image
-                style={styles.image}
-                source={FirebaseManager.avatars[avatarID]} 
-            />
+            <View style={[styles.imageContainer, {backgroundColor: color}]}>
+                <Image
+                    style={styles.image}
+                    source={FirebaseManager.avatars[avatarID]} 
+                />
+            </View>
             <View style={styles.textContainer}>
                 {titleComponent ? (
                     titleComponent
                 ) : (
                     <Text
                         style={[styles.title, titleStyle ? titleStyle : null]}
-                        numberOfLines={1}
+                        numberOfLines={2}
                         ellipsizeMode="tail"
                     >
                         {title}
@@ -37,6 +39,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
     )
 }
 
+const imageSize = 45;
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
@@ -45,12 +48,21 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        height: 45,
-        width: 45,
-        flexBasis: 45,
+        height: imageSize,
+        width: imageSize,
+        // flexBasis: 45,
         justifyContent:"center",
         alignSelf: "center",
         justifyContent: "center",
+    },
+
+    imageContainer: {
+        height: imageSize + 4,
+        width: imageSize + 4,
+        flexBasis: imageSize + 4,
+        justifyContent: "center",
+        alignSelf: "center",
+        borderRadius: 100,
     },
 
     textContainer: {

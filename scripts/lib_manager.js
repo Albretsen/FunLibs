@@ -142,6 +142,7 @@ export default class LibManager {
         const explanations = {
             'adjective': 'Adjective: describes something.',
             'verb': 'Verb: shows action or being.',
+            'adverb': 'A word or phrase that modifies or qualifies an adjective or verb: gently, quite, then, there, etc.',
             'noun': 'Noun: name for a person, place, or thing.',
             'proper noun': 'Proper Noun: name for specific things, people, and places.',
             'superlative': 'Superlative: fastest, best, etc.',
@@ -333,7 +334,7 @@ export default class LibManager {
     }
 
     /**
-    * @returns Returns a editable story
+    * @returns Returns an editable story
     */
     static display_edit(text, prompts) {
         for (let i = 0; i < prompts.length; i++) {
@@ -344,6 +345,62 @@ export default class LibManager {
         }
 
         return fixArticles(text.join(""));
+    }
+
+    /**
+    * @returns Returns a JSX text node containing the context of a prompt within the given story
+    */
+    static createPromptContext(lib, promptIndex, input, currentPrompt) {
+        const text = lib.text;
+        const prompts = lib.prompts;
+        const promptPos = Object.values(prompts[promptIndex])[0][0];
+
+        // When the user hasn't written anything, show the name of the prompt
+        if(input == "") {
+            input = currentPrompt;
+        }
+
+        // Max length of each surrounding block of text
+        const maxTextLength = 30;
+
+        // Set text preceding the prompt
+        let beforeTextFull = text[promptPos - 1];
+        // Establish iterator
+        let beforeI = 2;
+        // Keep going backwards in the array until the before text is long enough, or stop if there is no more text
+        while(beforeTextFull.length < maxTextLength && text[promptPos - beforeI]) {
+            beforeTextFull = `${text[promptPos - beforeI]}${beforeTextFull}`;
+            beforeI++;
+        }
+
+        // Ditto, but the other way around
+        let afterTextFull = text[promptPos + 1];
+        let afterI = 2;
+        while(afterTextFull.length < maxTextLength && text[promptPos + afterI]) {
+            afterTextFull = `${afterTextFull}${text[promptPos + afterI]}`;
+            afterI++;
+        }
+
+
+        // Limit to maxTextLength characters, also subtracting the length of the input
+        const beforeSubtract = maxTextLength - Math.floor(input.length / 2);
+        const beforeText = beforeTextFull.length > beforeSubtract
+            ? beforeTextFull.slice(-beforeSubtract) 
+            : beforeTextFull;
+        
+        const afterSubtract = maxTextLength - Math.ceil(input.length / 2);
+        const afterText = afterTextFull.length > afterSubtract 
+            ? afterTextFull.slice(0, afterSubtract) 
+            : afterTextFull;
+
+
+        return (
+            <Text>
+                ...{beforeText}
+                <Text style={{color: "#006D40"}}>{input}</Text>
+                {afterText}...
+            </Text>
+        )
     }
 }
 

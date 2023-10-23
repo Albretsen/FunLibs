@@ -18,7 +18,7 @@ import { ToastContext } from "../components/Toast";
 import AvatarDisplay from "./AvatarDisplay";
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item, color } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -51,7 +51,7 @@ function ListItem(props) {
                     showToast({text: "There was an issue loading the template. Please refresh and try again."});
                     return;
                 }
-                navigation.navigate("PlayScreen", { libId: id, type: type, lib: lib, key: Math.random().toString() });
+                navigation.navigate("Play Lib", { libId: id, type: type, lib: lib, key: Math.random().toString() });
                 try {
                     FirebaseManager.updateNumericField("posts", id, "plays", 1);
                     FirebaseManager.updateNumericField("users", lib.user, "plays", 1);
@@ -240,6 +240,7 @@ function ListItem(props) {
                     onPress={() => playLib(id, type)}
                     avatarID={avatarID}
                     title={name}
+                    color={color}
                     text={(
                         <Text>
                             {"by "} 

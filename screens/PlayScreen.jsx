@@ -26,6 +26,7 @@ import { Platform } from "react-native";
 import CommentSection from "../components/CommentSection";
 import { BackHandler } from 'react-native';
 import AvatarDisplay from "../components/AvatarDisplay";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
@@ -40,7 +41,7 @@ export default function PlayScreen({ route }) {
 
 	useEffect(() => {
 		if (isFocused) {
-			setCurrentScreenName("PlayScreen");
+			setCurrentScreenName("Play Lib");
 			if (Platform.OS === "ios") AdManager.showAd("interstitial");
 		}
 	}, [isFocused]);
@@ -107,6 +108,8 @@ export default function PlayScreen({ route }) {
 				return "";
 			}
 			setCurrentInput(fill);
+			// Update prompt context display
+			createPromptContext(fill);
 		} else {
 			showToast({ text: "Autofill is unavailable for this promt.", noBottomMargin: true });
 		}
@@ -266,7 +269,7 @@ export default function PlayScreen({ route }) {
 				};
 			},
 			onConfirm: () => {
-				navigation.navigate("PlayScreen");
+				navigation.navigate("Play Lib");
 			},
 			children: (
 				<>
@@ -468,6 +471,25 @@ export default function PlayScreen({ route }) {
 		};
 	}, []);
 
+
+
+	// Prompt context:
+
+	const [showPromptContext, setShowPromptContext] = useState(false);
+	const [promptContext, setPromptContext] = useState("");
+
+	const createPromptContext = (text) => {
+		console.log(text)
+		setPromptContext(
+			LibManager.createPromptContext(
+				currentLib,
+				currentPromptIndex,
+				text,
+				displayPrompts[currentPromptIndex]
+			)
+		);
+	}
+
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
 			<ScrollView ref={scrollViewRef}
@@ -494,7 +516,10 @@ export default function PlayScreen({ route }) {
 						<TextInput
 							label={displayPrompts[currentPromptIndex]}
 							value={currentInput}
-							onChangeText={setCurrentInput}
+							onChangeText={(text) => {
+								setCurrentInput(text);
+								createPromptContext(text);
+							}}
 							mode="outlined"
 							style={{paddingRight: 40}}
 							autoCapitalize="none"
@@ -510,7 +535,40 @@ export default function PlayScreen({ route }) {
 							</TouchableOpacity>
 						)}
 					</View>
-					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0]) != ' ' && (
+						<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					)}
+					{!showPromptContext && (
+						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
+							createPromptContext(currentInput);
+							setShowPromptContext(true);
+						}}>
+							<MaterialIcons
+								name={showPromptContext ? "visibility-off" : "visibility"}
+								size={24}
+								color="#635f6a"
+							/>
+							<Text style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}>Tap to see prompt in text</Text>
+						</TouchableOpacity>
+					)}
+					{showPromptContext && (
+						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
+							setShowPromptContext(false);
+						}}>
+							<MaterialIcons
+								name={showPromptContext ? "visibility-off" : "visibility"}
+								size={24}
+								color="#635f6a"
+							/>
+							<Text
+								style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}
+								// numberOfLines={1}
+								// ellipsizeMode="clip"
+							>{promptContext}</Text>
+						</TouchableOpacity>
+					)}
+
+					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}></Text>
 					<Progress.Bar
 						progress={progress}
 						width={null}
@@ -523,11 +581,17 @@ export default function PlayScreen({ route }) {
 						buttons={
 							[{
 								label: "Back",
-								onPress: handleBack,
+								onPress: () => {
+									handleBack();
+									setShowPromptContext(false);
+								},
 							},
 							{
 								label: "Next",
-								onPress: handleNext,
+								onPress: () => {
+									handleNext();
+									setShowPromptContext(false);
+								},
 								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
 							}]
 						}

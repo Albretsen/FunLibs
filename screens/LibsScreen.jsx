@@ -667,6 +667,7 @@ export default function LibsScreen() {
 								likesArray={item.likesArray}
 								playable={item.playable}
 								item={item}
+								color={FirebaseManager.getRandomColor()}
 							/>
 						)}
 						keyExtractor={item => `${item.id}-${item.likes}`}
