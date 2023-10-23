@@ -5,9 +5,31 @@ import FileManager from './file_manager';
 class IAP {
     static purchases = [];
     static subscription = false;
+    static subscriptionExpiration = 0;
 
     static async initialize() {
-        this.getPurchases();
+        await this.getPurchases();
+        // setInterval(async function () {
+        //     console.log("SUBSCRIPOTION: " + JSON.stringify(await IAP.verifySubscription()));
+        //     let subscription = await FileManager._retrieveData("subscription");
+        //     if (subscription) {
+        //         subscription = JSON.parse(subscription);
+        //         console.log("EXPIRATIONJ: " + (subscription.premium.expirationDateMillis > new Date().getTime()));
+        //     }
+        // }, 10000);
+    }
+
+    static async verifyPurchase(identifier) {
+        let customerInfo = await this.getCustomerInfo();
+
+        return Object.keys(customerInfo.allPurchaseDates).includes(identifier);
+    }
+
+    static async verifySubscription() {
+        let customerInfo = await this.getCustomerInfo();
+        console.log(JSON.stringify(customerInfo.entitlements.active));
+
+        return (customerInfo.entitlements?.active?.premium != undefined);
     }
 
     static async getPurchases() {
@@ -38,8 +60,6 @@ class IAP {
     static async fetchProducts() {
         try {
             const fetchedProducts = await Purchases.getOfferings();
-            console.log("HEY");
-            console.log("FETCHE DPRODCUTS: " + JSON.stringify(fetchedProducts));
 
             if (
                 fetchedProducts &&
@@ -72,18 +92,20 @@ class IAP {
 
             // Check if the product is a subscription or consumable
             if (packageItem.product.productType === "AUTO_RENEWABLE_SUBSCRIPTION") {
+                // THIS HEY PRINTS AN EMPTY OBJECT
+                console.log("Hey 1: " + JSON.stringify(customerInfo));
                 // It's a subscription
-                if (Object.keys(customerInfo.entitlements?.active || {}).includes(identifier)) {
+                if (this.verifySubscription()) {
                     this.subscription = true;
-                    this.storeSubscriptionInfoLocally(true);
-                    this.storeSubscriptionInfoDatabase(true);
+                    this.storeSubscriptionInfoLocally(customerInfo.entitlements.active);
+                    this.storeSubscriptionInfoDatabase(customerInfo.entitlements.active);
                     return true;
                 } else {
                     return false;
                 }
             } else {
                 // It's a consumable or non-consumable product
-                if (Object.keys(customerInfo.allPurchaseDates).includes(identifier)) {
+                if (this.verifyPurchase(identifier)) {
                     this.purchases.push(identifier);
                     this.storePurchaseInfoLocally(identifier);
                     this.storePurchaseInfoDatabase(identifier);
@@ -127,17 +149,17 @@ class IAP {
         }
     }
 
-    static async storeSubscriptionInfoLocally(status) {
+    static async storeSubscriptionInfoLocally(subscription) {
         try {
-            await FileManager._storeData("subscription", status);
+            await FileManager._storeData("subscription", JSON.stringify(subscription));
         } catch (error) {
             console.log("Error storing subscription info locally: " + error);
         }
     }
 
-    static async storeSubscriptionInfoDatabase() {
+    static async storeSubscriptionInfoDatabase(subscription) {
         try {
-            await FirebaseManager.UpdateDocument("users", FirebaseManager.currentUserData.auth.uid, { });
+            await FirebaseManager.UpdateDocument("users", FirebaseManager.currentUserData.auth.uid, { subscription: subscription});
         } catch (error) {
             console.log("Error storing subscription info in database: " + error);
         }
@@ -161,7 +183,7 @@ class IAP {
      */
     static async getCustomerInfo() {
         try {
-            if (!userIsSignedIn()) throw "not_signed_in";
+            if (!this.userIsSignedIn()) throw "not_signed_in";
             
             return await Purchases.getCustomerInfo();
         } catch (error) {

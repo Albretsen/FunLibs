@@ -52,6 +52,12 @@ function ListItem(props) {
                     return;
                 }
                 navigation.navigate("PlayScreen", { libId: id, type: type, lib: lib, key: Math.random().toString() });
+                try {
+                    FirebaseManager.updateNumericField("posts", id, "plays", 1);
+                    FirebaseManager.updateNumericField("users", lib.user, "plays", 1);
+                } catch (error) {
+                    console.log("Error updating plays: " + error);
+                }
             } else {
                 openDrawer(
                     {
