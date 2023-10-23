@@ -245,7 +245,7 @@ function ListItem(props) {
                         <Text>
                             {"by "} 
                             <Text style={username === "Official" ? {color: "#419764", fontWeight: 600} : null}>{username}</Text>
-                            {!local ? ` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
+                            {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
                         </Text>
                     )}
                     rightComponent={icon ? (

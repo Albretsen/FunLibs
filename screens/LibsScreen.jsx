@@ -720,7 +720,7 @@ export default function LibsScreen() {
 			{/* TEST IF THIS WORKS IN EMULATOR, DOES NOT WORK ON WEB */}
 			{/* <BottomSheetScrollView> */}
 				<View>
-					<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>Sort by</Text>
+					<Text style={[ globalStyles.bold, {marginVertical: 6, fontSize: 20}]}>{i18n.t('sort_by')}</Text>
 					<Buttons 
 						buttons={[
 							{

@@ -8,6 +8,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "../components/Drawer";
 import { ToastContext } from "../components/Toast";
 import FileManager from "../scripts/file_manager";
+import i18n from "../scripts/i18n";
 
 export default function DeleteAccountScreen() {
     const [email, setEmail] = useState("");
@@ -26,16 +27,16 @@ export default function DeleteAccountScreen() {
     return(
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
-                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>Delete Account</Text>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>{i18n.t('delete_account')}</Text>
                 <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
-				    This will delete your account, as well as any content you've published.
+				    {i18n.t('this_will_delete_your_account_as_well_as_any_content_you_have_published')}
 			    </Text>
                 <View style={globalStyles.form}>
                     <View style={globalStyles.formField}>
                         <TextInput
                             autoCapitalize="none"
                             keyboardType="email-address"
-                            label="Email"
+                            label={i18n.t('email')}
                             value={email}
                             onChangeText={email => setEmail(email)}
                             mode="outlined"
@@ -48,7 +49,7 @@ export default function DeleteAccountScreen() {
                         <View style={{position: "relative"}}>
                             <TextInput
                                 autoCapitalize="none"
-                                label="Password"
+                                label={i18n.t('password')}
                                 secureTextEntry={passwordVisible}
                                 value={password}
                                 onChangeText={password => setPassword(password)}
@@ -73,7 +74,7 @@ export default function DeleteAccountScreen() {
                         try {
                             if (email !== FirebaseManager.currentUserData?.auth?.email) {
                                 // showToast("Email does not matched the signed in account");
-                                setEmailError("Email does not match the signed in account");
+                                setEmailError(i18n.t('email_does_not_match_the_signed_in_account'));
                                 return;
                             }
                             let result = await FirebaseManager.SignInWithEmailAndPassword(email, password);
@@ -81,11 +82,11 @@ export default function DeleteAccountScreen() {
                                 console.log("Wrong credentials");
                                 return;
                             }
-                            showToast({text: "Deleting account...", loading: true})
+                            showToast({text: i18n.t('deleting_account'), loading: true})
                             await FileManager._storeData("uid", "");
                             FirebaseManager.localUID = "";
                             await FirebaseManager.DeleteUser();
-                            showToast({text: "Account deleted.", loading: false});
+                            showToast({text: i18n.t('account_deleted'), loading: false});
                             navigation.navigate("Home");
                         } catch (error) {
                             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
@@ -93,23 +94,23 @@ export default function DeleteAccountScreen() {
                             setPasswordError("");
                             switch (error.code) {
                                 case 'auth/wrong-password':
-                                    setPasswordError("Wrong password!")
+                                    setPasswordError(i18n.t('wrong_password'))
                                     break;
                                 case 'auth/user-not-found':
-                                    setEmailError("User not found.")
+                                    setEmailError(i18n.t('user_not_found'))
                                     break;
                                 case 'auth/user-disabled':
-                                    setEmailError("User not found.")
+                                    setEmailError(i18n.t('user_not_found'))
                                     break;
                                 case 'auth/invalid-email':
-                                    setEmailError("Please format your email correctly: example@email.com.")
+                                    setEmailError(i18n.t('there_is_an_issue_with_the_email_format'))
                                     break;
                                 case 'auth/operation-not-allowed':
                                     break;
                                 case 'auth/too-many-requests':
                                     break;
                                 case 'auth/missing-password':
-                                    setPasswordError("Please enter a password!")
+                                    setPasswordError(i18n.t('please_enter_a_password'))
                                     break;
                                 default:
                                     //Unknown erorr
@@ -119,7 +120,7 @@ export default function DeleteAccountScreen() {
                             showToast(errorMessage);
                         }
                     }}>
-                        <Text style={[globalStyles.formButtonLabel]}>Delete</Text>
+                        <Text style={[globalStyles.formButtonLabel]}>{i18n.t('delete')}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

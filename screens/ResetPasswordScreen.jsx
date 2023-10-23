@@ -7,6 +7,8 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { useDrawer } from "../components/Drawer";
 import { ToastContext } from "../components/Toast";
 import FileManager from "../scripts/file_manager";
+import i18n from "../scripts/i18n";
+import { t } from "i18n-js";
 
 export default function DeleteAccountScreen() {
     const [email, setEmail] = useState("");
@@ -24,16 +26,16 @@ export default function DeleteAccountScreen() {
         let errors = [];
     
         if (password.length < minimum_password_length) {
-            errors.push("The new password should be at least " + String(minimum_password_length) + " characters.");
+            errors.push(i18n.t('password_should_be_at_least') + " " + String(minimum_password_length) + " " + i18n.t('characters'));
         }
         if (!/[A-Z]/.test(password)) {
-            errors.push("The new password should contain at least one uppercase letter.");
+            errors.push(i18n.t('password_should_contain_at_least_one_uppercase_letter'));
         }
         if (!/[a-z]/.test(password)) {
-            errors.push("The new password should contain at least one lowercase letter.");
+            errors.push(i18n.t('password_should_contain_at_least_one_lowercase_letter'));
         }
         if (!/[0-9]/.test(password)) {
-            errors.push("The new password should contain at least one number.");
+            errors.push(i18n.t('password_should_contain_at_least_one_number'));
         }
         /*if (!/[!@#$%^&*]/.test(password)) {
             errors.push("Password should contain at least one special character (e.g., !@#$%^&*).");
@@ -45,16 +47,16 @@ export default function DeleteAccountScreen() {
     return(
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
-                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>Reset Password</Text>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>{i18n.t('reset_password')}</Text>
                 <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
-				    This will send you an email.
+				    {i18n.t('this_will_send_you_an_email')}
 			    </Text>
                 <View style={globalStyles.form}>
                     <View style={globalStyles.formField}>
                         <TextInput
                             autoCapitalize="none"
                             keyboardType="email-address"
-                            label="Email"
+                            label={i18n.t('email')}
                             value={email}
                             onChangeText={email => setEmail(email)}
                             mode="outlined"
@@ -66,18 +68,18 @@ export default function DeleteAccountScreen() {
                     <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace]} onPress={async () => {
                         //setShowDialogDelete(false);
                         if (!FirebaseManager.currentUserData?.auth?.email || !email) {
-                            showToast({text: "Please enter your email!", noBottomMargin: true});
+                            showToast({text: i18n.t('please_enter_your_email'), noBottomMargin: true});
                             return;
                         }
                         navigation.navigate("Home");
                         try {
                             FirebaseManager.sendPasswordResetEmail(email);
                         } catch {
-                            showToast({text: "There was an error. Please try again later.", noBottomMargin: true});
+                            showToast({text: i18n.t('there_was_an_error_please_try_again_later'), noBottomMargin: true});
                         }
-                        showToast({text: "A password reset email has been sent to " + FirebaseManager.currentUserData?.auth?.email, noBottomMargin: true});
+                        showToast({text: i18n.t('a_password_reset_email_has_been_sent_to') + " " + FirebaseManager.currentUserData?.auth?.email, noBottomMargin: true});
                     }}>
-                        <Text style={[globalStyles.formButtonLabel]}>Send</Text>
+                        <Text style={[globalStyles.formButtonLabel]}>{i18n.t('send')}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

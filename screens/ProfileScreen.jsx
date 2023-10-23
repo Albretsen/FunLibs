@@ -12,6 +12,7 @@ import CustomBackground from "../components/CustomBackground";
 import { ToastContext } from "../components/Toast";
 import ListManager from "../components/ListManager";
 import { useNavigation } from "@react-navigation/native";
+import i18n from "../scripts/i18n";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -34,7 +35,7 @@ export default function ProfileScreen({ route }) {
         if (uid === FirebaseManager.currentUserData?.auth?.uid) setYourOwnProfile(true);
         let data = await FirebaseManager.fetchUserDataForProfile(uid);
         if (!data) {
-            showToast("This user does not have a public profile.");
+            showToast(i18n.t('this_user_does_not_have_a_public_profile'));
             navigation.navigate("Home");
             setLoading(false);
             return;
@@ -88,18 +89,18 @@ export default function ProfileScreen({ route }) {
 
     const blockUser = (uid, username) => {
         if (!FirebaseManager.currentUserData?.auth?.uid) {
-            showToast("Please log in to block users.");
+            showToast(i18n.t('please_sign_in_to_block_users'));
             return;
         }
 
         if (uid === "HOv8K8Z1Q6bUuGxENrPrleECIWe2") {
-            showToast(":(");
+            showToast(i18n.t('sad_smiley'));
             return;
         }
 
         FirebaseManager.blockUser(uid);
 
-        showToast(username + " has been blocked.", true);
+        showToast(username + " " + i18n.t('has_been_blocked'), true);
         navigation.navigate("Home");
         FirebaseManager.RefreshList(null);
     }
@@ -136,7 +137,7 @@ export default function ProfileScreen({ route }) {
                         <>
                             <TextInput
                                 style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
-                                placeholder="Username..."
+                                placeholder={i18n.t('username')}
                                 value={nameValue}
                                 textAlign="center"
                                 onChangeText={(text) => {
@@ -144,16 +145,16 @@ export default function ProfileScreen({ route }) {
                                 }}
                             />
                             <TouchableOpacity style={styles.editButton} onPress={ async () => {
-                                showToast({text: "Updating username...", loading: true});
+                                showToast({text: i18n.t('updating_username'), loading: true});
                                 let result = await FirebaseManager.UpdateUsername(uid, nameValue);
                                 if (result === "username-not-available") {
-                                    showToast({text: "Username is not available.", loading: false});
+                                    showToast({text: i18n.t('the_username_is_not_available'), loading: false});
                                     return;
                                 }
                                 setEditUsername(false);
-                                showToast({text: "Username has been updated.", loading: false});
+                                showToast({text: i18n.t('your_username_has_been_updated'), loading: false});
                             }}>
-                                <Text style={[styles.highlightColor, {fontSize: 14}]}>Save new username</Text>
+                                <Text style={[styles.highlightColor, {fontSize: 14}]}>{i18n.t('save_new_username')}</Text>
                                 <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
                             </TouchableOpacity>
                         </>
@@ -174,7 +175,7 @@ export default function ProfileScreen({ route }) {
                                     containerStyle={{alignSelf: "center", height: "auto"}}
                                     options={[
                                         {
-                                            name: "Block " + nameValue,
+                                            name: i18n.t('block') + " " + nameValue,
                                             onPress: () => blockUser(uid, nameValue),
                                         }
                                     ]}
@@ -191,18 +192,18 @@ export default function ProfileScreen({ route }) {
                         <View style={styles.userStats}>
                             <View style={styles.userStat}>
                                 <Text style={styles.userStatNum}>{userData.likesCount}</Text>
-                                <Text style={[styles.userStatText, globalStyles.grayText]}>likes</Text>
+                                <Text style={[styles.userStatText, globalStyles.grayText]}>{i18n.t('likes')}</Text>
                             </View>
                             <View style={styles.userStat}>
                                 <Text style={styles.userStatNum}>{userData.libsCount}</Text>
-                                <Text style={[styles.userStatText, globalStyles.grayText]}>libs</Text>
+                                <Text style={[styles.userStatText, globalStyles.grayText]}>{i18n.t('libs')}</Text>
                             </View>
                         </View>
-                        <Text style={globalStyles.title}>About me</Text>
+                        <Text style={globalStyles.title}>{i18n.t('about_me')}</Text>
                         {editBio ? 
                             <>
                                 <TextInput
-                                    placeholder="Say something about yorself..."
+                                    placeholder={i18n.t('say_something_about_yourself')}
                                     placeholderTextColor={"#505050"}
                                     multiline
                                     textAlignVertical="top"
@@ -217,12 +218,12 @@ export default function ProfileScreen({ route }) {
                                     }}
                                 />
                                 <TouchableOpacity style={styles.editButton} onPress={ async () => {
-                                    showToast({text: "Updating description...", loading: true});
+                                    showToast({text: i18n.t('updating_description'), loading: true});
                                     await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
                                     setEditBio(false);
-                                    showToast({text: "Description updated", loading: false});
+                                    showToast({text: i18n.t('description_updated'), loading: false});
                                 }}>
-                                    <Text style={[styles.highlightColor, {fontSize: 14}]}>Save new description</Text>
+                                    <Text style={[styles.highlightColor, {fontSize: 14}]}>{i18n.t('save_new_description')}</Text>
                                     <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
                                 </TouchableOpacity>
                             </>
@@ -235,15 +236,15 @@ export default function ProfileScreen({ route }) {
                                             setEditBio(true);
                                         }}
                                     >
-                                        <Text style={[styles.bio, globalStyles.grayText, {flex: 1, width: "100%"}]}>{bioValue ? bioValue : nameValue + " has not written anything about themself yet..."}</Text>
+                                        <Text style={[styles.bio, globalStyles.grayText, {flex: 1, width: "100%"}]}>{bioValue ? bioValue : nameValue + " " + i18n.t('has_not_written_anything_about_themselves_yet')}</Text>
                                         <MaterialIcons style={[styles.highlightColor, {flexBasis: 20, marginTop: 3}]} name="edit" size={17}/>
                                     </TouchableOpacity>
                                     :
-                                    <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio ? userData.bio : nameValue + " has not written anything about themself yet..."}</Text>
+                                    <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio ? userData.bio : nameValue + " " + i18n.t('has_not_written_anything_about_themselves_yet')}</Text>
                                 }
                             </View>
                         }
-                        <Text style={[globalStyles.title, { marginTop: 15 }]}>Templates by {userData.username}</Text>
+                        <Text style={[globalStyles.title, { marginTop: 15 }]}>{i18n.t('templates_by')} {userData.username}</Text>
 
                         {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
                         <View style={{flex: 1, maxWidth: "100%", minWidth: "100%"}}>
@@ -266,7 +267,7 @@ export default function ProfileScreen({ route }) {
                 backgroundComponent={CustomBackground}
                 // onChange={handleBottomSheetChange}
             >
-                <Text style={[globalStyles.title, {marginBottom: 20}]}>Select a new avatar</Text>
+                <Text style={[globalStyles.title, {marginBottom: 20}]}>{i18n.t('selected_a_new_avatar')}</Text>
                 <VariableScrollView>
                     <AvatarSelect
                         onAvatarChange={handleAvatarChange}

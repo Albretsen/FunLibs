@@ -4,6 +4,7 @@ import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
 import FirebaseManager from "../scripts/firebase_manager";
+import i18n from "../scripts/i18n";
 
 export default function UnblockScreen() {
     const showToast = useContext(ToastContext);
@@ -26,7 +27,7 @@ export default function UnblockScreen() {
                 }
                 setBlockedUsers(users);
             } catch (error) {
-                showToast({text: "Error fetching blocked users.", noBottomMargin: true});
+                showToast({text: i18n.t('error_fetching_blocked_users'), noBottomMargin: true});
             } finally {
                 setIsLoading(false);
             }
@@ -36,14 +37,14 @@ export default function UnblockScreen() {
     }, []);
 
     const handleUnblock = async (uid) => {
-        showToast({text: "Unblocking user", noBottomMargin: true, loading: true});
+        showToast({text: i18n.t('unblocking_user'), noBottomMargin: true, loading: true});
         try {
             await FirebaseManager.unblockUser(uid);
             setBlockedUsers(prevUsers => prevUsers.filter(user => user.uid !== uid));
-            showToast({text: "User unblocked successfully", noBottomMargin: true, loading: false});
+            showToast({text: i18n.t('user_unblocked_successfully'), noBottomMargin: true, loading: false});
         } catch (error) {
             console.log(error);
-            showToast({text: "Error unblocking user, please contact support.", noBottomMargin: true, loading: false});
+            showToast({text: i18n.t('error_unblocking_user_please_contact_support'), noBottomMargin: true, loading: false});
         }
     };
 
@@ -62,14 +63,14 @@ export default function UnblockScreen() {
     return (
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, { marginTop: 40 }]}>
-                <Text style={{ fontSize: 26, fontWeight: 'bold', marginBottom: 30 }}>Unblock</Text>
+                <Text style={{ fontSize: 26, fontWeight: 'bold', marginBottom: 30 }}>{i18n.t('unblock')}</Text>
 
                 {isLoading ? (
                     <View style={styles.loadingOverlay}>
                         <ActivityIndicator size="large" color="#006D40" />
                     </View>
                 ) : blockedUsers.length === 0 ? (
-                    <Text>No blocked users.</Text>
+                    <Text>{i18n.t('no_blocked_users')}</Text>
                 ) : (
                     <FlatList
                         data={blockedUsers}
@@ -78,7 +79,7 @@ export default function UnblockScreen() {
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
                                 <Text>{item.username}</Text>
                                 <TouchableOpacity onPress={() => handleUnblock(item.uid)}>
-                                    <Text style={{ color: 'red' }}>Unblock</Text>
+                                    <Text style={{ color: 'red' }}>{i18n.t('unblock')}</Text>
                                 </TouchableOpacity>
                             </View>
                         )}

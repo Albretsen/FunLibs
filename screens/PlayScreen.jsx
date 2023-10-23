@@ -27,6 +27,7 @@ import CommentSection from "../components/CommentSection";
 import { BackHandler } from 'react-native';
 import AvatarDisplay from "../components/AvatarDisplay";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import i18n from "../scripts/i18n";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
@@ -111,7 +112,7 @@ export default function PlayScreen({ route }) {
 			// Update prompt context display
 			createPromptContext(fill);
 		} else {
-			showToast({ text: "Autofill is unavailable for this promt.", noBottomMargin: true });
+			showToast({ text: i18n.t('fill_is_unavailable_for_this_prompt'), noBottomMargin: true });
 		}
 	};
 
@@ -131,17 +132,17 @@ export default function PlayScreen({ route }) {
 					onCancel: () => FileManager._storeData("reviewPopupShowed", "1"),
 					onConfirm: () => {
 						console.log("User agreed to review");
-						requestReview(); // Assuming this function prompts the user to review the app
+						requestReview();
 						FileManager._storeData("reviewPopupShowed", "1"); // Set the flag so the popup doesn't show again
 					},
 					children: (
 						<>
-							<Text style={globalStyles.dialogTitle}>🌟 Enjoying our app? 🌟</Text>
-							<Text style={globalStyles.dialogText}>Your feedback helps us grow. Mind leaving a review?</Text>
+							<Text style={globalStyles.dialogTitle}>{i18n.t('enjoying_our_app')}</Text>
+							<Text style={globalStyles.dialogText}>{i18n.t('your_feedback_helps_us_grow_mind_leaving_a_review')}</Text>
 						</>
 					),
-					cancelLabel: "No thanks",
-					confirmLabel: "Of Course!"
+					cancelLabel: i18n.t('no_thanks'),
+					confirmLabel: i18n.t('of_course'),
 				});
 			}
 		}
@@ -156,7 +157,7 @@ export default function PlayScreen({ route }) {
 						middleComponent: (
 							<View style={{ flex: 1 }}>
 								<Text style={{ fontSize: 18 }}>{currentLib.name}</Text>
-								<Text style={{ fontSize: 14 }}>by {currentLib.username}</Text>
+								<Text style={{ fontSize: 14 }}>{i18n.t('by')} {currentLib.username}</Text>
 							</View>
 						)
 					},
@@ -314,7 +315,7 @@ export default function PlayScreen({ route }) {
 	};
 
 	const onShare = () => {
-		FunLibsShare.Share(LibManager.displayForShare(currentLib.text) + "\n\nCreated using: https://funlibs0.wordpress.com/download")
+		FunLibsShare.Share(LibManager.displayForShare(currentLib.text) + "\n\n" + i18n.t('created_using_link'))
 	};
 
 	const onSave = async () => {
@@ -335,7 +336,7 @@ export default function PlayScreen({ route }) {
 			readArray.push(currentLib_);
 		}
 		FileManager._storeData("read", JSON.stringify(readArray));
-		showToast({ text: "Your story is saved under Read!", noBottomMargin: true });
+		showToast({ text: i18n.t('your_story_has_been_saved'), noBottomMargin: true });
 		closeDrawer();
 		navigation.navigate("Home");
 	}
@@ -349,7 +350,7 @@ export default function PlayScreen({ route }) {
 	const onFavorite = async () => {
 		if (isUpdating) return;  // Prevent further interactions while updating
 		if (!FirebaseManager.currentUserData?.auth?.uid) {
-			showToast({ text: "You have to be signed in to like a post.", noBottomMargin: true });
+			showToast({ text: i18n.t('you_have_to_be_signed_in_to_like_a_post'), noBottomMargin: true });
 			return;
 		}
 
@@ -508,7 +509,7 @@ export default function PlayScreen({ route }) {
 						avatarID={currentLib.avatarID}
 						title={currentLib.name}
 						text={(
-							<Text>by {currentLib.username} | {currentLib.likes} likes</Text>
+							<Text>{i18n.t('by')} {currentLib.username} | {currentLib.likes} {i18n.t('likes')}</Text>
 						)}
 						onPress={() => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) }}
 					/>
@@ -531,7 +532,7 @@ export default function PlayScreen({ route }) {
 						/>
 						{fillAvailable && ( // Render only if autofill is available
 							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center" }}>
-								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>Fill</Text>
+								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>{i18n.t('fill')}</Text>
 							</TouchableOpacity>
 						)}
 					</View>
@@ -548,7 +549,7 @@ export default function PlayScreen({ route }) {
 								size={24}
 								color="#635f6a"
 							/>
-							<Text style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}>Tap to see prompt in text</Text>
+							<Text style={[globalStyles.fontSmall, globalStyles.grayText, styles.explanation]}>{i18n.t('tap_to_see_prompt_in_text')}</Text>
 						</TouchableOpacity>
 					)}
 					{showPromptContext && (
@@ -580,14 +581,14 @@ export default function PlayScreen({ route }) {
 					<Buttons
 						buttons={
 							[{
-								label: "Back",
+								label: i18n.t('back'),
 								onPress: () => {
 									handleBack();
 									setShowPromptContext(false);
 								},
 							},
 							{
-								label: "Next",
+								label: i18n.t('next'),
 								onPress: () => {
 									handleNext();
 									setShowPromptContext(false);
@@ -600,10 +601,10 @@ export default function PlayScreen({ route }) {
 				</View>
 
 				<View style={[{ width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/ }]}>
-					<Text style={globalStyles.title}>Comments</Text>
+					<Text style={globalStyles.title}>{i18n.t('comments')}</Text>
 					<CommentSection
 						// Username and avatar is what is to be displayed in the "write your comment" box
-						username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : "Log in to comment"}
+						username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('log_in_to_comment')}
 						avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
 						onCommentChange={handleCommentChange}
 						onSubmitComment={submitComment}

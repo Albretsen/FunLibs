@@ -4,6 +4,7 @@ import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "../components/Toast";
 import FirebaseManager from "../scripts/firebase_manager";
+import i18n from "../scripts/i18n";
 
 export default function FeedbackScreen() {
     const showToast = useContext(ToastContext);
@@ -14,10 +15,10 @@ export default function FeedbackScreen() {
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, {marginTop: 40}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>Feedback</Text>
+                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>{i18n.t('feedback')}</Text>
                 <View style={globalStyles.form}>
                     <TextInput
-                        placeholder="Provide your feedback here..."
+                        placeholder={i18n.t('provide_your_feedback_here')}
                         placeholderTextColor={"gray"}
                         multiline
                         textAlignVertical="top"
@@ -26,7 +27,7 @@ export default function FeedbackScreen() {
                         onChangeText={text => setFeedbackText(text)} // Update feedbackText state when the value of the TextInput changes
                     />
                     <TouchableOpacity style={[globalStyles.bigWhitespace, globalStyles.formButton]} onPress={() => {
-                        showToast({text: "Thank you for your feedback!", noBottomMargin: true});
+                        showToast({text: i18n.t('thank_you_for_your_feedback'), noBottomMargin: true});
                         navigation.navigate("Home");
                         try {
                             let feedback = {
@@ -41,7 +42,7 @@ export default function FeedbackScreen() {
 
                         }
                     }}>
-                        <Text style={globalStyles.formButtonLabel}>Send feedback</Text>
+                        <Text style={globalStyles.formButtonLabel}>{i18n.t('send_feedback')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

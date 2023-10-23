@@ -7,6 +7,7 @@ import AvatarSelect from "../components/AvatarSelect";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
+import i18n from "../scripts/i18n";
 
 export default function NewAccountScreen() {
     const [username, setUsername] = useState("");
@@ -31,16 +32,16 @@ export default function NewAccountScreen() {
         let errors = [];
     
         if (password.length < minimum_password_length) {
-            errors.push("Password should be at least " + String(minimum_password_length) + " characters.");
+            errors.push(i18n.t('password_should_be_at_least')+ " " + String(minimum_password_length) + " " + i18n.t('characters.'));
         }
         if (!/[A-Z]/.test(password)) {
-            errors.push("Password should contain at least one uppercase letter.");
+            errors.push(i18n.t('password_should_contain_at_least_one_uppercase_letter'));
         }
         if (!/[a-z]/.test(password)) {
-            errors.push("Password should contain at least one lowercase letter.");
+            errors.push(i18n.t('password_should_contain_at_least_one_lowercase_letter'));
         }
         if (!/[0-9]/.test(password)) {
-            errors.push("Password should contain at least one number.");
+            errors.push(i18n.t('password_should_contain_at_least_one_number'));
         }
         /*if (!/[!@#$%^&*]/.test(password)) {
             errors.push("Password should contain at least one special character (e.g., !@#$%^&*).");
@@ -52,23 +53,23 @@ export default function NewAccountScreen() {
     const createAccount = () => {
         // Pre Firebase auth validation (Firebase handles the rest): password match, username filled in
         if (!username || username === "") {
-            showToast("Add a username.");
+            showToast(i18n.t('add_a_username'));
             return;
         }
         if (username?.length <= 2) {
-            showToast("Username should be at least 3 characters.");
+            showToast(i18n.t('username_should_be_at_least_3_characters'));
             return;
         }
         if (username?.length > 24) {
-            showToast("Username can be max 24 characters.");
+            showToast(i18n.t('username_can_be_max_24_characters'));
             return;
         }
         if (!email || email === "") {
-            showToast("Please add an email");
+            showToast(i18n.t('please_add_an_email'));
             return;
         }
         if (!password || password === "") {
-            showToast("Please add a password");
+            showToast(i18n.t('please_add_a_password'));
             return;
         }
         const passwordErrors = validatePassword(password);
@@ -77,24 +78,24 @@ export default function NewAccountScreen() {
             return;
         }
         if (!confirmPassword || confirmPassword === "") {
-            showToast("Please confirm your password");
+            showToast(i18n.t('please_confirm_your_password'));
             return;
         }
         if (password !== confirmPassword) {
-            showToast("Passwords do not match");
+            showToast(i18n.t('password_do_not_match'));
             return;
         }
         if (avatarIndex === -1) {
-            showToast("Please select a profile picture");
+            showToast(i18n.t('please_select_a_profile_picture'));
             return;
         }
 
-        showToast({text: "Creating account", loading: true});
+        showToast({text: i18n.t('creating_account'), loading: true});
 
         try {
             FirebaseManager.CreateUser("email", email, password, username, avatarIndex)
                 .then(user => {
-                    showToast({text: "Welcome to Fun Libs, " + username + "!", loading: false});
+                    showToast({text: i18n.t('welcome_to_fun_libs_comma') + username + "!", loading: false});
                     navigation.navigate("Home");
                 })
                 .catch(error => {
@@ -169,11 +170,11 @@ export default function NewAccountScreen() {
     return (
         <View style={[{ alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height - 64 }]}>
             <ScrollView horizontal={false} vertical={true} style={[{ marginBottom: 160, paddingBottom: 0 }]}>
-                <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>Create New Account</Text>
+                <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
                 <View style={[globalStyles.form]}>
                     <TextInput
                         autoCapitalize="none"
-                        label="Username"
+                        label={i18n.t('username')}
                         value={username}
                         onChangeText={username => setUsername(username)}
                         mode="outlined"
@@ -183,7 +184,7 @@ export default function NewAccountScreen() {
                     <TextInput
                         autoCapitalize="none"
                         keyboardType="email-address"
-                        label="Email"
+                        label={i18n.t('email')}
                         value={email}
                         onChangeText={email => setEmail(email)}
                         mode="outlined"
@@ -193,7 +194,7 @@ export default function NewAccountScreen() {
                     <View style={{ position: "relative" }}>
                         <TextInput
                             autoCapitalize="none"
-                            label="Password"
+                            label={i18n.t('password')}
                             secureTextEntry={passwordVisible}
                             value={password}
                             onChangeText={password => setPassword(password)}
@@ -214,7 +215,7 @@ export default function NewAccountScreen() {
                     <View style={{ position: "relative" }}>
                         <TextInput
                             autoCapitalize="none"
-                            label="Confirm password"
+                            label={i18n.t('confirm_password')}
                             secureTextEntry={confirmPasswordVisible}
                             value={confirmPassword}
                             onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
@@ -232,12 +233,12 @@ export default function NewAccountScreen() {
                             />
                         </TouchableOpacity>
                     </View>
-                    <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: 600, alignSelf: "center" }]}>Select your avatar</Text>
+                    <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: 600, alignSelf: "center" }]}>{i18n.t('select_your_avatar')}</Text>
                     <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>
             <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 120}]} onPress={createAccount}>
-                        <Text style={[globalStyles.formButtonLabel]}>Create</Text>
+                        <Text style={[globalStyles.formButtonLabel]}>{i18n.t('create')}</Text>
                     </TouchableOpacity>
         </View>
     )
