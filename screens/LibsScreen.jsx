@@ -94,14 +94,8 @@ export default function LibsScreen() {
 
 		let localItems = [];
 		let updatedItems_ = [];
-		/*if (
-			filterOptions.category === "official" &&
-			filterOptions.sortBy === "newest" &&
-			filterOptions.dateRange === "allTime" &&
-			filterOptions.playable === true
-		) {
-			localItems = await loadLocalItems();
-			if (currentTokenRef.current !== thisCallToken) return;
+		if (filterOptions.category === "official" && filterOptions.playable === true) {
+			localItems = LibManager.localLibs.filter(item => item.official === true);
 			try {
 				localItems.sort((a, b) => {
 					const dateA = convertToDate(a.date);
@@ -109,15 +103,17 @@ export default function LibsScreen() {
 
 					return dateB.getTime() - dateA.getTime();
 				});
-
 				setListItems(localItems);
-				if (localItems.length > 0) setLoadingCircle(false);
-			} catch {
-
+				setLoadingCircle(false);
+			} catch (error) {
+				setListItems([]);
 			}
-			
-		} */
-		if (filterOptions.category === "offline") {
+			setLoading(false);
+			setLoadingCircle(false);
+			setLoadingAdditional(false);
+			return;
+		}
+		else if (filterOptions.category === "offline") {
 			localItems = await FileManager._retrieveData("libs");
 			if (currentTokenRef.current !== thisCallToken) return;
 			if (localItems) localItems = JSON.parse(localItems);
