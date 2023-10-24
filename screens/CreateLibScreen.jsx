@@ -22,6 +22,9 @@ import AdManager from "../scripts/ad_manager";
 import AvatarDisplay from "../components/AvatarDisplay";
 import Dropdown from "../components/Dropdown";
 import i18n from "../scripts/i18n";
+import { Drawer } from 'hallvardlh-react-native-drawer';
+import DrawerHeader from "../components/DrawerHeader";
+import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 export default function CreateLibScreen({ route }) {
     const [libText, setLibText] = useState(route.params?.libText || "");
@@ -36,6 +39,11 @@ export default function CreateLibScreen({ route }) {
     const navigation = useNavigation();
 
     const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    // Drawer refs
+    const saveDrawerRef = useRef(null);
+    const publishDrawerRef = useRef(null);
+    const deleteDrawerRef = useRef(null);
 
     useEffect(() => {
         function onKeyboardDidShow(e) {
@@ -178,7 +186,7 @@ export default function CreateLibScreen({ route }) {
     // so this works
     useEffect(() => {
         if (finishedLib) {
-            openDrawer(saveDrawerContent);
+            saveDrawerRef.current?.openDrawer();
         }
     }, [finishedLib]);
 
@@ -203,6 +211,8 @@ export default function CreateLibScreen({ route }) {
         setFinishedLib(Lib.createLib(libTextRef.current));
     }
 
+    // This drawer uses outdated code and will need refactor to work
+    // Currently unused
     let publishDialog = () => {
         openDrawer({
             header: {
@@ -280,42 +290,12 @@ export default function CreateLibScreen({ route }) {
     const [showDialogInfo, setShowDialogInfo] = useState(false);
     const [showDialogPublish, setShowDialogPublish] = useState(false);
 
-    // Drawer 
-
     const { openDrawer, drawerRef, closeDrawer } = useDrawer();
-
-    const saveDrawerContent = {
-        header: {
-            middleComponent: (
-                <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 18 }}>{libNameTextRef.current}</Text>
-                    <Text style={{ fontSize: 14 }}>By You</Text>
-                </View>
-            )
-        },
-        component: (
-            <>
-                <ScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
-                    <View style={globalStyles.drawerTop}>
-                        {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>{i18n.t('no_item_selected')}</Text>}
-                    </View>
-                </ScrollView>
-                <DrawerActions
-                    {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
-                    onSave={() => { save() }}
-                    saveLabel={!editLibID ? i18n.t('save_as_draft') : i18n.t('save_changes')}
-                    {...(editLibID ? { onDelete: () => { 
-                        showDeleteConfirmation();
-                    } } : {})}
-                />
-            </>
-        )
-    }
 
     const save = () => {
         // Brand new lib
         showToast({text: i18n.t('saving'), loading: true});
-        closeDrawer();
+        saveDrawerRef.current?.closeDrawer();
 
         if (!editLibID && !item?.local) {
             saveNew();
@@ -407,7 +387,7 @@ export default function CreateLibScreen({ route }) {
             notLoggedIn();
             return;
         }
-        closeDrawer();
+        saveDrawerRef.current?.closeDrawer();
         showToast({text: i18n.t('publishing'), loading: true});
         const wasRewardGiven = await AdManager.showRewardedAd(); 
 
@@ -507,13 +487,13 @@ export default function CreateLibScreen({ route }) {
 
     const notLoggedIn = () => {
         showToast(i18n.t('you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in'));
-        closeDrawer();
+        saveDrawerRef.current?.closeDrawer();
     }
 
     const finished = (message, refreshOptions) => {
         refreshOptions.sortBy = "newest";
         FirebaseManager.RefreshList(refreshOptions);
-        closeDrawer();
+        // closeDrawer();
         setLibText("");
         setLibNameText("");
         setEditLibID("");
@@ -522,43 +502,11 @@ export default function CreateLibScreen({ route }) {
     }
 
     const showDeleteConfirmation = () => {
-        openDrawer({
-            header: {
-                title: i18n.t('delete_template'),
-            },
-            component: (
-                <>
-                    <ScrollView>
-                        <View style={[globalStyles.drawerTop, { height: "100%" }]}>
-                            <Text style={styles.paragraph}>
-                                {i18n.t('are_you_sure_you_want_to_delete_this_template')}
-                            </Text>
-                            <Text style={styles.paragraph}>
-                                {i18n.t('by_deleting_the_story_will_be_lost_forever')}
-                            </Text>
-                        </View>
-                    </ScrollView>
-                    <Image
-                        style={{ height: 148, width: 201, alignSelf: "center" }}
-                        source={require("../assets/images/couple-with-balloon.png")}
-                    />
-                    <DrawerActions
-                        onDelete={() => {
-                            delete_();
-                        }}
-                        deleteLabel={i18n.t('im_sure_delete')}
-                        onUndo={() => {
-                            openDrawer(saveDrawerContent);
-                        }}
-                        undoLabel={i18n.t('dont_delete')}
-                    />
-                </>
-            )
-        });
+        deleteDrawerRef.current?.openDrawer();
     }
 
     const delete_ = async () => {
-        closeDrawer();
+        deleteDrawerRef.current?.closeDrawer();
         showToast({text: i18n.t('deleting'), loading: true});
         if (editLibID && item?.local) {
             let local_libs = await getLocalLibs();
@@ -755,6 +703,69 @@ export default function CreateLibScreen({ route }) {
                             sideScroll={true}
                         />
                     </View>
+
+                    <Drawer ref={saveDrawerRef} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
+                        <DrawerHeader
+                        containerStyle={{paddingHorizontal: 20}}
+                            center={(
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ fontSize: 18 }}>{libNameTextRef.current}</Text>
+                                    <Text style={{ fontSize: 14 }}>By You</Text>
+                                </View>
+                            )}
+                            onClose={() => saveDrawerRef.current?.closeDrawer()}
+                        />
+                        <>
+                            <DrawerScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
+                                <View style={globalStyles.drawerTop}>
+                                    {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>{i18n.t('no_item_selected')}</Text>}
+                                </View>
+                            </DrawerScrollView>
+                            <DrawerActions
+                                {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
+                                onSave={() => { save() }}
+                                saveLabel={!editLibID ? i18n.t('save_as_draft') : i18n.t('save_changes')}
+                                {...(editLibID ? { onDelete: () => { 
+                                    showDeleteConfirmation();
+                                } } : {})}
+                            />
+                        </>
+                    </Drawer>
+
+                    <Drawer ref={deleteDrawerRef} containerStyle={globalStyles.standardDrawer}>
+                        <DrawerHeader
+                            center={(
+                                <Text style={globalStyles.drawerTitle}>{i18n.t('delete_template')}</Text>
+                            )}
+                            onClose={() => deleteDrawerRef.current?.closeDrawer()}
+                        />
+                        
+                        <DrawerScrollView>
+                            <View style={[globalStyles.drawerTop, { height: "100%" }]}>
+                                <Text style={styles.paragraph}>
+                                    {i18n.t('are_you_sure_you_want_to_delete_this_template')}
+                                </Text>
+                                <Text style={styles.paragraph}>
+                                    {i18n.t('by_deleting_the_story_will_be_lost_forever')}
+                                </Text>
+                            </View>
+                        </DrawerScrollView>
+                        <Image
+                            style={{ height: 148, width: 201, alignSelf: "center" }}
+                            source={require("../assets/images/couple-with-balloon.png")}
+                        />
+                        <DrawerActions
+                            onDelete={() => {
+                                delete_();
+                            }}
+                            deleteLabel={i18n.t('im_sure_delete')}
+                            onUndo={() => {
+                                deleteDrawerRef.current?.closeDrawer();
+                                saveDrawerRef.current?.openDrawer();
+                            }}
+                            undoLabel={i18n.t('dont_delete')}
+                        />
+                    </Drawer>
 
                     <DialogTrigger
                         id="dialogCustom"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Text, TouchableOpacity, View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
@@ -8,8 +8,6 @@ import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
 import DeleteAccountScreen from './DeleteAccountScreen';
 import ProfileScreen from './ProfileScreen';
-import { useDrawer } from "../components/Drawer";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
 import { useNavigation } from '@react-navigation/native';
@@ -19,14 +17,18 @@ import { Ionicons } from '@expo/vector-icons';
 import UnblockScreen from './UnblockScreen';
 import IAPScreen from './IAPScreen';
 import i18n from '../scripts/i18n';
+import { Drawer } from 'hallvardlh-react-native-drawer';
+import DrawerHeader from '../components/DrawerHeader';
+import globalStyles from '../styles/globalStyles';
 
 const Stack = createStackNavigator();
 
 export default function AppScreenStack() {
-    const { openDrawer, closeDrawer } = useDrawer();
 	const [key, setKey] = useState(Math.random());
 
 	const navigation = useNavigation();
+
+	const drawerRef1 = useRef(null);
 
 	useEffect(() => {
         // Define the listener
@@ -91,30 +93,8 @@ export default function AppScreenStack() {
 						null
 					),
 					headerRight: () => (
-						<TouchableOpacity onPress={() => (
-							openDrawer({
-								header: {
-									headerStyle: {marginHorizontal: 0, marginTop: 10},
-									leftComponent: (
-										<Image
-											style={[{height: 48, width: 48, justifyContent: "center", alignSelf: "center"}, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
-											source={
-												(FirebaseManager.currentUserData.firestoreData) 
-												? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-												: FirebaseManager.avatars["no-avatar-48"]
-											}
-										/>
-									),
-									title: (FirebaseManager.currentUserData.firestoreData) 
-									? FirebaseManager.currentUserData.firestoreData.username
-									: i18n.t('not_logged_in'),
-									titleStyle: {fontSize: 15, fontWeight: 500, color: "#49454F"}
-								},
-								component: <UserDrawerContent navigation={navigation} closeDrawer={closeDrawer}/>,
-								closeSide: {left: false, right: true, leftIcon: "arrow-back"},
-								containerStyle: {paddingHorizontal: 26}
-							})
-						)}>
+						<>
+						<TouchableOpacity onPress={() => drawerRef1.current?.openDrawer()}>
 							<Image
 								key={key}
 								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
@@ -125,6 +105,33 @@ export default function AppScreenStack() {
 								}
 							/>
 						</TouchableOpacity>
+						<Drawer
+							ref={drawerRef1}
+							containerStyle={globalStyles.standardDrawer}
+						>
+							<DrawerHeader 
+								left={(
+									<Image
+										style={[{height: 48, width: 48, justifyContent: "center", alignSelf: "center"}, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
+										source={
+											(FirebaseManager.currentUserData.firestoreData) 
+											? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+											: FirebaseManager.avatars["no-avatar-48"]
+										}
+									/>
+								)}
+								center={(
+									<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F"}}>
+										{(FirebaseManager.currentUserData.firestoreData) ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('not_logged_in')}
+									</Text>
+								)}
+								closeSide="right"
+								onClose={() => drawerRef1.current?.closeDrawer()}
+								closeIcon="close"
+							/>
+							<UserDrawerContent navigation={navigation} closeDrawer={() => drawerRef1.current?.closeDrawer()}/>
+						</Drawer>
+						</>
 					),
 				})}
 			/>

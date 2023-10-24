@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
-import { useDrawer } from "../components/Drawer";
 import Buttons from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import AdManager from "../scripts/ad_manager";
@@ -28,6 +27,9 @@ import { BackHandler } from 'react-native';
 import AvatarDisplay from "../components/AvatarDisplay";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import i18n from "../scripts/i18n";
+import { Drawer } from "hallvardlh-react-native-drawer";
+import DrawerHeader from "../components/DrawerHeader";
+import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
@@ -150,23 +152,10 @@ export default function PlayScreen({ route }) {
 
 	useEffect(() => {
 		if (shouldOpenDrawer) {
-			openDrawer(
-				{
-					component: finishedLibDrawerContent,
-					header: {
-						middleComponent: (
-							<View style={{ flex: 1 }}>
-								<Text style={{ fontSize: 18 }}>{currentLib.name}</Text>
-								<Text style={{ fontSize: 14 }}>{i18n.t('by')} {currentLib.username}</Text>
-							</View>
-						)
-					},
-					onCloseComplete: drawerClosed
-				}
-			);
+			finishedLibDrawerRef.current?.openDrawer();
 			setShouldOpenDrawer(false);  // Reset the flag
 		}
-	}, [shouldOpenDrawer, finishedLibDrawerContent]);
+	}, [shouldOpenDrawer]);
 
 	const handleNext = () => {
 		// Add the current response to the responses array
@@ -337,7 +326,7 @@ export default function PlayScreen({ route }) {
 		}
 		FileManager._storeData("read", JSON.stringify(readArray));
 		showToast({ text: i18n.t('your_story_has_been_saved'), noBottomMargin: true });
-		closeDrawer();
+		finishedLibDrawerRef.current?.closeDrawer();
 		navigation.navigate("Home");
 	}
 
@@ -355,7 +344,7 @@ export default function PlayScreen({ route }) {
 		}
 
 		setIsUpdating(true);
-		closeDrawer();
+		finishedLibDrawerRef.current?.closeDrawer();
 
 		const userUid = FirebaseManager.currentUserData.auth.uid;
 		if (!currentLib.likesArray) currentLib.likesArray = [];
@@ -409,25 +398,7 @@ export default function PlayScreen({ route }) {
 		return false;
 	}
 
-	const { openDrawer, closeDrawer, drawerRef } = useDrawer();
-
-	const finishedLibDrawerContent = (
-		// style={{width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width)}}
-		<>
-			<ScrollView >
-				<View style={globalStyles.drawerTop}>
-					{LibManager.displayInDrawer(finishedLib)}
-				</View>
-			</ScrollView>
-			<DrawerActions
-				onShare={onShare}
-				onSave={onSave}
-				likesArray={currentLib.likesArray}
-			//onFavorite={onFavorite}
-			//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
-			/>
-		</>
-	)
+	const finishedLibDrawerRef = useRef(null)
 
 	const [commentText, setCommentText] = useState("");
 
@@ -490,6 +461,7 @@ export default function PlayScreen({ route }) {
 			)
 		);
 	}
+
 
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
@@ -599,6 +571,31 @@ export default function PlayScreen({ route }) {
 						labelStyle={{ fontWeight: 600 }}
 					/>
 				</View>
+
+				<Drawer ref={finishedLibDrawerRef} onStateChange={(isOpen) => {if(!isOpen) {drawerClosed()}}} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
+					<DrawerHeader
+						containerStyle={{paddingHorizontal: 20}}
+						center={(
+							<View style={{ flex: 1 }}>
+								<Text style={{ fontSize: 18 }}>{currentLib.name}</Text>
+								<Text style={{ fontSize: 14 }}>{i18n.t('by')} {currentLib.username}</Text>
+							</View>
+						)}
+						onClose={() => finishedLibDrawerRef.current?.closeDrawer()}
+					/>
+					<DrawerScrollView>
+						<View style={[globalStyles.drawerTop, {paddingHorizontal: 20}]}>
+							{LibManager.displayInDrawer(finishedLib)}
+						</View>
+					</DrawerScrollView>
+					<DrawerActions
+						onShare={onShare}
+						onSave={onSave}
+						likesArray={currentLib.likesArray}
+						//onFavorite={onFavorite}
+						//{...(!currentLib.local ? { onFavorite: onFavorite } : {  })}
+					/>
+				</Drawer>
 
 				<View style={[{ width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/ }]}>
 					<Text style={globalStyles.title}>{i18n.t('comments')}</Text>

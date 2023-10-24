@@ -318,6 +318,6 @@ const i18n = new I18n({
 });
 
 i18n.defaultLocale = "en";
-i18n.locale = "es";
+i18n.locale = "en";
 
 export default i18n;

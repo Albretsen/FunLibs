@@ -143,6 +143,11 @@ const globalStyles = StyleSheet.create({
         // Explicitly setting height, to have loading indicator be centered vertically
         //height: fullHeight - (64 + 40 + 40 + 74 + 2 + 60 + 40),
         flex: 1
+        // lol
+    },
+
+    drawerTitle: {
+        fontSize: 24
     },
 
     drawerContainer: {
@@ -154,9 +159,16 @@ const globalStyles = StyleSheet.create({
 	},
 
 	drawerTop: {
-		marginHorizontal: 20,
+		// marginHorizontal: 20,
         marginBottom: 10,
 	},
+
+    // The style that should be applied to every drawer in the app
+    standardDrawer: {
+        paddingHorizontal: 26,
+        borderBottomLeftRadius: 16,
+        borderTopLeftRadius: 16,
+    },
 
     buttonDefault: {
 		borderRadius: 40,

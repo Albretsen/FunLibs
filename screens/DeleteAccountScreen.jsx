@@ -5,7 +5,6 @@ import globalStyles from "../styles/globalStyles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
-import { useDrawer } from "../components/Drawer";
 import { ToastContext } from "../components/Toast";
 import FileManager from "../scripts/file_manager";
 import i18n from "../scripts/i18n";
@@ -18,8 +17,6 @@ export default function DeleteAccountScreen() {
     const showToast = useContext(ToastContext);
 
     const navigation = useNavigation();
-
-    const { closeDrawer } = useDrawer();
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
