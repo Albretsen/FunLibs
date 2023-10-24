@@ -4,6 +4,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
 import BigButton from "../components/BigButton";
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function HomeScreen() {
 
@@ -12,7 +13,7 @@ export default function HomeScreen() {
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace]}>
-                <View style={{justifyContent: "space-between", flexDirection: "row", width: "100%", alignItems: "center"}}>
+                <View style={styles.titleSection}>
                     <View>
                         <Text style={{fontSize: 22}}>Hey,</Text>
                         <Text style={{fontSize: 22, fontWeight: 500}}>Bubbles</Text>
@@ -26,7 +27,7 @@ export default function HomeScreen() {
                         }
                     />
                 </View>
-                <View style={{flexDirection: "row", gap: 10, marginTop: 16}}>
+                <View style={[styles.section, {flexDirection: "row"}]}>
                     <BigButton
                         label={`Official${"\n"}Stories`}
                         image={require("../assets/images/girl-with-balloon.png")}
@@ -38,11 +39,30 @@ export default function HomeScreen() {
                         onPress={() => navigation.navigate("Browse")}
                     />
                 </View>
+                <View style={[styles.section]}>
+                    <View style={styles.titleSection}>
+                        <Text style={{fontSize: 22, fontWeight: 500}}>Featured Today</Text>
+                        <TouchableOpacity>
+                            <Text style={globalStyles.touchableText}>View all</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    titleSection: {
+        justifyContent: "space-between",
+        flexDirection: "row",
+        width: "100%",
+        alignItems: "center"
+    },
 
+    section: {
+        gap: 10,
+        marginVertical: 15
+    }
 })
