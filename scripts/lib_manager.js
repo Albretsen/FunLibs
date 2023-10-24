@@ -1,19 +1,21 @@
 import FileManager from "../scripts/file_manager.js";
 import Lib from "../scripts/lib.js";
-import libs from '../assets/libs.json';
+import officialLibs from '../assets/officialLibs.json';
 import globalStyles from "../styles/globalStyles.js";
 import { Text } from "react-native";
 import nlp from "compromise";
 import FirebaseManager from "./firebase_manager.js";
 
 export default class LibManager {
-    /**
-     * The libs that are locally available
-     */
+
     static libs = {}
+
+    static localLibs = []
 
     static async initialize() {
         await LibManager.loadLibsToMemory();
+
+        LibManager.localLibs = [...LibManager.localLibs, ...officialLibs];
     }
 
     /**
@@ -279,6 +281,11 @@ export default class LibManager {
     }
 
     static async getLibByID(id, key = "libs") {
+        const localLib = LibManager.localLibs.find(item => item.id === id);
+        if (localLib) {
+            return localLib;
+        }
+
         let lib;
         try {
             // Try to get lib from Database
@@ -403,6 +410,8 @@ export default class LibManager {
         )
     }
 }
+
+LibManager.initialize();
 
 function fixArticles(txt) {
     var valTxt = txt.replace(/\b(a|an) ([\s\(\"'“‘-]?\w*)\b/gim, function (match, article, following) {
