@@ -33,7 +33,7 @@ export default function DrawerHeader({ left = null, center = null, right = null,
 
     return(
         <View style={[styles.header, containerStyle ? containerStyle : null]}>
-            {left && (
+            {left || closeSide == "left" && (
                 <View style={[styles.left]}>
                     {closeSide === "left" ? 
                         <CloseComponent iconName={closeIcon} style={{alignSelf: "flex-start"}}/>
@@ -45,7 +45,7 @@ export default function DrawerHeader({ left = null, center = null, right = null,
             <View style={[styles.center]}>
                 {center}
             </View>
-            {right && (
+            {right || closeSide == "right" && (
                 <View style={[styles.right]}>
                     {closeSide === "right" ? 
                         <CloseComponent iconName={closeIcon} style={{alignSelf: "flex-end"}}/>
