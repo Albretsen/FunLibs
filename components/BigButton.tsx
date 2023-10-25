@@ -1,15 +1,29 @@
 import React from "react";
-import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, Image, TouchableOpacity, StyleSheet, ImageRequireSource, StyleProp, ViewStyle } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function BigButton({label, image, onPress, height = 120, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195"}) {
+type BigButtonProps = {
+    label: string;
+    image: ImageRequireSource;
+    onPress?: () => void;
+    height?: number;
+    width?: string | number;
+    colorStart?: string;
+    colorEnd?: string;
+    containerStyle?: StyleProp<ViewStyle>;
+};
+
+export default function BigButton({label, image, onPress, height = 120, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle}: BigButtonProps) {
+
+    const ParentTag = onPress ? TouchableOpacity : View
+
     return(
         <TouchableOpacity style={[styles.container]} onPress={onPress}>
             <LinearGradient
                 colors={[colorStart, colorEnd]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[styles.background, {height: height, width: width}]}
+                style={[styles.background, {height: height, width: width}, containerStyle ? containerStyle : null]}
             >
                 <Image
                     style={styles.image}
@@ -36,10 +50,9 @@ const styles = StyleSheet.create({
     },
 
     label: {
-        flex: 1,
         marginLeft: 15,
         fontSize: 16,
-        fontWeight: 500,
+        fontWeight: "500",
         color: "white",
         lineHeight: 25
     },
