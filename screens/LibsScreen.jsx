@@ -21,6 +21,7 @@ import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
 import { ToastContext } from "../components/Toast";
 import i18n from "../scripts/i18n";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -571,7 +572,7 @@ export default function LibsScreen() {
 					<SegmentedButtons
 						value={playReadValue}
 						onValueChange={playReadToggle}
-						style={{ width: 190 }}
+						style={{ width: 190, backgroundColor: "transparent" }}
 						density="small"
 						theme={{
 							colors: {

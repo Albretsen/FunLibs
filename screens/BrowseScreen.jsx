@@ -6,6 +6,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
+import CustomTabBar from "../components/CustomTabBar";
 
 export default function BrowseScreen({ route }) {
     const initialTab = route.params?.initialTab ?? "Browse";
@@ -30,30 +31,16 @@ export default function BrowseScreen({ route }) {
 
     return (
         <Tab.Navigator
-            tabBarPosition="bottom"
             initialRouteName={tab}
+            tabBarPosition="bottom"
+            tabBar={(props) => <CustomTabBar {...props} />}
             screenOptions={({ route }) => ({
                 swipeEnabled: false, //Temporary disable for debugging
                 headerShown: true,
-                tabBarActiveTintColor: "gray",
-                tabBarInactiveTintColor: "gray",
-                tabBarLabelStyle: {
-                    fontSize: 16
-                },
-                tabBarStyle: {
-                    backgroundColor: "#F0F1EC",
-                    elevation: 0, // remove shadow on Android
-                    shadowOpacity: 0, // remove shadow on iOS
-                    borderTopWidth: 0, // for explicit border settings
-                    height: 74,
-                },
-                tabBarIndicatorStyle: {
-                    backgroundColor: "#D1E8D5",
-                }
             })}
         >
             <Tab.Screen 
-                name="Fun Libs"
+                name="Official"
                 component={LibsScreen}
                 options={{
                     tabBarLabel: ({ color }) => (
