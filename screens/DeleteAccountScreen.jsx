@@ -84,7 +84,7 @@ export default function DeleteAccountScreen() {
                             FirebaseManager.localUID = "";
                             await FirebaseManager.DeleteUser();
                             showToast({text: i18n.t('account_deleted'), loading: false});
-                            navigation.navigate("Home");
+                            navigation.navigate("Browse");
                         } catch (error) {
                             const errorMessage = FirebaseManager.getAuthErrorMessage(error.code);
                             setEmailError("");

@@ -254,7 +254,7 @@ export default function PlayScreen({ route }) {
 			onCancel: () => {
 				if (onPress) onPress();
 				else {
-					navigation.navigate("Home");
+					navigation.navigate("Browse");
 					return false;
 				};
 			},
@@ -327,7 +327,7 @@ export default function PlayScreen({ route }) {
 		FileManager._storeData("read", JSON.stringify(readArray));
 		showToast({ text: i18n.t('your_story_has_been_saved'), noBottomMargin: true });
 		finishedLibDrawerRef.current?.closeDrawer();
-		navigation.navigate("Home");
+		navigation.navigate("Browse");
 	}
 
 	const [isUpdating, setIsUpdating] = useState(false);

@@ -84,7 +84,7 @@ export default function CreateLibScreen({ route }) {
                             setEditLibID(null);
                         },
                         onConfirm: () => {
-                            navigation.navigate("Home", {
+                            navigation.navigate("Browse", {
                                 screen: "Create",
                                 params: {
                                     libText: libTextRef.current,

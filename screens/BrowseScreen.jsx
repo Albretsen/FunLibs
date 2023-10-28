@@ -6,7 +6,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
-import i18n from "../scripts/i18n";
 
 export default function LibsHomeScreen({ route }) {
     const initialTab = route.params?.initialTab ?? "Home";
@@ -74,7 +73,7 @@ export default function LibsHomeScreen({ route }) {
                 component={CreateLibScreen}
                 options={{
                     tabBarLabel: ({ color }) => (
-                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>{i18n.t('create')}</Text>
+                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Create</Text>
                     ),
                     tabBarIcon: ({ focused, color }) => {
                         return (

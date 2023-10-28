@@ -68,7 +68,7 @@ export default function DeleteAccountScreen() {
                             showToast({text: i18n.t('please_enter_your_email'), noBottomMargin: true});
                             return;
                         }
-                        navigation.navigate("Home");
+                        navigation.navigate("Browse");
                         try {
                             FirebaseManager.sendPasswordResetEmail(email);
                         } catch {
