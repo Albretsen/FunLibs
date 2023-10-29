@@ -716,8 +716,8 @@ export default function CreateLibScreen({ route }) {
                             onClose={() => saveDrawerRef.current?.closeDrawer()}
                         />
                         <>
-                            <DrawerScrollView style={{ width: Dimensions.get("window").width - (0.15 * Dimensions.get("window").width) }}>
-                                <View style={globalStyles.drawerTop}>
+                            <DrawerScrollView>
+                                <View style={[globalStyles.drawerTop, {paddingHorizontal: 20}]}>
                                     {finishedLib ? LibManager.displayInDrawer(finishedLib.text) : <Text>{i18n.t('no_item_selected')}</Text>}
                                 </View>
                             </DrawerScrollView>

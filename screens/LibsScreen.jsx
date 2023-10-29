@@ -638,7 +638,6 @@ export default function LibsScreen() {
 						style={[globalStyles.listItemContainer]}
 						onEndReached={_.debounce(() => {
 								if (!loading && listItems.length > 0 && !endReached) {
-									console.log("THE IF");
 									loadListItems({
 										"category": selectedCategory,
 										"sortBy": selectedSortBy,

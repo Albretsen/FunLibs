@@ -30,6 +30,7 @@ import i18n from "../scripts/i18n";
 import { Drawer } from "hallvardlh-react-native-drawer";
 import DrawerHeader from "../components/DrawerHeader";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
+import Dropdown from "../components/Dropdown";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
@@ -483,7 +484,21 @@ export default function PlayScreen({ route }) {
 						text={(
 							<Text>{i18n.t('by')} {currentLib.username} | {currentLib.likes} {i18n.t('likes')}</Text>
 						)}
-						onPress={() => { navigation.navigate("ProfileScreen", { uid: currentLib.user }) }}
+						rightComponent={(
+							<Dropdown
+								anchor={
+									<MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
+								}
+								anchorStyle={null}
+								containerStyle={{ height: "auto", alignSelf: "center" }}
+								options={[
+									{
+										name: "Visit profile",
+										onPress: () => navigation.navigate("ProfileScreen", { uid: currentLib.user })
+									}
+								]}
+							/>
+						)}
 					/>
 					<View style={{ position: "relative", height: 60, maxHeight: 60 }}>
 						<TextInput
@@ -503,14 +518,12 @@ export default function PlayScreen({ route }) {
 							}}
 						/>
 						{fillAvailable && ( // Render only if autofill is available
-							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: -20, height: 60, width: 100, justifyContent: "center", alignItems: "center" }}>
+							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: 0, height: 60, width: 60, justifyContent: "center", alignItems: "center" }}>
 								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>{i18n.t('fill')}</Text>
 							</TouchableOpacity>
 						)}
 					</View>
-					{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0]) != ' ' && (
-						<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
-					)}
+					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
 					{!showPromptContext && (
 						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
 							createPromptContext(currentInput);

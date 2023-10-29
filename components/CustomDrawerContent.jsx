@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+// Custom drawer for React Native Naviation library (Drawer not currently in use)
 
 const CustomDrawerContent = ({ navigation, state }) => {
     return (
