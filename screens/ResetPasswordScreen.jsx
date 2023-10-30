@@ -4,7 +4,6 @@ import { TextInput } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import FirebaseManager from "../scripts/firebase_manager";
-import { useDrawer } from "../components/Drawer";
 import { ToastContext } from "../components/Toast";
 import FileManager from "../scripts/file_manager";
 import i18n from "../scripts/i18n";
@@ -16,8 +15,6 @@ export default function DeleteAccountScreen() {
     const showToast = useContext(ToastContext);
 
     const navigation = useNavigation();
-
-    const { closeDrawer } = useDrawer();
 
     const [emailError, setEmailError] = useState("");
 
@@ -71,7 +68,7 @@ export default function DeleteAccountScreen() {
                             showToast({text: i18n.t('please_enter_your_email'), noBottomMargin: true});
                             return;
                         }
-                        navigation.navigate("Home");
+                        navigation.navigate("Browse");
                         try {
                             FirebaseManager.sendPasswordResetEmail(email);
                         } catch {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import LibsScreen from "./LibsScreen";
 import CreateLibScreen from "./CreateLibScreen";
@@ -6,10 +6,10 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
-import i18n from "../scripts/i18n";
+import CustomTabBar from "../components/CustomTabBar";
 
-export default function LibsHomeScreen({ route }) {
-    const initialTab = route.params?.initialTab ?? "Home";
+export default function BrowseScreen({ route }) {
+    const initialTab = route.params?.initialTab ?? "Browse";
 
     const { tab } = useTab();
 
@@ -31,30 +31,16 @@ export default function LibsHomeScreen({ route }) {
 
     return (
         <Tab.Navigator
-            tabBarPosition="bottom"
             initialRouteName={tab}
+            tabBarPosition="bottom"
+            tabBar={(props) => <CustomTabBar {...props} />}
             screenOptions={({ route }) => ({
                 swipeEnabled: false, //Temporary disable for debugging
                 headerShown: true,
-                tabBarActiveTintColor: "gray",
-                tabBarInactiveTintColor: "gray",
-                tabBarLabelStyle: {
-                    fontSize: 16
-                },
-                tabBarStyle: {
-                    backgroundColor: "#F0F1EC",
-                    elevation: 0, // remove shadow on Android
-                    shadowOpacity: 0, // remove shadow on iOS
-                    borderTopWidth: 0, // for explicit border settings
-                    height: 74,
-                },
-                tabBarIndicatorStyle: {
-                    backgroundColor: "#D1E8D5",
-                }
             })}
         >
             <Tab.Screen 
-                name="Fun Libs"
+                name="Official"
                 component={LibsScreen}
                 options={{
                     tabBarLabel: ({ color }) => (
@@ -74,7 +60,7 @@ export default function LibsHomeScreen({ route }) {
                 component={CreateLibScreen}
                 options={{
                     tabBarLabel: ({ color }) => (
-                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>{i18n.t('create')}</Text>
+                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Create</Text>
                     ),
                     tabBarIcon: ({ focused, color }) => {
                         return (
