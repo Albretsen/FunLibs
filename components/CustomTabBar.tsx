@@ -54,7 +54,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
                         style={styles.centerButton}
                     >
                         <TouchableOpacity onPress={() => {
-                            // Handle the button press here
+                            navigation.navigate("Create");
                         }}>
                             <MaterialIcons name="add" size={26} color="white" />
                         </TouchableOpacity>

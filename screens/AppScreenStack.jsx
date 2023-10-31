@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import HomeScreen from './HomeScreen';
 import BrowseScreen from "./BrowseScreen";
+import CreateLibScreen from './CreateLibScreen';
 import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
@@ -158,10 +159,9 @@ export default function AppScreenStack() {
 			
 						return (
 							<TouchableOpacity onPress={() => {
-								
-								onPress();
-							}}
-							style={{ marginLeft: 10 }} 
+									onPress();
+								}}
+								style={{ marginLeft: 10 }} 
 							>
 								<Ionicons name="arrow-back" size={24} color="black" />
 							</TouchableOpacity>
@@ -171,6 +171,22 @@ export default function AppScreenStack() {
 					headerStyle: standardHeaderStyle,
 				}}
 			/>
+			<Stack.Screen
+                name="Create"
+                component={CreateLibScreen}
+				options={{
+					headerTitleAlign: "center",
+					headerStyle: standardHeaderStyle,
+					headerTitle: () => (
+						<Text style={{ fontWeight: 600, fontSize: 17 }}>
+							{i18n.t('write_a_lib')}
+						</Text>
+					),
+					headerRight: () => (
+						<View></View>
+					)
+				}}
+            />
 			<Stack.Screen
 				name="FeedbackScreen"
 				component={FeedbackScreen}

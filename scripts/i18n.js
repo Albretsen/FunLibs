@@ -157,6 +157,7 @@ const i18n = new I18n({
         error_unblocking_user_please_contact_support: "Error unblocking user, please contact support.",
         unblock: "Unblock", // As in: unblock user (social media)
         no_blocked_users: "No blocked users.",
+        write_a_lib: "Write a lib",
     },
     es: {
         sign_in: "Iniciar sesión",

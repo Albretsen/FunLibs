@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
         flex: 1,
         gap: 0,
         flexDirection: "column",
+        justifyContent: "center"
     },
 
     rightContainer: {
