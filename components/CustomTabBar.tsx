@@ -33,7 +33,6 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
         }).start();
     }, [state.index]);
 
-
     return (
         <View style={styles.tabBar}>
         {state.routes.map((route, index) => {

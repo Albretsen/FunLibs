@@ -22,6 +22,7 @@ import i18n from '../scripts/i18n';
 import { Drawer } from 'hallvardlh-react-native-drawer';
 import DrawerHeader from '../components/DrawerHeader';
 import globalStyles from '../styles/globalStyles';
+import DrawerContents from '../components/DrawerContents';
 
 const Stack = createStackNavigator();
 
@@ -30,7 +31,7 @@ export default function AppScreenStack() {
 
 	const navigation = useNavigation();
 
-	const drawerRef1 = useRef(null);
+	const userDrawerRef = useRef(null);
 
 	useEffect(() => {
         // Define the listener
@@ -92,7 +93,7 @@ export default function AppScreenStack() {
 					),
 					headerRight: () => (
 						<>
-						<TouchableOpacity onPress={() => drawerRef1.current?.openDrawer()}>
+						<TouchableOpacity onPress={() => userDrawerRef.current?.openDrawer()}>
 							<Image
 								key={key}
 								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
@@ -104,30 +105,10 @@ export default function AppScreenStack() {
 							/>
 						</TouchableOpacity>
 						<Drawer
-							ref={drawerRef1}
+							ref={userDrawerRef}
 							containerStyle={globalStyles.standardDrawer}
 						>
-							<DrawerHeader 
-								left={(
-									<Image
-										style={[{height: 48, width: 48, justifyContent: "center", alignSelf: "center"}, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
-										source={
-											(FirebaseManager.currentUserData.firestoreData) 
-											? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-											: FirebaseManager.avatars["no-avatar-48"]
-										}
-									/>
-								)}
-								center={(
-									<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F"}}>
-										{(FirebaseManager.currentUserData.firestoreData) ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('not_logged_in')}
-									</Text>
-								)}
-								closeSide="right"
-								onClose={() => drawerRef1.current?.closeDrawer()}
-								closeIcon="close"
-							/>
-							<UserDrawerContent navigation={navigation} closeDrawer={() => drawerRef1.current?.closeDrawer()}/>
+							<UserDrawerContent navigation={navigation} closeDrawer={() => userDrawerRef.current?.closeDrawer()}/>
 						</Drawer>
 						</>
 					),

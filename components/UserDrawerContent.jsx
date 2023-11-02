@@ -1,77 +1,130 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
 import FirebaseManager from '../scripts/firebase_manager';
-import { useEffect } from 'react';
+import DrawerContents from './DrawerContents';
+import i18n from '../scripts/i18n';
 
 export default function UserDrawerContent({ navigation, closeDrawer }) {
+	return (<>
+		{FirebaseManager.currentUserData.auth && (
+			<DrawerContents 
+				title={
+					`Hey, ${FirebaseManager.currentUserData.firestoreData.username}!`
+				}
+				imageSrc={
+					FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+				}
+				sections={
+					[
+						{
+							title: "Fun Libs",
+							links: [
+								{
+									title: "My Profile",
+									icon: "home",
+									onPress: () => {
+										navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
+										closeDrawer();
+									}
+								},
+								{
+									title: "Feedback",
+									icon: "feedback",
+									onPress: () => {
+										navigation.navigate("FeedbackScreen");
+										closeDrawer();
+									}
+								},
+								{
+									title: "IAP",
+									icon: "monetization-on",
+									onPress: () => {
+										navigation.navigate("IAPScreen");
+										closeDrawer();
+									}
+								}
 
-	useEffect(() => {
-		console.log("LOL")
-        console.log("FIREBASE UAHT: " + JSON.stringify(FirebaseManager.currentUserData.auth));
-		console.log("FIREBASE UAHT: " + JSON.stringify(FirebaseManager.currentUserData.firestoreData)); 
-    }, []);
-
-	return (
-		<View style={{gap: 35, marginTop: 30}}>
-			<TouchableOpacity onPress={() => {
-				navigation.navigate("FeedbackScreen");
-				closeDrawer();
-			}}>
-				<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Feedback</Text>
-			</TouchableOpacity>
-			{FirebaseManager.currentUserData.auth && (<>
-				<TouchableOpacity onPress={() => {
-					console.log("TEST: " + FirebaseManager.currentUserData?.auth?.uid);
-					navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>My profile</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate("UnblockScreen");
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Unblock</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate("ResetPasswordScreen");
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Reset password</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate("IAPScreen");
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>IAP</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					FirebaseManager.SignOut();
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Sign out</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate("DeleteAccountScreen");
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 600, color: "#BA1A1A", marginTop: 150 }}>Delete account</Text>
-				</TouchableOpacity>
-			</>)}
-			{!FirebaseManager.currentUserData.auth && (<>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate('SignInScreen');
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Sign in</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => {
-					navigation.navigate('NewAccountScreen');
-					closeDrawer();
-				}}>
-					<Text style={{ fontSize: 15, fontWeight: 500, color: '#5C9BEB' }}>Create new account</Text>
-				</TouchableOpacity>
-			</>)}
-		</View>
-	);
+							]
+						},
+						{
+							title: "Account",
+							links: [
+								{
+									title: "Reset Password",
+									icon: "lock",
+									onPress: () => {
+										navigation.navigate("ResetPasswordScreen");
+										closeDrawer();
+									}
+								},
+								{
+									title: "Unblock",
+									icon: "block",
+									onPress: () => {
+										navigation.navigate("UnblockScreen");
+										closeDrawer();
+									}
+								},
+								{
+									title: "Sign Out",
+									icon: "logout",
+									onPress: () => {
+										FirebaseManager.SignOut();
+										closeDrawer();
+									}
+								},
+								{
+									title: "Delete Account",
+									icon: "person-remove",
+									textColor: "#BA1A1A",
+									iconColor: "#BA1A1A",
+									onPress: () => {
+										navigation.navigate("DeleteAccountScreen");
+										closeDrawer();
+									}
+								}
+							]
+						},
+					]
+				}
+			/>
+		)}
+		{!FirebaseManager.currentUserData.auth && (
+			<DrawerContents 
+				title={i18n.t('not_logged_in')}
+				imageSrc={FirebaseManager.avatars["no-avatar-48"]}
+				imageStyle={{tintColor: "#5f6368"}}
+				sections={[
+					{
+						title: "Fun Libs",
+						links: [
+							{
+								title: "Feedback",
+								icon: "feedback",
+								onPress: () => {
+									navigation.navigate("FeedbackScreen");
+									closeDrawer();
+								}
+							},
+							{
+								title: "Sign in",
+								icon: "login",
+								onPress: () => {
+									navigation.navigate('SignInScreen');
+									closeDrawer();
+								}
+							},
+							{
+								title: "Create new account",
+								icon: "person-add",
+								onPress: () => {
+									navigation.navigate('NewAccountScreen');
+									closeDrawer();
+								}
+							}
+						]
+					},
+				]}
+			/>
+		)}
+	</>)
 }
