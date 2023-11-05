@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet, ImageRequireSource, StyleProp, ViewStyle } from "react-native";
+import { Text, View, Image, TouchableOpacity, Pressable, StyleSheet, ImageRequireSource, StyleProp, ViewStyle } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 type BigButtonProps = {
@@ -11,11 +11,18 @@ type BigButtonProps = {
     colorStart?: string;
     colorEnd?: string;
     containerStyle?: StyleProp<ViewStyle>;
+    usePressable?: boolean;
 };
 
-export default function BigButton({label, image, onPress, height = 120, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle}: BigButtonProps) {
+export default function BigButton({label, image, onPress, height = 120, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle, usePressable = false}: BigButtonProps) {
 
-    const ParentTag = onPress ? TouchableOpacity : View
+    type ParentTagType = typeof TouchableOpacity | typeof View | typeof Pressable;
+
+    let ParentTag: ParentTagType = onPress ? TouchableOpacity : View;
+
+    if (usePressable) {
+        ParentTag = Pressable;
+    }
 
     return(
         <TouchableOpacity style={[styles.container]} onPress={onPress}>

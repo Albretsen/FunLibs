@@ -12,6 +12,7 @@ import DeleteAccountScreen from './DeleteAccountScreen';
 import ProfileScreen from './ProfileScreen';
 import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
+import NavigationDrawerContent from '../components/NavigationDrawerContent';
 import { useNavigation } from '@react-navigation/native';
 import ResetPasswordScreen from "./ResetPasswordScreen";
 import { BackHandler } from 'react-native';
@@ -20,9 +21,7 @@ import UnblockScreen from './UnblockScreen';
 import IAPScreen from './IAPScreen';
 import i18n from '../scripts/i18n';
 import { Drawer } from 'hallvardlh-react-native-drawer';
-import DrawerHeader from '../components/DrawerHeader';
 import globalStyles from '../styles/globalStyles';
-import DrawerContents from '../components/DrawerContents';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +31,7 @@ export default function AppScreenStack() {
 	const navigation = useNavigation();
 
 	const userDrawerRef = useRef(null);
+	const navigationDrawerRef = useRef(null);
 
 	useEffect(() => {
         // Define the listener
@@ -88,15 +88,28 @@ export default function AppScreenStack() {
 					headerTitleAlign: "center",
 					headerStyle: standardHeaderStyle,
 					headerLeft: () => (
-						// <MaterialIcons style={{ marginLeft: 12, color: "#49454F" }} name="menu" size={28} onPress={() => navigation.openDrawer()} />
-						null
+						<>
+						<TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
+							<Image
+								style={{width: 24, height: 12, marginLeft: 20, tintColor: "#5f6368"}}
+								source={require("../assets/images/icons/hamburger.png")}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={navigationDrawerRef}
+							containerStyle={globalStyles.standardDrawerLeft}
+							side="left"
+						>
+							<NavigationDrawerContent navigation={navigation} closeDrawer={() => navigationDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
 					),
 					headerRight: () => (
 						<>
 						<TouchableOpacity onPress={() => userDrawerRef.current?.openDrawer()}>
 							<Image
 								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
 								source={
 									(FirebaseManager.currentUserData?.firestoreData) 
 									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]

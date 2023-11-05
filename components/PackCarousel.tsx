@@ -31,6 +31,7 @@ export default function PackCarousel({data}: PackCarouselProps) {
                 width={itemWidth}
                 height={200}
                 containerStyle={{width: itemWidth}}
+                usePressable
                 // containerStyle={{width: itemWidth - 10, paddingHorizontal: 20}}
             />
         </View>

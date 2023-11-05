@@ -133,8 +133,8 @@ export default function NewAccountScreen() {
 
     return (
         <View style={[{ alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height - 64 }]}>
-            <ScrollView horizontal={false} vertical={true} style={[{ marginBottom: 160, paddingBottom: 0 }]}>
-                <Text style={[globalStyles.bigWhitespace, { fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
+            <ScrollView horizontal={false} vertical={true} style={[globalStyles.standardWhitespace, { marginBottom: 90, paddingBottom: 0 }]}>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
                 <View style={[globalStyles.form]}>
                     <TextInput
                         autoCapitalize="none"
@@ -201,7 +201,7 @@ export default function NewAccountScreen() {
                     <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>
-            <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 120}]} onPress={createAccount}>
+            <TouchableOpacity style={[globalStyles.formButton, globalStyles.bigWhitespace, {position: "absolute", bottom: 30}]} onPress={createAccount}>
                         <Text style={[globalStyles.formButtonLabel]}>{i18n.t('create')}</Text>
                     </TouchableOpacity>
         </View>

@@ -170,6 +170,12 @@ const globalStyles = StyleSheet.create({
         borderTopLeftRadius: 16,
     },
 
+    standardDrawerLeft: {
+        paddingHorizontal: 26,
+        borderBottomRightRadius: 16,
+        borderTopRightRadius: 16,
+    },
+
     buttonDefault: {
 		borderRadius: 40,
 		backgroundColor: "white",

@@ -8,7 +8,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 		{FirebaseManager.currentUserData.auth && (
 			<DrawerContents 
 				title={
-					`Hey, ${FirebaseManager.currentUserData.firestoreData.username}!`
+					`${i18n.t("hey")}, ${FirebaseManager.currentUserData.firestoreData.username}!`
 				}
 				imageSrc={
 					FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
@@ -16,10 +16,10 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 				sections={
 					[
 						{
-							title: "Fun Libs",
+							title: i18n.t("fun_libs"),
 							links: [
 								{
-									title: "My Profile",
+									title: i18n.t("my_profile"),
 									icon: "home",
 									onPress: () => {
 										navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
@@ -27,7 +27,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 									}
 								},
 								{
-									title: "Feedback",
+									title: i18n.t("feedback"),
 									icon: "feedback",
 									onPress: () => {
 										navigation.navigate("FeedbackScreen");
@@ -46,10 +46,10 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 							]
 						},
 						{
-							title: "Account",
+							title: i18n.t("account"),
 							links: [
 								{
-									title: "Reset Password",
+									title: i18n.t("reset_password"),
 									icon: "lock",
 									onPress: () => {
 										navigation.navigate("ResetPasswordScreen");
@@ -57,7 +57,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 									}
 								},
 								{
-									title: "Unblock",
+									title: i18n.t("unblock"),
 									icon: "block",
 									onPress: () => {
 										navigation.navigate("UnblockScreen");
@@ -65,7 +65,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 									}
 								},
 								{
-									title: "Sign Out",
+									title: i18n.t("sign_out"),
 									icon: "logout",
 									onPress: () => {
 										FirebaseManager.SignOut();
@@ -73,7 +73,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 									}
 								},
 								{
-									title: "Delete Account",
+									title: i18n.t("delete_account"),
 									icon: "person-remove",
 									textColor: "#BA1A1A",
 									iconColor: "#BA1A1A",
@@ -95,10 +95,10 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 				imageStyle={{tintColor: "#5f6368"}}
 				sections={[
 					{
-						title: "Fun Libs",
+						title: i18n.t("fun_libs"),
 						links: [
 							{
-								title: "Feedback",
+								title: i18n.t("feedback"),
 								icon: "feedback",
 								onPress: () => {
 									navigation.navigate("FeedbackScreen");
@@ -106,7 +106,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 								}
 							},
 							{
-								title: "Sign in",
+								title: i18n.t("sign_in"),
 								icon: "login",
 								onPress: () => {
 									navigation.navigate('SignInScreen');
@@ -114,7 +114,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 								}
 							},
 							{
-								title: "Create new account",
+								title: i18n.t("create_new_account"),
 								icon: "person-add",
 								onPress: () => {
 									navigation.navigate('NewAccountScreen');
