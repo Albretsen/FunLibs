@@ -111,13 +111,15 @@ export default function ProfileScreen({ route }) {
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
             />
-            <TouchableOpacity
-                style={{position: "absolute", top: 110, left: (screenWidth / 2) - 140, zIndex: 120}}
-                onPress={() => {
-                    colorDrawerRef.current?.openDrawer();
-            }}>
-                <MaterialIcons name="palette" size={28} style={styles.highlightColor} />
-            </TouchableOpacity>
+            {yourOwnProfile && (
+                <TouchableOpacity
+                    style={{position: "absolute", top: 110, left: (screenWidth / 2) - 140, zIndex: 120}}
+                    onPress={() => {
+                        colorDrawerRef.current?.openDrawer();
+                }}>
+                    <MaterialIcons name="palette" size={28} style={styles.highlightColor} />
+                </TouchableOpacity>
+            )}
             <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
                 <Pressable style={[styles.imageContainer, {backgroundColor: userColor}]} onPress={

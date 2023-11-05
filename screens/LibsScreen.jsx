@@ -648,7 +648,7 @@ export default function LibsScreen() {
 						ListFooterComponent={renderFooter}
 					/>
 					{(loadingCircle) && (
-						<View style={globalStyles.loadingOverlay} pointerEvents="none">
+						<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
 							<ActivityIndicator size="large" color="#006D40" />
 						</View>
 					)}

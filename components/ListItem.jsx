@@ -16,6 +16,7 @@ import Lib from "../scripts/lib";
 import { useDialog } from "./Dialog";
 import { ToastContext } from "../components/Toast";
 import AvatarDisplay from "./AvatarDisplay";
+import LikeButton from "./LikeButton";
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item, color } = props;
@@ -261,15 +262,15 @@ function ListItem(props) {
                                     />
                                 </TouchableOpacity>
                             ) : (playable ? (
-                                <TouchableOpacity
+                                <LikeButton
                                     style={styles.icon}
-                                    onPress={favorite}
-                                >
-                                    <Image
-                                        style={styles.iconImage}
-                                        source={isLiked ? require("../assets/images/icons/favorite.png") : require("../assets/images/icons/favorite-outlined.png")}
-                                    />
-                                </TouchableOpacity>
+                                    filled={isLiked ? true : false}
+                                    onPressed={favorite}
+                                    disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                                    onDisabledPress={() => {
+                                        showToast("You have to be signed in to like a post.");
+                                    }}
+                                />
                             ) : <TouchableOpacity
                                 style={styles.icon}
                                 onPress={showDeleteDialogHandler}

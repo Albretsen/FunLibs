@@ -22,6 +22,7 @@ import IAPScreen from './IAPScreen';
 import i18n from '../scripts/i18n';
 import { Drawer } from 'hallvardlh-react-native-drawer';
 import globalStyles from '../styles/globalStyles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 
@@ -79,10 +80,7 @@ export default function AppScreenStack() {
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
-							<Image
-								source={require("../assets/images/heart.png")}
-								style={{ width: 22, height: 20 }}
-							/>
+							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
 					headerTitleAlign: "center",
@@ -142,10 +140,7 @@ export default function AppScreenStack() {
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
-							<Image
-								source={require("../assets/images/heart.png")}
-								style={{ width: 22, height: 20 }}
-							/>
+							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
 					headerLeft: (props) => {

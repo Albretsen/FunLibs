@@ -46,7 +46,7 @@ export default function PackCarousel({data}: PackCarouselProps) {
             firstItem={0}
             autoplay={true}
             lockScrollWhileSnapping={true}
-            inactiveSlideOpacity={1}
+            inactiveSlideOpacity={0.9}
             inactiveSlideScale={1}
             layout="stack"
             loop={true}
