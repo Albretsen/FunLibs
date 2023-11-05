@@ -1,18 +1,18 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Platform, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
-import ListItem from "../components/ListItem";
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, TextInput, TouchableOpacity, ActivityIndicator, Pressable } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import globalStyles from "../styles/globalStyles";
 import FirebaseManager from "../scripts/firebase_manager";
 import Dropdown from "../components/Dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AvatarSelect from "../components/AvatarSelect";
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import CustomBackground from "../components/CustomBackground";
+import ColorSelect from "../components/ColorSelect";
 import { ToastContext } from "../components/Toast";
 import ListManager from "../components/ListManager";
 import { useNavigation } from "@react-navigation/native";
 import i18n from "../scripts/i18n";
+import { Drawer } from 'hallvardlh-react-native-drawer';
+import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -74,18 +74,16 @@ export default function ProfileScreen({ route }) {
         setAvatarIndex(index);
         let uid = FirebaseManager.currentUserData?.auth?.uid;
         if (uid) FirebaseManager.UpdateAvatar(uid, index);
-        closeBottomSheet();
+        avatarDrawerRef.current?.closeDrawer();
     }
 
-    const bottomSheetRef = useRef(null);
+    const avatarDrawerRef = useRef(null);
+    const colorDrawerRef = useRef(null);
 
-    const openBottomSheet = () => {
-		bottomSheetRef.current?.snapToIndex(1);
-	};
-
-	const closeBottomSheet = () => {
-		bottomSheetRef.current?.close();
-	};
+    const handleColorChange = (color) => {
+        // handle color select here
+        colorDrawerRef.current?.closeDrawer();
+    }
 
     const blockUser = (uid, username) => {
         if (!FirebaseManager.currentUserData?.auth?.uid) {
@@ -105,8 +103,6 @@ export default function ProfileScreen({ route }) {
         FirebaseManager.RefreshList(null);
     }
 
-    const VariableScrollView = Platform.OS === "web" ? ScrollView : BottomSheetScrollView;
-
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
             <LinearGradient
@@ -115,11 +111,18 @@ export default function ProfileScreen({ route }) {
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
             />
+            <TouchableOpacity
+                style={{position: "absolute", top: 110, left: (screenWidth / 2) - 140, zIndex: 120}}
+                onPress={() => {
+                    colorDrawerRef.current?.openDrawer();
+            }}>
+                <MaterialIcons name="palette" size={28} style={styles.highlightColor} />
+            </TouchableOpacity>
             <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
-                <TouchableOpacity style={[styles.imageContainer, {backgroundColor: userColor}]} onPress={
+                <Pressable style={[styles.imageContainer, {backgroundColor: userColor}]} onPress={
                     () => {
-                        if(yourOwnProfile) openBottomSheet();
+                        if(yourOwnProfile) avatarDrawerRef.current?.openDrawer();
                     }
                 }>
                     <Image
@@ -131,7 +134,7 @@ export default function ProfileScreen({ route }) {
                             <MaterialIcons name="add" size={20} style={{color: "white", alignSelf: "center"}} />
                         </View>
                     )}
-                </TouchableOpacity>
+                </Pressable>
                 <View style={{alignSelf: "center", zIndex: 100, paddingVertical: 10}}>
                     {editUsername ? 
                         <>
@@ -258,28 +261,28 @@ export default function ProfileScreen({ route }) {
                     </View>
                 </ScrollView>
             </View>
-            <BottomSheet
-                ref={bottomSheetRef}
-                index={-1}
-                snapPoints={['50%', '80%', '90%']}
-                enablePanDownToClose={true} // Needs to be false to allow scrollView to work normally
-                style={[globalStyles.bigWhitespacePadding, {justifyContent: "center", alignItems: "center"}]}
-                backgroundComponent={CustomBackground}
-                // onChange={handleBottomSheetChange}
-            >
-                <Text style={[globalStyles.title, {marginBottom: 20}]}>{i18n.t('selected_a_new_avatar')}</Text>
-                <VariableScrollView>
+            <Drawer ref={avatarDrawerRef} containerStyle={{paddingHorizontal: 8, borderBottomLeftRadius: 16, borderTopLeftRadius: 16, paddingVertical: 20}}>
+                <Text style={[globalStyles.title, {textAlign: "center", marginBottom: 20}]}>{i18n.t('selected_a_new_avatar')}</Text>
+                <DrawerScrollView>
                     <AvatarSelect
                         onAvatarChange={handleAvatarChange}
                         selectedDefaultIndex={avatarIndex}
-                        height={9}
-                        bottomSheet={true}
-                        containerStyle={{paddingVertical: 20}}
+                        containerIsView
                     />
-                </VariableScrollView>
-            </BottomSheet>
+                </DrawerScrollView>
+            </Drawer>
+            <Drawer ref={colorDrawerRef} containerStyle={{paddingHorizontal: 8, borderBottomLeftRadius: 16, borderTopLeftRadius: 16, paddingVertical: 20}}>
+                <Text style={[globalStyles.title, {textAlign: "center", marginBottom: 20}]}>{i18n.t('select_a_new_color')}</Text>
+                <DrawerScrollView>
+                    <ColorSelect
+                        onColorChange={handleColorChange}
+                        selectedDefaultColor={"#ff00ff"}
+                        containerIsView
+                    />
+                </DrawerScrollView>
+            </Drawer>
             {loading && (
-                <View style={styles.loadingOverlay}>
+                <View style={globalStyles.loadingOverlay}>
                     <ActivityIndicator size="large" color="#006D40" />
                 </View>
 			)}
@@ -373,17 +376,6 @@ const styles = StyleSheet.create({
     bio: {
         lineHeight: 26,
         color: "#505050"
-    },
-
-    loadingOverlay: {
-        position: 'absolute',
-        top: -64,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white'
     },
 
     editButton: {

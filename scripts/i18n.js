@@ -145,6 +145,7 @@ const i18n = new I18n({
         has_not_written_anything_about_themselves_yet: "has not written anything about themself yet",
         templates_by: "Templates by",
         selected_a_new_avatar: "Select a new avatar",
+        select_a_new_color: "Select a new color",
         reset_password: "Reset Password",
         this_will_send_you_an_email: "This will send you an email.",
         please_enter_your_email: "Please enter your email!",

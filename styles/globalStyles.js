@@ -275,6 +275,18 @@ const globalStyles = StyleSheet.create({
         width: "100%",
         fontWeight: 500
     },
+
+    loadingOverlay: {
+        position: 'absolute',
+        top: -64,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        zIndex: 9999
+    },
 })
 
 export default globalStyles;

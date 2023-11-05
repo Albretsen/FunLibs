@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
 		alignContent: "center",
 		marginHorizontal: Dimensions.get('window').width * 0.05,
 		width: toastWidth,
-		overflow: "hidden"
+		overflow: "hidden",
+		maxWidth: 600,
 	},
 
 	text: {

@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { Image, Text, View, ScrollView, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
+import { Image, Text, View, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
 import FirebaseManager from '../scripts/firebase_manager';
 
 const avatarKeys = Object.keys(FirebaseManager.avatars).filter(key => !isNaN(key));
-let containerHeight = 2; // The height of the container, the unit being the height of an avatar
-// In other words, the height of the container is set to the height of two avatars by defaut
-export default function AvatarSelect({ onAvatarChange, height, containerStyle, selectedDefaultIndex = null, containerIsView }) {
+export default function AvatarSelect({ onAvatarChange, containerStyle, selectedDefaultIndex = null, containerIsView }) {
 
     const [selectedAvatar, setSelectedAvatar] = useState(selectedDefaultIndex);
-
-    if(height) containerHeight = height;
 
     let ContainerTag = ScrollView;
     if(containerIsView) ContainerTag = View;
     return (
-        <ContainerTag style={[styles.selectorContainer, {height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2)}, containerStyle ? containerStyle : null]}>
-            <View style={styles.rowContainer}>
+        <ContainerTag style={[styles.selectorContainer, containerStyle ? containerStyle : null]}>
+            <View style={styles.avatarContainer}>
                 {avatarKeys.map((key, index) => (
                     <TouchableOpacity
                         key={index}
@@ -35,34 +31,18 @@ export default function AvatarSelect({ onAvatarChange, height, containerStyle, s
     )
 }
 
-const screenWidth = Dimensions.get('window').width;
-
-// The other elemets have a margin for whitespace, account for this so that the avatars don't overflow the whitespace
-const screenWidthWithMargin = screenWidth - screenWidth / 6;
-// Define preferred avatar size in width and height, and gap size
 const avatarSize = 70;
 const gapSize = 10;
 
-// Combine these for easier calculation
-const avatarWithGap = avatarSize + gapSize;
-
-// Start off with a container width of 0 - gapSize because we need to add gapSize one less time than AvatarSize
-// This is because for every 2 avatars, there is only one gap between them
-let containerWidth = 0 - gapSize;
-// Calculate the widht of the selector's container until it would be wider than the screen
-while((containerWidth + avatarWithGap) < screenWidthWithMargin) {
-    containerWidth += avatarWithGap;
-}
-
 const styles = StyleSheet.create({
     selectorContainer: {
-        height: (avatarSize * containerHeight + gapSize) + (avatarSize / 2), // Plus half an avatar, to let users know there is more
         flexShrink: 0
     },
 
-    rowContainer: {
+    avatarContainer: {
+        justifyContent: "center",
         flexDirection: "row",
-        width: Math.min(Math.max(parseInt(containerWidth), 1), 700),
+        width: "100%",
         flexWrap: "wrap",
         gap: gapSize
     },

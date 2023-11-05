@@ -48,25 +48,13 @@ export default function UnblockScreen() {
         }
     };
 
-    const styles = {
-        loadingOverlay: {
-            position: 'absolute',
-            top: 200,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-        }
-    };
-
     return (
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, { marginTop: 40 }]}>
                 <Text style={{ fontSize: 26, fontWeight: 'bold', marginBottom: 30 }}>{i18n.t('unblock')}</Text>
 
                 {isLoading ? (
-                    <View style={styles.loadingOverlay}>
+                    <View style={globalStyles.loadingOverlay}>
                         <ActivityIndicator size="large" color="#006D40" />
                     </View>
                 ) : blockedUsers.length === 0 ? (

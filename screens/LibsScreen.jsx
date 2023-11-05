@@ -1,14 +1,12 @@
-import { StyleSheet, View, SafeAreaView, Text, BackHandler, Dimensions, FlatList } from "react-native";
-import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
+import { View, SafeAreaView, Text, BackHandler, FlatList } from "react-native";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 // ADS
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import Buttons from "../components/Buttons";
-import { Divider } from '@rneui/themed';
 import { ActivityIndicator } from "react-native-paper";
 import SegmentedButtons from "../components/SegmentedButtons";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -19,7 +17,6 @@ import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
 import { ToastContext } from "../components/Toast";
 import i18n from "../scripts/i18n";
-import { LinearGradient } from 'expo-linear-gradient';
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -651,7 +648,7 @@ export default function LibsScreen() {
 						ListFooterComponent={renderFooter}
 					/>
 					{(loadingCircle) && (
-						<View style={styles.loadingOverlay} pointerEvents="none">
+						<View style={globalStyles.loadingOverlay} pointerEvents="none">
 							<ActivityIndicator size="large" color="#006D40" />
 						</View>
 					)}
@@ -660,15 +657,3 @@ export default function LibsScreen() {
 	  	</SafeAreaView>
 	);
 }
-  
-const styles = StyleSheet.create({
-	loadingOverlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})

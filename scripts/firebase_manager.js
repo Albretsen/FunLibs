@@ -1674,7 +1674,15 @@ export default class FirebaseManager {
     * @returns Returns a random color, used for generating a color when creating user profile
     */
     static getRandomColor() {
-        const colors = ['#19BB77', '#3E99ED', '#0f58d6'];
+        const colors = [
+            "#ff1a1a", // Red
+            "#ff8000", // Orange
+            "#ffff00", // Yellow
+            "#00ff40", // Green
+            "#0066ff", // Blue
+            "#ff00ff", // Pink
+            "#8000ff"  // Purple
+        ];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 

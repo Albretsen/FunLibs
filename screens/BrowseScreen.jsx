@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import LibsScreen from "./LibsScreen";
 import CommunityLibsScreen from "./CommunityLibsScreen";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
