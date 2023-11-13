@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { View, TouchableOpacity, Animated, StyleSheet } from 'react-native';
+import { View, Pressable, Animated, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export default function LikeButton({ onPressed, filled = false, disabled = false, onDisabledPress }) {
     const [isFilled, setisFilled] = useState(filled);
@@ -34,10 +34,10 @@ export default function LikeButton({ onPressed, filled = false, disabled = false
     });
 
     return (
-        <View>
-            <AnimatedTouchableOpacity onPress={handlePress} style={[styles.container, { transform: [{ scale }] }]}>
+        <View style={{paddingRight: 20}}>
+            <AnimatedPressable onPress={handlePress} style={[styles.container, { transform: [{ scale }] }]}>
                 <Icon name={isFilled ? 'favorite' : 'favorite-outline'} size={25} color={isFilled ? '#6294C9' : '#6294C9'} />
-            </AnimatedTouchableOpacity>
+            </AnimatedPressable>
         </View>
     );
 }
@@ -48,6 +48,5 @@ const styles = StyleSheet.create({
         alignSelf: "flex-start",
         flex: 1,
         marginTop: 6,
-        paddingRight: 20
     },
 })
