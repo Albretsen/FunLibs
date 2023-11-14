@@ -9,8 +9,8 @@ import { ToastContext } from "../components/Toast";
 import i18n from "../scripts/i18n";
 
 export default function SignInScreen() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("official@funlibs.com");
+    const [password, setPassword] = useState("123456");
     const [passwordVisible, setPasswordVisible] = useState(true);
 
     const showToast = useContext(ToastContext);
@@ -98,12 +98,12 @@ export default function SignInScreen() {
                         <Text style={globalStyles.formButtonLabel}>{i18n.t('sign_in')}</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={globalStyles.formBottomText}>
-                    {i18n.t('dont_have_an_account')} 
+                <View style={globalStyles.formBottomText}>
+                    <Text>{i18n.t('dont_have_an_account')}</Text>
                     <TouchableOpacity onPress={() => navigation.navigate("NewAccountScreen")}>
                         <Text style={globalStyles.formBottomTextHighlight}> {i18n.t('create_a_new_one')}</Text>
                     </TouchableOpacity>
-                </Text>
+                </View>
             </View>
         </View>
     )

@@ -9,8 +9,6 @@ import { ToastProvider } from "./components/Toast";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
 import { Provider } from "react-native-paper";
-import FirebaseManager from "./scripts/firebase_manager";
-import CustomDrawerContent from "./components/CustomDrawerContent";
 import { DrawerProvider } from "./components/Drawer";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"

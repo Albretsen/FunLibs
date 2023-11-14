@@ -170,6 +170,12 @@ const globalStyles = StyleSheet.create({
         borderTopLeftRadius: 16,
     },
 
+    standardDrawerLeft: {
+        paddingHorizontal: 26,
+        borderBottomRightRadius: 16,
+        borderTopRightRadius: 16,
+    },
+
     buttonDefault: {
 		borderRadius: 40,
 		backgroundColor: "white",
@@ -268,6 +274,18 @@ const globalStyles = StyleSheet.create({
         textAlign: "left",
         width: "100%",
         fontWeight: 500
+    },
+
+    loadingOverlay: {
+        position: 'absolute',
+        top: -64,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        zIndex: 9999
     },
 })
 

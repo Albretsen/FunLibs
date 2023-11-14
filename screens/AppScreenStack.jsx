@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import HomeScreen from './HomeScreen';
 import BrowseScreen from "./BrowseScreen";
+import CreateLibScreen from './CreateLibScreen';
 import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
 import NewAccountScreen from "./NewAccountScreen";
@@ -11,6 +12,7 @@ import DeleteAccountScreen from './DeleteAccountScreen';
 import ProfileScreen from './ProfileScreen';
 import FirebaseManager from "../scripts/firebase_manager";
 import UserDrawerContent from "../components/UserDrawerContent";
+import NavigationDrawerContent from '../components/NavigationDrawerContent';
 import { useNavigation } from '@react-navigation/native';
 import ResetPasswordScreen from "./ResetPasswordScreen";
 import { BackHandler } from 'react-native';
@@ -19,8 +21,8 @@ import UnblockScreen from './UnblockScreen';
 import IAPScreen from './IAPScreen';
 import i18n from '../scripts/i18n';
 import { Drawer } from 'hallvardlh-react-native-drawer';
-import DrawerHeader from '../components/DrawerHeader';
 import globalStyles from '../styles/globalStyles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +31,8 @@ export default function AppScreenStack() {
 
 	const navigation = useNavigation();
 
-	const drawerRef1 = useRef(null);
+	const userDrawerRef = useRef(null);
+	const navigationDrawerRef = useRef(null);
 
 	useEffect(() => {
         // Define the listener
@@ -77,24 +80,34 @@ export default function AppScreenStack() {
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
-							<Image
-								source={require("../assets/images/heart.png")}
-								style={{ width: 22, height: 20 }}
-							/>
+							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
 					headerTitleAlign: "center",
 					headerStyle: standardHeaderStyle,
 					headerLeft: () => (
-						// <MaterialIcons style={{ marginLeft: 12, color: "#49454F" }} name="menu" size={28} onPress={() => navigation.openDrawer()} />
-						null
+						<>
+						<TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
+							<Image
+								style={{width: 24, height: 12, marginLeft: 20, tintColor: "#5f6368"}}
+								source={require("../assets/images/icons/hamburger.png")}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={navigationDrawerRef}
+							containerStyle={globalStyles.standardDrawerLeft}
+							side="left"
+						>
+							<NavigationDrawerContent navigation={navigation} closeDrawer={() => navigationDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
 					),
 					headerRight: () => (
 						<>
-						<TouchableOpacity onPress={() => drawerRef1.current?.openDrawer()}>
+						<TouchableOpacity onPress={() => userDrawerRef.current?.openDrawer()}>
 							<Image
 								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
 								source={
 									(FirebaseManager.currentUserData?.firestoreData) 
 									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
@@ -103,30 +116,10 @@ export default function AppScreenStack() {
 							/>
 						</TouchableOpacity>
 						<Drawer
-							ref={drawerRef1}
+							ref={userDrawerRef}
 							containerStyle={globalStyles.standardDrawer}
 						>
-							<DrawerHeader 
-								left={(
-									<Image
-										style={[{height: 48, width: 48, justifyContent: "center", alignSelf: "center"}, FirebaseManager.currentUserData.firestoreData ? null :  {tintColor: "#5f6368"}]}
-										source={
-											(FirebaseManager.currentUserData.firestoreData) 
-											? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-											: FirebaseManager.avatars["no-avatar-48"]
-										}
-									/>
-								)}
-								center={(
-									<Text style={{fontSize: 15, fontWeight: 500, color: "#49454F"}}>
-										{(FirebaseManager.currentUserData.firestoreData) ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('not_logged_in')}
-									</Text>
-								)}
-								closeSide="right"
-								onClose={() => drawerRef1.current?.closeDrawer()}
-								closeIcon="close"
-							/>
-							<UserDrawerContent navigation={navigation} closeDrawer={() => drawerRef1.current?.closeDrawer()}/>
+							<UserDrawerContent navigation={navigation} closeDrawer={() => userDrawerRef.current?.closeDrawer()}/>
 						</Drawer>
 						</>
 					),
@@ -147,10 +140,7 @@ export default function AppScreenStack() {
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
-							<Image
-								source={require("../assets/images/heart.png")}
-								style={{ width: 22, height: 20 }}
-							/>
+							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
 					headerLeft: (props) => {
@@ -158,10 +148,9 @@ export default function AppScreenStack() {
 			
 						return (
 							<TouchableOpacity onPress={() => {
-								
-								onPress();
-							}}
-							style={{ marginLeft: 10 }} 
+									onPress();
+								}}
+								style={{ marginLeft: 10 }} 
 							>
 								<Ionicons name="arrow-back" size={24} color="black" />
 							</TouchableOpacity>
@@ -171,6 +160,22 @@ export default function AppScreenStack() {
 					headerStyle: standardHeaderStyle,
 				}}
 			/>
+			<Stack.Screen
+                name="Create"
+                component={CreateLibScreen}
+				options={{
+					headerTitleAlign: "center",
+					headerStyle: standardHeaderStyle,
+					headerTitle: () => (
+						<Text style={{ fontWeight: 600, fontSize: 17 }}>
+							{i18n.t('write_a_lib')}
+						</Text>
+					),
+					headerRight: () => (
+						<View></View>
+					)
+				}}
+            />
 			<Stack.Screen
 				name="FeedbackScreen"
 				component={FeedbackScreen}

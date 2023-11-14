@@ -178,6 +178,7 @@ export default class LibManager {
             'city': 'A big place where lots of people live.',
             'town': 'A place where people live, smaller than a city.',
             'color': 'What we see like red, blue, or yellow.',
+            'dog breed': 'A type of dog: labrador, chihuahua, poodle',
         };
     
         // Use compromise to get the base form of the word
@@ -245,6 +246,7 @@ export default class LibManager {
             "verb with -ing ending": ["jumping", "dancing", "laughing", "singing", "running", "sleeping", "talking", "walking", "working", "playing", "cooking", "cleaning", "watching", "reading", "writing", "studying", "listening", "painting", "swimming", "climbing"],
             "ingredient": ["Flour", "Sugar", "Salt", "Eggs", "Milk", "Butter", "Baking Powder", "Vanilla Extract", "Cocoa Powder", "Honey", "Yeast", "Olive Oil", "Water", "Cream", "Cheese", "Lemon Juice", "Garlic", "Onion", "Tomato", "Cinnamon"],
             "spice": ["Pepper", "Cinnamon", "Cumin", "Ginger", "Garlic Powder", "Paprika", "Nutmeg", "Turmeric", "Cardamom", "Cloves", "Coriander", "Chili Powder", "Oregano", "Thyme", "Rosemary", "Sage", "Basil", "Mint", "Fennel", "Saffron"],
+            "dog breed": ["Labrador Retriever", "German Shepherd", "Golden Retriever", "French Bulldog", "Bulldog", "Poodle", "Beagle", "Rottweiler", "German Shorthaired Pointer", "Siberian Husky", "Dachshund", "Great Dane", "Doberman Pinscher", "Australian Shepherd", "Boxer", "Cavalier King Charles Spaniel", "Shih Tzu", "Pembroke Welsh Corgi", "Yorkshire Terrier", "Miniature Schnauzer", "Chihuahua"],
         };
 
         // Use compromise to get the base form of the word

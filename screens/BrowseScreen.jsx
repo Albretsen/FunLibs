@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import LibsScreen from "./LibsScreen";
-import CreateLibScreen from "./CreateLibScreen";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import CommunityLibsScreen from "./CommunityLibsScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
@@ -42,34 +41,10 @@ export default function BrowseScreen({ route }) {
             <Tab.Screen 
                 name="Official"
                 component={LibsScreen}
-                options={{
-                    tabBarLabel: ({ color }) => (
-                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Home</Text>
-                    ),
-                    tabBarIcon: ({ focused, color }) => {
-                        return (
-                            <View style={[styles.iconContainer, {backgroundColor: focused ? "#D1E8D5" : "transparent"}]}>
-                                <MaterialIcons name="home" size={22} color={focused ? "black" : color} />
-                            </View>
-                        );
-                    },
-                }}
             />
-            <Tab.Screen
-                name="Create"
-                component={CreateLibScreen}
-                options={{
-                    tabBarLabel: ({ color }) => (
-                        <Text style={{color, textTransform: 'none', fontWeight: "bold", fontSize: 15, marginTop: 6}}>Create</Text>
-                    ),
-                    tabBarIcon: ({ focused, color }) => {
-                        return (
-                            <View style={[styles.iconContainer, {backgroundColor: focused ? "#D1E8D5" : "transparent"}]}>
-                                <MaterialIcons name="edit" size={22} color={focused ? "black" : color} />
-                            </View>
-                        );
-                    }
-                }}
+            <Tab.Screen 
+                name="Community"
+                component={CommunityLibsScreen}
             />
         </Tab.Navigator>
     );

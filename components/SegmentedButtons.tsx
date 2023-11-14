@@ -25,6 +25,7 @@ export default function SegmentedButtons({buttons}: SegmentedButtonsProps) {
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 1 }}
                         style={styles.buttonContainer}
+                        key={index}
                     >
                         <Pressable style={styles.buttonInnerContainer} onPress={() => {
                             button.onPress();
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
+        minHeight: 40,
         borderRadius: 20,
         flex: 1,
         flexDirection: 'row',

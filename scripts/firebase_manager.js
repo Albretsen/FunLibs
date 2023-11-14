@@ -56,7 +56,7 @@ Notifications.setNotificationHandler({
 export default class FirebaseManager {
     static auth = auth;
 
-    static currentUserData = {
+    static currentUserData = { 
         auth: null,
         firestoreData: null
     };
@@ -316,12 +316,12 @@ export default class FirebaseManager {
         let memberSinceString = `Member since ${day}. ${monthNames[monthIndex]}. ${year}`;
 
         // If user.displayName is undefined, generate a random username string
-        let randomUsername = 'user' + Math.random().toString(36).substring(2, 8); // This creates a username like "user4g1h2k3r"
-        let username = user.displayName || randomUsername;
+        let username = user.displayName
 
         // If user.photoURL is undefined, generate a random string from "0" to "20"
-        let randomAvatarID = Math.floor(Math.random() * 21).toString(); // This creates a number from 0 to 20 as a string
-        let avatarID = user.photoURL || randomAvatarID;
+        let avatarID = user.photoURL;
+
+        let color = FirebaseManager.getRandomColor();
 
         let fireStoreData = {
             uid: user.uid,
@@ -331,6 +331,7 @@ export default class FirebaseManager {
             likesCount: 0,
             libsCount: 0,
             bio: "",
+            color: color,
             date: new Date(),
             push_notification_token: push_notification_token,
             memberSince: memberSinceString,
@@ -1673,7 +1674,15 @@ export default class FirebaseManager {
     * @returns Returns a random color, used for generating a color when creating user profile
     */
     static getRandomColor() {
-        const colors = ['#19BB77', '#3E99ED', '#0f58d6'];
+        const colors = [
+            "#ff1a1a", // Red
+            "#ff8000", // Orange
+            "#ffff00", // Yellow
+            "#00ff40", // Green
+            "#0066ff", // Blue
+            "#ff00ff", // Pink
+            "#8000ff"  // Purple
+        ];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 

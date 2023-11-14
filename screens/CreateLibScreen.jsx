@@ -549,7 +549,7 @@ export default function CreateLibScreen({ route }) {
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
-            <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {backgroundColor: "white", flex: 1}]}>
+            <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeight, {backgroundColor: "white", flex: 1}]}>
                 {/* <ScrollView style={[globalStyles.standardWhitespace]}
                     keyboardShouldPersistTaps={'always'}
                     keyboardDismissMode='on-drag'
