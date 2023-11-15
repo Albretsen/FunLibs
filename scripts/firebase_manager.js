@@ -1480,7 +1480,7 @@ export default class FirebaseManager {
             playable: undefined
         },
         lastVisibleDoc = null,
-        pageSize = 30
+        pageSize = 10
     ) {
         if (!isConnected) return this.handleNoInternet();
 
@@ -1520,7 +1520,7 @@ export default class FirebaseManager {
     static applyCategoryFilter(q, category) {
         if (category === 'official') {
             q = query(q, where("official", "==", true));
-        } else if (category === 'all' || category === 'All') {
+        } else {
             q = query(q, where("official", "==", false));
         }
         return q;
@@ -1571,7 +1571,7 @@ export default class FirebaseManager {
                 break;
         }
 
-        if (startDate && sortBy !== "trending") {
+        if (startDate && sortBy !== "trending" && sortBy !== "likes") {
             q = query(q, where("date", ">=", startDate));
             q = query(q, orderBy("date", "desc"));  // Ensure ordering by date first
         }
@@ -1579,8 +1579,10 @@ export default class FirebaseManager {
     }
 
     static applySortByFilter(q, sortBy) {
+        console.log("SORY BY FILTER: " + sortBy);
         switch (sortBy) {
             case "likes":
+                console.log("HERE:");
                 q = query(q, orderBy("likes", "desc"));
                 break;
             case "trending":
