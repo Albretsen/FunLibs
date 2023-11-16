@@ -106,7 +106,7 @@ export default function ProfileScreen({ route }) {
     return (
         <View style={[{flex: 1, backgroundColor: "white"}, globalStyles.headerAccountedHeight]}>
             <LinearGradient
-                colors={[userColor, FirebaseManager.brightenColor(userColor, 0.5)]}
+                colors={["#638BD5", "#60C195"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.background}
@@ -122,7 +122,7 @@ export default function ProfileScreen({ route }) {
             )}
             <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
-                <Pressable style={[styles.imageContainer, {backgroundColor: userColor}]} onPress={
+                <Pressable style={[styles.imageContainer, {backgroundColor: "white"}]} onPress={
                     () => {
                         if(yourOwnProfile) avatarDrawerRef.current?.openDrawer();
                     }
@@ -250,16 +250,12 @@ export default function ProfileScreen({ route }) {
                             </View>
                         }
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>{i18n.t('templates_by')} {userData.username}</Text>
-
-                        {/* <Text style={[globalStyles.title, {marginTop: 15}]}>Templates by {userData.username}</Text> */}
-                        <View style={{flex: 1, maxWidth: "100%", minWidth: "100%"}}>
-                            <ListManager filterOptions={{
-                                "sortBy": "newest",
-                                "dateRange": "allTime",
-                                "playable": true,
-                                "uid": uid,
-                            }}></ListManager>
-                        </View>
+                        <ListManager filterOptions={{
+                            "sortBy": "newest",
+                            "dateRange": "allTime",
+                            "playable": true,
+                            "uid": uid,
+                        }}></ListManager>
                     </View>
                 </ScrollView>
             </View>

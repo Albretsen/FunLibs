@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
-    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item, color } = props;
+    const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -290,9 +290,11 @@ function ListItem(props) {
                     //     </View>
                     // ) : null}
                 />
-                <View style={styles.preview}>
-                    {LibManager.displayPreview(text)}
-                </View>
+                {(
+                    <View style={styles.preview}>
+                        {LibManager.displayPreview(text)}
+                    </View>
+                )}
                 <View style={[styles.actionsContainer, {marginTop: 8}]}>
                     <TouchableOpacity onPress={() => playLib(id, type)}>
                         <LinearGradient
@@ -315,15 +317,15 @@ function ListItem(props) {
                                 showToast("You have to be signed in to like a post.");
                             }}
                         />
-                        <Text style={styles.actionText}>10</Text>
+                        <Text style={styles.actionText}>{likes}</Text>
                     </TouchableOpacity>
                     <View style={styles.action}>
                         <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>10</Text>
+                        <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
                     </View>
                     <View style={styles.action}>
                         <Entypo name="open-book" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>10</Text>
+                        <Text style={styles.actionText}>{plays ? plays : 0}</Text>
                     </View>
                 </View>
                 {showDeleteDialog && (

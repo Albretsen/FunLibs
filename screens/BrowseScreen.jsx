@@ -34,7 +34,7 @@ export default function BrowseScreen({ route }) {
             tabBarPosition="bottom"
             tabBar={(props) => <CustomTabBar {...props} />}
             screenOptions={({ route }) => ({
-                swipeEnabled: false, //Temporary disable for debugging
+                swipeEnabled: true,
                 headerShown: true,
             })}
         >

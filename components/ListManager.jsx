@@ -75,6 +75,7 @@ const ListManager = (props) => {
     return (
         <FlatList
             data={data}
+            style={{paddingBottom: 25}}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
                 <ListItem
@@ -98,6 +99,8 @@ const ListManager = (props) => {
                     playable={item.playable}
                     item={item}
                     color={userColor}
+                    plays={item.plays}
+                    comments={item.comments}
                 />
             )}
             refreshing={false} // Use the loading state to indicate whether the list is being refreshed
