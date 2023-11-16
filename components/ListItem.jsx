@@ -290,12 +290,6 @@ function ListItem(props) {
                     //     </View>
                     // ) : null}
                 />
-                <TouchableOpacity style={styles.actionsContainer}>
-                    <View style={[styles.action, styles.actionNoBorder]}>
-                        <MaterialCommunityIcons name="eye" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>Hide lib preview</Text>
-                    </View>
-                </TouchableOpacity>
                 <View style={styles.preview}>
                     {LibManager.displayPreview(text)}
                 </View>

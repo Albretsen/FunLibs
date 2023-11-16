@@ -1,5 +1,5 @@
-import { View, SafeAreaView, Text, BackHandler, FlatList } from "react-native";
 import React, { useEffect, useState, useContext, useRef } from "react";
+import { View, SafeAreaView, Text, TouchableOpacity, BackHandler, FlatList } from "react-native";
 import ListItem from "../components/ListItem";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
@@ -17,6 +17,7 @@ import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
 import { ToastContext } from "../components/Toast";
 import i18n from "../scripts/i18n";
+import PreviewToggle from "../components/PreviewToggle";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -557,7 +558,7 @@ export default function LibsScreen() {
 						]}
 					/>
 				</View>
-				<View>
+				<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
 					<Dropdown selected={selectedCategory} options={[
 						{
 							name: i18n.t('official_templates'),
@@ -587,14 +588,9 @@ export default function LibsScreen() {
 								//updateFilterOptions(playReadValue, "myFavorites");
 							}
 						},
-						{
-							name: "Etc pack",
-							onPress: () => {
-								//setSelectedCategory("myFavorites");
-								//updateFilterOptions(playReadValue, "myFavorites");
-							}
-						}
 					]}/>
+
+					<PreviewToggle />
 				</View>
 			</View>
 			{(isLoading && !endReached)? (

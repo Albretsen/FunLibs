@@ -6,6 +6,7 @@ import globalStyles from "../styles/globalStyles";
 import SegmentedButtons from "../components/SegmentedButtons";
 import i18n from "../scripts/i18n";
 import Dropdown from "../components/Dropdown";
+import PreviewToggle from "../components/PreviewToggle";
 
 export default function CommunityLibsScreen() {
 
@@ -38,27 +39,30 @@ export default function CommunityLibsScreen() {
                         },
                     ]}
                 />
-                <Dropdown selected={selectedCategory} options={[
-                    {
-                        name: i18n.t('community_templates'),
-                        onPress: () => {
-                            setSelectedCategory("all");
+                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                    <Dropdown selected={selectedCategory} options={[
+                        {
+                            name: i18n.t('community_templates'),
+                            onPress: () => {
+                                setSelectedCategory("all");
+                            }
+                        },
+                        {
+                            name: i18n.t('favorite_templates'),
+                            onPress: () => {
+                                setSelectedCategory("myFavorites");
+                            }
+                        },
+                        {
+                            name: i18n.t('my_templates'),
+                            onPress: () => {
+                                setSelectedCategory("myContent");
+                                //updateFilterOptions(playReadValue, "myFavorites");
+                            }
                         }
-                    },
-                    {
-                        name: i18n.t('favorite_templates'),
-                        onPress: () => {
-                            setSelectedCategory("myFavorites");
-                        }
-                    },
-                    {
-                        name: i18n.t('my_templates'),
-                        onPress: () => {
-                            setSelectedCategory("myContent");
-                            //updateFilterOptions(playReadValue, "myFavorites");
-                        }
-                    }
-                ]} />
+                    ]} />
+                    <PreviewToggle />
+                </View>
             </View>
             <ListManager filterOptions={{
                 "sortBy": selectedSortBy,
