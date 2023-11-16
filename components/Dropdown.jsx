@@ -21,13 +21,13 @@ export default function Dropdown( props ) {
                     setSelectedOption(i18n.t('official_templates'));
                     break;
                 case "all":
-                    setSelectedOption("User created libs");
+                    setSelectedOption("Community");
                     break;
                 case "All":
-                    setSelectedOption("User created libs");
+                    setSelectedOption("Community");
                     break;
                 case "myFavorites":
-                    setSelectedOption("Liked libs");
+                    setSelectedOption("Favorite libs");
                     break;
                 case "myContent":
                     setSelectedOption("My libs");
@@ -48,13 +48,13 @@ export default function Dropdown( props ) {
                 setSelectedOption("Official libs");
                 break;
             case "all":
-                setSelectedOption("User created libs");
+                setSelectedOption("Community libs");
                 break;
             case "All":
-                setSelectedOption("User created libs");
+                setSelectedOption("Community libs");
                 break;
             case "myFavorites":
-                setSelectedOption("Liked libs");
+                setSelectedOption("Favorite libs");
                 break;
             case "myContent":
                 setSelectedOption("My libs");

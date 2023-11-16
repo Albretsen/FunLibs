@@ -5,10 +5,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import globalStyles from "../styles/globalStyles";
 import SegmentedButtons from "../components/SegmentedButtons";
 import i18n from "../scripts/i18n";
+import Dropdown from "../components/Dropdown";
 
 export default function CommunityLibsScreen() {
 
     const [selectedSortBy, setSelectedSortBy] = useState("newest");
+    const [selectedCategory, setSelectedCategory] = useState("all");
 
     return (
         <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav]}>
@@ -36,8 +38,30 @@ export default function CommunityLibsScreen() {
                         },
                     ]}
                 />
+                <Dropdown selected={selectedCategory} options={[
+                    {
+                        name: i18n.t('community_templates'),
+                        onPress: () => {
+                            setSelectedCategory("all");
+                        }
+                    },
+                    {
+                        name: i18n.t('favorite_templates'),
+                        onPress: () => {
+                            setSelectedCategory("myFavorites");
+                        }
+                    },
+                    {
+                        name: i18n.t('my_templates'),
+                        onPress: () => {
+                            setSelectedCategory("myContent");
+                            //updateFilterOptions(playReadValue, "myFavorites");
+                        }
+                    }
+                ]} />
                 <ListManager filterOptions={{
                     "sortBy": selectedSortBy,
+                    "category": selectedCategory,
                     "dateRange": "allTime",
                     "playable": true
                 }}></ListManager>
