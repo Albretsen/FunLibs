@@ -56,6 +56,10 @@ const globalStyles = StyleSheet.create({
         maxWidth: 700
     },
 
+    containerWhitespaceMargin: {
+        marginHorizontal: fullWidth / 20,
+    },
+
     bigWhitespace: {
         width: fullWidth - fullWidth / 6,
         maxWidth: 700
@@ -142,7 +146,7 @@ const globalStyles = StyleSheet.create({
         //maxHeight: fullHeight - (64 + 40 + 40 + 74 + 2 + 60 + 40),
         // Explicitly setting height, to have loading indicator be centered vertically
         //height: fullHeight - (64 + 40 + 40 + 74 + 2 + 60 + 40),
-        flex: 1
+        flex: 1,
         // lol
     },
 

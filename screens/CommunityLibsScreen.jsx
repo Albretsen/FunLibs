@@ -11,8 +11,8 @@ export default function CommunityLibsScreen() {
     const [selectedSortBy, setSelectedSortBy] = useState("newest");
 
     return (
-        <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav]}>
-            <View style={[globalStyles.standardWhitespace, { flex: 1 }]}>
+        <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
+			<View style={[globalStyles.containerWhitespacePadding]}>
                 <SegmentedButtons
                     buttons={[
                         {
@@ -36,12 +36,12 @@ export default function CommunityLibsScreen() {
                         },
                     ]}
                 />
-                <ListManager filterOptions={{
-                    "sortBy": selectedSortBy,
-                    "dateRange": "allTime",
-                    "playable": true
-                }}></ListManager>
             </View>
+            <ListManager filterOptions={{
+                "sortBy": selectedSortBy,
+                "dateRange": "allTime",
+                "playable": true
+            }}></ListManager>
         </SafeAreaView>
     )
 }

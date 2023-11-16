@@ -518,8 +518,8 @@ export default function LibsScreen() {
 	}
 
 	return (
-		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav]}>
-			<View style={[globalStyles.standardWhitespace, {flex: 1}]}>
+		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
+			<View style={[globalStyles.containerWhitespacePadding]}>
 				<View style={[{
 					flexDirection: "row",
 					justifyContent: "space-between",
@@ -596,64 +596,64 @@ export default function LibsScreen() {
 						}
 					]}/>
 				</View>
-				{(isLoading && !endReached)? (
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
-						<ActivityIndicator animating={true} color="#006D40" size="large" />
-					</View>
-				) : (<>
-					<FlatList
-						data={listItems}
-						renderItem={({ item, index }) => (
-							<ListItem
-								name={item.name}
-								description={item.display_with_prompts}
-								promptAmount={item.prompts.length}
-								prompts={item.prompts}
-								text={item.text}
-								id={item.id}
-								type="libs"
-								key={item.id}
-								length={item.percent}
-								icon="favorite"
-								username={item.username}
-								likes={item.likes}
-								avatarID={item.avatarID}
-								index={index}
-								user={item.user}
-								local={item.local}
-								likesArray={item.likesArray}
-								playable={item.playable}
-								item={item}
-								color={FirebaseManager.getRandomColor()}
-							/>
-						)}
-						keyExtractor={item => `${item.id}-${item.likes}`}
-						refreshing={false} // Use the loading state to indicate whether the list is being refreshed
-						onRefresh={() => { // Function that will be called when the user pulls to refresh
-							if (listItems.length > 0) updateFilterOptions();
-						}}
-						style={[globalStyles.listItemContainer]}
-						onEndReached={_.debounce(() => {
-								if (!loading && listItems.length > 0 && !endReached) {
-									loadListItems({
-										"category": selectedCategory,
-										"sortBy": selectedSortBy,
-										"dateRange": selectedDate,
-										"playable": playReadValue
-									}, lastDocument);
-								}
-							}, 200)} // Call the loadListItems function when the end is reached
-						onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-						ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : i18n.t('no_results')}</Text>}
-						ListFooterComponent={renderFooter}
-					/>
-					{(loadingCircle) && (
-						<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
-							<ActivityIndicator size="large" color="#006D40" />
-						</View>
-					)}
-				</>)}
 			</View>
+			{(isLoading && !endReached)? (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
+					<ActivityIndicator animating={true} color="#006D40" size="large" />
+				</View>
+			) : (<>
+				<FlatList
+					data={listItems}
+					renderItem={({ item, index }) => (
+						<ListItem
+							name={item.name}
+							description={item.display_with_prompts}
+							promptAmount={item.prompts.length}
+							prompts={item.prompts}
+							text={item.text}
+							id={item.id}
+							type="libs"
+							key={item.id}
+							length={item.percent}
+							icon="favorite"
+							username={item.username}
+							likes={item.likes}
+							avatarID={item.avatarID}
+							index={index}
+							user={item.user}
+							local={item.local}
+							likesArray={item.likesArray}
+							playable={item.playable}
+							item={item}
+							color={FirebaseManager.getRandomColor()}
+						/>
+					)}
+					keyExtractor={item => `${item.id}-${item.likes}`}
+					refreshing={false} // Use the loading state to indicate whether the list is being refreshed
+					onRefresh={() => { // Function that will be called when the user pulls to refresh
+						if (listItems.length > 0) updateFilterOptions();
+					}}
+					style={[globalStyles.listItemContainer]}
+					onEndReached={_.debounce(() => {
+							if (!loading && listItems.length > 0 && !endReached) {
+								loadListItems({
+									"category": selectedCategory,
+									"sortBy": selectedSortBy,
+									"dateRange": selectedDate,
+									"playable": playReadValue
+								}, lastDocument);
+							}
+						}, 200)} // Call the loadListItems function when the end is reached
+					onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
+					ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : i18n.t('no_results')}</Text>}
+					ListFooterComponent={renderFooter}
+				/>
+				{(loadingCircle) && (
+					<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
+						<ActivityIndicator size="large" color="#006D40" />
+					</View>
+				)}
+			</>)}
 	  	</SafeAreaView>
 	);
 }

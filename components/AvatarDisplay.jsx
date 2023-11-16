@@ -1,11 +1,52 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
+import Dropdown from "./Dropdown";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { ToastContext } from "./Toast";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, color }) {
+export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color }) {
     const ParentTag = onPress ? TouchableOpacity : View;
 
+    const showToast = useContext(ToastContext);
+
+    const navigation = useNavigation();
+
+    if(rightComponent == "userActions") {
+        rightComponent = (
+            <Dropdown
+                anchor={
+                    <View style={{marginTop: 10}}>
+                        <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
+                    </View>
+                }
+                anchorStyle={null}
+                containerStyle={{ height: "auto", alignSelf: "center" }}
+                options={[
+                    {
+                        name: "Visit profile",
+                        onPress: () => navigation.navigate("ProfileScreen", { uid: uid })
+                    },
+                    {
+                        name: "Block user",
+                        onPress: () => {
+                            if (!FirebaseManager.currentUserData?.auth?.uid) {
+                                showToast("Please log in to block users.");
+                                return;
+                            }
+                    
+                            FirebaseManager.blockUser(uid);
+                        }
+                    }
+                ]}
+            />
+        )
+    }
+
+    // Effectively disable border color
+    color = "transparent";
     return (
         <ParentTag style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, {backgroundColor: color}]}>

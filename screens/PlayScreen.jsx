@@ -484,21 +484,8 @@ export default function PlayScreen({ route }) {
 						text={(
 							<Text>{i18n.t('by')} {currentLib.username} | {currentLib.likes} {i18n.t('likes')}</Text>
 						)}
-						rightComponent={(
-							<Dropdown
-								anchor={
-									<MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
-								}
-								anchorStyle={null}
-								containerStyle={{ height: "auto", alignSelf: "center" }}
-								options={[
-									{
-										name: "Visit profile",
-										onPress: () => navigation.navigate("ProfileScreen", { uid: currentLib.user })
-									}
-								]}
-							/>
-						)}
+						rightComponent={"userActions"}
+						uid={currentLib.user}
 					/>
 					<View style={{ position: "relative", height: 60, maxHeight: 60 }}>
 						<TextInput

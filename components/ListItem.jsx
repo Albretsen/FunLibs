@@ -17,6 +17,9 @@ import { useDialog } from "./Dialog";
 import { ToastContext } from "../components/Toast";
 import AvatarDisplay from "./AvatarDisplay";
 import LikeButton from "./LikeButton";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
     const { name, promptAmount, prompts, text, id, type, drawer, onClick, length, icon, avatarID, username, likes, index, user, local, likesArray, playable, item, color } = props;
@@ -232,59 +235,103 @@ function ListItem(props) {
             <Animated.View
                 style={[
                     styles.container,
-                    // globalStyles.containerWhitespace,
                     {opacity: fadeAnim},
-                    {justifyContent: "space-between"}
+                    globalStyles.containerWhitespaceMargin,
+                    globalStyles.containerWhitespace,
+                    {justifyContent: "center", alignSelf: "center", flex: 1}
                 ]}
             >
+                
                 <AvatarDisplay 
-                    onPress={() => playLib(id, type)}
                     avatarID={avatarID}
                     title={name}
                     color={color}
                     text={(
                         <Text>
                             {"by "} 
-                            <Text style={username === "Official" ? {color: "#419764", fontWeight: 600} : null}>{username}</Text>
+                            <Text style={username === "Official" ? {color: "#6294C9", fontWeight: 600} : null}>{username}</Text>
                             {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
                         </Text>
                     )}
-                    rightComponent={icon ? (
-                        <View style={{alignSelf: "center"}}>
-                            {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
-                                <TouchableOpacity
-                                    style={styles.icon}
-                                    onPress={edit}
-                                >
-                                    <Image
-                                        style={styles.iconImage}
-                                        source={require("../assets/images/icons/edit.png")}
-                                    />
-                                </TouchableOpacity>
-                            ) : (playable ? (
-                                <LikeButton
-                                    style={styles.icon}
-                                    filled={isLiked ? true : false}
-                                    onPressed={favorite}
-                                    disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                                    onDisabledPress={() => {
-                                        showToast("You have to be signed in to like a post.");
-                                    }}
-                                />
-                            ) : <TouchableOpacity
-                                style={styles.icon}
-                                onPress={showDeleteDialogHandler}
-                            >
-                                <Image
-                                    style={styles.iconImage}
-                                    source={require("../assets/images/icons/delete.png")}
-                                />
-                            </TouchableOpacity>)
-                            }
-                        </View>
-                    ) : null}
+                    rightComponent={"userActions"}
+                    uid={user}
+                    // rightComponent={icon ? (
+                    //     <View style={{alignSelf: "center"}}>
+                    //         {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
+                    //             <TouchableOpacity
+                    //                 style={styles.icon}
+                    //                 onPress={edit}
+                    //             >
+                    //                 <Image
+                    //                     style={styles.iconImage}
+                    //                     source={require("../assets/images/icons/edit.png")}
+                    //                 />
+                    //             </TouchableOpacity>
+                    //         ) : (playable ? (
+                    //             <LikeButton
+                    //                 style={styles.icon}
+                    //                 filled={isLiked ? true : false}
+                    //                 onPressed={favorite}
+                    //                 disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                    //                 onDisabledPress={() => {
+                    //                     showToast("You have to be signed in to like a post.");
+                    //                 }}
+                    //             />
+                    //         ) : <TouchableOpacity
+                    //             style={styles.icon}
+                    //             onPress={showDeleteDialogHandler}
+                    //         >
+                    //             <Image
+                    //                 style={styles.iconImage}
+                    //                 source={require("../assets/images/icons/delete.png")}
+                    //             />
+                    //         </TouchableOpacity>)
+                    //         }
+                    //     </View>
+                    // ) : null}
                 />
-                {/* Conditionally render the delete confirmation dialog */}
+                <TouchableOpacity style={styles.actionsContainer}>
+                    <View style={[styles.action, styles.actionNoBorder]}>
+                        <MaterialCommunityIcons name="eye" size={18} color="#6294C9" />
+                        <Text style={styles.actionText}>Hide lib preview</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.preview}>
+                    {LibManager.displayPreview(text)}
+                </View>
+                <View style={[styles.actionsContainer, {marginTop: 8}]}>
+                    <TouchableOpacity onPress={() => playLib(id, type)}>
+                        <LinearGradient
+                            colors={["#638BD5", "#60C195"]}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.actionPlay}
+                        >
+                            <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
+                            <Text style={[styles.actionText, {color: "white"}]}>Play Lib</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.action, styles.actionButton]}>
+                        <LikeButton
+                            style={styles.icon}
+                            filled={isLiked ? true : false}
+                            onPressed={favorite}
+                            disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                            onDisabledPress={() => {
+                                showToast("You have to be signed in to like a post.");
+                            }}
+                        />
+                        <Text style={styles.actionText}>10</Text>
+                    </TouchableOpacity>
+                    <View style={styles.action}>
+                        <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
+                        <Text style={styles.actionText}>10</Text>
+                    </View>
+                    <View style={styles.action}>
+                        <Entypo name="open-book" size={18} color="#6294C9" />
+                        <Text style={styles.actionText}>10</Text>
+                    </View>
+                </View>
                 {showDeleteDialog && (
                     <Dialog
                         onCancel={hideDeleteDialogHandler}
@@ -304,10 +351,14 @@ function ListItem(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "row",
-        gap: 15,
+        gap: 0,
         justifyContent: "center",
-        marginVertical: 15
+        padding: 10,
+        marginVertical: 8,
+        borderRadius: 10,
+        borderColor: "#CAC4D0",
+        borderWidth: 1,
+        borderStyle: "dashed",
     },
 
     textRow: {
@@ -340,6 +391,46 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 24,
     },
+
+    actionsContainer: {
+        flexDirection: "row",
+        gap: 14
+    },
+
+    action: {
+        flexDirection: "row",
+        gap: 8,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#6294C9",
+        borderStyle: "dashed",
+        padding: 6,
+        alignItems: "center"
+    },
+
+    actionButton: {
+        borderStyle: "solid"
+    },
+
+    actionNoBorder: {
+        borderWidth: 0
+    },
+
+    actionPlay: {
+        flexDirection: "row",
+        gap: 4,
+        borderRadius: 5,
+        padding: 6,
+        paddingHorizontal: 10,
+        alignItems: "center"
+    },
+
+    actionText: {
+        fontSize: 15,
+        fontWeight: "600",
+        color: "#6294C9",
+        lineHeight: 20
+    }
 })
 
 export default ListItem;

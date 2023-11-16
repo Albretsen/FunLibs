@@ -126,6 +126,31 @@ export default class LibManager {
         )
     }
 
+    static displayPreview(text_) {
+        // 1. Merge the array into one text
+        let mergedText = "";
+        for (let i = 0; i < text_.length; i++) {
+            (i + 1) % 2 === 0 ? mergedText += '(' + text_[i] + ')' : mergedText += text_[i];
+        }
+
+        mergedText = fixArticles(mergedText);
+
+        let lib = Lib.createLib(mergedText);
+    
+        return (
+            <Text 
+                numberOfLines={3}
+                ellipsizeMode="tail"
+                style={[globalStyles.fontSmall, { lineHeight: 34 }]}
+            >
+                {lib.text.map((key, index) => (
+                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#6294C9" } : {color: "#49454F"}}>{key}</Text>
+                ))}
+            </Text>
+        )
+    }
+    
+
     static displayForShare(text_) {
         // 1. Merge the array into one text
         let mergedText = "";
