@@ -567,13 +567,6 @@ export default function LibsScreen() {
 							}
 						},
 						{
-							name: i18n.t('community_templates'),
-							onPress: () => {
-								setSelectedCategory("All");
-								updateFilterOptions(playReadValue, "All");
-							}
-						},
-						{
 							name: i18n.t('favorite_templates'),
 							onPress: () => {
 								setSelectedCategory("myFavorites");
@@ -581,17 +574,24 @@ export default function LibsScreen() {
 							}
 						},
 						{
-							name: i18n.t('my_templates'),
+							name: "Romance pack",
 							onPress: () => {
-								setSelectedCategory("myContent");
-								updateFilterOptions(playReadValue, "myContent");
+								//setSelectedCategory("myFavorites");
+								//updateFilterOptions(playReadValue, "myFavorites");
 							}
 						},
 						{
-							name: i18n.t('offline_templates'),
+							name: "Videogame pack",
 							onPress: () => {
-								setSelectedCategory("offline");
-								updateFilterOptions(playReadValue, "offline");
+								//setSelectedCategory("myFavorites");
+								//updateFilterOptions(playReadValue, "myFavorites");
+							}
+						},
+						{
+							name: "Etc pack",
+							onPress: () => {
+								//setSelectedCategory("myFavorites");
+								//updateFilterOptions(playReadValue, "myFavorites");
 							}
 						}
 					]}/>

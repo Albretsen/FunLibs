@@ -22,6 +22,7 @@ const ListManager = (props) => {
         setRefreshing(true);
         setLoading(true);
         try {
+            if (newFetch) setData([]);
             const result = await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc);
             if (!result.data) throw error;
             if (result.data.length < 10) setEndReached(true);
