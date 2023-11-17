@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image, ScrollView } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
@@ -150,8 +150,7 @@ function ListItem(props) {
     }
 
     const edit = () => {
-		navigation.navigate("Browse", { 
-			screen: "Create",
+		navigation.navigate("Create", {
 			params: {
 				libText: LibManager.display_edit(text, prompts),
 				libNameText: name,
@@ -249,46 +248,12 @@ function ListItem(props) {
                     text={(
                         <Text>
                             {"by "} 
-                            <Text style={username === "Official" ? {color: "#6294C9", fontWeight: 600} : null}>{username}</Text>
+                            <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? {color: "#6294C9", fontWeight: 600} : null}>{username}</Text>
                             {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
                         </Text>
                     )}
                     rightComponent={"userActions"}
                     uid={user}
-                    // rightComponent={icon ? (
-                    //     <View style={{alignSelf: "center"}}>
-                    //         {(local || user === FirebaseManager.currentUserData?.auth?.uid) && (playable) ? (
-                    //             <TouchableOpacity
-                    //                 style={styles.icon}
-                    //                 onPress={edit}
-                    //             >
-                    //                 <Image
-                    //                     style={styles.iconImage}
-                    //                     source={require("../assets/images/icons/edit.png")}
-                    //                 />
-                    //             </TouchableOpacity>
-                    //         ) : (playable ? (
-                    //             <LikeButton
-                    //                 style={styles.icon}
-                    //                 filled={isLiked ? true : false}
-                    //                 onPressed={favorite}
-                    //                 disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                    //                 onDisabledPress={() => {
-                    //                     showToast("You have to be signed in to like a post.");
-                    //                 }}
-                    //             />
-                    //         ) : <TouchableOpacity
-                    //             style={styles.icon}
-                    //             onPress={showDeleteDialogHandler}
-                    //         >
-                    //             <Image
-                    //                 style={styles.iconImage}
-                    //                 source={require("../assets/images/icons/delete.png")}
-                    //             />
-                    //         </TouchableOpacity>)
-                    //         }
-                    //     </View>
-                    // ) : null}
                 />
                 {(
                     <View style={styles.preview}>
@@ -307,22 +272,29 @@ function ListItem(props) {
                             <Text style={[styles.actionText, {color: "white"}]}>Play Lib</Text>
                         </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.action, styles.actionButton]}>
-                        <LikeButton
-                            style={styles.icon}
-                            filled={isLiked ? true : false}
-                            onPressed={favorite}
-                            disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                            onDisabledPress={() => {
-                                showToast("You have to be signed in to like a post.");
-                            }}
-                        />
-                        <Text style={styles.actionText}>{likes}</Text>
-                    </TouchableOpacity>
-                    <View style={styles.action}>
+                    {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                        <TouchableOpacity style={[styles.action, styles.actionButton]} onPress={edit}>
+                            <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
+                            <Text style={styles.actionText}>Edit</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={[styles.action, styles.actionButton]}>
+                            <LikeButton
+                                style={styles.icon}
+                                filled={isLiked ? true : false}
+                                onPressed={favorite}
+                                disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                                onDisabledPress={() => {
+                                    showToast("You have to be signed in to like a post.");
+                                }}
+                            />
+                            <Text style={styles.actionText}>{likes}</Text>
+                        </TouchableOpacity>
+                    )}
+                    <Pressable style={styles.action} onPress={() => playLib(id, type)}>
                         <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
-                    </View>
+                    </Pressable>
                     <View style={styles.action}>
                         <Entypo name="open-book" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>{plays ? plays : 0}</Text>
