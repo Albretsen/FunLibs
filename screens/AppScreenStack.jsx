@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import HomeScreen from './HomeScreen';
 import BrowseScreen from "./BrowseScreen";
+import PackScreen from './PackScreen';
 import CreateLibScreen from './CreateLibScreen';
 import FeedbackScreen from './FeedbackScreen';
 import SignInScreen from "./SignInScreen";
@@ -132,6 +133,58 @@ export default function AppScreenStack() {
 					headerTitle: "",
 					headerStyle: standardHeaderStyle,
 				}}
+			/>
+			<Stack.Screen
+				name="Pack"
+				component={PackScreen}
+				options={({ route }) => ({
+					headerTitle: () => (
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('lib_packs')}</Text>
+							<Icon name="favorite" size={26} color="#6294C9" />
+						</View>
+					),
+					headerTitleAlign: "center",
+					headerStyle: standardHeaderStyle,
+					headerLeft: () => (
+						<>
+						<TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
+							<Image
+								style={{width: 24, height: 12, marginLeft: 20, tintColor: "#5f6368"}}
+								source={require("../assets/images/icons/hamburger.png")}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={navigationDrawerRef}
+							containerStyle={globalStyles.standardDrawerLeft}
+							side="left"
+						>
+							<NavigationDrawerContent navigation={navigation} closeDrawer={() => navigationDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
+					),
+					headerRight: () => (
+						<>
+						<TouchableOpacity onPress={() => userDrawerRef.current?.openDrawer()}>
+							<Image
+								key={key}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
+								source={
+									(FirebaseManager.currentUserData?.firestoreData) 
+									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+									: FirebaseManager.avatars["no-avatar-24"]
+								}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={userDrawerRef}
+							containerStyle={globalStyles.standardDrawer}
+						>
+							<UserDrawerContent navigation={navigation} closeDrawer={() => userDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
+					),
+				})}
 			/>
 			<Stack.Screen
 				name="Play Lib"

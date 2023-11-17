@@ -16,16 +16,13 @@ type BigButtonProps = {
 
 export default function BigButton({label, image, onPress, height = 120, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle, usePressable = false}: BigButtonProps) {
 
-    type ParentTagType = typeof TouchableOpacity | typeof View | typeof Pressable;
-
-    let ParentTag: ParentTagType = onPress ? TouchableOpacity : View;
-
+    let buttonOpacity = 0.2;
     if (usePressable) {
-        ParentTag = Pressable;
+        buttonOpacity = 1;
     }
 
     return(
-        <TouchableOpacity style={[styles.container]} onPress={onPress}>
+        <TouchableOpacity activeOpacity={buttonOpacity} style={[styles.container]} onPress={onPress}>
             <LinearGradient
                 colors={[colorStart, colorEnd]}
                 start={{ x: 0, y: 0 }}

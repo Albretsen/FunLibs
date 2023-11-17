@@ -6,6 +6,7 @@ import i18n from '../scripts/i18n';
 type RootStackParamList = {
     Home: undefined;
     Create: undefined;
+    Pack: undefined
     // ... other screens
 };
 
@@ -56,8 +57,8 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             {
                                 title: i18n.t("story_packs"),
                                 icon: "auto-stories", // Feel free to put a better icon here
-                                onPress: () => { 
-                                    // Navigation code goes here
+                                onPress: () => {
+                                    navigation.navigate("Pack")
                                     closeDrawer();
                                 }
                             },

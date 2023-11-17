@@ -172,6 +172,11 @@ const i18n = new I18n({
         create_a_story: "Create a Story",
         my_stories: "My Stories",
         read_stories: "Read Stories",
+        lib_packs: "Lib Packs",
+        gaming: "Gaming",
+        romance: "Romance",
+        animals: "Animals",
+        
     },
     es: {
         sign_in: "Iniciar sesión",
