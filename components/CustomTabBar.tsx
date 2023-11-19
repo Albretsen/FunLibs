@@ -66,7 +66,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
                             end={{ x: 1, y: 1 }}
                             style={[styles.iconContainer]}
                         >
-                            <MaterialIcons name={iconNames[index]} size={17} color={focused ? "white" : "black"} />
+                            <MaterialIcons name={iconNames[index]} size={17} color={focused ? "white" : "#4264A2"} />
                         </LinearGradient>
                         <Text style={{color: "black", textTransform: 'none', fontWeight: "600", fontSize: 14, marginTop: 6}}>{route.name}</Text>
                     </Pressable>

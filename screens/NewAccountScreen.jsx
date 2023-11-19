@@ -132,7 +132,7 @@ export default function NewAccountScreen() {
     const navigation = useNavigation();
 
     return (
-        <View style={[{ alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height - 64 }]}>
+        <View style={[globalStyles.headerAccountedHeight, { alignItems: "center", backgroundColor: '#fff' }]}>
             <ScrollView horizontal={false} vertical={true} style={[globalStyles.standardWhitespace, { marginBottom: 90, paddingBottom: 0 }]}>
                 <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
                 <View style={[globalStyles.form]}>

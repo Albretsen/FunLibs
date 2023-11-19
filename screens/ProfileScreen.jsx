@@ -250,7 +250,7 @@ export default function ProfileScreen({ route }) {
                             </View>
                         }
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>{i18n.t('templates_by')} {userData.username}</Text>
-                        <ListManager filterOptions={{
+                        <ListManager paddingBottom={25} filterOptions={{
                             "sortBy": "newest",
                             "dateRange": "allTime",
                             "playable": true,

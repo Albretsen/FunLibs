@@ -75,6 +75,14 @@ export default function AppScreenStack() {
     return (
 		<Stack.Navigator>
 			<Stack.Screen
+				name="Home"
+				component={HomeScreen}
+				options={{
+					headerTitle: "",
+					headerStyle: standardHeaderStyle,
+				}}
+			/>
+			<Stack.Screen
 				name="Browse"
 				component={BrowseScreen}
 				options={({ route }) => ({
@@ -125,14 +133,6 @@ export default function AppScreenStack() {
 						</>
 					),
 				})}
-			/>
-			<Stack.Screen
-				name="Home"
-				component={HomeScreen}
-				options={{
-					headerTitle: "",
-					headerStyle: standardHeaderStyle,
-				}}
 			/>
 			<Stack.Screen
 				name="Pack"
