@@ -55,8 +55,10 @@ export default function HomeScreen() {
                             imageHeight={48}
                             imageWidth={48}
                             onPress={() => navigation.navigate("Browse")}
-                            containerStyle={{borderStyle: "dotted"}}
+                            containerStyle={{borderWidth: 0}}
                             usePressable
+                            colorStart="#638BD5"
+                            colorEnd="#60C195"
                         />
                         <BigButton
                             label={`Community`}
@@ -85,14 +87,14 @@ export default function HomeScreen() {
                 <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
-                            title: 'Romance',
+                            title: 'Romance Pack',
                             description: "Ten high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
                             key: 'item1',
                             image: require("../assets/images/romance.png"),
                             onPress: () => navigation.navigate("Pack")
                         },
                         {
-                            title: 'Gaming',
+                            title: 'Gaming Pack',
                             description: "Gaming!!",
                             key: 'item2',
                             image: require("../assets/images/romance.png"),

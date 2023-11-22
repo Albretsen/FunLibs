@@ -16,9 +16,10 @@ type BigButtonProps = {
     colorEnd?: string;
     containerStyle?: StyleProp<ViewStyle>;
     usePressable?: boolean;
+    smallButton?: boolean
 };
 
-export default function BigButton({label, description, image, imageWidth = 48, imageHeight = 48, onPress, height = 120, width = "auto", flexDirection = "column-reverse", colorStart = "transparent", colorEnd = "transparent", containerStyle, usePressable = false}: BigButtonProps) {
+export default function BigButton({label, description, image, imageWidth = 48, imageHeight = 48, onPress, height = 120, width = "auto", flexDirection = "column-reverse", colorStart = "transparent", colorEnd = "transparent", containerStyle, usePressable = false, smallButton = false}: BigButtonProps) {
 
     let buttonOpacity = 0.2;
     if (usePressable) {
