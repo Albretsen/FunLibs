@@ -14,7 +14,6 @@ export default function PreviewToggle(props: PreviewToggleProps) {
     useEffect(() => {
         async function fetchData() {
             const storedPreview = await FileManager._retrieveData("previewToggle");
-            console.log(storedPreview)
             setShowPreview(storedPreview === 'true');
         }
         fetchData();

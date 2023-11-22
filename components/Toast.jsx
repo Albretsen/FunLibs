@@ -236,7 +236,6 @@ export const ToastProvider = ({ children }) => {
         }
 
         function onKeyboardDidHide() {
-			console.log("0");
             setKeyboardHeight(0);
         }
 

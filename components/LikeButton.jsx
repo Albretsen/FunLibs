@@ -18,7 +18,6 @@ export default function LikeButton({ onPressed, filled = false, disabled = false
     };
 
     const handlePress = () => {
-        console.log(disabled)
         if(!disabled) {
             setisFilled(!isFilled);
             animateScale();
