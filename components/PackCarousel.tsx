@@ -26,12 +26,18 @@ export default function PackCarousel({data}: PackCarouselProps) {
         <View>
             <BigButton
                 label={`${item.title}`}
-                image={require("../assets/images/girl-with-balloon.png")}
-                // onPress={() => null}
+                description={item.description}
+                image={item.image}
+                imageHeight={110}
+                imageWidth={110}
+                onPress={item.onPress}
                 width={itemWidth}
                 height={200}
+                flexDirection="row"
                 containerStyle={{width: itemWidth}}
                 usePressable
+                colorStart="white"
+                colorEnd="#E3E5E8"
                 // containerStyle={{width: itemWidth - 10, paddingHorizontal: 20}}
             />
         </View>
@@ -46,9 +52,10 @@ export default function PackCarousel({data}: PackCarouselProps) {
             firstItem={0}
             autoplay={true}
             lockScrollWhileSnapping={true}
-            inactiveSlideOpacity={0.9}
+            inactiveSlideOpacity={1}
             inactiveSlideScale={1}
-            layout="stack"
+            // layout="stack"
+            layout="tinder"
             loop={true}
         />
     );

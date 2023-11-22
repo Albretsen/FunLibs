@@ -66,7 +66,7 @@ export default function CommunityLibsScreen() {
             </View>
             <ListManager filterOptions={{
                 "sortBy": selectedSortBy,
-                    "category": selectedCategory,
+                "category": selectedCategory,
                 "dateRange": "allTime",
                 "playable": true
             }}></ListManager>

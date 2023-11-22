@@ -7,7 +7,7 @@ import { ActivityIndicator } from "react-native-paper";
 import i18n from '../scripts/i18n';
 
 const ListManager = (props) => {
-    let { filterOptions } = props;
+    let { filterOptions, paddingBottom } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -75,7 +75,7 @@ const ListManager = (props) => {
     return (
         <FlatList
             data={data}
-            style={{paddingBottom: 25}}
+            style={{paddingBottom: paddingBottom}}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
                 <ListItem
@@ -88,7 +88,6 @@ const ListManager = (props) => {
                     type="libs"
                     key={item.id}
                     length={item.percent}
-                    icon="favorite"
                     username={item.username}
                     likes={item.likes}
                     avatarID={item.avatarID}

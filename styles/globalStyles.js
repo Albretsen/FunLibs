@@ -99,6 +99,10 @@ const globalStyles = StyleSheet.create({
         color: "#635f6a"
     },
 
+    highlightText: {
+        color: "#6294C9"
+    },
+
     title: {
         fontSize: 22,
     },
