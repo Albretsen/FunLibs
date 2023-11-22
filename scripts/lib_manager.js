@@ -204,6 +204,10 @@ export default class LibManager {
             'town': 'A place where people live, smaller than a city.',
             'color': 'What we see like red, blue, or yellow.',
             'dog breed': 'A type of dog: labrador, chihuahua, poodle',
+            'cooking technique': 'A way to prepare food: frying, baking, boiling',
+            'dish': 'A specific food; pasta, soup, cake',
+            'kitchen appliance': 'A tool for preparing food; toaster, blender.',
+            'topic': 'Anything you can talk about; weather, videogames',
         };
     
         // Use compromise to get the base form of the word
@@ -272,6 +276,10 @@ export default class LibManager {
             "ingredient": ["Flour", "Sugar", "Salt", "Eggs", "Milk", "Butter", "Baking Powder", "Vanilla Extract", "Cocoa Powder", "Honey", "Yeast", "Olive Oil", "Water", "Cream", "Cheese", "Lemon Juice", "Garlic", "Onion", "Tomato", "Cinnamon"],
             "spice": ["Pepper", "Cinnamon", "Cumin", "Ginger", "Garlic Powder", "Paprika", "Nutmeg", "Turmeric", "Cardamom", "Cloves", "Coriander", "Chili Powder", "Oregano", "Thyme", "Rosemary", "Sage", "Basil", "Mint", "Fennel", "Saffron"],
             "dog breed": ["Labrador Retriever", "German Shepherd", "Golden Retriever", "French Bulldog", "Bulldog", "Poodle", "Beagle", "Rottweiler", "German Shorthaired Pointer", "Siberian Husky", "Dachshund", "Great Dane", "Doberman Pinscher", "Australian Shepherd", "Boxer", "Cavalier King Charles Spaniel", "Shih Tzu", "Pembroke Welsh Corgi", "Yorkshire Terrier", "Miniature Schnauzer", "Chihuahua"],
+            "cooking technique": ["Fry", "Boil", "Stir", "Bake", "Grill", "Roast", "Marinate", "Microwave", "Deep fry", "Caramelize"],
+            "dish": ["Lasagna", "Curry", "Paella", "Sushi", "Tacos", "Pizza", "Burger", "Quiche", "Risotto", "Chowder", "Barbecue Ribs", "Pad Thai", "Falafel", "Carbonara", "Beef Stroganoff", "Ratatouille", "Gumbo", "Fish and Chips", "Tiramisu", "Shepherd's Pie"],
+            "kitchen appliance": ["Refrigerator", "Oven", "Microwave", "Blender", "Toaster", "Dishwasher", "Coffee Maker", "Electric Kettle", "Food Processor", "Slow Cooker", "Rice Cooker", "Air Fryer", "Grill", "Juicer", "Mixer", "Pressure Cooker", "Deep Fryer", "Hand Blender", "Induction Cooktop", "Bread Maker"],
+            "topic": ["Technology", "Art", "History", "Science", "Travel", "Sports", "Music", "Literature", "Cinema", "Fashion", "Cuisine", "Politics", "Economics", "Education", "Environment", "Health", "Psychology", "Philosophy", "Astronomy", "Gaming", "Gardening", "Photography", "Theater", "Dance", "Languages", "Engineering", "Mathematics", "Physics", "Biology", "Chemistry", "Sociology", "Anthropology", "Religion", "Mythology", "Archaeology", "Geography", "Meteorology", "Oceanography", "Zoology", "Botany", "Ethics", "Legal Studies", "Media Studies", "Entrepreneurship", "Human Resources", "Marketing", "Finance", "International Relations", "Public Health", "Veterinary Science", "Nursing", "Medicine", "Architecture", "Urban Planning", "Graphic Design", "Web Development", "Software Engineering", "Cybersecurity", "Data Science", "Artificial Intelligence", "Robotics", "Sustainable Energy", "Space Exploration"]
         };
 
         // Use compromise to get the base form of the word
