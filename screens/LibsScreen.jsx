@@ -518,6 +518,17 @@ export default function LibsScreen() {
 		);
 	}
 
+	const [showPreview, setShowPreview] = useState(true);
+
+    // Get the current state of showPreview stored locally
+    useEffect(() => {
+        async function fetchData() {
+            const storedPreview = await FileManager._retrieveData("previewToggle");
+            setShowPreview(storedPreview === 'true');
+        }
+        fetchData();
+    }, []);
+
 	return (
 		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
 			<View style={[globalStyles.containerWhitespacePadding]}>
@@ -590,7 +601,7 @@ export default function LibsScreen() {
 						},
 					]}/>
 
-					<PreviewToggle />
+					<PreviewToggle onStateChange={(state) => {setShowPreview(state); console.log(state)}} />
 				</View>
 			</View>
 			{(isLoading && !endReached)? (
@@ -624,6 +635,7 @@ export default function LibsScreen() {
 							color={FirebaseManager.getRandomColor()}
 							plays={item.plays}
 							comments={item.comments}
+							showPreview={showPreview}
 						/>
 					)}
 					keyExtractor={item => `${item.id}-${item.likes}`}

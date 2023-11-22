@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import ListManager from "../components/ListManager";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,11 +7,23 @@ import SegmentedButtons from "../components/SegmentedButtons";
 import i18n from "../scripts/i18n";
 import Dropdown from "../components/Dropdown";
 import PreviewToggle from "../components/PreviewToggle";
+import FileManager from "../scripts/file_manager";
 
 export default function CommunityLibsScreen() {
 
     const [selectedSortBy, setSelectedSortBy] = useState("newest");
     const [selectedCategory, setSelectedCategory] = useState("all");
+
+    const [showPreview, setShowPreview] = useState(true);
+
+    // Get the current state of showPreview stored locally
+    useEffect(() => {
+        async function fetchData() {
+            const storedPreview = await FileManager._retrieveData("previewToggle");
+            setShowPreview(storedPreview === 'true');
+        }
+        fetchData();
+    }, []);
 
     return (
         <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
@@ -61,10 +73,10 @@ export default function CommunityLibsScreen() {
                             }
                         }
                     ]} />
-                    <PreviewToggle />
+                    <PreviewToggle onStateChange={(state) => {setShowPreview(state)}} />
                 </View>
             </View>
-            <ListManager filterOptions={{
+            <ListManager showPreview={showPreview}  filterOptions={{
                 "sortBy": selectedSortBy,
                 "category": selectedCategory,
                 "dateRange": "allTime",

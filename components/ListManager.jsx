@@ -7,7 +7,7 @@ import { ActivityIndicator } from "react-native-paper";
 import i18n from '../scripts/i18n';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom } = props;
+    let { filterOptions, paddingBottom, showPreview } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -100,6 +100,7 @@ const ListManager = (props) => {
                     color={userColor}
                     plays={item.plays}
                     comments={item.comments}
+                    showPreview={showPreview}
                 />
             )}
             refreshing={false} // Use the loading state to indicate whether the list is being refreshed
