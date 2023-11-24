@@ -83,5 +83,8 @@
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-1354741235649835~2567659565",
     "ios_app_id": "ca-app-pub-1354741235649835~4097765480"
+  },
+  "resolutions": {
+    "react-native-gesture-handler": "2.9.0"
   }
 }
