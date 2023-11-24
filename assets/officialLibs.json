@@ -1,5 +1,2674 @@
 [
    {
+      "name":"The Last Voyage of the Titanic",
+      "id":"png1z",
+      "text":[
+         "Aboard the grand Titanic, the ",
+         "Superlative adjective 1",
+         " ship ever built, bound for ",
+         "Place 1",
+         ", was ",
+         "Name 1",
+         ", an ",
+         "Occupation 1",
+         " with an ",
+         "Adjective 1",
+         " sense of humor. This voyage was to be their most ",
+         "Adjective 2",
+         " adventure yet, far beyond the routine of their daily life as a ",
+         "Occupation 1",
+         ".\n\n",
+         "Name 1",
+         " spent days exploring the Titanic's many wonders. They marveled at the opulent dining rooms, laughed with passengers over ",
+         "Adjective 3",
+         " dinner conversations, and even ",
+         "Verb -ed",
+         " with the infamous ",
+         "Historical figure 1",
+         ", who had surprisingly ",
+         "Adjective 4",
+         " dance moves.\n\nHowever, the adventure took a splashy turn when the ship struck an iceberg. Amidst the chaos, ",
+         "Historical figure 1",
+         " fell overboard, but ",
+         "Name 1",
+         " managed to pull them up, holding on to their ",
+         "Body part 1",
+         ". With a ",
+         "Noun 2",
+         " in hand and a ",
+         "Adjective 6",
+         " expression, they helped guide passengers to the lifeboats, cracking ",
+         "Adjective 7",
+         " jokes to keep spirits high.\n\n",
+         "Historical figure 1",
+         " had some pain in their ",
+         "Body part 1",
+         ", but were mostly fine. ",
+         "Name 1",
+         " watched with ",
+         "Emotion",
+         "-ness as the ",
+         "Superlative adjective 1",
+         " sank into the icy sea. "
+      ],
+      "prompts":[
+         {
+            "Superlative adjective 1":[
+               1,
+               45
+            ]
+         },
+         {
+            "Place 1":[
+               3
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               15,
+               27,
+               41
+            ]
+         },
+         {
+            "Occupation 1":[
+               7,
+               13
+            ]
+         },
+         {
+            "Adjective 1":[
+               9
+            ]
+         },
+         {
+            "Adjective 2":[
+               11
+            ]
+         },
+         {
+            "Adjective 3":[
+               17
+            ]
+         },
+         {
+            "Verb -ed":[
+               19
+            ]
+         },
+         {
+            "Historical figure 1":[
+               21,
+               25,
+               37
+            ]
+         },
+         {
+            "Adjective 4":[
+               23
+            ]
+         },
+         {
+            "Body part 1":[
+               29,
+               39
+            ]
+         },
+         {
+            "Noun 2":[
+               31
+            ]
+         },
+         {
+            "Adjective 6":[
+               33
+            ]
+         },
+         {
+            "Adjective 7":[
+               35
+            ]
+         },
+         {
+            "Emotion":[
+               43
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Wicked Witch of Salem",
+      "id":"2eqa4",
+      "text":[
+         "In the small, Puritan village of ",
+         "Place 1",
+         ", there lived a young woman named ",
+         "Name 1",
+         " who worked as a ",
+         "Occupation 1",
+         ". Known for her ",
+         "Adjective 1",
+         " ways, she lived with her ",
+         "Relative 1",
+         ". ",
+         "Name 1",
+         " had a knack for planting Aloe Vera and making ",
+         "Adjective 2",
+         " remedies, a skill taught by her ",
+         "Relative 1",
+         ".\n\nOne day, while tending to her garden, she was noticed by a ",
+         "Adjective 3",
+         " neighbor. The neighbor saw ",
+         "Name 1",
+         " ",
+         "Verb -ing 3",
+         " with a ",
+         "Noun 1",
+         ", which in those times was considered unusual for a woman. Rumors quickly spread through ",
+         "Place 1",
+         " that ",
+         "Name 1",
+         " possessed strange powers.\n\nThe situation escalated when ",
+         "Name 1",
+         " helped a sunburnt child with her ",
+         "Adjective",
+         " Aloe Vera. The child recovered quickly, but the villagers saw this as a sign of witchcraft. Soon, whispers of her being a witch filled the air.\n\nFaced with suspicion, ",
+         "Name 1",
+         " and her ",
+         "Relative 1",
+         " were troubled. \"In another time, your knowledge would be celebrated,\" her ",
+         "Relative 1",
+         " lamented. \"But now, it brings us danger.\"\n\nAs the witch trials began, ",
+         "Name 1",
+         " realized the gravity of her situation. Her once-valued skills were now a source of fear and misunderstanding. She had to choose between defending her practices or concealing her talents to protect herself and her family.\n\nDespite the fear, ",
+         "Name 1",
+         " stood firm, determined to prove that her abilities were not of witchcraft, but simply ahead of her time. Her journey through the trials would test her strength and challenge the beliefs of ",
+         "Place 1",
+         "."
+      ],
+      "prompts":[
+         {
+            "Place 1":[
+               1,
+               25,
+               43
+            ]
+         },
+         {
+            "Name 1":[
+               3,
+               11,
+               19,
+               27,
+               29,
+               33,
+               39,
+               41
+            ]
+         },
+         {
+            "Occupation 1":[
+               5
+            ]
+         },
+         {
+            "Adjective 1":[
+               7
+            ]
+         },
+         {
+            "Relative 1":[
+               9,
+               15,
+               35,
+               37
+            ]
+         },
+         {
+            "Adjective 2":[
+               13
+            ]
+         },
+         {
+            "Adjective 3":[
+               17
+            ]
+         },
+         {
+            "Verb -ing 3":[
+               21
+            ]
+         },
+         {
+            "Noun 1":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               31
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Boston Tea Party",
+      "id":"jhhyf",
+      "text":[
+         "In the year 1773, in the port of Boston, a group of ",
+         "Adjective",
+         " colonists hatched a plan. Tired of the ",
+         "Adjective",
+         " taxes imposed by the British, they decided to take an ",
+         "Adjective",
+         " stand.\n\nUnder the cover of night, they dressed as ",
+         "Occupation",
+         "s, their ",
+         "Body part plural",
+         " covered in ",
+         "Color",
+         " paint. They crept aboard three ships docked at Boston Wharf. Their leader, known only as ",
+         "Name 1",
+         ", whispered, \"",
+         "Verb",
+         " quietly, friends. We must not be caught.\"\n\nAs the moon shone over the water, they began tossing crates of tea into the sea. The sound of splashing echoed through the night, an ",
+         "Adjective",
+         " symphony of defiance.\n\nMeanwhile, a British soldier named ",
+         "Name 2",
+         " was ",
+         "Verb -ing",
+         " nearby. He couldn't believe his eyes. \"What are these ",
+         "Adjective",
+         " rebels doing?\" he wondered, as he called for support. Once the British soldiers arrived aboard the ships, however, the rebels had vanished like ",
+         "Noun",
+         " in ",
+         "Noun",
+         ".\n\nThe next morning, the people of Boston woke up to a sea turned ",
+         "Color",
+         " by the tea. This act of rebellion, now known as the Boston Tea Party, would forever change the course of ",
+         "Country",
+         "’s history.\n\nAs the news spread, one could hear the murmurs in every ",
+         "Place",
+         ": \"Did you hear what happened at the Wharf? Those ",
+         "Adjective",
+         " colonists have set us on a path to freedom!\""
+      ],
+      "prompts":[
+         {
+            "Adjective":[
+               1
+            ]
+         },
+         {
+            "Adjective":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Occupation":[
+               7
+            ]
+         },
+         {
+            "Body part plural":[
+               9
+            ]
+         },
+         {
+            "Color":[
+               11
+            ]
+         },
+         {
+            "Name 1":[
+               13
+            ]
+         },
+         {
+            "Verb":[
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Name 2":[
+               19
+            ]
+         },
+         {
+            "Verb -ing":[
+               21
+            ]
+         },
+         {
+            "Adjective":[
+               23
+            ]
+         },
+         {
+            "Noun":[
+               25
+            ]
+         },
+         {
+            "Noun":[
+               27
+            ]
+         },
+         {
+            "Color":[
+               29
+            ]
+         },
+         {
+            "Country":[
+               31
+            ]
+         },
+         {
+            "Place":[
+               33
+            ]
+         },
+         {
+            "Adjective":[
+               35
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Moon Landing",
+      "id":"you7j",
+      "text":[
+         "On July 16, 1969, the world watched as Apollo ",
+         "Number 1",
+         " stood ready on the launch pad at Kennedy Space Center. Aboard were astronauts ",
+         "Name 1",
+         ", ",
+         "Name 2",
+         ", and ",
+         "Name 3",
+         ", poised for an ",
+         "Adjective",
+         " mission that would change history.\n\nThe rocket launched, carrying them from ",
+         "Place",
+         " into the vastness of space. At Mission Control in ",
+         "Place",
+         ", ",
+         "Name 4",
+         ", the flight director monitored their progress with a ",
+         "Adjective",
+         " focus.\n\nAs they approached the moon, the lunar module, affectionately named ",
+         "Noun 1",
+         ", separated from the command module. ",
+         "Name 1",
+         ", the mission commander, looked through the module's window, remarking on the moon's ",
+         "Adjective",
+         " terrain which reminded them of an ",
+         "Adjective",
+         " ",
+         "Noun",
+         ".\n\nThe world held its breath as ",
+         "Noun 1",
+         " gently landed on the lunar surface. ",
+         "Name 1",
+         " then transmitted the historic words, \"That's one ",
+         "Adjective",
+         " step for ",
+         "Noun",
+         ", one ",
+         "Adjective",
+         " leap for ",
+         "Noun",
+         ",\" as he stepped onto the moon dust.\n\nUpon their return to Earth, greeted by an ",
+         "Adjective",
+         " welcome, the astronauts were hailed as heroes. Their courage and the teamwork of countless individuals at NASA, which stands for ",
+         "Word beginning with N",
+         ", ",
+         "Word beginning with A",
+         ", ",
+         "Word beginning with S",
+         " Agency had made the seemingly impossible, possible.\n\nThis journey, marked by Apollo ",
+         "Number 1",
+         "'s successful mission, was not just a triumph of technology but a testament to human spirit, forever etching July 20, 1969, into the annals of human history."
+      ],
+      "prompts":[
+         {
+            "Number 1":[
+               1,
+               49
+            ]
+         },
+         {
+            "Name 1":[
+               3,
+               21,
+               31
+            ]
+         },
+         {
+            "Name 2":[
+               5
+            ]
+         },
+         {
+            "Name 3":[
+               7
+            ]
+         },
+         {
+            "Adjective":[
+               9
+            ]
+         },
+         {
+            "Place":[
+               11
+            ]
+         },
+         {
+            "Place":[
+               13
+            ]
+         },
+         {
+            "Name 4":[
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Noun 1":[
+               19,
+               29
+            ]
+         },
+         {
+            "Adjective":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         },
+         {
+            "Noun":[
+               27
+            ]
+         },
+         {
+            "Adjective":[
+               33
+            ]
+         },
+         {
+            "Noun":[
+               35
+            ]
+         },
+         {
+            "Adjective":[
+               37
+            ]
+         },
+         {
+            "Noun":[
+               39
+            ]
+         },
+         {
+            "Adjective":[
+               41
+            ]
+         },
+         {
+            "Word beginning with N":[
+               43
+            ]
+         },
+         {
+            "Word beginning with A":[
+               45
+            ]
+         },
+         {
+            "Word beginning with S":[
+               47
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Golden Age of Pirates",
+      "id":"21y1k",
+      "text":[
+         "In the bustling port of ",
+         "Place 1",
+         ", where the salty air mixed with the sounds of seagulls and merchants, there lived a ",
+         "Adjective 1",
+         " individual named ",
+         "Name 1",
+         ". ",
+         "Name 1",
+         " had always dreamt of adventure beyond their mundane ",
+         "Occupation 1",
+         " job.\n\nOne fateful day, ",
+         "Name 1",
+         " encountered a group of pirates, led by the infamous Captain ",
+         "Name 2",
+         ". They were in search of a ",
+         "Adjective 2",
+         " crew member for their next voyage to find the legendary treasure of ",
+         "Proper Noun 1",
+         ". Intrigued by the tales of high seas and hidden riches, ",
+         "Name 1",
+         " decided to join them, leaving their family behind.\n\nThe journey was filled with ",
+         "Adjective 3",
+         " challenges, from ",
+         "Verb -ing 1",
+         " during storms to navigating through treacherous waters near ",
+         "Place 2",
+         ". But ",
+         "Name 1",
+         " learned the ways of the sea, from raising the sails to ",
+         "Verb -ing 3",
+         ".\n\nAs they neared the location of the treasure, they realized that the real treasure wasn't just the ",
+         "Adjective 4",
+         " gold, but also the ",
+         "Noun",
+         " he stole from Captain ",
+         "Name 2",
+         "’s captain’s quarters. ",
+         "Name 1",
+         " had discovered a new life, one filled with adventure and stories that would be told for generations to come."
+      ],
+      "prompts":[
+         {
+            "Place 1":[
+               1
+            ]
+         },
+         {
+            "Adjective 1":[
+               3
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               7,
+               11,
+               19,
+               27,
+               37
+            ]
+         },
+         {
+            "Occupation 1":[
+               9
+            ]
+         },
+         {
+            "Name 2":[
+               13,
+               35
+            ]
+         },
+         {
+            "Adjective 2":[
+               15
+            ]
+         },
+         {
+            "Proper Noun 1":[
+               17
+            ]
+         },
+         {
+            "Adjective 3":[
+               21
+            ]
+         },
+         {
+            "Verb -ing 1":[
+               23
+            ]
+         },
+         {
+            "Place 2":[
+               25
+            ]
+         },
+         {
+            "Verb -ing 3":[
+               29
+            ]
+         },
+         {
+            "Adjective 4":[
+               31
+            ]
+         },
+         {
+            "Noun":[
+               33
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Wright Brothers’ First Flight",
+      "id":"gvb2f",
+      "text":[
+         "In the early 1900s, in the small town of ",
+         "Town 1",
+         " in North Carolina, two brothers, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " Wright, dreamt of ",
+         "Verb -ing 1",
+         " in the skies. They were determined to create a ",
+         "Adjective",
+         "  ",
+         "Verb -ing 1",
+         " machine.\n\nAfter years of trying to create a ",
+         "Verb -ing 1",
+         " machine, they realized they would never be able to, so instead they settled on trying to fly. The brothers developed the very first aircraft, the ",
+         "Noun 1",
+         ". On December 17, 1903, they traveled to Kill Devil Hills, known for its ",
+         "Adjective",
+         " winds.\n\nThe air was filled with anticipation as ",
+         "Name 1",
+         " took his position aboard the ",
+         "Noun 1",
+         ". ",
+         "Name 2",
+         " watched ",
+         "Emotion",
+         ", holding a ",
+         "Noun 2",
+         "-clock to time the flight.\n\nWith a sudden burst of power, the ",
+         "Noun 1",
+         " lifted off the ground, making ",
+         "Name 1",
+         " the first person to pilot a powered, heavier-than-air aircraft. The plane soared for a ",
+         "Adjective",
+         " ",
+         "Number",
+         " seconds, covering ",
+         "Number",
+         " feet.\n\nBack on the ground, ",
+         "Name 2",
+         " excitedly noted the flight's duration and distance. The brothers exchanged an ",
+         "Adjective",
+         " glance, knowing they had achieved something ",
+         "Adjective",
+         ".\n\nNews of their success spread, inspiring ",
+         "Occupation",
+         "s and dreamers worldwide. The Wright Brothers' flight at Kill Devil Hills marked a pivotal moment in human history, paving the way for the future of travel and exploration."
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1
+            ]
+         },
+         {
+            "Name 1":[
+               3,
+               19,
+               31
+            ]
+         },
+         {
+            "Name 2":[
+               5,
+               23,
+               39
+            ]
+         },
+         {
+            "Verb -ing 1":[
+               7,
+               11,
+               13
+            ]
+         },
+         {
+            "Adjective":[
+               9
+            ]
+         },
+         {
+            "Noun 1":[
+               15,
+               21,
+               29
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Emotion":[
+               25
+            ]
+         },
+         {
+            "Noun 2":[
+               27
+            ]
+         },
+         {
+            "Adjective":[
+               33
+            ]
+         },
+         {
+            "Number":[
+               35
+            ]
+         },
+         {
+            "Number":[
+               37
+            ]
+         },
+         {
+            "Adjective":[
+               41
+            ]
+         },
+         {
+            "Adjective":[
+               43
+            ]
+         },
+         {
+            "Occupation":[
+               45
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Lost Treasure of Tutankhamun",
+      "id":"exqp1",
+      "text":[
+         "In the heart of the ancient city of ",
+         "Place 1",
+         ", a young ",
+         "Occupation 1",
+         " named ",
+         "Name 1",
+         " stood at the entrance of King Tut's long-lost tomb. The air was heavy with the scent of ",
+         "Adjective 1",
+         " dust and forgotten secrets. ",
+         "Name 1",
+         " had spent years studying hieroglyphics, and now, their skills were about to be tested.\n\nThe first trap was a ",
+         "Adjective 2",
+         " puzzle, hidden within the walls. ",
+         "Name 1",
+         " read the symbols, deciphering them with a ",
+         "Tool",
+         " that had been passed down through generations. With a triumphant click, the path opened.\n\nNext, a corridor of ",
+         "Adjective 3",
+         " statues loomed ahead. Each statue waved around a ",
+         "Noun 2",
+         " which, if touched, would trigger a deadly trap. Carefully, ",
+         "Name 1",
+         " weaved through, their heart pounding in their chest.\n\nThe final challenge was a room filled with ",
+         "Adjective 4",
+         " mirrors. The reflections were disorienting, but ",
+         "Name 1",
+         " remembered an old ",
+         "Occupation 1",
+         " trick: using a ",
+         "Noun 3",
+         " to reveal the true path.\n\nFinally, in the heart of the tomb, the treasure of Tutankhamun awaited: a ",
+         "Adjective 5",
+         " ",
+         "Noun 4",
+         " that shimmered in the dim light. ",
+         "Name 1",
+         " had not only navigated the traps but had also uncovered a piece of history that would astonish the world."
+      ],
+      "prompts":[
+         {
+            "Place 1":[
+               1
+            ]
+         },
+         {
+            "Occupation 1":[
+               3,
+               27
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               9,
+               13,
+               21,
+               25,
+               35
+            ]
+         },
+         {
+            "Adjective 1":[
+               7
+            ]
+         },
+         {
+            "Adjective 2":[
+               11
+            ]
+         },
+         {
+            "Tool":[
+               15
+            ]
+         },
+         {
+            "Adjective 3":[
+               17
+            ]
+         },
+         {
+            "Noun 2":[
+               19
+            ]
+         },
+         {
+            "Adjective 4":[
+               23
+            ]
+         },
+         {
+            "Noun 3":[
+               29
+            ]
+         },
+         {
+            "Adjective 5":[
+               31
+            ]
+         },
+         {
+            "Noun 4":[
+               33
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Ozymandias",
+      "id":"6e0w2",
+      "text":[
+         "Based on the 1818 poem by Percy Bysshe Shelley.\n\nI met an ",
+         "Occupation",
+         " from an ",
+         "Adjective",
+         " land\n\nWho said: Two vast and ",
+         "Adjective",
+         " ",
+         "Body part plural",
+         " of stone\n\nStand in the desert... Near them, on the sand,\n\nHalf sunk, a shattered ",
+         "Noun 1",
+         " lies, whose frown,\n\nAnd wrinkled ",
+         "Body part",
+         ", and sneer of cold command,\n\nTell that its sculptor well those passions read\n\nWhich yet survive, stamped on these lifeless ",
+         "Noun plural",
+         ",\n\nThe hand that mocked them and the heart that fed;\n\nAnd on the pedestal these words appear:\n\n“My name is ",
+         "Name 1",
+         ", king of kings;\n\nLook on my ",
+         "Noun 3",
+         "s, ye Mighty, and despair!”\n\nNothing beside remains. Round the decay\n\nOf that colossal ",
+         "Noun",
+         ", boundless and bare\n\nThe lone and level ",
+         "Noun plural",
+         " stretch far away."
+      ],
+      "prompts":[
+         {
+            "Occupation":[
+               1
+            ]
+         },
+         {
+            "Adjective":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Body part plural":[
+               7
+            ]
+         },
+         {
+            "Noun 1":[
+               9
+            ]
+         },
+         {
+            "Body part":[
+               11
+            ]
+         },
+         {
+            "Noun plural":[
+               13
+            ]
+         },
+         {
+            "Name 1":[
+               15
+            ]
+         },
+         {
+            "Noun 3":[
+               17
+            ]
+         },
+         {
+            "Noun":[
+               19
+            ]
+         },
+         {
+            "Noun plural":[
+               21
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Industrial Revolution",
+      "id":"u0iq5",
+      "text":[
+         "In the heart of the ",
+         "Adjective 1",
+         " town of ",
+         "Town 1",
+         ", lived an eccentric inventor named ",
+         "Name 1",
+         ". ",
+         "Name 1",
+         " had always been fascinated by the rapid advancements of the Industrial Revolution, eagerly trying to keep pace with the burgeoning technologies.\n\nOne day, ",
+         "Name 1",
+         ", known for ",
+         "Verb -ing 1",
+         " in odd ways, stumbled upon a groundbreaking invention—a steam-powered ",
+         "Noun 1",
+         ". Ecstatic, ",
+         "Name 1",
+         " quickly created this marvel, not fully understanding its purpose or power.\n\n",
+         "Name 1",
+         " decided to use the steam-powered ",
+         "Noun 1",
+         " for ",
+         "Verb -ing 2",
+         ", a task clearly not intended for such a machine. The townsfolk of ",
+         "Town 1",
+         " watched in both amusement and bewilderment as ",
+         "Noun 1",
+         "s churned and whistled, ineffectively ",
+         "Verb -ing 2",
+         ".\n\nDespite the confusion, ",
+         "Name 1",
+         "'s misadventures with the new technology became a ",
+         "Adjective 2",
+         " spectacle. Children would giggle, and adults would shake their heads as they passed by ",
+         "Name 1",
+         "'s workshop, where steam billowed and gears clanked in a ",
+         "Adjective 3",
+         " symphony of misapplied ingenuity.\n\nThough ",
+         "Name 1",
+         " never quite mastered the true use of the steam-powered ",
+         "Noun 1",
+         ", the inventor's spirit and ",
+         "Adjective 4",
+         " enthusiasm became legendary in ",
+         "Town 1",
+         ", a whimsical reminder of the unexpected paths innovation can take."
+      ],
+      "prompts":[
+         {
+            "Adjective 1":[
+               1
+            ]
+         },
+         {
+            "Town 1":[
+               3,
+               23,
+               43
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               7,
+               9,
+               15,
+               17,
+               29,
+               33,
+               37
+            ]
+         },
+         {
+            "Verb -ing 1":[
+               11
+            ]
+         },
+         {
+            "Noun 1":[
+               13,
+               19,
+               25,
+               39
+            ]
+         },
+         {
+            "Verb -ing 2":[
+               21,
+               27
+            ]
+         },
+         {
+            "Adjective 2":[
+               31
+            ]
+         },
+         {
+            "Adjective 3":[
+               35
+            ]
+         },
+         {
+            "Adjective 4":[
+               41
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"historic_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Unexpected Pen Pal",
+      "id":"b8hyd",
+      "text":[
+         "One day, while cleaning out her attic, Sarah discovered an ancient, dusty purse that once belonged to her ",
+         "Adjective",
+         " grandmother. Inside the purse was a ",
+         "Noun",
+         ", a ",
+         "Noun",
+         " and an ",
+         "Adjective",
+         " book. She flipped through it until she stumbled upon a yellowed letter addressed to a Mr. ",
+         "Last name 1",
+         ", but never delivered. Curiosity piqued, Sarah decided to pen a note to this stranger explaining her find.\n\n\"Dear Mr. ",
+         "Last name 1",
+         ",\nI recently found a letter intended for you in my grandmother's belongings. I felt compelled to reach out and let you know.\"\n\nA short week later, she received a reply from a town called ",
+         "Town 1",
+         ". Mr. ",
+         "Last name 1",
+         ", an ",
+         "Occupation",
+         ", expressed his gratitude, revealing that the missed letter was intended for his grandfather, whose name was also ",
+         "Last name 1",
+         ". Sara and Mr. ",
+         "Last name 1",
+         ", who’d revealed his name to be ",
+         "Name 1",
+         ", began exchanging ",
+         "Adjective",
+         " stories, sharing ",
+         "Verb -ing",
+         " experiences and their love for ",
+         "Noun",
+         "s.\n\nWith each letter, their bond deepened. Sarah would eagerly await his letters at her favorite ",
+         "Place",
+         ", sipping on her ",
+         "Adjective",
+         " tea.\n\nOne ",
+         "Adjective",
+         " day, a letter came with an invitation. \"Would you like to meet in ",
+         "Town 1",
+         "?\" ",
+         "Name 1",
+         " had written. Sarah's heart raced. Their unexpected pen pal connection was blossoming into a budding romance, all because a very old letter had failed to be sent."
+      ],
+      "prompts":[
+         {
+            "Adjective":[
+               1
+            ]
+         },
+         {
+            "Noun":[
+               3
+            ]
+         },
+         {
+            "Noun":[
+               5
+            ]
+         },
+         {
+            "Adjective":[
+               7
+            ]
+         },
+         {
+            "Last name 1":[
+               9,
+               11,
+               15,
+               19,
+               21
+            ]
+         },
+         {
+            "Town 1":[
+               13,
+               37
+            ]
+         },
+         {
+            "Occupation":[
+               17
+            ]
+         },
+         {
+            "Name 1":[
+               23,
+               39
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         },
+         {
+            "Verb -ing":[
+               27
+            ]
+         },
+         {
+            "Noun":[
+               29
+            ]
+         },
+         {
+            "Place":[
+               31
+            ]
+         },
+         {
+            "Adjective":[
+               33
+            ]
+         },
+         {
+            "Adjective":[
+               35
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Star-Crossed Paws",
+      "id":"2lnry",
+      "text":[
+         "In a quiet suburb on the outskirts of ",
+         "City",
+         ", two households were known for their fierce rivalry: the Jacksons, proud cat enthusiasts, and the ",
+         "Proper Noun 2",
+         "s, devout dog lovers. Each family's pride and joy were their pets: a sleek cat named ",
+         "Feminine name 1",
+         " and a loyal dog named ",
+         "Name 2",
+         ".\n\nOne ",
+         "Adjective",
+         " afternoon, while ",
+         "Feminine name 1",
+         " was ",
+         "Verb -ing",
+         " in her favorite sunspot, she noticed ",
+         "Name 2",
+         " gazing at her from across the fence. \n\n“Why don’t you take a picture, it’ll last longer” ",
+         "Feminine name 1",
+         " meowed to ",
+         "Name 2",
+         ". \n“Oh, I’m sorry, I didn’t realize you could see me!” ",
+         "Name 2",
+         " barked in response, before crossing the street to get closer to the ",
+         "Adjective",
+         " cat. It did not take long before the ",
+         "Adjective",
+         " couple began sharing whispered secrets and ",
+         "Verb -ed",
+         " side by side in the garden, forming an unlikely bond.\n\nTheir meetings remained their secret until the nosy ",
+         "Pet animal",
+         " next door noticed and word quickly spread throughout the neighborhood. The other pets were in disbelief. \"A cat and a dog, friends? Impossible!\" they exclaimed.\n\nBut the bond between ",
+         "Feminine name 1",
+         " and ",
+         "Name 2",
+         " was unbreakable. Their adventures, from ",
+         "Verb -ing",
+         " in the park to sharing ",
+         "Adjective",
+         " moments under a tree, simply made them too happy.\n\nWitnessing their genuine affection, the neighboring pets began to understand. Mr. Johnson’s pet ",
+         "Animal",
+         " even started hanging out with them from time to time, and the ",
+         "Animal",
+         " living down the street was inspired by ",
+         "Feminine name 1",
+         " and ",
+         "Name 2",
+         "’s barvery, and finally found the courage to ask their crush, the ",
+         "Animal",
+         " out on a date."
+      ],
+      "prompts":[
+         {
+            "City":[
+               1
+            ]
+         },
+         {
+            "Proper Noun 2":[
+               3
+            ]
+         },
+         {
+            "Feminine name 1":[
+               5,
+               11,
+               17,
+               31,
+               43
+            ]
+         },
+         {
+            "Name 2":[
+               7,
+               15,
+               19,
+               21,
+               33,
+               45
+            ]
+         },
+         {
+            "Adjective":[
+               9
+            ]
+         },
+         {
+            "Verb -ing":[
+               13
+            ]
+         },
+         {
+            "Adjective":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         },
+         {
+            "Verb -ed":[
+               27
+            ]
+         },
+         {
+            "Pet animal":[
+               29
+            ]
+         },
+         {
+            "Verb -ing":[
+               35
+            ]
+         },
+         {
+            "Adjective":[
+               37
+            ]
+         },
+         {
+            "Animal":[
+               39
+            ]
+         },
+         {
+            "Animal":[
+               41
+            ]
+         },
+         {
+            "Animal":[
+               47
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Love Potion Mix-Up",
+      "id":"g3sxj",
+      "text":[
+         "Everyone knew of the eccentric wizard named ",
+         "Name 1",
+         ",  known for his amazing potions and spells. One day, his apprentice, the young ",
+         "Name 2",
+         ", was tasked with making a batch of love potions for the upcoming Valentine's Day.\n\nHowever, next to the love potion ingredients was a vial for a laughter potion. Distracted by an ",
+         "Adjective",
+         " ",
+         "Noun",
+         ", ",
+         "Name 2",
+         " mistakenly poured the wrong ingredient into the brew.\n\nThe following day, people from all around town flocked to ",
+         "Name 1",
+         "'s shop to buy the love potion. But as they consumed it, not only did they fall head over heels for the first person they saw, but they also couldn't stop laughing!\n\nThe town's ",
+         "Occupation",
+         " found himself infatuated with a ",
+         "Noun",
+         " while continuously giggling. The librarian declared her undying love for the ",
+         "Adjective",
+         " statue in the town square, all while chuckling uncontrollably. The local baker, known for her seriousness, was seen serenading a loaf of bread, and the mailman was spotted dancing with an ",
+         "Adjective",
+         " mailbox. Even the mayor wasn't immune, as he professed his admiration for an ",
+         "Adjective",
+         " tree in the park, all the while laughing hysterically.\n\nRealizing the mix-up, ",
+         "Name 2",
+         " rushed to create an antidote. During the process, an ",
+         "Adjective",
+         " cat got into the potion and started romantically pursuing a bewildered broomstick, and a group of crows developed an unusual attraction to shiny door knobs. But by the time the antidote was ready, the town had turned into a place of unexpected pairings and hilarious situations."
+      ],
+      "prompts":[
+         {
+            "Name 1":[
+               1,
+               11
+            ]
+         },
+         {
+            "Name 2":[
+               3,
+               9,
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Noun":[
+               7
+            ]
+         },
+         {
+            "Occupation":[
+               13
+            ]
+         },
+         {
+            "Noun":[
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Adjective":[
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               21
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Balcony Note",
+      "id":"1pfd2",
+      "text":[
+         "In an apartment building with balconies that almost touched, there lived two people named ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         ". ",
+         "Name 1",
+         ", an ",
+         "Occupation",
+         ", always admired the ",
+         "Adjective",
+         " flowers on ",
+         "Name 2",
+         "'s balcony. One day, they left a note on their own balcony: \"Your flowers are as ",
+         "Adjective",
+         " as the sun.\"\n\n",
+         "Name 2",
+         ", an ",
+         "Occupation",
+         ", chuckled upon reading the note and replied with their own: \"Thank you! Your ",
+         "Noun 1",
+         " always seems to have the perfect ",
+         "Adjective",
+         " hue.\"\n\nTheir notes began to flow more frequently. ",
+         "Name 1",
+         " would often write about the ",
+         "Adjective",
+         " they saw from their balcony and which made ",
+         "Name 2",
+         " very ",
+         "Emotion",
+         ". The notes were always signed off with a playful \"",
+         "Verb -ing",
+         " for your next note!\"\n\nAs days turned to weeks, their messages grew more personal. ",
+         "Name 1",
+         " shared about their dream to ",
+         "Verb",
+         " around the world, and ",
+         "Name 2",
+         " expressed their love for ",
+         "Verb -ing",
+         ", something they did every weekend.\n\nFinally, one sunny morning, ",
+         "Name 1",
+         " left a special note: \"How about we meet in person? Coffee at the ",
+         "Place",
+         " downstairs?\"\n\n",
+         "Name 2",
+         "'s response was simple yet filled with anticipation: \"I'll be there, wearing an ",
+         "Adjective",
+         " scarf. Can't wait to finally meet the person behind these ",
+         "Adjective 1",
+         " notes.\"\n\nAnd so, beneath the very balconies that brought them together, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " met, their conversation as ",
+         "Adjective",
+         " and ",
+         "Adjective 1",
+         " as the notes they had exchanged."
+      ],
+      "prompts":[
+         {
+            "Name 1":[
+               1,
+               5,
+               23,
+               33,
+               41,
+               51
+            ]
+         },
+         {
+            "Name 2":[
+               3,
+               11,
+               15,
+               27,
+               37,
+               45,
+               53
+            ]
+         },
+         {
+            "Occupation":[
+               7
+            ]
+         },
+         {
+            "Adjective":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               13
+            ]
+         },
+         {
+            "Occupation":[
+               17
+            ]
+         },
+         {
+            "Noun 1":[
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               21
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         },
+         {
+            "Emotion":[
+               29
+            ]
+         },
+         {
+            "Verb -ing":[
+               31
+            ]
+         },
+         {
+            "Verb":[
+               35
+            ]
+         },
+         {
+            "Verb -ing":[
+               39
+            ]
+         },
+         {
+            "Place":[
+               43
+            ]
+         },
+         {
+            "Adjective":[
+               47
+            ]
+         },
+         {
+            "Adjective 1":[
+               49,
+               57
+            ]
+         },
+         {
+            "Adjective":[
+               55
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Puppy Best Friends",
+      "id":"eug6u",
+      "text":[
+         "In Johnny’s animal care center lived ",
+         "Name 1",
+         ", a playful ",
+         "Dog breed",
+         ", and the curious ",
+         "Dog breed",
+         " named ",
+         "Name 2",
+         ". They met when they were both just a month old and quickly became inseparable friends, always ",
+         "Verb -ing",
+         " together and sharing their toys.\n\nOne day, a family came to the center and fell in love with ",
+         "Name 1",
+         ". They decided to adopt ",
+         "Name 1",
+         ", leaving ",
+         "Name 2",
+         " behind. The ",
+         "Adjective",
+         " ",
+         "Name 2",
+         " felt very lonely without their best friend. Days passed, and ",
+         "Name 2",
+         " would often sit by the window, ",
+         "Verb -ing",
+         " for ",
+         "Name 1",
+         ".\n\n",
+         "Name 2",
+         " waited and waited as the days became weeks, and weeks became months. ",
+         "Name 2",
+         " felt an ",
+         "Adjective",
+         " hole in their heart, and no matter how much the employees tried to cheer them up, nothing could fill the hole.\n\nOne day, an old woman named ",
+         "Female name",
+         " came to adopt a dog. She could see the sadness in ",
+         "Name 2",
+         "’s ",
+         "Adjective",
+         " eyes. She adopted ",
+         "Name 2",
+         ", who felt ",
+         "Emotion",
+         " to finally be adopted.\n\nWhen ",
+         "Name 2",
+         " was let out into ",
+         "Female name",
+         "’s garden to play, an immense joy filled their heart as they spotted a familiar face. There, playing in the garden next door, was ",
+         "Name 1",
+         "! The two dogs barked and wagged their tails, their excitement palpable. ",
+         "Female name",
+         ", noticing this, spoke to the neighbors and learned about the inseparable bond ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " shared.\n\nMoved by their story, ",
+         "Female name",
+         " and the neighbors arranged playdates for the two dogs. Every day, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " would ",
+         "Verb",
+         " together, chasing each other around, have more fun than they’d ever had before.\n\nAs time passed, the two families agreed it was best to remove the fence separating their gardens, allowing ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " to be together whenever they wished. The once ",
+         "Adjective",
+         " ",
+         "Name 2",
+         " was now the happiest dog, with their best friend always by their side."
+      ],
+      "prompts":[
+         {
+            "Name 1":[
+               1,
+               11,
+               13,
+               25,
+               47,
+               51,
+               57,
+               63
+            ]
+         },
+         {
+            "Dog breed":[
+               3
+            ]
+         },
+         {
+            "Dog breed":[
+               5
+            ]
+         },
+         {
+            "Name 2":[
+               7,
+               15,
+               19,
+               21,
+               27,
+               29,
+               35,
+               39,
+               43,
+               53,
+               59,
+               65,
+               69
+            ]
+         },
+         {
+            "Verb -ing":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Verb -ing":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               31
+            ]
+         },
+         {
+            "Female name":[
+               33
+            ]
+         },
+         {
+            "Adjective":[
+               37
+            ]
+         },
+         {
+            "Emotion":[
+               41
+            ]
+         },
+         {
+            "Female name":[
+               45
+            ]
+         },
+         {
+            "Female name":[
+               49
+            ]
+         },
+         {
+            "Female name":[
+               55
+            ]
+         },
+         {
+            "Verb":[
+               61
+            ]
+         },
+         {
+            "Adjective":[
+               67
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Romeo and Juliet",
+      "id":"g0xqc",
+      "text":[
+         "In the ancient city of Verona, the long-standing feud between the ",
+         "Proper Noun 1",
+         "s and the ",
+         "Proper Noun 2",
+         "s escalated. Prince ",
+         "Name 1",
+         " of Verona warned of severe consequences for further violence.\n\nAmidst this tension, the young Juliet of the ",
+         "Proper Noun 2",
+         " family was sought in marriage by Count ",
+         "Name 2",
+         ". However, at an ",
+         "Adjective",
+         " ball, her eyes met with Romeo, the son of the rival ",
+         "Proper Noun 1",
+         " family. Their immediate love, a beacon of hope in a sea of hatred, was sealed secretly by Friar ",
+         "Name 3",
+         ".\n\nTragically, the feud continued. Romeo, after an ",
+         "Adjective",
+         " clash with Tybalt, Juliet's cousin, was banished. Desperate to avoid an arranged marriage to Count ",
+         "Name 2",
+         ", Juliet turned to Friar ",
+         "Name 3",
+         ", who gave her a ",
+         "Noun",
+         " to feign death.\n\nThe plan went awry. Romeo, believing Juliet truly dead, returned to Verona and, feeling ",
+         "Emotion",
+         ", ended his life beside her. When Juliet found Romeo she realized she could not live without him, and joined him in death.\n\nTheir tragic end under the ",
+         "Adjective",
+         " sky brought reconciliation between the ",
+         "Proper Noun 1",
+         "s and ",
+         "Proper Noun 2",
+         "s. Prince ",
+         "Name 1",
+         " mourned the loss of the \"star-crossed lovers,\" their story a lamentable tale of love and fate in Verona."
+      ],
+      "prompts":[
+         {
+            "Proper Noun 1":[
+               1,
+               13,
+               29
+            ]
+         },
+         {
+            "Proper Noun 2":[
+               3,
+               7,
+               31
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               33
+            ]
+         },
+         {
+            "Name 2":[
+               9,
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               11
+            ]
+         },
+         {
+            "Name 3":[
+               15,
+               21
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Noun":[
+               23
+            ]
+         },
+         {
+            "Emotion":[
+               25
+            ]
+         },
+         {
+            "Adjective":[
+               27
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Twilight",
+      "id":"1559r",
+      "text":[
+         "In the small, ",
+         "Adjective",
+         " town of Forks, Washington, Bella Swan moved in with her father. Her life took an unexpected turn when she met Edward Cullen, an ",
+         "Adjective",
+         " student at her new school.\n\nEdward was no ordinary boy; he was a vampire, part of an ",
+         "Adjective",
+         " family that fed only on ",
+         "Noun",
+         "s. Bella was inexplicably drawn to him, despite knowing the danger that lurked in his ",
+         "Color",
+         " eyes.\n\nTheir love story unfolded amidst the misty forests. They shared ",
+         "Adjective",
+         " moments, from Edward ",
+         "Verb -ing",
+         " Bella to the top of a towering ",
+         "Noun",
+         ", to their ",
+         "Adjective",
+         " encounters with other supernatural beings.\n\nHowever, their love was not without peril. A group of vampire ",
+         "Occupation",
+         "s, led by the ",
+         "Adjective",
+         " James, saw Bella as prey and threatened her life. Edward and his family rallied to protect her, leading to a showdown in ",
+         "Place",
+         ".\n\nIn the end, Bella's love for Edward only grew stronger, even as she grappled with the reality of his immortal existence. Their love story, set against the backdrop of the ",
+         "Adjective",
+         " town of Forks, became a legend among the ",
+         "Occupation",
+         "s and the locals.\n\nEdward's ",
+         "Adjective",
+         " devotion and Bella's bravery proved that love can thrive even in the most unusual of circumstances, making their tale a favorite among fans of supernatural romance."
+      ],
+      "prompts":[
+         {
+            "Adjective":[
+               1
+            ]
+         },
+         {
+            "Adjective":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Noun":[
+               7
+            ]
+         },
+         {
+            "Color":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               11
+            ]
+         },
+         {
+            "Verb -ing":[
+               13
+            ]
+         },
+         {
+            "Noun":[
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               17
+            ]
+         },
+         {
+            "Occupation":[
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               21
+            ]
+         },
+         {
+            "Place":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         },
+         {
+            "Occupation":[
+               27
+            ]
+         },
+         {
+            "Adjective":[
+               29
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Lost Letter",
+      "id":"6ot9v",
+      "text":[
+         "Once upon a time in the ",
+         "Adjective 1",
+         " village of ",
+         "Town 1",
+         ", ",
+         "Name 1",
+         ", the village baker, penned a heartfelt letter to ",
+         "Name 2",
+         ", the newly arrived librarian. As fate would have it, a playful breeze snatched the letter from ",
+         "Name 1",
+         "'s hands, carrying it on an unexpected adventure.\n\nFirst, the letter landed in the basket of a ",
+         "Occupation 1",
+         ", who, amused, added a ",
+         "Noun 1",
+         " recipe. Then, it flew into the hands of a group of ",
+         "Adjective 2",
+         " children, who scribbled joyful doodles across its margins.\n\nAs the sun dipped low, the letter found its way to the local ",
+         "Place 1",
+         ", where a ",
+         "Adjective 3",
+         " musician penned a verse of a love song on its back. Finally, it landed at the feet of ",
+         "Name 2",
+         " herself, who, intrigued by the amalgamation of messages, set out to find its author.\n\nIn a twist of fate, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " met under the ",
+         "Noun 2",
+         " tree in the village square. Laughter and stories exchanged, they realized the letter had not just traveled through the village, but also through the hearts of its people, weaving a ",
+         "Adjective 4",
+         " tale of connection and serendipity.\n\nAnd so, under the ",
+         "Adjective 5",
+         " stars, a new chapter began for ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         ", all thanks to a lost letter that found its way back home."
+      ],
+      "prompts":[
+         {
+            "Adjective 1":[
+               1
+            ]
+         },
+         {
+            "Town 1":[
+               3
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               9,
+               23,
+               33
+            ]
+         },
+         {
+            "Name 2":[
+               7,
+               21,
+               25,
+               35
+            ]
+         },
+         {
+            "Occupation 1":[
+               11
+            ]
+         },
+         {
+            "Noun 1":[
+               13
+            ]
+         },
+         {
+            "Adjective 2":[
+               15
+            ]
+         },
+         {
+            "Place 1":[
+               17
+            ]
+         },
+         {
+            "Adjective 3":[
+               19
+            ]
+         },
+         {
+            "Noun 2":[
+               27
+            ]
+         },
+         {
+            "Adjective 4":[
+               29
+            ]
+         },
+         {
+            "Adjective 5":[
+               31
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Surprise Dinner",
+      "id":"vm9w0",
+      "text":[
+         "It was Valentine’s day and ",
+         "Name 1",
+         " was playing around in their kitchen, trying to prepare a special Valentine's dinner for ",
+         "Name 2",
+         ", their partner of ",
+         "Number",
+         " years. The menu was ",
+         "Name 2",
+         "'s favorite dish, ",
+         "Dish 1",
+         ", a recipe that ",
+         "Name 1",
+         " had been practicing for weeks.\n\nSuddenly, ",
+         "Name 1",
+         " dropped ",
+         "Ingredient 1",
+         " on the floor and slipped in it, landing hard on their ",
+         "Body part",
+         ". Defeated, ",
+         "Name 1",
+         " started ",
+         "Cooking Technique -ing ending",
+         " the ",
+         "Ingredient 2",
+         " when things again went terrible. First, the ",
+         "Kitchen Appliance",
+         " malfunctioned, turning the ",
+         "Dish 1",
+         " into an unrecognizable mess. Then, while attempting to salvage the situation, ",
+         "Name 1",
+         " accidentally burned ",
+         "Ingredient 3",
+         ", causing a minor but messy explosion.\n\nWith ",
+         "Ingredient 1",
+         " on the floor, ",
+         "Ingredient 2",
+         " smeared all over the walls and a small hole in the roof from the explosion, ",
+         "Name 1",
+         " felt ",
+         "Emotion",
+         ". Refusing to give up, they called the nearest ",
+         "Food 1",
+         " restaurant, ordering ",
+         "Name 2",
+         "'s second-favorite meal.\n\n",
+         "Name 2",
+         " arrived home to find an ",
+         "Adjective",
+         " picnic set up in the living room. Surprised and delighted, they spent the evening ",
+         "Verb -ing",
+         " on the floor, surrounded by takeout containers and ",
+         "Adjective",
+         " candles. The mishaps in the kitchen turned into stories that made them laugh until their sides ached.\n\nAs they shared ",
+         "Food 1",
+         " and reminisced about past Valentine's Days, they realized that it wasn't the perfect dinner that mattered, but the perfect company. ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " embraced, grateful for their ",
+         "Adjective",
+         " love and the memories they continued to create together."
+      ],
+      "prompts":[
+         {
+            "Name 1":[
+               1,
+               11,
+               13,
+               19,
+               29,
+               37,
+               55
+            ]
+         },
+         {
+            "Name 2":[
+               3,
+               7,
+               43,
+               45,
+               57
+            ]
+         },
+         {
+            "Number":[
+               5
+            ]
+         },
+         {
+            "Dish 1":[
+               9,
+               27
+            ]
+         },
+         {
+            "Ingredient 1":[
+               15,
+               33
+            ]
+         },
+         {
+            "Body part":[
+               17
+            ]
+         },
+         {
+            "Cooking Technique -ing ending":[
+               21
+            ]
+         },
+         {
+            "Ingredient 2":[
+               23,
+               35
+            ]
+         },
+         {
+            "Kitchen Appliance":[
+               25
+            ]
+         },
+         {
+            "Ingredient 3":[
+               31
+            ]
+         },
+         {
+            "Emotion":[
+               39
+            ]
+         },
+         {
+            "Food 1":[
+               41,
+               53
+            ]
+         },
+         {
+            "Adjective":[
+               47
+            ]
+         },
+         {
+            "Verb -ing":[
+               49
+            ]
+         },
+         {
+            "Adjective":[
+               51
+            ]
+         },
+         {
+            "Adjective":[
+               59
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Scavenger Hunt",
+      "id":"lmwo0",
+      "text":[
+         "In the bustling city of ",
+         "City 1",
+         ", Valentine's Day dawned with a promise of adventure. ",
+         "Name 1",
+         ", an ",
+         "Occupation",
+         ", had meticulously planned a city-wide scavenger hunt for their partner, ",
+         "Name 2",
+         ". Each clue led to a location drenched in memories, a roadmap of their romance.\n\nTheir journey began at ",
+         "Place 1",
+         ", the cozy place where their first date unfolded. The place still held the ",
+         "Adjective 1",
+         " aroma of ",
+         "Noun",
+         ", reminding them of nervous laughter and shared glances over the table.\n\nThe next clue guided them to the heart of ",
+         "Place 2",
+         ", where they had shared their first kiss. ",
+         "Place 2",
+         ", bustling with people ",
+         "Verb -ing",
+         ", echoed with the whispers of that ",
+         "Adjective",
+         " moment. The memories of holding each other’s ",
+         "Body part plural",
+         " rushed back to them.\n\nAs the sun began to set, painting the sky in hues of ",
+         "Color",
+         ", the final clue led them to a rooftop overlooking the city. The view was breathtaking, a tapestry of lights and life, mirroring the sparkle in their eyes. Standing there, surrounded by the ",
+         "Adjective 3",
+         " skyline, they realized how far they had come together.\n\nThe scavenger hunt, more than a series of clues, was a journey through the chapters of their love. It reinforced the bond they shared, a testament to their ",
+         "Adjective 4",
+         " love story that started in ",
+         "City 1",
+         " and would continue wherever life took them."
+      ],
+      "prompts":[
+         {
+            "City 1":[
+               1,
+               31
+            ]
+         },
+         {
+            "Name 1":[
+               3
+            ]
+         },
+         {
+            "Occupation":[
+               5
+            ]
+         },
+         {
+            "Name 2":[
+               7
+            ]
+         },
+         {
+            "Place 1":[
+               9
+            ]
+         },
+         {
+            "Adjective 1":[
+               11
+            ]
+         },
+         {
+            "Noun":[
+               13
+            ]
+         },
+         {
+            "Place 2":[
+               15,
+               17
+            ]
+         },
+         {
+            "Verb -ing":[
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               21
+            ]
+         },
+         {
+            "Body part plural":[
+               23
+            ]
+         },
+         {
+            "Color":[
+               25
+            ]
+         },
+         {
+            "Adjective 3":[
+               27
+            ]
+         },
+         {
+            "Adjective 4":[
+               29
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"An Awkward Date",
+      "id":"89i8b",
+      "text":[
+         "Lauren and Mike decided to have dinner at ",
+         "Place 1",
+         ", a renowned restaurant known for its ",
+         "Adjective",
+         " ambiance and exquisite cuisine. As they settled into their ",
+         "Adjective",
+         " chairs, Mike's gaze suddenly fixed on a familiar face across the room - it was his ex, ",
+         "Name 1",
+         ".\n\nTrying to maintain a sense of normalcy, Lauren suggested they order the restaurant's famous ",
+         "Noun 1",
+         ". Mike, distracted and flustered, accidentally called the waiter by ",
+         "Name 1",
+         "'s name, causing a moment of awkward silence followed by a nervous chuckle.\n\nThroughout the evening, Lauren and Mike attempted to engage in conversation about ",
+         "Topic",
+         ", but the presence of ",
+         "Name 1",
+         " loomed over them like a ",
+         "Noun 2",
+         " in the room. Every time the waiter ",
+         "Verb -ed",
+         " to their table with a dish, Mike couldn't help but steal glances at his ex, wondering if she was watching them.\n\nAs they left the restaurant, Lauren, feeling a mix of amusement and sympathy, held Mike's ",
+         "Body part",
+         " and said, \"Next time, let's pick a place where your past isn't ",
+         "Verb -ing",
+         " at the next table!\" They both laughed, realizing that even the most ",
+         "Adjective",
+         " moments could bring them closer together."
+      ],
+      "prompts":[
+         {
+            "Place 1":[
+               1
+            ]
+         },
+         {
+            "Adjective":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Name 1":[
+               7,
+               11,
+               15
+            ]
+         },
+         {
+            "Noun 1":[
+               9
+            ]
+         },
+         {
+            "Topic":[
+               13
+            ]
+         },
+         {
+            "Noun 2":[
+               17
+            ]
+         },
+         {
+            "Verb -ed":[
+               19
+            ]
+         },
+         {
+            "Body part":[
+               21
+            ]
+         },
+         {
+            "Verb -ing":[
+               23
+            ]
+         },
+         {
+            "Adjective":[
+               25
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"romance_pack",
+      "avatarID":"13",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
       "name":"The Gift Mix-up",
       "id":"ls3tm",
       "text":[
