@@ -8,6 +8,20 @@ import ListManager from "../components/ListManager";
 export default function PackScreen() {
     const [pack, setPack] = useState("christmas_pack");
 
+    let pack_data = {
+        "christmas_pack": {
+            "name": "The Christmas Pack",
+            "description": "descritpion",
+            "price": "$3.99"
+        },
+        "historic_pack": {
+
+        },
+        "romance_pack": {
+            
+        }
+    }
+
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.standardHeight, globalStyles.containerWhitespacePadding]}>
