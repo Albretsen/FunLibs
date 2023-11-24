@@ -203,14 +203,14 @@ export default function CreateLibScreen({ route }) {
 
         let temp_finished_lib = Lib.createLib(libTextRef.current);
 
-        temp_finished_lib.pack = "historic_pack";
+        /*temp_finished_lib.pack = "historic_pack";
         temp_finished_lib.avatarID = "13";
         temp_finished_lib.published = true;
         temp_finished_lib.playable = true;
         temp_finished_lib.user = "HOv8K8Z1Q6bUuGxENrPrleECIWe2";
         temp_finished_lib.name = libNameTextRef.current;
         temp_finished_lib.id = Math.random().toString(36).slice(2, 7);
-        console.log(JSON.stringify(temp_finished_lib));
+        console.log(JSON.stringify(temp_finished_lib));*/
 
         if (temp_finished_lib.prompts.length < 1) {
             showToast({text: i18n.t('please_add_some_prompts')});
