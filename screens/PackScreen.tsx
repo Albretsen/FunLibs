@@ -5,6 +5,7 @@ import Buttons from "../components/Buttons";
 import i18n from "../scripts/i18n";
 import ListManager from "../components/ListManager";
 import PackManager from "../scripts/PackManager";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function PackScreen() {
     const [pack, setPack] = useState("christmas_pack");
@@ -27,49 +28,51 @@ export default function PackScreen() {
                 <TouchableOpacity style={styles.buyButton}>
                     <Text style={styles.buyButtonText}>Buy Pack $3.99</Text>
                 </TouchableOpacity>
-                <View>
-                    <Text style={styles.description}>
-                        Ten <Text style={globalStyles.highlightText}>high quality Libs</Text> about romance, written with love by the Fun Libs Team!
-                        Stories include <Text style={globalStyles.highlightText}>Romeo and Juliet</Text>, <Text style={globalStyles.highlightText}>Twilight</Text> and many more heartwarming stories!
-                    </Text>
-                </View>
-                <View>
-                    <Text style={styles.title}>Other packs</Text>
-                    <Buttons
-                        buttons={
-                            [{
-                                label: i18n.t('gaming'),
-                                icon: "sports-esports",
-                                iconColor: "#6294C9",
-                                onPress: () => {
-                                    setPack("gaming_pack");
-                                }
-                            },
-                            {
-                                label: i18n.t('animals'),
-                                icon: "pets",
-                                iconColor: "#6294C9",
-                                onPress: () => {
-                                    setPack("animals_pack");
-                                }
-                            },
-                            {
-                                label: i18n.t('romance'),
-                                icon: "favorite",
-                                iconColor: "#6294C9",
-                                onPress: () => {
-                                    setPack("romance_pack");
-                                }
-                            },
-                            ]
-                        }
-                        buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 2, borderStyle: "dashed", backgroundColor: "white", minWidth: 30, height: 44 }}
-                        containerStyle={{ justifyContent: "flex-start" }}
-                        labelStyle={{ fontSize: 17, fontWeight: 500 }}
-                        sideScroll={true}
-                    />
-                </View>
-                <ListManager showPreview={true} pack={pack}></ListManager>
+                <ScrollView>
+                    <View>
+                        <Text style={styles.description}>
+                            Ten <Text style={globalStyles.highlightText}>high quality Libs</Text> about romance, written with love by the Fun Libs Team!
+                            Stories include <Text style={globalStyles.highlightText}>Romeo and Juliet</Text>, <Text style={globalStyles.highlightText}>Twilight</Text> and many more heartwarming stories!
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.title}>Other packs</Text>
+                        <Buttons
+                            buttons={
+                                [{
+                                    label: i18n.t('gaming'),
+                                    icon: "sports-esports",
+                                    iconColor: "#6294C9",
+                                    onPress: () => {
+                                        setPack("gaming_pack");
+                                    }
+                                },
+                                {
+                                    label: i18n.t('animals'),
+                                    icon: "pets",
+                                    iconColor: "#6294C9",
+                                    onPress: () => {
+                                        setPack("animals_pack");
+                                    }
+                                },
+                                {
+                                    label: i18n.t('romance'),
+                                    icon: "favorite",
+                                    iconColor: "#6294C9",
+                                    onPress: () => {
+                                        setPack("romance_pack");
+                                    }
+                                },
+                                ]
+                            }
+                            buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 2, borderStyle: "dashed", backgroundColor: "white", minWidth: 30, height: 44 }}
+                            containerStyle={{ justifyContent: "flex-start" }}
+                            labelStyle={{ fontSize: 17, fontWeight: 500 }}
+                            sideScroll={true}
+                        />
+                    </View>
+                    <ListManager paddingBottom={25} showPreview={true} pack={pack}></ListManager>
+                </ScrollView>
             </View>
         </View>
     )
@@ -99,12 +102,13 @@ const styles = StyleSheet.create({
         padding: 10,
         textAlign: "center",
         marginTop: 10,
+        marginBottom: 10
     },
 
     buyButtonText: {
         fontSize: 20,
         color: "#95691B",
-        fontWeight: "600"
+        fontWeight: "600",
     },
 
     description: {
