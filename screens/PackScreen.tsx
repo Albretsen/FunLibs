@@ -8,7 +8,6 @@ import PackManager from "../scripts/PackManager";
 
 export default function PackScreen() {
     const [pack, setPack] = useState("christmas_pack");
-    const packContent = PackManager.packs["christmas_pack"]?.jsx;
 
     return(
         <View style={[globalStyles.screenStandard]}>

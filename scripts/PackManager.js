@@ -1,37 +1,20 @@
 import LibManager from "./lib_manager";
 import IAP from "./IAP";
+import { Text, StyleSheet } from "react-native";
 
 class PackManager {
     // JS object to store pack details
     static packs = {
         christmas_pack: {
             name: "Christmas Pack",
-            jsx: (
-                <>
-                    <Text style={styles.title}>The Christmas Pack Premium</Text>
-                    <Text style={styles.description}>Enjoy a festive adventure with these Christmas themed Mad Libs stories.</Text>
-                </>
-            ),
             price: 0
         },
         historic_pack: {
             name: "Historic Pack",
-            jsx: (
-                <>
-                    <Text style={styles.title}>The Historic Pack Premium</Text>
-                    <Text style={styles.description}>Dive into history with these educational and fun Mad Libs stories.</Text>
-                </>
-            ),
             price: 0
         },
         romance_pack: {
             name: "Romance Pack",
-            jsx: (
-                <>
-                    <Text style={styles.title}>The Romance Pack Premium</Text>
-                    <Text style={styles.description}>Experience love and romance through these heartwarming Mad Libs stories.</Text>
-                </>
-            ),
             price: 0
         }
     }
@@ -78,18 +61,18 @@ class PackManager {
         }
     }
 
-}
+    static styles = StyleSheet.create({
+        title: {
+            // Custom styles for the title
+        },
+        description: {
+            // Custom styles for the description
+        },
+        image: {
+            // Styles for the image
+        }
+    });
 
-const styles = StyleSheet.create({
-    title: {
-        // Custom styles for the title
-    },
-    description: {
-        // Custom styles for the description
-    },
-    image: {
-        // Styles for the image
-    }
-});
+}
 
 export default PackManager;
