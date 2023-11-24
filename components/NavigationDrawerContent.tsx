@@ -2,6 +2,8 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import DrawerContents from './DrawerContents';
 import i18n from '../scripts/i18n';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 type RootStackParamList = {
     Home: undefined;
@@ -25,6 +27,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
     return(
         <DrawerContents
             title={i18n.t("fun_libs")}
+            containerStyle={{paddingHorizontal: 26}}
             sections={
                 [
                     {
@@ -33,6 +36,8 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             {
                                 title: i18n.t("home"),
                                 icon: "home",
+                                iconColor: "#638BD5",
+                                textColor: "#638BD5",
                                 onPress: () => { 
                                     navigation.navigate("Home");
                                     closeDrawer();
@@ -57,6 +62,8 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             {
                                 title: i18n.t("story_packs"),
                                 icon: "auto-stories", // Feel free to put a better icon here
+                                iconColor: "#95691B",
+                                textColor: "#95691B",
                                 onPress: () => {
                                     navigation.navigate("Pack")
                                     closeDrawer();
@@ -88,6 +95,43 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 icon: "local-library",
                                 onPress: () => { 
                                     // Navigation code goes here
+                                    closeDrawer();
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        title: i18n.t("packs"),
+                        links: [
+                            {
+                                title: i18n.t("romance"),
+                                iconComponent: (
+                                    <MaterialCommunityIcons name="hand-heart-outline" size={20} color="#95691B" />
+                                ),
+                                textColor: "#95691B",
+                                onPress: () => {
+                                    navigation.navigate("Pack")
+                                    closeDrawer();
+                                }
+                            },
+                            {
+                                title: i18n.t("christmas"),
+                                iconComponent: (
+                                    <FontAwesome5 name="candy-cane" size={20} color="#95691B" />
+                                ),
+                                textColor: "#95691B",
+                                onPress: () => {
+                                    navigation.navigate("Pack")
+                                    closeDrawer();
+                                }
+                            },
+                            {
+                                title: i18n.t("historical_events"),
+                                icon: "history-edu",
+                                iconColor: "#95691B",
+                                textColor: "#95691B",
+                                onPress: () => {
+                                    navigation.navigate("Pack")
                                     closeDrawer();
                                 }
                             },

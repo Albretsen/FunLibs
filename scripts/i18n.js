@@ -142,7 +142,6 @@ const i18n = new I18n({
         updating_description: "Updating description...",
         description_updated: "Description updated",
         save_new_description: "Save new description",
-        has_not_written_anything_about_themselves_yet: "has not written anything about themself yet",
         templates_by: "Templates by",
         selected_a_new_avatar: "Select a new avatar",
         select_a_new_color: "Select a new color",
@@ -176,6 +175,9 @@ const i18n = new I18n({
         gaming: "Gaming",
         romance: "Romance",
         animals: "Animals",
+        historical_events: "Historical Events",
+        christmas: "Christmas",
+        packs: "Packs"
         
     },
     es: {
@@ -319,7 +321,6 @@ const i18n = new I18n({
         "updating_description": "Actualizando descripción...",
         "description_updated": "Descripción actualizada",
         "save_new_description": "Guardar nueva descripción",
-        "has_not_written_anything_about_themselves_yet": "no ha escrito nada sobre sí mismo todavía",
         "templates_by": "Plantillas por",
         "selected_a_new_avatar": "Selecciona un nuevo avatar",
         "reset_password": "Restablecer contraseña",

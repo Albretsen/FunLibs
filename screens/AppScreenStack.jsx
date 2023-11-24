@@ -96,7 +96,7 @@ export default function AppScreenStack() {
 						</TouchableOpacity>
 						<Drawer
 							ref={navigationDrawerRef}
-							containerStyle={globalStyles.standardDrawerLeft}
+							containerStyle={[globalStyles.standardDrawerLeft, {paddingHorizontal: 0}]}
 							side="left"
 						>
 							<NavigationDrawerContent navigation={navigation} closeDrawer={() => navigationDrawerRef.current?.closeDrawer()}/>

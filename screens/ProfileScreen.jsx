@@ -112,13 +112,17 @@ export default function ProfileScreen({ route }) {
                 style={styles.background}
             />
             {yourOwnProfile && (
-                <TouchableOpacity
-                    style={{position: "absolute", top: 110, left: (screenWidth / 2) - 140, zIndex: 120}}
-                    onPress={() => {
-                        colorDrawerRef.current?.openDrawer();
-                }}>
-                    <MaterialIcons name="palette" size={28} style={styles.highlightColor} />
-                </TouchableOpacity>
+                <>
+                { // Opens color menu, disabled for now
+                // <TouchableOpacity
+                //     style={{position: "absolute", top: 110, left: (screenWidth / 2) - 140, zIndex: 120}}
+                //     onPress={() => {
+                //         colorDrawerRef.current?.openDrawer();
+                // }}>
+                //     <MaterialIcons name="palette" size={28} style={styles.highlightColor} />
+                // </TouchableOpacity>
+                }
+                </>
             )}
             <View style={[{overflow: "hidden", flex: 1}, globalStyles.headerAccountedHeight]}>
                 <View style={styles.circleBackground} />
@@ -204,51 +208,56 @@ export default function ProfileScreen({ route }) {
                                 <Text style={[styles.userStatText, globalStyles.grayText]}>{i18n.t('libs')}</Text>
                             </View>
                         </View>
-                        <Text style={globalStyles.title}>{i18n.t('about_me')}</Text>
-                        {editBio ? 
+                        {/* Only display bio if there is a bio, or if its your own profile */}
+                        {(bioValue || yourOwnProfile) && (
                             <>
-                                <TextInput
-                                    placeholder={i18n.t('say_something_about_yourself')}
-                                    placeholderTextColor={"#505050"}
-                                    multiline
-                                    textAlignVertical="top"
-                                    style={[styles.bio, {height: inputHeight, width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
-                                    onChangeText={(text) => {
-                                        setBioValue(text);
-                                    }}
-                                    value={bioValue}
-                                    onContentSizeChange={(e) => {
-                                        const newHeight = e.nativeEvent.contentSize.height;
-                                        setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                                    }}
-                                />
-                                <TouchableOpacity style={styles.editButton} onPress={ async () => {
-                                    showToast({text: i18n.t('updating_description'), loading: true});
-                                    await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
-                                    setEditBio(false);
-                                    showToast({text: i18n.t('description_updated'), loading: false});
-                                }}>
-                                    <Text style={[styles.highlightColor, {fontSize: 14}]}>{i18n.t('save_new_description')}</Text>
-                                    <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
-                                </TouchableOpacity>
-                            </>
-                        :
-                            <View style={{width: "100%"}}>
-                                {yourOwnProfile ?
-                                    <TouchableOpacity
-                                        style={{flexDirection: "row"}}
-                                        onPress={() => {
-                                            setEditBio(true);
+                            <Text style={globalStyles.title}>{i18n.t('about_me')}</Text>
+                            {editBio ? 
+                                <>
+                                    <TextInput
+                                        placeholder={i18n.t('say_something_about_yourself')}
+                                        placeholderTextColor={"#505050"}
+                                        multiline
+                                        textAlignVertical="top"
+                                        style={[styles.bio, {height: inputHeight, width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
+                                        onChangeText={(text) => {
+                                            setBioValue(text);
                                         }}
-                                    >
-                                        <Text style={[styles.bio, globalStyles.grayText, {flex: 1, width: "100%"}]}>{bioValue ? bioValue : nameValue + " " + i18n.t('has_not_written_anything_about_themselves_yet')}</Text>
-                                        <MaterialIcons style={[styles.highlightColor, {flexBasis: 20, marginTop: 3}]} name="edit" size={17}/>
+                                        value={bioValue}
+                                        onContentSizeChange={(e) => {
+                                            const newHeight = e.nativeEvent.contentSize.height;
+                                            setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
+                                        }}
+                                    />
+                                    <TouchableOpacity style={styles.editButton} onPress={ async () => {
+                                        showToast({text: i18n.t('updating_description'), loading: true});
+                                        await FirebaseManager.UpdateDocument("users", uid, { bio: bioValue });
+                                        setEditBio(false);
+                                        showToast({text: i18n.t('description_updated'), loading: false});
+                                    }}>
+                                        <Text style={[styles.highlightColor, {fontSize: 14}]}>{i18n.t('save_new_description')}</Text>
+                                        <MaterialIcons style={styles.highlightColor} name="check" size={15} color="#333" />
                                     </TouchableOpacity>
-                                    :
-                                    <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio ? userData.bio : nameValue + " " + i18n.t('has_not_written_anything_about_themselves_yet')}</Text>
-                                }
-                            </View>
-                        }
+                                </>
+                            :
+                                <View style={{width: "100%"}}>
+                                    {yourOwnProfile ?
+                                        <TouchableOpacity
+                                            style={{flexDirection: "row"}}
+                                            onPress={() => {
+                                                setEditBio(true);
+                                            }}
+                                        >
+                                            <Text style={[styles.bio, globalStyles.grayText, {flex: 1, width: "100%"}]}>{bioValue ? bioValue : i18n.t('say_something_about_yourself')}</Text>
+                                            <MaterialIcons style={[styles.highlightColor, {flexBasis: 20, marginTop: 3}]} name="edit" size={17}/>
+                                        </TouchableOpacity>
+                                        :
+                                        <Text style={[styles.bio, globalStyles.grayText]}>{userData.bio ? userData.bio : nameValue + " "}</Text>
+                                    }
+                                </View>
+                            }
+                            </>
+                        )}
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>{i18n.t('templates_by')} {userData.username}</Text>
                         <ListManager paddingBottom={25} filterOptions={{
                             "sortBy": "newest",
@@ -347,6 +356,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         // This makes the background go to the top of the page, behind the header which is 64px tall
+        // Turns out this doesn't really work on a phone, the background won't be fully transparent
         top: -64,
         height: 64 + 75 + 100,
     },
