@@ -149,7 +149,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "name":"The Mischievous Christmas Elf",
@@ -319,177 +320,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
-   },
-   {
-      "name":"The Mischievous Christmas Elf",
-      "id":"77291",
-      "text":[
-         "In the snowy town of ",
-         "Town 1",
-         ", a notorious Christmas elf named ",
-         "Name 1",
-         " was known for his ",
-         "Adjective 1",
-         " pranks. This year, he decided to visit the ",
-         "Adjective 2",
-         " home of the ",
-         "Surname 1",
-         " family for a bit of holiday chaos.\n\nAs Christmas Eve approached, the ",
-         "Surname 1",
-         " family was busy with their usual traditions. Little did they know, ",
-         "Name 1",
-         " had sneaked into their home with a plan to “improve” their festive preparations.\n\nFirst, ",
-         "Name 1",
-         " found the family's Christmas tree. With a mischievous grin, he ",
-         "Verb -ed 1",
-         " with the tree decorations, making them ",
-         "Adjective 3",
-         ". The family cat, ",
-         "Name 2",
-         ", watched in amazement as the ornaments began to ",
-         "Verb -ed 1",
-         " around.\n\nNext, the elf set his sights on the kitchen, where Mrs. ",
-         "Surname 1",
-         " was baking her famous Christmas ",
-         "Dish 1",
-         ". With a snap of his fingers, ",
-         "Name 1",
-         " turned the ",
-         "Dish 1",
-         " into ",
-         "Noun 8",
-         " shapes, leaving Mrs. ",
-         "Surname 1",
-         " both baffled and amused.\n\nThe children, ",
-         "Name 3",
-         " and ",
-         "Name 4",
-         ", discovered ",
-         "Name 1",
-         " in the act of stuffing the stockings with ",
-         "Noun 2",
-         "s and ",
-         "Noun 3",
-         "s. They couldn't help but join in the laughter as their stockings bulged with the absurd contents.\n\nAs the night progressed, the ",
-         "Surname 1",
-         " family found themselves enjoying the elf's ",
-         "Adjective 5",
-         " pranks. They danced around the Christmas tree, marveled at the bizarre ",
-         "Noun 1",
-         ", and played with the ",
-         "Noun 2",
-         "s and ",
-         "Noun 3",
-         "s from their stockings.\n\nWhen it was time for ",
-         "Name 1",
-         " to leave, he winked and promised to return next year with new tricks up his sleeve. The ",
-         "Surname 1",
-         " family, now fans of the elf's antics, looked forward to his future visits with eager anticipation. Christmas has never been so unpredictably fun!"
-      ],
-      "prompts":[
-         {
-            "Town 1":[
-               1
-            ]
-         },
-         {
-            "Name 1":[
-               3,
-               13,
-               15,
-               29,
-               41,
-               57
-            ]
-         },
-         {
-            "Adjective 1":[
-               5
-            ]
-         },
-         {
-            "Adjective 2":[
-               7
-            ]
-         },
-         {
-            "Surname 1":[
-               9,
-               11,
-               25,
-               35,
-               47,
-               59
-            ]
-         },
-         {
-            "Verb -ed 1":[
-               17,
-               23
-            ]
-         },
-         {
-            "Adjective 3":[
-               19
-            ]
-         },
-         {
-            "Name 2":[
-               21
-            ]
-         },
-         {
-            "Dish 1":[
-               27,
-               31
-            ]
-         },
-         {
-            "Noun 8":[
-               33
-            ]
-         },
-         {
-            "Name 3":[
-               37
-            ]
-         },
-         {
-            "Name 4":[
-               39
-            ]
-         },
-         {
-            "Noun 2":[
-               43,
-               53
-            ]
-         },
-         {
-            "Noun 3":[
-               45,
-               55
-            ]
-         },
-         {
-            "Adjective 5":[
-               49
-            ]
-         },
-         {
-            "Noun 1":[
-               51
-            ]
-         }
-      ],
-      "words":[
-         
-      ],
-      "pack":"christmas_pack",
-      "avatarID":"13",
-      "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "name":"Jingle Bells",
@@ -646,7 +478,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "name":"Santa’s GPS Misadventure",
@@ -717,7 +550,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "name":"The Grinch Who Lost his Grump",
@@ -805,95 +639,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
-   },
-   {
-      "name":"The Grinch Who Lost his Grump",
-      "id":"tfva5",
-      "text":[
-         "In the chilly village of ",
-         "Town 1",
-         ", there resided a notoriously grumpy creature known as Grumbly the Grinch. One Christmas morning, Grumbly awoke feeling strangely cheerful. Alarmed, he embarked on a quest to reclaim his trademark grumpiness.\n\nFirst, Grumbly tried ",
-         "Verb -ing",
-         " down at the town square, scowling at each festive decoration and twinkling light. But, to his dismay, the ",
-         "Adjective",
-         " children's laughter and holiday spirit only made his smile grow.\n\nFor his second attempt, Grumbly concocted a more extreme plan. He decided to ",
-         "Verb",
-         " atop the highest hill, hoping the cold wind would wipe the smile off his face. But as he reached the peak, he found a group of ",
-         "Animal",
-         "s having a snowball fight. Unable to resist, Grumbly joined in, laughing heartily as he ducked and dodged.\n\nIn his final, most outlandish attempt, Grumbly visited the local wizard, ",
-         "Name 1",
-         ", who was known for his ",
-         "Adjective",
-         " potions. Grumbly demanded a potion to restore his grumpiness. ",
-         "Name 1",
-         " handed him a bubbling, ",
-         "Adjective 1",
-         " concoction. After drinking it, Grumbly started ",
-         "Verb -ing",
-         " uncontrollably, turning his grump into a series of hilarious, uncharacteristic dance moves.\n\nIn the end, Grumbly's efforts to regain his grumpiness only led him to become the heart and soul of Christmas in ",
-         "Town 1",
-         ". He was no longer Grumbly the Grinch, but Groovy the Grinch, bringing laughter and joy to all. His transformation became a legendary tale in ",
-         "Town 1",
-         ", a reminder that even the sourest disposition can be sweetened by the magic of Christmas cheer.\n"
-      ],
-      "prompts":[
-         {
-            "Town 1":[
-               1,
-               21,
-               23
-            ]
-         },
-         {
-            "Verb -ing":[
-               3
-            ]
-         },
-         {
-            "Adjective":[
-               5
-            ]
-         },
-         {
-            "Verb":[
-               7
-            ]
-         },
-         {
-            "Animal":[
-               9
-            ]
-         },
-         {
-            "Name 1":[
-               11,
-               15
-            ]
-         },
-         {
-            "Adjective":[
-               13
-            ]
-         },
-         {
-            "Adjective 1":[
-               17
-            ]
-         },
-         {
-            "Verb -ing":[
-               19
-            ]
-         }
-      ],
-      "words":[
-         
-      ],
-      "pack":"christmas_pack",
-      "avatarID":"13",
-      "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "name":"The Unexpected Christmas Guest",
@@ -1046,7 +793,8 @@
       "pack":"christmas_pack",
       "avatarID":"13",
       "published":true,
-      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "playable":true
    },
    {
       "official":true,

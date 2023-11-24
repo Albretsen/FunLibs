@@ -334,6 +334,10 @@ export default class LibManager {
         return lib;
     }
 
+    static getLibsByPack(pack) {
+        return LibManager.localLibs.filter(item => item.pack === pack);
+    }
+
     /**
      * 
      * @param {All libs, stories and your libs in a JSON format. To be converted to a JS object with Lib objects} json 

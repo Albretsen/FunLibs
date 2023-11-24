@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import Buttons from "../components/Buttons";
 import i18n from "../scripts/i18n";
+import ListManager from "../components/ListManager";
 
 export default function PackScreen() {
+    const [pack, setPack] = useState("christmas_pack");
+
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.standardHeight, globalStyles.containerWhitespacePadding]}>
@@ -38,6 +41,7 @@ export default function PackScreen() {
                                 icon: "sports-esports",
                                 iconColor: "#6294C9",
                                 onPress: () => {
+                                    setPack("gaming_pack");
                                 }
                             },
                             {
@@ -45,6 +49,7 @@ export default function PackScreen() {
                                 icon: "pets",
                                 iconColor: "#6294C9",
                                 onPress: () => {
+                                    setPack("animals_pack");
                                 }
                             },
                             {
@@ -52,6 +57,7 @@ export default function PackScreen() {
                                 icon: "favorite",
                                 iconColor: "#6294C9",
                                 onPress: () => {
+                                    setPack("romance_pack");
                                 }
                             },
                             ]
@@ -62,6 +68,7 @@ export default function PackScreen() {
                         sideScroll={true}
                     />
                 </View>
+                <ListManager showPreview={true} pack={pack}></ListManager>
             </View>
         </View>
     )

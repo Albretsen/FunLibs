@@ -5,9 +5,10 @@ import ListItem from './ListItem';
 import _ from 'lodash';
 import { ActivityIndicator } from "react-native-paper";
 import i18n from '../scripts/i18n';
+import LibManager from '../scripts/lib_manager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview } = props;
+    let { filterOptions, paddingBottom, showPreview, pack } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ const ListManager = (props) => {
         setLoading(true);
         try {
             if (newFetch) setData([]);
-            const result = await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc);
+            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : {data: LibManager.getLibsByPack(pack)};
             if (!result.data) throw error;
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
@@ -31,17 +32,17 @@ const ListManager = (props) => {
             setLastVisibleDoc(result.lastDocument);
             setLoading(false);
         } catch (error) {
-            console.error(error);
+            console.log(error);
             setLoading(false);
             setData([]);
         } finally {
             setRefreshing(false);
         }
-    }, [filterOptions, lastVisibleDoc]);
+    }, [pack, filterOptions, lastVisibleDoc]);
 
     useEffect(() => {
         fetchData();
-    }, [filterOptions]);
+    }, [pack, filterOptions]);
 
     const handleRefresh = () => {
         fetchData();
