@@ -1,5 +1,1054 @@
 [
    {
+      "name":"The Gift Mix-up",
+      "id":"ls3tm",
+      "text":[
+         "On the chilly Christmas Eve of ",
+         "Year",
+         ", the air in ",
+         "Town 1",
+         " was filled with excitement and the sweet aroma of gingerbread. Santa, however, was in a bit of a hurry. With a mix-up in his magical list, gifts were about to land in the most unexpected places!\n\n",
+         "Name 1",
+         ", an ",
+         "Occupation",
+         ", woke up to find a peculiar package under their tree. Instead of the usual tools, there lay a ",
+         "Noun 1",
+         " meant for an ",
+         "Occupation 2",
+         " from the next town over. Surprised but amused, ",
+         "Name 1",
+         " decided to make the best of it and spent the day learning about ",
+         "Noun 1",
+         ".\n\nMeanwhile, at the edge of ",
+         "Town 1",
+         ", little ",
+         "Name 2",
+         ", who dreamed of becoming an ",
+         "Occupation 3",
+         ", discovered a ",
+         "Noun 2",
+         " under their Christmas tree. It was clearly intended for the town's famous ",
+         "Occupation 4",
+         ", this gift made ",
+         "Name 2",
+         " very ",
+         "Emotion",
+         ".\n\nAs the day went on, stories of the gift mix-up spread throughout ",
+         "Town 1",
+         ". The ",
+         "Adjective",
+         " baker found a set of ",
+         "Noun 1",
+         " meant for the ",
+         "Occupation 2",
+         ", and the ",
+         "Adjective",
+         " librarian was puzzled by the ",
+         "Noun 4",
+         " suited for a ",
+         "Occupation 5",
+         ".\n\nIn the end, the townspeople of ",
+         "Town 1",
+         " gathered in the main square, each holding their mismatched gifts. They shared stories, swapped presents, and enjoyed an ",
+         "Adjective",
+         " Christmas together, learning about each other's lives and dreams.\n\nAnd on the North Pole, Santa chuckled to himself, knowing that sometimes, a little mix-up can bring a whole lot of joy."
+      ],
+      "prompts":[
+         {
+            "Year":[
+               1
+            ]
+         },
+         {
+            "Town 1":[
+               3,
+               17,
+               31,
+               45
+            ]
+         },
+         {
+            "Name 1":[
+               5,
+               13
+            ]
+         },
+         {
+            "Occupation":[
+               7
+            ]
+         },
+         {
+            "Noun 1":[
+               9,
+               15,
+               35
+            ]
+         },
+         {
+            "Occupation 2":[
+               11,
+               37
+            ]
+         },
+         {
+            "Name 2":[
+               19,
+               27
+            ]
+         },
+         {
+            "Occupation 3":[
+               21
+            ]
+         },
+         {
+            "Noun 2":[
+               23
+            ]
+         },
+         {
+            "Occupation 4":[
+               25
+            ]
+         },
+         {
+            "Emotion":[
+               29
+            ]
+         },
+         {
+            "Adjective":[
+               33
+            ]
+         },
+         {
+            "Adjective":[
+               39
+            ]
+         },
+         {
+            "Noun 4":[
+               41
+            ]
+         },
+         {
+            "Occupation 5":[
+               43
+            ]
+         },
+         {
+            "Adjective":[
+               47
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Mischievous Christmas Elf",
+      "id":"77291",
+      "text":[
+         "In the snowy town of ",
+         "Town 1",
+         ", a notorious Christmas elf named ",
+         "Name 1",
+         " was known for his ",
+         "Adjective 1",
+         " pranks. This year, he decided to visit the ",
+         "Adjective 2",
+         " home of the ",
+         "Surname 1",
+         " family for a bit of holiday chaos.\n\nAs Christmas Eve approached, the ",
+         "Surname 1",
+         " family was busy with their usual traditions. Little did they know, ",
+         "Name 1",
+         " had sneaked into their home with a plan to “improve” their festive preparations.\n\nFirst, ",
+         "Name 1",
+         " found the family's Christmas tree. With a mischievous grin, he ",
+         "Verb -ed 1",
+         " with the tree decorations, making them ",
+         "Adjective 3",
+         ". The family cat, ",
+         "Name 2",
+         ", watched in amazement as the ornaments began to ",
+         "Verb -ed 1",
+         " around.\n\nNext, the elf set his sights on the kitchen, where Mrs. ",
+         "Surname 1",
+         " was baking her famous Christmas ",
+         "Dish 1",
+         ". With a snap of his fingers, ",
+         "Name 1",
+         " turned the ",
+         "Dish 1",
+         " into ",
+         "Noun 8",
+         " shapes, leaving Mrs. ",
+         "Surname 1",
+         " both baffled and amused.\n\nThe children, ",
+         "Name 3",
+         " and ",
+         "Name 4",
+         ", discovered ",
+         "Name 1",
+         " in the act of stuffing the stockings with ",
+         "Noun 2",
+         "s and ",
+         "Noun 3",
+         "s. They couldn't help but join in the laughter as their stockings bulged with the absurd contents.\n\nAs the night progressed, the ",
+         "Surname 1",
+         " family found themselves enjoying the elf's ",
+         "Adjective 5",
+         " pranks. They danced around the Christmas tree, marveled at the bizarre ",
+         "Noun 1",
+         ", and played with the ",
+         "Noun 2",
+         "s and ",
+         "Noun 3",
+         "s from their stockings.\n\nWhen it was time for ",
+         "Name 1",
+         " to leave, he winked and promised to return next year with new tricks up his sleeve. The ",
+         "Surname 1",
+         " family, now fans of the elf's antics, looked forward to his future visits with eager anticipation. Christmas has never been so unpredictably fun!"
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1
+            ]
+         },
+         {
+            "Name 1":[
+               3,
+               13,
+               15,
+               29,
+               41,
+               57
+            ]
+         },
+         {
+            "Adjective 1":[
+               5
+            ]
+         },
+         {
+            "Adjective 2":[
+               7
+            ]
+         },
+         {
+            "Surname 1":[
+               9,
+               11,
+               25,
+               35,
+               47,
+               59
+            ]
+         },
+         {
+            "Verb -ed 1":[
+               17,
+               23
+            ]
+         },
+         {
+            "Adjective 3":[
+               19
+            ]
+         },
+         {
+            "Name 2":[
+               21
+            ]
+         },
+         {
+            "Dish 1":[
+               27,
+               31
+            ]
+         },
+         {
+            "Noun 8":[
+               33
+            ]
+         },
+         {
+            "Name 3":[
+               37
+            ]
+         },
+         {
+            "Name 4":[
+               39
+            ]
+         },
+         {
+            "Noun 2":[
+               43,
+               53
+            ]
+         },
+         {
+            "Noun 3":[
+               45,
+               55
+            ]
+         },
+         {
+            "Adjective 5":[
+               49
+            ]
+         },
+         {
+            "Noun 1":[
+               51
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Mischievous Christmas Elf",
+      "id":"77291",
+      "text":[
+         "In the snowy town of ",
+         "Town 1",
+         ", a notorious Christmas elf named ",
+         "Name 1",
+         " was known for his ",
+         "Adjective 1",
+         " pranks. This year, he decided to visit the ",
+         "Adjective 2",
+         " home of the ",
+         "Surname 1",
+         " family for a bit of holiday chaos.\n\nAs Christmas Eve approached, the ",
+         "Surname 1",
+         " family was busy with their usual traditions. Little did they know, ",
+         "Name 1",
+         " had sneaked into their home with a plan to “improve” their festive preparations.\n\nFirst, ",
+         "Name 1",
+         " found the family's Christmas tree. With a mischievous grin, he ",
+         "Verb -ed 1",
+         " with the tree decorations, making them ",
+         "Adjective 3",
+         ". The family cat, ",
+         "Name 2",
+         ", watched in amazement as the ornaments began to ",
+         "Verb -ed 1",
+         " around.\n\nNext, the elf set his sights on the kitchen, where Mrs. ",
+         "Surname 1",
+         " was baking her famous Christmas ",
+         "Dish 1",
+         ". With a snap of his fingers, ",
+         "Name 1",
+         " turned the ",
+         "Dish 1",
+         " into ",
+         "Noun 8",
+         " shapes, leaving Mrs. ",
+         "Surname 1",
+         " both baffled and amused.\n\nThe children, ",
+         "Name 3",
+         " and ",
+         "Name 4",
+         ", discovered ",
+         "Name 1",
+         " in the act of stuffing the stockings with ",
+         "Noun 2",
+         "s and ",
+         "Noun 3",
+         "s. They couldn't help but join in the laughter as their stockings bulged with the absurd contents.\n\nAs the night progressed, the ",
+         "Surname 1",
+         " family found themselves enjoying the elf's ",
+         "Adjective 5",
+         " pranks. They danced around the Christmas tree, marveled at the bizarre ",
+         "Noun 1",
+         ", and played with the ",
+         "Noun 2",
+         "s and ",
+         "Noun 3",
+         "s from their stockings.\n\nWhen it was time for ",
+         "Name 1",
+         " to leave, he winked and promised to return next year with new tricks up his sleeve. The ",
+         "Surname 1",
+         " family, now fans of the elf's antics, looked forward to his future visits with eager anticipation. Christmas has never been so unpredictably fun!"
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1
+            ]
+         },
+         {
+            "Name 1":[
+               3,
+               13,
+               15,
+               29,
+               41,
+               57
+            ]
+         },
+         {
+            "Adjective 1":[
+               5
+            ]
+         },
+         {
+            "Adjective 2":[
+               7
+            ]
+         },
+         {
+            "Surname 1":[
+               9,
+               11,
+               25,
+               35,
+               47,
+               59
+            ]
+         },
+         {
+            "Verb -ed 1":[
+               17,
+               23
+            ]
+         },
+         {
+            "Adjective 3":[
+               19
+            ]
+         },
+         {
+            "Name 2":[
+               21
+            ]
+         },
+         {
+            "Dish 1":[
+               27,
+               31
+            ]
+         },
+         {
+            "Noun 8":[
+               33
+            ]
+         },
+         {
+            "Name 3":[
+               37
+            ]
+         },
+         {
+            "Name 4":[
+               39
+            ]
+         },
+         {
+            "Noun 2":[
+               43,
+               53
+            ]
+         },
+         {
+            "Noun 3":[
+               45,
+               55
+            ]
+         },
+         {
+            "Adjective 5":[
+               49
+            ]
+         },
+         {
+            "Noun 1":[
+               51
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Jingle Bells",
+      "id":"byooy",
+      "text":[
+         "Dashing through the ",
+         "Noun 1",
+         ",\nIn a one-",
+         "Noun 2",
+         " open sleigh,\nO'er the ",
+         "Noun 3",
+         " we go,\n",
+         "Verb -ing",
+         " all the way.\nBells on ",
+         "Noun 4",
+         " ring,\nMaking spirits ",
+         "Adjective",
+         ",\nWhat fun it is to ",
+         "Verb",
+         " and sing\nA sleighing song tonight! Oh,\n\nJingle ",
+         "Noun 5",
+         ", jingle ",
+         "Noun 5",
+         ",\nJingle all the way!\nOh, what fun it is to ",
+         "Verb 1",
+         "\nIn a one-",
+         "Adjective 1",
+         " open sleigh, hey!\nJingle ",
+         "Noun 5",
+         ", jingle ",
+         "Noun 5",
+         ",\nJingle all the way!\nOh, what fun it is to ",
+         "Verb 2",
+         "\nIn a one-",
+         "Adjective 1",
+         " open sleigh.\n\nA day or two ago,\nI thought I'd ",
+         "Verb",
+         " a ride,\nAnd soon Miss ",
+         "Last name",
+         "\nWas seated by my side.\nThe ",
+         "Noun",
+         " was ",
+         "Adjective",
+         " and rank,\nMisfortune seemed his lot,\nWe ran into a snowbank,\nAnd then we got upset! Oh,\n\nJingle ",
+         "Noun 5",
+         ", jingle ",
+         "Noun 5",
+         ",\nJingle all the way!\nOh, what fun it is to ",
+         "Verb 1",
+         "\nIn a one-",
+         "Adjective 1",
+         " open sleigh, hey!\nJingle ",
+         "Noun 5",
+         ", jingle ",
+         "Noun 5",
+         ",\nJingle all the way!\nOh, what fun it is to ",
+         "Verb 2",
+         "\nIn a one-",
+         "Adjective 1",
+         " open sleigh."
+      ],
+      "prompts":[
+         {
+            "Noun 1":[
+               1
+            ]
+         },
+         {
+            "Noun 2":[
+               3
+            ]
+         },
+         {
+            "Noun 3":[
+               5
+            ]
+         },
+         {
+            "Verb -ing":[
+               7
+            ]
+         },
+         {
+            "Noun 4":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               11
+            ]
+         },
+         {
+            "Verb":[
+               13
+            ]
+         },
+         {
+            "Noun 5":[
+               15,
+               17,
+               23,
+               25,
+               39,
+               41,
+               47,
+               49
+            ]
+         },
+         {
+            "Verb 1":[
+               19,
+               43
+            ]
+         },
+         {
+            "Adjective 1":[
+               21,
+               29,
+               45,
+               53
+            ]
+         },
+         {
+            "Verb 2":[
+               27,
+               51
+            ]
+         },
+         {
+            "Verb":[
+               31
+            ]
+         },
+         {
+            "Last name":[
+               33
+            ]
+         },
+         {
+            "Noun":[
+               35
+            ]
+         },
+         {
+            "Adjective":[
+               37
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Santa’s GPS Misadventure",
+      "id":"34v6r",
+      "text":[
+         "On a chilly Christmas Eve at the North Pole, Santa Claus and his helper ",
+         "Name 1",
+         " was gearing up for his annual gift-delivery marathon. This year, he had a special addition: a brand-new GPS system, touted to be the best in the business. \"Let's see how this ",
+         "Adjective 1",
+         " gadget performs,\" Santa mused, his eyes twinkling with curiosity.\n\nAs the sleigh lifted off, guided by the shimmering stars and the new GPS, something peculiar happened. Instead of directing him to the rooftops of ",
+         "Place 1",
+         ", the GPS confidently instructed, \"Turn left at the next cloud.\" Before Santa could react, he found himself hovering above a bustling ",
+         "Occupation 1",
+         " convention. With a hearty laugh, he thought, \"Well, everyone deserves a bit of Christmas cheer!\" and swiftly dropped a few presents. ",
+         "Name 1",
+         " joined the ",
+         "Occupation 1",
+         " convention.\n\nBack on course, Santa was determined to stick to his list. But the GPS had other plans. It led him on a merry chase - from the sandy beaches of ",
+         "Place 2",
+         " to the bustling streets of ",
+         "Place 3",
+         ", where Santa had to move like a ninja to avoid being spotted.\n\nFinally, as dawn approached, Santa completed his deliveries the old-fashioned way, following the stars and his age-old instincts. As he parked his sleigh back at the North Pole, he chuckled to himself, \"Next year, it's back to the map and compass for me!\"\n\nThe elves gathered around, eager to hear about his adventures. Santa, with a mischievous glint in his eye, began recounting his ",
+         "Adjective 2",
+         " night, courtesy of the GPS that had a mind of its own. The North Pole echoed with laughter, ringing in a Christmas morning filled with joy and the promise of many more stories to come."
+      ],
+      "prompts":[
+         {
+            "Name 1":[
+               1,
+               9
+            ]
+         },
+         {
+            "Adjective 1":[
+               3
+            ]
+         },
+         {
+            "Place 1":[
+               5
+            ]
+         },
+         {
+            "Occupation 1":[
+               7,
+               11
+            ]
+         },
+         {
+            "Place 2":[
+               13
+            ]
+         },
+         {
+            "Place 3":[
+               15
+            ]
+         },
+         {
+            "Adjective 2":[
+               17
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Grinch Who Lost his Grump",
+      "id":"tfva5",
+      "text":[
+         "In the chilly village of ",
+         "Town 1",
+         ", there resided a notoriously grumpy creature known as Grumbly the Grinch. One Christmas morning, Grumbly awoke feeling strangely cheerful. Alarmed, he embarked on a quest to reclaim his trademark grumpiness.\n\nFirst, Grumbly tried ",
+         "Verb -ing",
+         " down at the town square, scowling at each festive decoration and twinkling light. But, to his dismay, the ",
+         "Adjective",
+         " children's laughter and holiday spirit only made his smile grow.\n\nFor his second attempt, Grumbly concocted a more extreme plan. He decided to ",
+         "Verb",
+         " atop the highest hill, hoping the cold wind would wipe the smile off his face. But as he reached the peak, he found a group of ",
+         "Animal",
+         "s having a snowball fight. Unable to resist, Grumbly joined in, laughing heartily as he ducked and dodged.\n\nIn his final, most outlandish attempt, Grumbly visited the local wizard, ",
+         "Name 1",
+         ", who was known for his ",
+         "Adjective",
+         " potions. Grumbly demanded a potion to restore his grumpiness. ",
+         "Name 1",
+         " handed him a bubbling, ",
+         "Adjective 1",
+         " concoction. After drinking it, Grumbly started ",
+         "Verb -ing",
+         " uncontrollably, turning his grump into a series of hilarious, uncharacteristic dance moves.\n\nIn the end, Grumbly's efforts to regain his grumpiness only led him to become the heart and soul of Christmas in ",
+         "Town 1",
+         ". He was no longer Grumbly the Grinch, but Groovy the Grinch, bringing laughter and joy to all. His transformation became a legendary tale in ",
+         "Town 1",
+         ", a reminder that even the sourest disposition can be sweetened by the magic of Christmas cheer.\n"
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1,
+               21,
+               23
+            ]
+         },
+         {
+            "Verb -ing":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Verb":[
+               7
+            ]
+         },
+         {
+            "Animal":[
+               9
+            ]
+         },
+         {
+            "Name 1":[
+               11,
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               13
+            ]
+         },
+         {
+            "Adjective 1":[
+               17
+            ]
+         },
+         {
+            "Verb -ing":[
+               19
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Grinch Who Lost his Grump",
+      "id":"tfva5",
+      "text":[
+         "In the chilly village of ",
+         "Town 1",
+         ", there resided a notoriously grumpy creature known as Grumbly the Grinch. One Christmas morning, Grumbly awoke feeling strangely cheerful. Alarmed, he embarked on a quest to reclaim his trademark grumpiness.\n\nFirst, Grumbly tried ",
+         "Verb -ing",
+         " down at the town square, scowling at each festive decoration and twinkling light. But, to his dismay, the ",
+         "Adjective",
+         " children's laughter and holiday spirit only made his smile grow.\n\nFor his second attempt, Grumbly concocted a more extreme plan. He decided to ",
+         "Verb",
+         " atop the highest hill, hoping the cold wind would wipe the smile off his face. But as he reached the peak, he found a group of ",
+         "Animal",
+         "s having a snowball fight. Unable to resist, Grumbly joined in, laughing heartily as he ducked and dodged.\n\nIn his final, most outlandish attempt, Grumbly visited the local wizard, ",
+         "Name 1",
+         ", who was known for his ",
+         "Adjective",
+         " potions. Grumbly demanded a potion to restore his grumpiness. ",
+         "Name 1",
+         " handed him a bubbling, ",
+         "Adjective 1",
+         " concoction. After drinking it, Grumbly started ",
+         "Verb -ing",
+         " uncontrollably, turning his grump into a series of hilarious, uncharacteristic dance moves.\n\nIn the end, Grumbly's efforts to regain his grumpiness only led him to become the heart and soul of Christmas in ",
+         "Town 1",
+         ". He was no longer Grumbly the Grinch, but Groovy the Grinch, bringing laughter and joy to all. His transformation became a legendary tale in ",
+         "Town 1",
+         ", a reminder that even the sourest disposition can be sweetened by the magic of Christmas cheer.\n"
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1,
+               21,
+               23
+            ]
+         },
+         {
+            "Verb -ing":[
+               3
+            ]
+         },
+         {
+            "Adjective":[
+               5
+            ]
+         },
+         {
+            "Verb":[
+               7
+            ]
+         },
+         {
+            "Animal":[
+               9
+            ]
+         },
+         {
+            "Name 1":[
+               11,
+               15
+            ]
+         },
+         {
+            "Adjective":[
+               13
+            ]
+         },
+         {
+            "Adjective 1":[
+               17
+            ]
+         },
+         {
+            "Verb -ing":[
+               19
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"The Unexpected Christmas Guest",
+      "id":"dwrbs",
+      "text":[
+         "It was Christmas Eve in the cozy town of ",
+         "Town 1",
+         ", and the ",
+         "Adjective 1",
+         " ",
+         "Surname 1",
+         " family was bustling with preparations. The Christmas tree stood tall in the living room, covered in ",
+         "Color",
+         " lights and ",
+         "Noun 1",
+         "s.\n\nMrs. ",
+         "Surname 1",
+         ", a renowned ",
+         "Occupation",
+         ", was in the kitchen, making her famous ",
+         "Dish",
+         ", while Mr. ",
+         "Surname 1",
+         " and their two kids, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         ", were decorating the last cookies.\n\nSuddenly, there was a loud knock on the door. The family exchanged puzzled looks; they weren't expecting any visitors. Mr. ",
+         "Surname 1",
+         " cautiously opened the door, only to find Uncle ",
+         "Name 3",
+         ", the family's most ",
+         "Adjective 3",
+         " relative, standing there with a ",
+         "Adjective 4",
+         " grin.\n\n\"I was in the neighborhood and thought I'd surprise you!\" Uncle ",
+         "Name 3",
+         " exclaimed, stepping into the house with his oversized ",
+         "Noun 3",
+         " in tow. The kids cheered, having always enjoyed his ",
+         "Adjective 5",
+         " stories and the ",
+         "Noun 4",
+         "s he would bring as gifts.\n\nThe evening turned into one of laughter and ",
+         "Adjective 6",
+         " tales, as Uncle ",
+         "Name 3",
+         " regaled them with stories from his travels to ",
+         "Place",
+         ". The unexpected visit, though brief, left a lasting impression, making this Christmas one of the most memorable for the ",
+         "Surname 1",
+         " family.\n"
+      ],
+      "prompts":[
+         {
+            "Town 1":[
+               1
+            ]
+         },
+         {
+            "Adjective 1":[
+               3
+            ]
+         },
+         {
+            "Surname 1":[
+               5,
+               11,
+               17,
+               23,
+               45
+            ]
+         },
+         {
+            "Color":[
+               7
+            ]
+         },
+         {
+            "Noun 1":[
+               9
+            ]
+         },
+         {
+            "Occupation":[
+               13
+            ]
+         },
+         {
+            "Dish":[
+               15
+            ]
+         },
+         {
+            "Name 1":[
+               19
+            ]
+         },
+         {
+            "Name 2":[
+               21
+            ]
+         },
+         {
+            "Name 3":[
+               25,
+               31,
+               41
+            ]
+         },
+         {
+            "Adjective 3":[
+               27
+            ]
+         },
+         {
+            "Adjective 4":[
+               29
+            ]
+         },
+         {
+            "Noun 3":[
+               33
+            ]
+         },
+         {
+            "Adjective 5":[
+               35
+            ]
+         },
+         {
+            "Noun 4":[
+               37
+            ]
+         },
+         {
+            "Adjective 6":[
+               39
+            ]
+         },
+         {
+            "Place":[
+               43
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "published":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
       "official":true,
       "likes":7,
       "avatarID":"13",
