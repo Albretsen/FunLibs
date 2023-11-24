@@ -265,7 +265,6 @@ export default function CommentSection(props) {
                                 onContentSizeChange={(e) => {
                                     const newHeight = e.nativeEvent.contentSize.height;
                                     setInputHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)));
-                                    console.log(newHeight)
                                 }}
                             />
                         </View>

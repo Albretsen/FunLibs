@@ -3,8 +3,12 @@ import { View, Text, TouchableOpacity } from "react-native"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FileManager from "../scripts/file_manager";
 
+interface PreviewToggleProps {
+    onStateChange?: (state: boolean) => null
+}
 
-export default function PreviewToggle() {
+export default function PreviewToggle(props: PreviewToggleProps) {
+    const { onStateChange } = props;
     const [showPreview, setShowPreview] = useState(false);
 
     useEffect(() => {
@@ -20,6 +24,9 @@ export default function PreviewToggle() {
         let newPreview = currentPreview !== 'true';
         await FileManager._storeData("previewToggle", newPreview.toString());
         setShowPreview(newPreview);
+        if(onStateChange) {
+            onStateChange(newPreview);
+        }
     }
 
     return (

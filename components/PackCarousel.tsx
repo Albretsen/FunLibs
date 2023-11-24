@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Dimensions, ImageRequireSource } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import BigButton from "./BigButton";
+import PackCard from "./PackCard";
 
 type dataObj = {
     title: string;
@@ -24,18 +24,15 @@ export default function PackCarousel({data}: PackCarouselProps) {
 
     const renderItem = ({ item }: any) => (
         <View>
-            <BigButton
-                label={`${item.title}`}
+            <PackCard
+                title={`${item.title}`}
                 description={item.description}
                 image={item.image}
                 imageHeight={110}
                 imageWidth={110}
                 onPress={item.onPress}
                 width={itemWidth}
-                height={200}
-                flexDirection="row"
                 containerStyle={{width: itemWidth}}
-                usePressable
                 colorStart="white"
                 colorEnd="#E3E5E8"
                 // containerStyle={{width: itemWidth - 10, paddingHorizontal: 20}}

@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -255,11 +255,9 @@ function ListItem(props) {
                     rightComponent={"userActions"}
                     uid={user}
                 />
-                {(
-                    <View style={styles.preview}>
-                        {LibManager.displayPreview(text)}
-                    </View>
-                )}
+                <View style={styles.preview}>
+                    {showPreview ? LibManager.displayPreview(text) : null}
+                </View>
                 <View style={[styles.actionsContainer, {marginTop: 8}]}>
                     <TouchableOpacity onPress={() => playLib(id, type)}>
                         <LinearGradient
@@ -398,6 +396,10 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: "#6294C9",
         lineHeight: 20
+    },
+
+    preview: {
+        minHeight: 14
     }
 })
 

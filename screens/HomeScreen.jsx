@@ -48,26 +48,14 @@ export default function HomeScreen() {
 
                     <View style={[styles.section, {flexDirection: "row"}]}>
                         <BigButton
-                            label={`Official`}
-                            description="Official stories written by the Fun Libs team"
-                            // image={require("../assets/images/girl-with-balloon.png")}
-                            height={110}
-                            imageHeight={48}
-                            imageWidth={48}
+                            label="Official"
+                            description="Stories written by the Fun Libs team"
                             onPress={() => navigation.navigate("Browse")}
-                            containerStyle={{borderStyle: "dotted"}}
-                            usePressable
                         />
                         <BigButton
-                            label={`Community`}
+                            label="Community"
                             description="Stories written by other players"
-                            // image={require("../assets/images/community.png")}
-                            height={110}
-                            imageHeight={48}
-                            imageWidth={48}
                             onPress={() => navigation.navigate("Browse")}
-                            containerStyle={{borderStyle: "dotted"}}
-                            usePressable
                         />
                     </View>
                     <View style={[styles.section]}>
@@ -85,14 +73,14 @@ export default function HomeScreen() {
                 <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
-                            title: 'Romance',
+                            title: 'Romance Pack',
                             description: "Ten high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
                             key: 'item1',
                             image: require("../assets/images/romance.png"),
                             onPress: () => navigation.navigate("Pack")
                         },
                         {
-                            title: 'Gaming',
+                            title: 'Gaming Pack',
                             description: "Gaming!!",
                             key: 'item2',
                             image: require("../assets/images/romance.png"),

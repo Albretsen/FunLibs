@@ -1,27 +1,31 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ImageRequireSource, Image, StyleProp, ImageStyle, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ImageRequireSource, Image, StyleProp, ViewStyle, ImageStyle, StyleSheet } from 'react-native';
+import globalStyles from '../styles/globalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Divider } from '@rneui/themed';
+import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 interface DrawerContentsProps {
     title: string;
     imageSrc?: ImageRequireSource;
     imageStyle?: StyleProp<ImageStyle>
+    containerStyle?: StyleProp<ViewStyle>
     sections: Array<{
         title?: string;
         links: Array<{
             title: string;
             icon?: string;
             iconColor?: string;
+            iconComponent?: React.ReactNode
             textColor?: string;
             onPress: () => void;
         }>;
     }>;
 }
 
-export default function DrawerContents({title, imageSrc, imageStyle, sections}: DrawerContentsProps) {
+export default function DrawerContents({title, imageSrc, imageStyle, containerStyle, sections}: DrawerContentsProps) {
     return(
-        <View>
+        <DrawerScrollView contentContainerStyle={containerStyle}>
             <View style={styles.topSection}>
                 <Text style={styles.text}>{title}</Text>
                 {imageSrc && (
@@ -33,6 +37,7 @@ export default function DrawerContents({title, imageSrc, imageStyle, sections}: 
             </View>
 
             {sections.map((section, index) => (
+            <>
                 <View key={index} style={styles.linkGroup}>
                     <Text style={styles.text}>{section.title}</Text>
                     {section.links.map((link, linksIndex) => (
@@ -41,18 +46,25 @@ export default function DrawerContents({title, imageSrc, imageStyle, sections}: 
                             style={styles.linkSection}
                             onPress={link.onPress}
                         >
-                            <MaterialIcons
-                                style={{ color: link.iconColor ? link.iconColor : "#49454F" }}
-                                name={link.icon ? link.icon : "trip-origin"}
-                                size={20}
-                            />
+                            {link.iconComponent ? (
+                                <>
+                                    {link.iconComponent}
+                                </>
+                            ) : (
+                                <MaterialIcons
+                                    style={{ color: link.iconColor ? link.iconColor : "#49454F" }}
+                                    name={link.icon ? link.icon : "trip-origin"}
+                                    size={20}
+                                />
+                            )}
                             <Text style={[styles.text, link.textColor ? {color: link.textColor} : null]}>{link.title}</Text>
                         </TouchableOpacity>
                     ))}
-                <Divider color="#CAC4D0" style={{ marginBottom: 20 }} />
                 </View>
+                <Divider color="#CAC4D0" style={{ marginBottom: 30, marginTop: 14 }} />
+            </>
             ))}
-        </View>
+        </DrawerScrollView>
     )
 }
 

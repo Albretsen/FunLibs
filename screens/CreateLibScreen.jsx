@@ -597,35 +597,35 @@ export default function CreateLibScreen({ route }) {
                             selection={newCursorPosition}
                             value={libText}
                         />
-                        {/* <TouchableOpacity onPress={() => setShowDialogInfo(true)} style={{flexBasis: 24, paddingTop: 6}}>
-                        
-                            <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
-                        </TouchableOpacity> */}
-                        <Dropdown
-                            anchor={
-                                <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={20} />
-                            }
-                            // anchorStyle={}
-                            containerStyle={{ height: "auto", flexBasis: 24, paddingTop: 10}}
-                            options={[
-                                {
-                                    name: i18n.t('save'),
-                                    onPress: () => {
-                                        saveLib();
-                                    },
-                                }, {
-                                    name: i18n.t('delete'),
-                                    onPress: () => {
-                                        showDeleteConfirmation();
-                                    },
-                                }, {
-                                    name: i18n.t('help'),
-                                    onPress: () => {
-                                        setShowDialogInfo(true);
-                                    }
+                        <View style={{ height: "auto", flexBasis: 24, paddingTop: 10}}>
+                            <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
+                                <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
+                            </TouchableOpacity>
+                            <Dropdown
+                                anchor={
+                                    <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={20} />
                                 }
-                            ]}
-                        />
+                                containerStyle={{marginLeft: 0, alignSelf: "center"}}
+                                options={[
+                                    {
+                                        name: i18n.t('save'),
+                                        onPress: () => {
+                                            saveLib();
+                                        },
+                                    }, {
+                                        name: i18n.t('delete'),
+                                        onPress: () => {
+                                            showDeleteConfirmation();
+                                        },
+                                    }, {
+                                        name: i18n.t('help'),
+                                        onPress: () => {
+                                            setShowDialogInfo(true);
+                                        }
+                                    }
+                                ]}
+                            />
+                        </View>
                     </View>
                     <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
                     <View style={{ flexGrow: 0 }}>
