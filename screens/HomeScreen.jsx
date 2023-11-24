@@ -48,28 +48,14 @@ export default function HomeScreen() {
 
                     <View style={[styles.section, {flexDirection: "row"}]}>
                         <BigButton
-                            label={`Official`}
-                            description="Official stories written by the Fun Libs team"
-                            // image={require("../assets/images/girl-with-balloon.png")}
-                            height={110}
-                            imageHeight={48}
-                            imageWidth={48}
+                            label="Official"
+                            description="Stories written by the Fun Libs team"
                             onPress={() => navigation.navigate("Browse")}
-                            containerStyle={{borderWidth: 0}}
-                            usePressable
-                            colorStart="#638BD5"
-                            colorEnd="#60C195"
                         />
                         <BigButton
-                            label={`Community`}
+                            label="Community"
                             description="Stories written by other players"
-                            // image={require("../assets/images/community.png")}
-                            height={110}
-                            imageHeight={48}
-                            imageWidth={48}
                             onPress={() => navigation.navigate("Browse")}
-                            containerStyle={{borderStyle: "dotted"}}
-                            usePressable
                         />
                     </View>
                     <View style={[styles.section]}>

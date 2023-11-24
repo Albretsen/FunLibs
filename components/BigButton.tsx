@@ -1,91 +1,94 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, Pressable, StyleSheet, ImageRequireSource, StyleProp, ViewStyle } from "react-native";
+import { Text, View, TouchableOpacity, Pressable, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
 
 type BigButtonProps = {
     label: string;
     description?: string;
-    image: ImageRequireSource;
-    imageWidth?: number;
-    imageHeight?: number;
     onPress?: () => void;
     height?: number;
     width?: string | number;
-    flexDirection?: "row" | "column" | "column-reverse" | "row-reverse";
     colorStart?: string;
     colorEnd?: string;
     containerStyle?: StyleProp<ViewStyle>;
-    usePressable?: boolean;
-    smallButton?: boolean
 };
 
-export default function BigButton({label, description, image, imageWidth = 48, imageHeight = 48, onPress, height = 120, width = "auto", flexDirection = "column-reverse", colorStart = "transparent", colorEnd = "transparent", containerStyle, usePressable = false, smallButton = false}: BigButtonProps) {
-
-    let buttonOpacity = 0.2;
-    if (usePressable) {
-        buttonOpacity = 1;
-    }
-
-    // colorStart = "#638BD5"
-    // colorEnd = "#60C195"
+export default function BigButton({label, description, onPress, height = 130, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle}: BigButtonProps) {
 
     return(
-        <TouchableOpacity activeOpacity={buttonOpacity} style={[styles.container]} onPress={onPress}>
+        <Pressable style={[styles.container]} onPress={onPress}>
             <LinearGradient
                 colors={[colorStart, colorEnd]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[styles.background, {height: height, width: width, flexDirection: flexDirection}, containerStyle ? containerStyle : null]}
+                style={[styles.background, {height: height, width: width}, containerStyle ? containerStyle : null]}
             >
                 <View style={styles.section}>
                     <Text style={styles.label}>
                         {label}
                     </Text>
-                    <Text>
+                    <Text style={styles.description}>
                         {description}
                     </Text>
                 </View>
-                {image && (
-                <View style={styles.section}>
-                    <Image
-                        style={[styles.image, {height: imageHeight, width: imageWidth}]}
-                        source={image}
-                    />
+                <View style={styles.bottomSection}>
+                    <TouchableOpacity style={[styles.button]} onPress={onPress}>
+                        <Text style={styles.buttonText}>Browse</Text>
+                        <Feather name="arrow-right-circle" size={24} color="white" />
+                    </TouchableOpacity>
                 </View>
-                )}
             </LinearGradient>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "column",
+        gap: 10
     },
 
     background: {
         borderRadius: 16,
         padding: 10,
-        gap: 6,
-        borderWidth: 4,
-        borderStyle: "solid",
-        borderColor: "#638BD5"
+    },
+
+    topSection: {
+        flexDirection: "row",
+        minHeight: 150
+    },
+
+    bottomSection: {
+        alignItems: "flex-end",
+        alignSelf: "flex-end"
     },
 
     section: {
         flex: 1
     },
 
-    label: {
-        // marginLeft: 15,
-        fontSize: 16,
-        fontWeight: "500",
-        // color: "white",
-        lineHeight: 25
+    button: {
+        flexDirection: "row",
+        gap: 10,
+        padding: 4,
     },
 
-    image: {
-        // flex: 1,
-        alignSelf: "flex-end",
-    }
+    buttonText: {
+        fontSize: 16,
+        color: "white",
+        fontWeight: "600"
+    },
+
+    label: {
+        fontSize: 16,
+        fontWeight: "500",
+        lineHeight: 25,
+        color: "white"
+    },
+
+    description: {
+        color: "white"
+    },
 })
