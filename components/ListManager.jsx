@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { ActivityIndicator } from "react-native-paper";
 import i18n from '../scripts/i18n';
 import LibManager from '../scripts/lib_manager';
+import PackManager from '../scripts/PackManager';
 
 const ListManager = (props) => {
     let { filterOptions, paddingBottom, showPreview, pack } = props;
@@ -24,7 +25,7 @@ const ListManager = (props) => {
         setLoading(true);
         try {
             if (newFetch) setData([]);
-            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : {data: LibManager.getLibsByPack(pack)};
+            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : {data: PackManager.getLibsByPack(pack)};
             if (!result.data) throw error;
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
