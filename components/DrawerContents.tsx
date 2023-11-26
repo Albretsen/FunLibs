@@ -37,7 +37,7 @@ export default function DrawerContents({title, imageSrc, imageStyle, containerSt
             </View>
 
             {sections.map((section, index) => (
-            <View key={index}>
+            <>
                 <View key={index} style={styles.linkGroup}>
                     <Text style={styles.text}>{section.title}</Text>
                     {section.links.map((link, linksIndex) => (
@@ -62,7 +62,7 @@ export default function DrawerContents({title, imageSrc, imageStyle, containerSt
                     ))}
                 </View>
                 <Divider color="#CAC4D0" style={{ marginBottom: 30, marginTop: 14 }} />
-            </View>
+            </>
             ))}
         </DrawerScrollView>
     )

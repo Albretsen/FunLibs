@@ -38,7 +38,7 @@ export default function AppScreenStack() {
 	useEffect(() => {
         // Define the listener
         const authStateListener = (user) => {
-            // Force a re-render by updating the key 
+            // Force a re-render by updating the key
             setKey(Math.random());
         };
 
