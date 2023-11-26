@@ -51,7 +51,7 @@ export default function CommunityLibsScreen() {
                         },
                     ]}
                 />
-                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 30}}>
                     <Dropdown selected={selectedCategory} options={[
                         {
                             name: i18n.t('community_templates'),

@@ -78,8 +78,6 @@ const styles = StyleSheet.create({
 
     label: {
         fontSize: 14,
-        color: 'white',
-        // Avoid whitespace above text
-        lineHeight: 0
+        lineHeight: 14
     }
 })

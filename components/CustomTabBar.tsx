@@ -68,7 +68,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
                         >
                             <MaterialIcons name={iconNames[index]} size={17} color={focused ? "white" : "#4264A2"} />
                         </LinearGradient>
-                        <Text style={{color: "black", textTransform: 'none', fontWeight: "600", fontSize: 14, marginTop: 6}}>{route.name}</Text>
+                        <Text style={{color: "black", textTransform: 'none', fontWeight: "600", fontSize: 14, marginTop: 6, textAlign: "center"}}>{route.name}</Text>
                     </Pressable>
                 </React.Fragment>
             );
