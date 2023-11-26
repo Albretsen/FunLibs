@@ -1,6 +1,7 @@
 import LibManager from "./lib_manager";
 import IAP from "./IAP";
 import { Text, StyleSheet } from "react-native";
+import FileManager from "./file_manager";
 
 class PackManager {
     // JS object to store pack details
@@ -54,6 +55,10 @@ class PackManager {
             }
 
             // If not found in local storage, check the purchases API
+            if (!IAP.userIsSignedIn) { 
+                console.log("Purchase could not be verified locally. User is not signed in, so database verification is not possible.");
+                return false;
+            } 
             return await IAP.verifyPurchase(packId);
         } catch (error) {
             console.error("Error verifying purchase: " + error);

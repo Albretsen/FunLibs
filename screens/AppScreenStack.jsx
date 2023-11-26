@@ -73,7 +73,7 @@ export default function AppScreenStack() {
 	}
 
     return (
-		<Stack.Navigator initialRouteName="Pack">
+		<Stack.Navigator initialRouteName="Home">
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}

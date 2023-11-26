@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import Buttons from "../components/Buttons";
@@ -9,6 +9,21 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function PackScreen() {
     const [pack, setPack] = useState("christmas_pack");
+    const [showBuyButton, setShowBuyButton] = useState(false);
+
+    useEffect(() => {
+        const checkPurchase = async () => {
+            try {
+                const purchaseVerified = await PackManager.verifyPurchase(pack);
+                setShowBuyButton(!purchaseVerified);
+            } catch (error) {
+                console.error("Error verifying purchase:", error);
+                // Optionally, handle the error case (e.g., by showing an error message)
+            }
+        };
+
+        checkPurchase();
+    }, [pack]);
 
     return(
         <View style={[globalStyles.screenStandard]}>
@@ -25,9 +40,11 @@ export default function PackScreen() {
                         source={require("../assets/images/romance.png")}
                     />
                 </View>
-                <TouchableOpacity style={styles.buyButton}>
-                    <Text style={styles.buyButtonText}>Buy Pack $3.99</Text>
-                </TouchableOpacity>
+                {showBuyButton && (
+                    <TouchableOpacity style={styles.buyButton}>
+                        <Text style={styles.buyButtonText}>Buy Pack $3.99</Text>
+                    </TouchableOpacity>
+                )}
                 <ScrollView>
                     <View>
                         <Text style={styles.description}>
