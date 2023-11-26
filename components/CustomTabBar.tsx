@@ -44,7 +44,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
             const iconNames = ["verified", "public"];
 
             return (
-                <React.Fragment key={route.key}>
+                <>
                     {index === 1 && (
                     <LinearGradient
                         colors={activeGradient}
@@ -70,7 +70,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
                         </LinearGradient>
                         <Text style={{color: "black", textTransform: 'none', fontWeight: "600", fontSize: 14, marginTop: 6}}>{route.name}</Text>
                     </Pressable>
-                </React.Fragment>
+                </>
             );
         })}
 
