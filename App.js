@@ -2,6 +2,7 @@
 import React from "react";
 import { StyleSheet, useWindowDimensions, View, Platform, StatusBar } from "react-native";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import LibManager from "./scripts/lib_manager.js";
 import { ToastProvider } from "./components/Toast";
@@ -26,6 +27,8 @@ if (Platform.OS !== "web") {
 }
 
 CompatibilityVerification.RunCompatibilityVerification();
+
+const DrawerNav = createDrawerNavigator();
 
 const getHeaderTitle = (route) => {
   // If the focused route is not found, use the screen"s name
