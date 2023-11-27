@@ -33,7 +33,7 @@ export default function PackCarousel({data}: PackCarouselProps) {
                 onPress={item.onPress}
                 containerStyle={{width: itemWidth}}
                 colorStart="white"
-                colorEnd="#E3E5E8"
+                colorEnd="#95691B"
             />
         </View>
     );

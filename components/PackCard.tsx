@@ -39,7 +39,7 @@ export default function PackCard({title, description, image, imageWidth = 48, im
                         </Text>
                     </View>
                     {image && (
-                        <View style={styles.section}>
+                        <View style={[styles.section, {alignContent: "center"}]}>
                             <Image
                                 style={[styles.image, {height: imageHeight, width: imageWidth}]}
                                 source={image}
@@ -50,7 +50,7 @@ export default function PackCard({title, description, image, imageWidth = 48, im
                 <View style={styles.bottomSection}>
                     <TouchableOpacity style={[styles.button]} onPress={onPress}>
                         <Text style={styles.buttonText}>Check out pack</Text>
-                        <Feather name="arrow-right-circle" size={24} color="#638BD5" />
+                        <Feather name="arrow-right-circle" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
             </LinearGradient>
@@ -67,16 +67,17 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 10,
         gap: 6,
-        borderWidth: 2,
-        borderStyle: "dashed",
-        borderColor: "#638BD5",
+        borderWidth: 1,
+        // borderStyle: "dashed",
+        borderColor: "#95691B",
         height: 216,
         width: "auto"
     },
 
     topSection: {
         flexDirection: "row",
-        minHeight: 150
+        minHeight: 150,
+        alignItems: "center"
     },
 
     bottomSection: {
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
 
     buttonText: {
         fontSize: 16,
-        color: "#638BD5",
+        color: "black",
         fontWeight: "600"
     },
 
@@ -113,7 +114,6 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        // flex: 1,
-        alignSelf: "flex-end",
+
     }
 })

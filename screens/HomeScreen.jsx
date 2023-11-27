@@ -92,9 +92,9 @@ export default function HomeScreen() {
                         },
                         {
                             title: 'Historical Events Pack',
-                            description: "Get ready to immerse yourself in history! The Historical Events pack</Text> is filled with funny takes on famous moments throughout history!",
+                            description: "Get ready to immerse yourself in history! The Historical Events pack is filled with funny takes on famous moments throughout history!",
                             key: 'item3',
-                            image: require("../assets/images/romance.png"),
+                            image: require("../assets/images/historical.png"),
                             onPress: () => {
                                 navigation.navigate("Pack", {packName: "historical"});
                             }
