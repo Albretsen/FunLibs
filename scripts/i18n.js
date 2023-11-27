@@ -1,6 +1,4 @@
-import { I18n } from "i18n-js";
-
-const i18n = new I18n({
+const translations = {
     en: {
         sign_in: "Sign in",
         signing_in: "Signing in",
@@ -336,9 +334,38 @@ const i18n = new I18n({
         "unblock": "Desbloquear",
         "no_blocked_users": "No hay usuarios bloqueados.",
     },
-});
+};
 
-i18n.defaultLocale = "en";
-i18n.locale = "en";
+let currentLocale = "en"; // Default locale
 
+function setLocale(locale) {
+    if (translations[locale]) {
+        currentLocale = locale;
+    } else {
+        console.warn(`Locale '${locale}' is not available.`);
+    }
+}
+
+function t(key) {
+    const keys = key.split('.');
+    let result = translations[currentLocale];
+
+    for (let k of keys) {
+        if (result[k]) {
+            result = result[k];
+        } else {
+            return `Translation not found for '${key}'`;
+        }
+    }
+
+    return result;
+}
+
+// Here's the important change
+const i18n = {
+    t,
+    setLocale
+};
+
+// Export the i18n object
 export default i18n;
