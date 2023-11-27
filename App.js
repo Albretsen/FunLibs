@@ -15,7 +15,6 @@ import { TabProvider } from "./components/TabContext.jsx";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CompatibilityVerification from "./scripts/compatibility_verification.js";
 import { MenuProvider } from 'react-native-popup-menu';
-import DeepLinkHandler from './components/DeepLinkHandler.jsx'
 import Purchases from "react-native-purchases";
 import IAP from "./scripts/IAP.js";
 
@@ -59,11 +58,6 @@ export default function App() {
   const [bannerAdHeight, setBannerAdHeight] = useState(0);
   const windowHeight = useWindowDimensions().height;
 
-  const handleDeepLink = ({ path, queryParams }) => {
-    // Handle the deep link: navigate to the correct screen or perform other actions
-    // console.log('Received deep link:', path, queryParams);
-  };
-
   const ConditionalWrapper = ({ children }) => {
     if (Platform.OS === 'android' || Platform.OS === 'ios') {
       return (
@@ -90,7 +84,6 @@ export default function App() {
   return (
     <ConditionalWrapper>
       <StatusBar barStyle="dark-content" />
-      <DeepLinkHandler onDeepLink={handleDeepLink} />
       <MenuProvider>
         <SafeAreaProvider>
           <Provider>
