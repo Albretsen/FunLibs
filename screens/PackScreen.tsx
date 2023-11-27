@@ -6,9 +6,28 @@ import i18n from "../scripts/i18n";
 import ListManager from "../components/ListManager";
 import PackManager from "../scripts/PackManager";
 import { ScrollView } from "react-native-gesture-handler";
+import { RouteProp } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function PackScreen() {
-    const [pack, setPack] = useState("christmas_pack");
+type PackScreenRouteParams = {
+    packName: string;
+}
+
+type Props = {
+    route: RouteProp<{ params: PackScreenRouteParams }, 'params'>;
+}
+  
+
+export default function PackScreen({ route } : Props) {
+    const { packName } = route.params;
+    console.log(packName)
+    let packData = (PackManager.packs as any)[packName];
+    const [name, setName] = useState(packData.name);
+    const [description, setDescription] = useState(packData.description)
+    const [imageName, setImageName] = useState(packData.image)
+
+    const [pack, setPack] = useState("christmas");
     const [showBuyButton, setShowBuyButton] = useState(false);
 
     useEffect(() => {
@@ -31,13 +50,13 @@ export default function PackScreen() {
                 <View style={styles.titleSection}>
                     <View>
                         <Text style={styles.titleText}>The</Text>
-                        <Text style={[styles.titleText, {fontWeight: "600"}]}>Romance</Text>
+                        <Text style={[styles.titleText, {fontWeight: "600"}]}>{name}</Text>
                         <Text style={styles.titleText}>Pack</Text>
                         <Text style={styles.premiumText}>Premium</Text>
                     </View>
                     <Image
                         style={{ height: 106, width: 102 }}
-                        source={require("../assets/images/romance.png")}
+                        source={require(`../assets/images/${imageName}.png`)}
                     />
                 </View>
                 {showBuyButton && (
@@ -48,45 +67,58 @@ export default function PackScreen() {
                 <ScrollView>
                     <View>
                         <Text style={styles.description}>
-                            Ten <Text style={globalStyles.highlightText}>high quality Libs</Text> about romance, written with love by the Fun Libs Team!
-                            Stories include <Text style={globalStyles.highlightText}>Romeo and Juliet</Text>, <Text style={globalStyles.highlightText}>Twilight</Text> and many more heartwarming stories!
+                            {description}
                         </Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Other packs</Text>
                         <Buttons
-                            buttons={
-                                [{
-                                    label: i18n.t('gaming'),
-                                    icon: "sports-esports",
-                                    iconColor: "#6294C9",
-                                    onPress: () => {
-                                        setPack("gaming_pack");
-                                    }
-                                },
-                                {
-                                    label: i18n.t('animals'),
-                                    icon: "pets",
-                                    iconColor: "#6294C9",
-                                    onPress: () => {
-                                        setPack("animals_pack");
-                                    }
-                                },
+                            buttons={[
+                                // [{
+                                //     label: i18n.t('gaming'),
+                                //     icon: "sports-esports",
+                                //     iconColor: "#6294C9",
+                                //     onPress: () => {
+                                //         setPack("gaming_pack");
+                                //     }
+                                // },
+                                // {
+                                //     label: i18n.t('animals'),
+                                //     icon: "pets",
+                                //     iconColor: "#6294C9",
+                                //     onPress: () => {
+                                //         setPack("animals_pack");
+                                //     }
+                                // },
                                 {
                                     label: i18n.t('romance'),
-                                    icon: "favorite",
-                                    iconColor: "#6294C9",
+                                    iconComponent: <MaterialCommunityIcons name="hand-heart-outline" size={20} color="#6294C9" />,
                                     onPress: () => {
-                                        setPack("romance_pack");
+                                        setPack("romance");
                                     }
                                 },
-                                ]
-                            }
+                                {
+                                    label: i18n.t('christmas'),
+                                    iconComponent: <FontAwesome5 name="candy-cane" size={20} color="#6294C9" />,
+                                    onPress: () => {
+                                        setPack("christmas");
+                                    }
+                                },
+                                {
+                                    label: i18n.t('historical_events'),
+                                    icon: "history-edu",
+                                    iconColor: "#6294C9",
+                                    onPress: () => {
+                                        setPack("historical");
+                                    }
+                                },
+                            ]}
                             buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 2, borderStyle: "dashed", backgroundColor: "white", minWidth: 30, height: 44 }}
                             containerStyle={{ justifyContent: "flex-start" }}
                             labelStyle={{ fontSize: 17, fontWeight: 500 }}
                             sideScroll={true}
                         />
+                        <Text style={styles.title}>{name} libs</Text>
                     </View>
                     <ListManager paddingBottom={25} showPreview={true} pack={pack}></ListManager>
                 </ScrollView>
@@ -126,12 +158,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "#95691B",
         fontWeight: "600",
+        textAlign: "center"
     },
 
     description: {
         fontSize: 14,
         lineHeight: 26,
-        marginVertical: 10,
+        marginBottom: 10,
         color: "#49454F"
     },
 

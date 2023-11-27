@@ -8,7 +8,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 type RootStackParamList = {
     Home: undefined;
     Create: undefined;
-    Pack: undefined
+    Pack: { packName?: string };
     // ... other screens
 };
 
@@ -65,7 +65,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 iconColor: "#95691B",
                                 textColor: "#95691B",
                                 onPress: () => {
-                                    navigation.navigate("Pack")
+                                    navigation.navigate("Pack", {packName: "romance"});
                                     closeDrawer();
                                 }
                             },
@@ -110,7 +110,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 ),
                                 textColor: "#95691B",
                                 onPress: () => {
-                                    navigation.navigate("Pack")
+                                    navigation.navigate("Pack", {packName: "romance"});
                                     closeDrawer();
                                 }
                             },
@@ -121,7 +121,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 ),
                                 textColor: "#95691B",
                                 onPress: () => {
-                                    navigation.navigate("Pack")
+                                    navigation.navigate("Pack", {packName: "christmas"});
                                     closeDrawer();
                                 }
                             },
@@ -131,7 +131,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 iconColor: "#95691B",
                                 textColor: "#95691B",
                                 onPress: () => {
-                                    navigation.navigate("Pack")
+                                    navigation.navigate("Pack", {packName: "historical"});
                                     closeDrawer();
                                 }
                             },

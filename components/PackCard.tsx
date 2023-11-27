@@ -10,15 +10,13 @@ type PackCardProps = {
     imageWidth?: number;
     imageHeight?: number;
     onPress?: () => void;
-    height?: number;
-    width?: string | number;
     colorStart?: string;
     colorEnd?: string;
     containerStyle?: StyleProp<ViewStyle>;
     smallButton?: boolean
 };
 
-export default function PackCard({title, description, image, imageWidth = 48, imageHeight = 48, onPress, height = 216, width = "auto", colorStart = "transparent", colorEnd = "transparent", containerStyle}: PackCardProps) {
+export default function PackCard({title, description, image, imageWidth = 48, imageHeight = 48, onPress, colorStart = "transparent", colorEnd = "transparent", containerStyle}: PackCardProps) {
 
     // colorStart = "#638BD5"
     // colorEnd = "#60C195"
@@ -29,7 +27,7 @@ export default function PackCard({title, description, image, imageWidth = 48, im
                 colors={[colorStart, colorEnd]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[styles.background, {height: height, width: width}, containerStyle ? containerStyle : null]}
+                style={[styles.background, containerStyle ? containerStyle : null]}
             >
                 <View style={styles.topSection}>
                     <View style={[styles.section, {flexBasis: 85}]}>
@@ -72,6 +70,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderStyle: "dashed",
         borderColor: "#638BD5",
+        height: 216,
+        width: "auto"
     },
 
     topSection: {
