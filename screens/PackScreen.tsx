@@ -30,6 +30,18 @@ export default function PackScreen({ route } : Props) {
     const [pack, setPack] = useState("christmas");
     const [showBuyButton, setShowBuyButton] = useState(false);
 
+    type ImageMap = {
+        [key: string]: ReturnType<typeof require>;
+    };
+
+    const imageMap: ImageMap = {
+        'christmas': require('../assets/images/christmas.png'),
+        'historical': require('../assets/images/historical.png'),
+        'romance': require('../assets/images/romance.png'),
+    };
+
+    const imageSource = imageMap[imageName] || require('../assets/images/historical.png');
+
     useEffect(() => {
         const checkPurchase = async () => {
             try {
@@ -56,7 +68,7 @@ export default function PackScreen({ route } : Props) {
                     </View>
                     <Image
                         style={{ height: 106, width: 102 }}
-                        source={require(`../assets/images/${imageName}.png`)}
+                        source={imageSource}
                     />
                 </View>
                 {showBuyButton && (
