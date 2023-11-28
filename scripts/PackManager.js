@@ -1,22 +1,49 @@
+import React from "react";
 import LibManager from "./lib_manager";
 import IAP from "./IAP";
-import { Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import FileManager from "./file_manager";
+import globalStyles from "../styles/globalStyles";
 
 class PackManager {
     // JS object to store pack details
     static packs = {
-        christmas_pack: {
-            name: "Christmas Pack",
-            price: 0
+        christmas: {
+            name: "Christmas",
+            price: 0,
+            image: "christmas",
+            description: (
+                <Text>
+                Get into the festive spirit with our specially curated collection of <Text style={globalStyles.highlightText}>8 magical Christmas Libs</Text>, crafted by the Fun Libs Team!
+                {"\n"}
+                Embrace the holiday cheer with <Text style={globalStyles.highlightText}>Jingle Bells</Text>, <Text style={globalStyles.highlightText}>A Christmas Carol</Text>, and many more Yuletide delights. Each Lib in this pack promises to fill your holidays with laughter, wonder, and an unforgettable touch of Christmas magic.
+                </Text>
+            )
+
         },
-        historic_pack: {
-            name: "Historic Pack",
-            price: 0
+        historical: {
+            name: "Historical",
+            price: 0,
+            image: "historical",
+            description: (
+                <Text>
+                Get ready to immerse yourself in history! <Text style={globalStyles.highlightText}>The Historical Events pack</Text> is filled with funny takes on famous moments throughout history!
+                {"\n"}
+                Dust off the old history book and write libs about the <Text style={globalStyles.highlightText}>sinking of the Titanic, the Boston Tea Party and the Wright Brothers' first flight!</Text>
+                </Text>
+            )
         },
-        romance_pack: {
-            name: "Romance Pack",
-            price: 0
+        romance: {
+            name: "Romance",
+            price: 0,
+            image: "romance",
+            description: (
+                <Text>
+                    Dive into a world of romance with our collection of <Text style={globalStyles.highlightText}>10 heartwarming Libs</Text>, each crafted with passion by the Fun Libs Team!
+                    {"\n"}
+                    Embark on an enchanting journey with classics like <Text style={globalStyles.highlightText}>Romeo and Juliet</Text>, get swept off your feet in the modern twists of <Text style={globalStyles.highlightText}>Twilight</Text>, and discover more thrilling, heart-fluttering adventures.
+                </Text>
+            )
         }
     }
 
@@ -65,18 +92,6 @@ class PackManager {
             return false;
         }
     }
-
-    static styles = StyleSheet.create({
-        title: {
-            // Custom styles for the title
-        },
-        description: {
-            // Custom styles for the description
-        },
-        image: {
-            // Styles for the image
-        }
-    });
 
 }
 

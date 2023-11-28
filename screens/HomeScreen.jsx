@@ -73,19 +73,32 @@ export default function HomeScreen() {
                 <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
-                            title: 'Romance Pack',
-                            description: "Ten high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
+                            title: 'Christmas Pack',
+                            description: "Eight high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
                             key: 'item1',
-                            image: require("../assets/images/romance.png"),
-                            onPress: () => navigation.navigate("Pack")
+                            image: require("../assets/images/christmas.png"),
+                            onPress: () => {
+                                navigation.navigate("Pack", {packName: "christmas"});
+                            }
                         },
                         {
-                            title: 'Gaming Pack',
-                            description: "Gaming!!",
+                            title: 'Romance Pack',
+                            description: "Dive into a world of romance with our collection of 10 heartwarming Libs, each crafted with passion by the Fun Libs Team!",
                             key: 'item2',
                             image: require("../assets/images/romance.png"),
-                            onPress: () => navigation.navigate("Pack")
-                        }
+                            onPress: () => {
+                                navigation.navigate("Pack", {packName: "romance"});
+                            }
+                        },
+                        {
+                            title: 'Historical Events Pack',
+                            description: "Get ready to immerse yourself in history! The Historical Events pack is filled with funny takes on famous moments throughout history!",
+                            key: 'item3',
+                            image: require("../assets/images/historical.png"),
+                            onPress: () => {
+                                navigation.navigate("Pack", {packName: "historical"});
+                            }
+                        },
                     ]}/>
                 </View>
             </ScrollView>

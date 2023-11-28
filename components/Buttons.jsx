@@ -72,16 +72,19 @@ export default function Buttons({ buttons, containerStyle, buttonStyle, labelSty
 						key={index}
 						onPress={button.onPress}
 					>
-						{button.icon ?
-							<MaterialIcons
-								style={[
-									// {marginTop: 3}, // Account for slight icon offset
-									button.iconColor ? {color: button.iconColor} : null
-								]}
-								name={button.icon}
-								size={22}
-							/>
-						: null}
+						{button.iconComponent ? (
+							<>{button.iconComponent}</>
+						) : (
+							button.icon ?
+								<MaterialIcons
+									style={[
+										button.iconColor ? {color: button.iconColor} : null
+									]}
+									name={button.icon}
+									size={22}
+								/>
+							: null
+						)}
 
 						<Text style={[
 							styles.label,
