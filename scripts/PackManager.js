@@ -21,10 +21,10 @@ class PackManager {
             )
 
         },
-        historical: {
-            name: "Historical",
+        historic: {
+            name: "Historic",
             price: 0,
-            image: "historical",
+            image: "historic",
             description: (
                 <Text>
                 Get ready to immerse yourself in history! <Text style={globalStyles.highlightText}>The Historical Events pack</Text> is filled with funny takes on famous moments throughout history!

@@ -28,7 +28,7 @@ export default function PackScreen({ route } : Props) {
     const [imageName, setImageName] = useState(packData.image);
     const [price, setPrice] = useState("");
 
-    const [pack, setPack] = useState("romance");
+    const [pack, setPack] = useState(packName);
     const [showBuyButton, setShowBuyButton] = useState(false);
 
     type ImageMap = {
@@ -37,11 +37,11 @@ export default function PackScreen({ route } : Props) {
 
     const imageMap: ImageMap = {
         'christmas': require('../assets/images/christmas.png'),
-        'historical': require('../assets/images/historical.png'),
+        'historic': require('../assets/images/historic.png'),
         'romance': require('../assets/images/romance.png'),
     };
 
-    const imageSource = imageMap[imageName] || require('../assets/images/historical.png');
+    const imageSource = imageMap[imageName] || require('../assets/images/historic.png');
     
     useEffect(() => {
         const checkPrice = async () => {
@@ -64,6 +64,7 @@ export default function PackScreen({ route } : Props) {
 
         const checkPurchase = async () => {
             try {
+                setShowBuyButton(true);
                 const purchaseVerified = await PackManager.verifyPurchase(pack + "_pack");
                 console.log("Purchase verified: ", purchaseVerified);
                 setShowBuyButton(!purchaseVerified);
@@ -165,7 +166,7 @@ export default function PackScreen({ route } : Props) {
                                     icon: "history-edu",
                                     iconColor: "#6294C9",
                                     onPress: () => {
-                                        setPack("historical");
+                                        setPack("historic");
                                     }
                                 },
                             ]}
@@ -176,7 +177,7 @@ export default function PackScreen({ route } : Props) {
                         />
                         <Text style={styles.title}>{name} libs</Text>
                     </View>
-                    <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={true}></ListManager>
+                    <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>
                 </ScrollView>
             </View>
         </View>

@@ -131,7 +131,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 iconColor: "#95691B",
                                 textColor: "#95691B",
                                 onPress: () => {
-                                    navigation.navigate("Pack", {packName: "historical"});
+                                    navigation.navigate("Pack", {packName: "historic"});
                                     closeDrawer();
                                 }
                             },

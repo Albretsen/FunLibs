@@ -295,6 +295,10 @@ const globalStyles = StyleSheet.create({
         backgroundColor: 'white',
         zIndex: 9999
     },
+
+    lockedOpacity: {
+        opacity: 0.5,
+    }
 })
 
 export default globalStyles;

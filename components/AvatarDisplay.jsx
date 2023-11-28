@@ -7,7 +7,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "./Toast";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color }) {
+export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked }) {
     const ParentTag = onPress ? TouchableOpacity : View;
 
     const showToast = useContext(ToastContext);
@@ -18,7 +18,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
         rightComponent = (
             <Dropdown
                 anchor={
-                    <View style={{marginTop: 10}}>
+                    <View style={[{marginTop: 10}, locked ? globalStyles.lockedOpacity : null]}>
                         <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={16} />
                     </View>
                 }
@@ -51,7 +51,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
         <ParentTag style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, {backgroundColor: color}]}>
                 <Image
-                    style={styles.image}
+                    style={[styles.image, locked ? globalStyles.lockedOpacity : null]}
                     source={FirebaseManager.avatars[avatarID]} 
                 />
             </View>
@@ -60,14 +60,14 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
                     titleComponent
                 ) : (
                     <Text
-                        style={[styles.title, titleStyle ? titleStyle : null]}
+                        style={[styles.title, titleStyle ? titleStyle : null, locked ? globalStyles.lockedOpacity : null]}
                         numberOfLines={2}
                         ellipsizeMode="tail"
                     >
                         {title}
                     </Text>
                 )}
-                <Text style={[styles.text, globalStyles.grayText, textStyle ? textStyle : null]}>
+                <Text style={[styles.text, globalStyles.grayText, textStyle ? textStyle : null, locked ? globalStyles.lockedOpacity : null]}>
                     {text}
                 </Text>
             </View>

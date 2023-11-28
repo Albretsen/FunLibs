@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -237,14 +237,15 @@ function ListItem(props) {
                     {opacity: fadeAnim},
                     globalStyles.containerWhitespaceMargin,
                     globalStyles.containerWhitespace,
+                    // styles.lockedOverlay,
                     {justifyContent: "center", alignSelf: "center", flex: 1}
                 ]}
             >
-                
                 <AvatarDisplay 
                     avatarID={avatarID}
                     title={name}
                     color={color}
+                    locked={locked}
                     text={(
                         <Text>
                             {"by "} 
@@ -255,11 +256,11 @@ function ListItem(props) {
                     rightComponent={"userActions"}
                     uid={user}
                 />
-                <View style={styles.preview}>
+                <View style={[styles.preview, locked ? globalStyles.lockedOpacity : null]}>
                     {showPreview ? LibManager.displayPreview(text) : null}
                 </View>
-                <View style={[styles.actionsContainer, {marginTop: 8}]}>
-                    <TouchableOpacity onPress={() => playLib(id, type)}>
+                <View style={[styles.actionsContainer, {marginTop: 8}, locked ? globalStyles.lockedOpacity : null]}>
+                    <TouchableOpacity disabled={locked} onPress={() => playLib(id, type)}>
                         <LinearGradient
                             colors={["#638BD5", "#60C195"]}
                             start={{ x: 0, y: 0 }}
@@ -271,7 +272,7 @@ function ListItem(props) {
                         </LinearGradient>
                     </TouchableOpacity>
                     {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
-                        <TouchableOpacity style={[styles.action, styles.actionButton]} onPress={edit}>
+                        <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={!locked} onPress={edit}>
                             <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
                             <Text style={styles.actionText}>Edit</Text>
                         </TouchableOpacity>
@@ -289,7 +290,7 @@ function ListItem(props) {
                             <Text style={styles.actionText}>{likes}</Text>
                         </TouchableOpacity>
                     )}
-                    <Pressable style={styles.action} onPress={() => playLib(id, type)}>
+                    <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
                         <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
                     </Pressable>
@@ -399,7 +400,7 @@ const styles = StyleSheet.create({
     },
 
     preview: {
-        minHeight: 14
+        minHeight: 14,
     }
 })
 
