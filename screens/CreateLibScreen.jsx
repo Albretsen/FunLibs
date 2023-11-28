@@ -22,7 +22,8 @@ import AdManager from "../scripts/ad_manager";
 import AvatarDisplay from "../components/AvatarDisplay";
 import Dropdown from "../components/Dropdown";
 import i18n from "../scripts/i18n";
-import { Drawer } from 'hallvardlh-react-native-drawer';
+// import { Drawer } from 'hallvardlh-react-native-drawer';
+import Drawer from "../components/DrawerComponent";
 import DrawerHeader from "../components/DrawerHeader";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 

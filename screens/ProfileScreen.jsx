@@ -11,7 +11,8 @@ import { ToastContext } from "../components/Toast";
 import ListManager from "../components/ListManager";
 import { useNavigation } from "@react-navigation/native";
 import i18n from "../scripts/i18n";
-import { Drawer } from 'hallvardlh-react-native-drawer';
+// import { Drawer } from 'hallvardlh-react-native-drawer';
+import Drawer from "../components/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 export default function ProfileScreen({ route }) {

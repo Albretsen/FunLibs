@@ -21,7 +21,8 @@ import { Ionicons } from '@expo/vector-icons';
 import UnblockScreen from './UnblockScreen';
 import IAPScreen from './IAPScreen';
 import i18n from '../scripts/i18n';
-import { Drawer } from 'hallvardlh-react-native-drawer';
+// import { Drawer } from 'hallvardlh-react-native-drawer';
+import Drawer from "../components/DrawerComponent";
 import globalStyles from '../styles/globalStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
