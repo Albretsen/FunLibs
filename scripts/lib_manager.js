@@ -13,7 +13,7 @@ export default class LibManager {
     static localLibs = []
 
     static async initialize() {
-        await LibManager.loadLibsToMemory();
+        //await LibManager.loadLibsToMemory();
 
         LibManager.localLibs = [...LibManager.localLibs, ...officialLibs];
     }

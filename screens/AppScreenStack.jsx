@@ -49,7 +49,7 @@ export default function AppScreenStack() {
         return () => {
             // You might want to create a method in FirebaseManager to remove listeners
             // For now, this is a mock of what it might look like:
-            FirebaseManager.removeAuthStateListener(authStateListener);
+            // FirebaseManager.removeAuthStateListener(authStateListener);
         };
     }, []);
 

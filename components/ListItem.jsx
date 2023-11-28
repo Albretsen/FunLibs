@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
 
     actionText: {
         fontSize: 15,
-        fontWeight: "600",
+        fontWeight: 600,
         color: "#6294C9",
         lineHeight: 20
     },

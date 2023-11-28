@@ -95,8 +95,6 @@ export default function LibsScreen() {
 		if (filterOptions.category === "official" && filterOptions.playable === true) {
 			console.log("LOADING OFFICAL");
 			localItems = LibManager.localLibs.filter(item => item.official === true);
-			console.log("LibManager.localLibs " + JSON.stringify(LibManager.localLibs));
-			console.log("LOADED: " + JSON.stringify(localItems));
 			try {
 				localItems.sort((a, b) => {
 					const dateA = convertToDate(a.date);
