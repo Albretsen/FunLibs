@@ -32,8 +32,8 @@ export default function PackCarousel({data}: PackCarouselProps) {
                 imageWidth={110}
                 onPress={item.onPress}
                 containerStyle={{width: itemWidth}}
-                colorStart="white"
-                colorEnd="#95691B"
+                colorStart="#638BD5"
+                colorEnd="#60C195"
             />
         </View>
     );
@@ -45,7 +45,7 @@ export default function PackCarousel({data}: PackCarouselProps) {
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
             firstItem={0}
-            autoplay={true}
+            // autoplay={true}
             lockScrollWhileSnapping={true}
             inactiveSlideOpacity={1}
             inactiveSlideScale={1}

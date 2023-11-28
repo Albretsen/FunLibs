@@ -29,11 +29,16 @@ export default function PackCard({title, description, image, imageWidth = 48, im
                 end={{ x: 1, y: 1 }}
                 style={[styles.background, containerStyle ? containerStyle : null]}
             >
+                <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+                    <Text style={styles.title}>
+                        {title}
+                    </Text>
+                    <View style={styles.premiumTextContainer}>
+                        <Text style={styles.premiumText}>Premium</Text>
+                    </View>
+                </View>
                 <View style={styles.topSection}>
                     <View style={[styles.section, {flexBasis: 85}]}>
-                        <Text style={styles.title}>
-                            {title}
-                        </Text>
                         <Text style={styles.description}>
                             {description}
                         </Text>
@@ -50,7 +55,7 @@ export default function PackCard({title, description, image, imageWidth = 48, im
                 <View style={styles.bottomSection}>
                     <TouchableOpacity style={[styles.button]} onPress={onPress}>
                         <Text style={styles.buttonText}>Check out pack</Text>
-                        <Feather name="arrow-right-circle" size={24} color="black" />
+                        <Feather name="arrow-right-circle" size={24} color="#F2F2F2" />
                     </TouchableOpacity>
                 </View>
             </LinearGradient>
@@ -67,7 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 10,
         gap: 6,
-        borderWidth: 1,
+        // borderWidth: 1,
         // borderStyle: "dashed",
         borderColor: "#95691B",
         height: 216,
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
 
     topSection: {
         flexDirection: "row",
-        minHeight: 150,
+        // minHeight: 150,
         alignItems: "center"
     },
 
@@ -92,24 +97,45 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: "row",
         gap: 10,
-        padding: 4,
+        paddingVertical: 4,
+        marginRight: 10,
     },
 
     buttonText: {
         fontSize: 16,
-        color: "black",
-        fontWeight: "600"
+        color: "#F2F2F2",
+        fontWeight: "600",
+        // borderBottomWidth: 1,
+        // borderStyle: "dashed",
+        // borderColor: "white"
     },
 
     title: {
         fontSize: 18,
         fontWeight: "500",
-        lineHeight: 25
+        lineHeight: 25,
+        color: "#F2F2F2"
+    },
+
+    premiumTextContainer: {
+        borderStyle: "dashed",
+        paddingHorizontal: 6,
+        paddingVertical: 3,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "#95691B",
+        borderRadius: 5
+    },
+
+    premiumText: {
+        // Gold!
+        color: "#95691B",
+        fontSize: 12,
     },
 
     description: {
         fontSize: 14,
-        // fontWeight: "500",
+        color: "#F2F2F2",
         lineHeight: 25
     },
 
