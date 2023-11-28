@@ -52,6 +52,34 @@ class IAP {
     }
 
     /**
+     * Retrieves the price of a product based on its identifier.
+     * 
+     * @param {String} productId - The identifier of the product.
+     * @returns {String} - The price of the product as a formatted string.
+     * @throws {Error} - Throws an error if the product is not found or in case of an API failure.
+     */
+    static async getProductPrice(productId) {
+        try {
+            const offerings = await Purchases.getOfferings();
+            if (!offerings || !offerings.current) {
+                throw new Error('No offerings available.');
+            }
+
+            const allPackages = offerings.current.availablePackages;
+            const productPackage = allPackages.find(p => p.product.identifier === productId);
+
+            if (!productPackage) {
+                throw new Error(`Product with ID ${productId} not found.`);
+            }
+
+            return productPackage.product.priceString;
+        } catch (error) {
+            console.log('Error retrieving product price: ' + error);
+            throw error;
+        }
+    }
+
+    /**
      * Fetches product offerings from RevenueCat.
      *
      * @returns {Array} - Array of available packages from the current offerings.

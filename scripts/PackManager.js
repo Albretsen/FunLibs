@@ -48,6 +48,42 @@ class PackManager {
     }
 
     /**
+     * Initiates the purchase process for a pack.
+     * 
+     * @param {string} packId - The identifier of the pack to be purchased.
+     * @returns {Promise<boolean>} - A promise that resolves to `true` if the purchase was successful, `false` otherwise.
+     */
+    static async buyPack(packId) {
+        try {
+            // Fetch the product details for the pack
+            const products = await IAP.fetchProducts();
+
+            // Find the specific package for the packId
+            const packageItem = products.find(p => p.product.identifier === packId);
+
+            if (!packageItem) {
+                console.error(`Pack with ID ${packId} not found in available products.`);
+                return false;
+            }
+
+            // Use the IAP class to make the purchase
+            const purchaseSuccessful = await IAP.purchasePackage(packageItem);
+
+            if (purchaseSuccessful) {
+                // Additional logic can be added here if needed, e.g., updating user's pack access.
+                console.log(`Purchase successful for pack: ${packId}`);
+            } else {
+                console.log(`Purchase failed for pack: ${packId}`);
+            }
+
+            return purchaseSuccessful;
+        } catch (error) {
+            console.error(`Error during the purchase of pack ${packId}: ${error}`);
+            return false;
+        }
+    }
+
+    /**
      * Retrieves a lib by its ID.
      * @param {number} id - The ID of the lib to retrieve.
      * @returns {object} - The retrieved lib object.
@@ -63,6 +99,22 @@ class PackManager {
      */
     static getLibsByPack(packName) {
         return LibManager.getLibsByPack(packName);
+    }
+
+    /**
+     * Retrieves the price of a pack based on its identifier.
+     * 
+     * @param {string} packId - The identifier of the pack.
+     * @returns {Promise<string>} - A promise that resolves to the price of the pack as a formatted string.
+     */
+    static async getPackPrice(packId) {
+        try {
+            // Retrieve the price from the IAP class
+            return await IAP.getProductPrice(packId);
+        } catch (error) {
+            console.error("Error retrieving pack price: " + error);
+            throw error;
+        }
     }
 
     /**

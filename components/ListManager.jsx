@@ -9,7 +9,7 @@ import LibManager from '../scripts/lib_manager';
 import PackManager from '../scripts/PackManager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview, pack } = props;
+    let { filterOptions, paddingBottom, showPreview, pack, locked } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -103,6 +103,7 @@ const ListManager = (props) => {
                     plays={item.plays}
                     comments={item.comments}
                     showPreview={showPreview}
+                    locked={locked}
                 />
             )}
             refreshing={false} // Use the loading state to indicate whether the list is being refreshed
@@ -110,7 +111,7 @@ const ListManager = (props) => {
                 if (listItems.length > 0) updateFilterOptions();
             }}
             onEndReached={_.debounce(() => {
-                if (!loading && data.length > 0 && !endReached) {
+                if (!loading && data.length > 0 && !endReached && !pack) {
                     fetchData(false);
                 }
             }, 200)} // Call the loadListItems function when the end is reached

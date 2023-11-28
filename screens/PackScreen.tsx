@@ -22,12 +22,13 @@ type Props = {
 export default function PackScreen({ route } : Props) {
     const { packName } = route.params;
     console.log(packName)
-    let packData = (PackManager.packs as any)[packName];
+    const [packData, setPackdata] = useState((PackManager.packs as any)[packName]);
     const [name, setName] = useState(packData.name);
     const [description, setDescription] = useState(packData.description)
-    const [imageName, setImageName] = useState(packData.image)
+    const [imageName, setImageName] = useState(packData.image);
+    const [price, setPrice] = useState("");
 
-    const [pack, setPack] = useState("christmas");
+    const [pack, setPack] = useState("romance");
     const [showBuyButton, setShowBuyButton] = useState(false);
 
     type ImageMap = {
@@ -41,11 +42,30 @@ export default function PackScreen({ route } : Props) {
     };
 
     const imageSource = imageMap[imageName] || require('../assets/images/historical.png');
-
+    
     useEffect(() => {
+        const checkPrice = async () => {
+            try {
+                const price = await PackManager.getPackPrice(pack + "_pack");
+                console.log("Price: ", price, "for pack: ", pack + "_pack");
+                setPrice(price);
+            } catch (error) {
+                console.error("Error retrieving price:", error);
+                // Optionally, handle the error case (e.g., by showing an error message)
+            }
+        };
+
+        checkPrice();
+    }, []);
+
+    // Runs whenever the user clicks the "other packs" button
+     useEffect(() => {
+        setPackdata((PackManager.packs as any)[pack]);
+
         const checkPurchase = async () => {
             try {
-                const purchaseVerified = await PackManager.verifyPurchase(pack);
+                const purchaseVerified = await PackManager.verifyPurchase(pack + "_pack");
+                console.log("Purchase verified: ", purchaseVerified);
                 setShowBuyButton(!purchaseVerified);
             } catch (error) {
                 console.error("Error verifying purchase:", error);
@@ -54,7 +74,31 @@ export default function PackScreen({ route } : Props) {
         };
 
         checkPurchase();
-    }, [pack]);
+    }, [pack])
+
+    useEffect(() => {
+        setName(packData.name);
+        setDescription(packData.description);
+        setImageName(packData.image);
+    }, [packData]);
+    
+    let purchasePack = async () => {
+        console.log("Buying pack: ", pack + "_pack");
+        try {
+            const purchaseVerified = await PackManager.verifyPurchase(pack);
+            if(purchaseVerified) {
+                console.log("Purchase already verified");
+                return;
+            }
+            const purchaseSuccessful = await PackManager.buyPack(pack + "_pack");
+            if(purchaseSuccessful) {
+                setShowBuyButton(false);
+            }
+        } catch (error) {
+            console.error("Error buying pack:", error);
+            // Optionally, handle the error case (e.g., by showing an error message)
+        }
+    }
 
     return(
         <View style={[globalStyles.screenStandard]}>
@@ -72,8 +116,8 @@ export default function PackScreen({ route } : Props) {
                     />
                 </View>
                 {showBuyButton && (
-                    <TouchableOpacity style={styles.buyButton}>
-                        <Text style={styles.buyButtonText}>Buy Pack $3.99</Text>
+                    <TouchableOpacity onPress={purchasePack} style={styles.buyButton}>
+                        <Text style={styles.buyButtonText}>Buy Pack {price}</Text>
                     </TouchableOpacity>
                 )}
                 <ScrollView>
@@ -132,7 +176,7 @@ export default function PackScreen({ route } : Props) {
                         />
                         <Text style={styles.title}>{name} libs</Text>
                     </View>
-                    <ListManager paddingBottom={25} showPreview={true} pack={pack}></ListManager>
+                    <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={true}></ListManager>
                 </ScrollView>
             </View>
         </View>

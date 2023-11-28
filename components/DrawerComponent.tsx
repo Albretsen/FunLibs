@@ -129,6 +129,32 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             if (callback) callback();
         });
     };
+
+    const animateDrawer = (visible: boolean, finishCallback?: () => void) => {
+        const targetValue = side === "right"
+        ? (visible ? 0 : drawerWidth)
+        : (visible ? 0 : -drawerWidth);
+      
+        const targetFadeValue = visible ? 1 : 0;
+      
+        Animated.parallel([
+            Animated.timing(slideAnim, {
+                toValue: targetValue,
+                duration: 350,
+                easing: Easing.out(Easing.cubic),
+                useNativeDriver: true
+            }),
+            Animated.timing(fadeAnim, {
+                toValue: targetFadeValue,
+                duration: 350,
+                useNativeDriver: false
+            })
+        ]).start(({ finished }) => {
+            if (finished && finishCallback) {
+                finishCallback();
+            }
+        });
+    };
       
 
     useImperativeHandle(ref, () => ({
