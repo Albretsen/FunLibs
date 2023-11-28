@@ -117,7 +117,7 @@ const globalStyles = StyleSheet.create({
     },
 
     bold: {
-        fontWeight: 500
+        fontWeight: "500"
     },
 
     input: {
@@ -244,7 +244,7 @@ const globalStyles = StyleSheet.create({
     formButtonLabel: {
         alignSelf: "center",
         fontSize: 15,
-        fontWeight: 600,
+        fontWeight: "600",
     },
 
     formBottomText: {
@@ -281,7 +281,7 @@ const globalStyles = StyleSheet.create({
         fontSize: 20,
         textAlign: "left",
         width: "100%",
-        fontWeight: 500
+        fontWeight: "500"
     },
 
     loadingOverlay: {

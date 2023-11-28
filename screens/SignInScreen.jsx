@@ -56,7 +56,7 @@ export default function SignInScreen() {
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, {marginTop: 40, height: Dimensions.get("window").height - 128}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>{i18n.t('sign_in')}</Text>
+                <Text style={{fontSize: 26, fontWeight: "600", marginBottom: 30}}>{i18n.t('sign_in')}</Text>
                 <View style={globalStyles.form}>
                     <TextInput
                         autoCapitalize="none"

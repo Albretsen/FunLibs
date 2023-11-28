@@ -248,7 +248,7 @@ function ListItem(props) {
                     text={(
                         <Text>
                             {"by "} 
-                            <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? {color: "#6294C9", fontWeight: 600} : null}>{username}</Text>
+                            <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? {color: "#6294C9", fontWeight: "600"} : null}>{username}</Text>
                             {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
                         </Text>
                     )}
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 16,
         lineHeight: 34,
-        fontWeight: 400,
+        fontWeight: "400",
         letterSpacing: 0.5
     },
     dialogTitle: {
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
 
     actionText: {
         fontSize: 15,
-        fontWeight: 600,
+        fontWeight: "600",
         color: "#6294C9",
         lineHeight: 20
     },

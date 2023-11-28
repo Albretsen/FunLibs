@@ -134,7 +134,7 @@ export default function NewAccountScreen() {
     return (
         <View style={[globalStyles.headerAccountedHeight, { alignItems: "center", backgroundColor: '#fff' }]}>
             <ScrollView horizontal={false} vertical={true} style={[globalStyles.standardWhitespace, { marginBottom: 90, paddingBottom: 0 }]}>
-                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: "600", marginBottom: 30, alignSelf: "center" }]}>{i18n.t('create_new_account')}</Text>
                 <View style={[globalStyles.form]}>
                     <TextInput
                         autoCapitalize="none"
@@ -197,7 +197,7 @@ export default function NewAccountScreen() {
                             />
                         </TouchableOpacity>
                     </View>
-                    <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: 600, alignSelf: "center" }]}>{i18n.t('select_your_avatar')}</Text>
+                    <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: "600", alignSelf: "center" }]}>{i18n.t('select_your_avatar')}</Text>
                     <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>

@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         color: "#505050",
-        fontWeight: 500,
+        fontWeight: "500",
     },
 
     text: {

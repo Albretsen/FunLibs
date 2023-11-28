@@ -579,7 +579,7 @@ export default function CreateLibScreen({ route }) {
                         rightComponent={(
                             <View style={{ flexDirection: "column", alignItems: "flex-end", flex: 1, justifyContent: "center" }}>
                                 <TouchableOpacity onPress={saveLib}>
-                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: 500, paddingRight: 4}]}>{i18n.t('next')}</Text>
+                                    <Text style={[globalStyles.touchableText, {fontSize: 17, fontWeight: "500", paddingRight: 4}]}>{i18n.t('next')}</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -708,7 +708,7 @@ export default function CreateLibScreen({ route }) {
                             }
                             buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 50 }}
                             containerStyle={{ justifyContent: "flex-start" }}
-                            labelStyle={{ fontSize: 17, fontWeight: 500 }}
+                            labelStyle={{ fontSize: 17, fontWeight: "500" }}
                             sideScroll={true}
                         />
                     </View>

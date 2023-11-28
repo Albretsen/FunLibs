@@ -548,7 +548,7 @@ const styles = StyleSheet.create({
     },
 
     username: {
-        fontWeight: 500,
+        fontWeight: "500",
         color: "#505050"
     },
 

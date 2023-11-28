@@ -19,12 +19,12 @@ export default function HomeScreen() {
                         {FirebaseManager.currentUserData?.firestoreData ? (
                             <View>
                                 <Text style={{fontSize: 22}}>Hey,</Text>
-                                <Text style={{fontSize: 22, fontWeight: 500}}>{FirebaseManager.currentUserData.firestoreData.username}</Text>
+                                <Text style={{fontSize: 22, fontWeight: "500"}}>{FirebaseManager.currentUserData.firestoreData.username}</Text>
                             </View>
                         ) : (
                             <View>
                                 <Text style={{fontSize: 22}}>Welcome to</Text>
-                                <Text style={{fontSize: 22, fontWeight: 500}}>Fun Libs!</Text>
+                                <Text style={{fontSize: 22, fontWeight: "500"}}>Fun Libs!</Text>
                             </View>
                         )}
                         <Image
@@ -60,14 +60,14 @@ export default function HomeScreen() {
                     </View>
                     <View style={[styles.section]}>
                         <View style={styles.titleSection}>
-                            <Text style={{fontSize: 22, fontWeight: 500}}>Featured Today</Text>
+                            <Text style={{fontSize: 22, fontWeight: "500"}}>Featured Today</Text>
                             <TouchableOpacity>
                                 <Text style={globalStyles.touchableText}>View all</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.titleSection}>
-                        <Text style={{fontSize: 22, fontWeight: 500}}>Packs</Text>
+                        <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>
                     </View>
                 </View>
                 <View style={{marginTop: 16}}>

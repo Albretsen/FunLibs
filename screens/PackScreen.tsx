@@ -127,7 +127,7 @@ export default function PackScreen({ route } : Props) {
                             ]}
                             buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 2, borderStyle: "dashed", backgroundColor: "white", minWidth: 30, height: 44 }}
                             containerStyle={{ justifyContent: "flex-start" }}
-                            labelStyle={{ fontSize: 17, fontWeight: 500 }}
+                            labelStyle={{ fontSize: 17, fontWeight: "500" }}
                             sideScroll={true}
                         />
                         <Text style={styles.title}>{name} libs</Text>

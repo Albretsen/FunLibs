@@ -80,7 +80,7 @@ export default function AppScreenStack() {
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
@@ -132,7 +132,7 @@ export default function AppScreenStack() {
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
@@ -184,7 +184,7 @@ export default function AppScreenStack() {
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('lib_packs')}</Text>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('lib_packs')}</Text>
 							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),
@@ -236,7 +236,7 @@ export default function AppScreenStack() {
 				options={{
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={{ marginRight: 8, fontWeight: 600, fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
 							<Icon name="favorite" size={26} color="#6294C9" />
 						</View>
 					),

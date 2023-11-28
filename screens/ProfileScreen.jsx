@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     },
 
     userStatNum: {
-        fontWeight: 500,
+        fontWeight: "500",
         fontSize: 15
     },
 

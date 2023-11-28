@@ -568,7 +568,7 @@ export default function PlayScreen({ route }) {
 								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
 							}]
 						}
-						labelStyle={{ fontWeight: 600 }}
+						labelStyle={{ fontWeight: "600" }}
 					/>
 				</View>
 

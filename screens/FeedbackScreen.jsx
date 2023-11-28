@@ -15,7 +15,7 @@ export default function FeedbackScreen() {
     return(
         <View style={[globalStyles.screenStandard]}>
             <View style={[globalStyles.bigWhitespace, {marginTop: 40}]}>
-                <Text style={{fontSize: 26, fontWeight: 600, marginBottom: 30}}>{i18n.t('feedback')}</Text>
+                <Text style={{fontSize: 26, fontWeight: "600", marginBottom: 30}}>{i18n.t('feedback')}</Text>
                 <View style={globalStyles.form}>
                     <TextInput
                         placeholder={i18n.t('provide_your_feedback_here')}

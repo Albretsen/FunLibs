@@ -24,7 +24,7 @@ export default function DeleteAccountScreen() {
     return(
         <View style={[ {alignItems: "center", backgroundColor: '#fff', height: Dimensions.get("window").height- 64}]}>
             <ScrollView style={[{marginBottom: 40, paddingBottom: 40}]}>
-                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: 600, marginBottom: 10, alignSelf: "center"}]}>{i18n.t('delete_account')}</Text>
+                <Text style={[globalStyles.bigWhitespace, {fontSize: 26, fontWeight: "600", marginBottom: 10, alignSelf: "center"}]}>{i18n.t('delete_account')}</Text>
                 <Text style={[globalStyles.bigWhitespace, {marginBottom: 20}]}>
 				    {i18n.t('this_will_delete_your_account_as_well_as_any_content_you_have_published')}
 			    </Text>
