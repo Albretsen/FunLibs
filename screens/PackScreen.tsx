@@ -9,6 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { RouteProp } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { DialogTrigger } from "../components/Dialog";
 
 type PackScreenRouteParams = {
     packName: string;
@@ -94,12 +95,15 @@ export default function PackScreen({ route } : Props) {
             const purchaseSuccessful = await PackManager.buyPack(pack + "_pack");
             if(purchaseSuccessful) {
                 setShowBuyButton(false);
+                setShowDialogConfirmation(true);
             }
         } catch (error) {
             console.error("Error buying pack:", error);
             // Optionally, handle the error case (e.g., by showing an error message)
         }
     }
+
+    const [showDialogConfirmation, setShowDialogConfirmation] = useState(false);
 
     return(
         <View style={[globalStyles.screenStandard]}>
@@ -177,9 +181,20 @@ export default function PackScreen({ route } : Props) {
                         />
                         <Text style={styles.title}>{name} libs</Text>
                     </View>
-                    <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>
+                    <>
+                        <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>
+                    </>
                 </ScrollView>
             </View>
+            <DialogTrigger
+                id="dialogConfirmation"
+                show={showDialogConfirmation}
+                // onCancel={() => setShowDialogConfirmation(false)}
+                onConfirm={() => setShowDialogConfirmation(false)}
+                cancelLabel=" "
+            >
+                <Text style={{fontSize: 14, fontWeight: "600"}}>Thank you for buying the {name} pack!</Text>
+            </DialogTrigger>
         </View>
     )
 }

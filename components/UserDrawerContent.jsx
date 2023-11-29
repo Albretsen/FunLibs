@@ -8,7 +8,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 		{FirebaseManager.currentUserData.auth && (
 			<DrawerContents 
 				title={
-					`${i18n.t("hey")}, ${FirebaseManager.currentUserData.firestoreData.username}!`
+					`${i18n.t("hey")}, ${FirebaseManager.currentUserData.firestoreData.username ? FirebaseManager.currentUserData.firestoreData.username : null}!`
 				}
 				imageSrc={
 					FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
@@ -34,15 +34,14 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 										closeDrawer();
 									}
 								},
-								{
-									title: "IAP",
-									icon: "monetization-on",
-									onPress: () => {
-										navigation.navigate("IAPScreen");
-										closeDrawer();
-									}
-								}
-
+								// {
+								// 	title: "IAP",
+								// 	icon: "monetization-on",
+								// 	onPress: () => {
+								// 		navigation.navigate("IAPScreen");
+								// 		closeDrawer();
+								// 	}
+								// }
 							]
 						},
 						{

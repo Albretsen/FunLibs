@@ -29,7 +29,7 @@ export default function HomeScreen() {
 
     return(
         <View style={[globalStyles.screenStandard, globalStyles.headerAccountedHeight]}>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{paddingBottom: 10}}>
                 <View style={globalStyles.containerWhitespaceMargin}>
                     <View style={styles.titleSection}>
                         {FirebaseManager.currentUserData?.firestoreData ? (
@@ -65,13 +65,19 @@ export default function HomeScreen() {
                     <View style={[styles.section, {flexDirection: "row"}]}>
                         <BigButton
                             label="Official"
-                            description="Stories written by the Fun Libs team"
-                            onPress={() => navigation.navigate("Browse", { initialTab: "Official" })}
+                            description="Libs written by the Fun Libs team"
+                            onPress={() => { 
+                                navigation.navigate("Home");
+                                navigation.navigate("Browse", { initialTab: "Official" })
+                            }}
                         />
                         <BigButton
                             label="Community"
-                            description="Stories written by other players"
-                            onPress={() => navigation.navigate("Browse", { initialTab: "Community" })}
+                            description="Libs written by other players"
+                            onPress={() => {
+                                navigation.navigate("Home");
+                                navigation.navigate("Browse", { initialTab: "Community" })
+                            }}
                         />
                     </View>
                     <View style={[styles.section]}>
@@ -83,7 +89,7 @@ export default function HomeScreen() {
                                 <Text style={globalStyles.touchableText}>View all</Text>
                             </TouchableOpacity>
                         </View>
-                        <ListManager showPreview={false} filterOptions={{
+                        <ListManager showPreview={false} showLoader={false} filterOptions={{
                             "sortBy": "trending",
                             "category": "All",
                             "dateRange": "allTime",

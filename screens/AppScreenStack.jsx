@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayScreen from "./PlayScreen";
 import HomeScreen from './HomeScreen';
+import ReadScreen from "./ReadScreen";
 import BrowseScreen from "./BrowseScreen";
 import PackScreen from './PackScreen';
 import CreateLibScreen from './CreateLibScreen';
@@ -78,6 +79,58 @@ export default function AppScreenStack() {
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}
+				options={({ route }) => ({
+					headerTitle: () => (
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('fun_libs')}</Text>
+							<Icon name="favorite" size={26} color="#6294C9" />
+						</View>
+					),
+					headerTitleAlign: "center",
+					headerStyle: standardHeaderStyle,
+					headerLeft: () => (
+						<>
+						<TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
+							<Image
+								style={{width: 24, height: 12, marginLeft: 20, tintColor: "#5f6368"}}
+								source={require("../assets/images/icons/hamburger.png")}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={navigationDrawerRef}
+							containerStyle={[globalStyles.standardDrawerLeft, {paddingHorizontal: 0}]}
+							side="left"
+						>
+							<NavigationDrawerContent navigation={navigation} closeDrawer={() => navigationDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
+					),
+					headerRight: () => (
+						<>
+						<TouchableOpacity onPress={() => userDrawerRef.current?.openDrawer()}>
+							<Image
+								key={key}
+								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
+								source={
+									(FirebaseManager.currentUserData?.firestoreData) 
+									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+									: FirebaseManager.avatars["no-avatar-24"]
+								}
+							/>
+						</TouchableOpacity>
+						<Drawer
+							ref={userDrawerRef}
+							containerStyle={globalStyles.standardDrawer}
+						>
+							<UserDrawerContent navigation={navigation} closeDrawer={() => userDrawerRef.current?.closeDrawer()}/>
+						</Drawer>
+						</>
+					),
+				})}
+			/>
+			<Stack.Screen
+				name="Read"
+				component={ReadScreen}
 				options={({ route }) => ({
 					headerTitle: () => (
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>

@@ -36,8 +36,8 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             {
                                 title: i18n.t("home"),
                                 icon: "home",
-                                iconColor: "#638BD5",
-                                textColor: "#638BD5",
+                                // iconColor: "#638BD5",
+                                // textColor: "#638BD5",
                                 onPress: () => { 
                                     navigation.navigate("Home");
                                     closeDrawer();
@@ -75,7 +75,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                         title: i18n.t("my_fun_libs"),
                         links: [
                             {
-                                title: i18n.t("create_a_story"),
+                                title: i18n.t("create_a_lib"),
                                 icon: "edit",
                                 onPress: () => { 
                                     navigation.navigate("Create");
@@ -83,7 +83,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 }
                             },
                             {
-                                title: i18n.t("my_stories"),
+                                title: i18n.t("my_libs"),
                                 icon: "face",
                                 onPress: () => {
                                     // TO DO: navigate with filter option of my stories
@@ -92,10 +92,10 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 }
                             },
                             {
-                                title: i18n.t("read_stories"),
+                                title: i18n.t("read_libs"),
                                 icon: "local-library",
                                 onPress: () => { 
-                                    // Navigation code goes here
+                                    navigation.navigate("Read");
                                     closeDrawer();
                                 }
                             },

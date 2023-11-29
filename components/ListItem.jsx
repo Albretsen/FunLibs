@@ -52,7 +52,7 @@ function ListItem(props) {
             if (playable) {
                 let lib = await LibManager.getLibByID(id, type);
                 if (!lib) {
-                    showToast({ text: "There was an issue loading the template. Please refresh and try again." });
+                    showToast({ text: "There was an issue loading the lib. Please refresh and try again." });
                     return;
                 }
                 navigation.navigate("Play Lib", { libId: id, type: type, lib: lib, key: Math.random().toString() });

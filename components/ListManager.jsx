@@ -7,9 +7,10 @@ import { ActivityIndicator } from "react-native-paper";
 import i18n from '../scripts/i18n';
 import LibManager from '../scripts/lib_manager';
 import PackManager from '../scripts/PackManager';
+import FileManager from '../scripts/file_manager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview, pack, locked } = props;
+    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,9 +26,8 @@ const ListManager = (props) => {
         setLoading(true);
         try {
             if (newFetch) setData([]);
-            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : {data: PackManager.getLibsByPack(pack)};
+            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : (readStories ? {data: JSON.parse(await FileManager._retrieveData("read"))} : {data: PackManager.getLibsByPack(pack)});
             if (!result.data) throw error;
-            console.log(JSON.stringify(result.data));
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
             setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
@@ -64,14 +64,18 @@ const ListManager = (props) => {
 		let activityIndicatorStyle = ((lastVisibleDoc != null) && loading) ? {} : { opacity: 0 };
 
 		return (
-			<View>
-				<ActivityIndicator
-					animating={true}
-					color="#006D40"
-					size="large"
-					style={activityIndicatorStyle}
-				/>
-			</View>
+            <>
+                {showLoader && (
+                <View>
+                    <ActivityIndicator
+                        animating={true}
+                        color="#006D40"
+                        size="large"
+                        style={activityIndicatorStyle}
+                    />
+                </View>
+                )}
+            </>
 		);
 	}
 

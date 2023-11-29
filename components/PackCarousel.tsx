@@ -19,7 +19,7 @@ export default function PackCarousel({data}: PackCarouselProps) {
     const sliderWidth = Dimensions.get('window').width;
     // Width of each individual slide
     // const itemWidth = 170;
-    const itemWidth = sliderWidth - sliderWidth / 6
+    const itemWidth = sliderWidth - sliderWidth / 10
     
 
     const renderItem = ({ item }: any) => (
