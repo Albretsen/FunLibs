@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import { View, ScrollView, Text, Image, StyleSheet } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
@@ -11,6 +12,20 @@ import ListManager from "../components/ListManager";
 export default function HomeScreen() {
 
     const navigation = useNavigation();
+
+    const [randomField, setRandomField] = useState("initialValue");
+
+    useFocusEffect(
+        React.useCallback(() => {
+            // Generate a new random value each time the screen comes into focus
+            const newRandomValue = Math.random().toString(36).substring(2, 15);
+            setRandomField(newRandomValue);
+
+            return () => {
+                // Optional cleanup if needed
+            };
+        }, [])
+    );
 
     return(
         <View style={[globalStyles.screenStandard, globalStyles.headerAccountedHeight]}>
@@ -74,6 +89,7 @@ export default function HomeScreen() {
                             "dateRange": "allTime",
                             "playable": true,
                             "pageSize": 1,
+                            "random": randomField,
                         }}></ListManager>
                     </View>
                     <View style={styles.titleSection}>
