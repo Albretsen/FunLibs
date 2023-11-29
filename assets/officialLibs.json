@@ -3337,6 +3337,291 @@
       "playable":true
    },
    {
+      "name":"A Christmas Carol",
+      "id":"274yw",
+      "text":[
+         "Based on the 1843 novella by Charles Dickens\n\nOnce upon a ",
+         "Adjective",
+         " winter evening in London, ",
+         "Year",
+         ", there lived a miserly old man named ",
+         "Name 1",
+         " Scrooge. His heart was as ",
+         "Adjective",
+         " as the icy winds that swept through the streets. Scrooge, an ",
+         "Occupation",
+         ", despised everything about Christmas, often muttering, \"",
+         "Adjective",
+         " humbug!\"\n\nOn Christmas Eve, as Scrooge sat in his ",
+         "Adjective",
+         " office, an ",
+         "Adjective",
+         " apparition appeared. It was the ghost of his former partner, ",
+         "Name 2",
+         " Marley, bound in ",
+         "Noun",
+         " chains. Marley warned Scrooge of three spirits that would visit him: the Ghosts of Christmas Past, Present, and Yet to Come.\n\nThat night, the first spirit, an ",
+         "Adjective",
+         " figure, showed Scrooge scenes from his past, reminding him of a time when he was more ",
+         "Adjective",
+         ". Next, the Ghost of Christmas Present, a jolly giant clad in ",
+         "Noun",
+         " robes, revealed to Scrooge the joys and hardships of the present, highlighting the struggles of his underpaid clerk, ",
+         "Name 3",
+         " Cratchit, and his ",
+         "Adjective",
+         " son, Tiny ",
+         "Name 4",
+         ".\n\nFinally, the Ghost of Christmas Yet to Come, an ",
+         "Adjective",
+         " specter, confronted Scrooge with a grim future if he did not change his ways. Terrified, Scrooge pledged to embrace the spirit of Christmas and transform his life.\n\nAwakening on Christmas morning, Scrooge was a changed man. He joyfully ",
+         "Verb -ed",
+         " through the streets, spreading ",
+         "Noun",
+         " and kindness. He increased ",
+         "Name 3",
+         "'s salary, assisted the needy, and became like a second father to Tiny ",
+         "Name 4",
+         ", who miraculously ",
+         "Verb -ed",
+         ".\n\nAnd so, Ebenezer Scrooge kept the spirit of Christmas in his heart, always remembering that to be ",
+         "Adjective",
+         " and ",
+         "Adjective",
+         " was the true meaning of the season."
+      ],
+      "prompts":[
+         {
+            "Adjective":[
+               1
+            ]
+         },
+         {
+            "Year":[
+               3
+            ]
+         },
+         {
+            "Name 1":[
+               5
+            ]
+         },
+         {
+            "Adjective":[
+               7
+            ]
+         },
+         {
+            "Occupation":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               11
+            ]
+         },
+         {
+            "Adjective":[
+               13
+            ]
+         },
+         {
+            "Adjective":[
+               15
+            ]
+         },
+         {
+            "Name 2":[
+               17
+            ]
+         },
+         {
+            "Noun":[
+               19
+            ]
+         },
+         {
+            "Adjective":[
+               21
+            ]
+         },
+         {
+            "Adjective":[
+               23
+            ]
+         },
+         {
+            "Noun":[
+               25
+            ]
+         },
+         {
+            "Name 3":[
+               27,
+               39
+            ]
+         },
+         {
+            "Adjective":[
+               29
+            ]
+         },
+         {
+            "Name 4":[
+               31,
+               41
+            ]
+         },
+         {
+            "Adjective":[
+               33
+            ]
+         },
+         {
+            "Verb -ed":[
+               35
+            ]
+         },
+         {
+            "Noun":[
+               37
+            ]
+         },
+         {
+            "Verb -ed":[
+               43
+            ]
+         },
+         {
+            "Adjective":[
+               45
+            ]
+         },
+         {
+            "Adjective":[
+               47
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "username":"The Fun Libs Team",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name":"Rudolph the Red-Nosed Reindeer",
+      "id":"dpdqv",
+      "text":[
+         "Rudolph the red-",
+         "Body part 1",
+         "-ed reindeer\nHad a very ",
+         "Adjective 1",
+         " ",
+         "Body Part 1",
+         "\nAnd if you ever saw it\nYou would even say it glows\nAll of the other ",
+         "Animal plural 1",
+         "\nUsed to ",
+         "Verb",
+         " and call him ",
+         "Adjective",
+         "\nThey never let poor Rudolph\nJoin in any reindeer ",
+         "Verb -ing",
+         " games\n\nThen one ",
+         "Adjective",
+         " Christmas Eve\nSanta came to say,\n\"Rudolph with your ",
+         "Body part 1",
+         " so ",
+         "Adjective 1",
+         ",\nWon't you ",
+         "Verb",
+         " my sleigh tonight?\"\nThen how the ",
+         "Animal plural 1",
+         " ",
+         "Verb -ed",
+         " him\nAs they ",
+         "Verb -ed",
+         " out with glee,\n\"Rudolph the red-",
+         "Body part 1",
+         "-ed reindeer,\nYou'll go down in history!\""
+      ],
+      "prompts":[
+         {
+            "Body part 1":[
+               1,
+               17,
+               29
+            ]
+         },
+         {
+            "Adjective 1":[
+               3,
+               19
+            ]
+         },
+         {
+            "Body Part 1":[
+               5
+            ]
+         },
+         {
+            "Animal plural 1":[
+               7,
+               23
+            ]
+         },
+         {
+            "Verb":[
+               9
+            ]
+         },
+         {
+            "Adjective":[
+               11
+            ]
+         },
+         {
+            "Verb -ing":[
+               13
+            ]
+         },
+         {
+            "Adjective":[
+               15
+            ]
+         },
+         {
+            "Verb":[
+               21
+            ]
+         },
+         {
+            "Verb -ed":[
+               25
+            ]
+         },
+         {
+            "Verb -ed":[
+               27
+            ]
+         }
+      ],
+      "words":[
+         
+      ],
+      "pack":"christmas_pack",
+      "avatarID":"13",
+      "username":"The Fun Libs Team",
+      "published":true,
+      "playable":true,
+      "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
       "name":"The Unexpected Christmas Guest",
       "username":"The Fun Libs Team",
       "id":"dwrbs",
