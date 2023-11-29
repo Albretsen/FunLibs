@@ -542,7 +542,7 @@ export default function LibsScreen() {
 					// padding: 2,
 					// height: 40,
 				}]}>
-					<SegmentedButtons
+					{/*<SegmentedButtons
 						value={playReadValue}
 						onValueChange={playReadToggle}
 						buttons={[
@@ -569,7 +569,7 @@ export default function LibsScreen() {
 								},
 							},
 						]}
-					/>
+					/>*/}
 				</View>
 				<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
 					<Dropdown selected={selectedCategory} options={[

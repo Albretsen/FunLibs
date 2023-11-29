@@ -1477,15 +1477,29 @@ export default class FirebaseManager {
             docIds: undefined,
             sortBy: undefined,
             dateRange: undefined,
-            playable: undefined
+            playable: undefined,
+            pageSize: undefined,
         },
         lastVisibleDoc = null,
-        pageSize = 10
+        pageSize = 10,
+        maxRetries = 3, 
+        retryDelay = 1000 
     ) {
-        if (!isConnected) return this.handleNoInternet();
+        if (filterOptions.pageSize) pageSize = filterOptions.pageSize;
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                if (!isConnected) throw new Error("No internet connection");
 
-        const q = this.buildQuery(collectionName, filterOptions, lastVisibleDoc, pageSize);
-        return await this.fetchData(q);
+                const q = this.buildQuery(collectionName, filterOptions, lastVisibleDoc, pageSize);
+                return await this.fetchData(q);
+            } catch (error) {
+                console.log(`Attempt ${attempt} failed: ${error.message}`);
+                if (attempt === maxRetries) {
+                    return this.handleNoInternet();
+                }
+                await this.delay(retryDelay);
+            }
+        }
     }
 
     static handleNoInternet() {
@@ -1493,6 +1507,10 @@ export default class FirebaseManager {
         return {
             data: "no-internet",
         };
+    }
+
+    static delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     static buildQuery(collectionName, filterOptions, lastVisibleDoc, pageSize) {

@@ -27,6 +27,7 @@ const ListManager = (props) => {
             if (newFetch) setData([]);
             const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : {data: PackManager.getLibsByPack(pack)};
             if (!result.data) throw error;
+            console.log(JSON.stringify(result.data));
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
             setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
@@ -78,7 +79,7 @@ const ListManager = (props) => {
         <FlatList
             data={data}
             style={{paddingBottom: paddingBottom}}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => item.id || String(index)}
             renderItem={({ item, index }) => (
                 <ListItem
                     name={item.name}
@@ -106,7 +107,7 @@ const ListManager = (props) => {
                     locked={locked}
                 />
             )}
-            refreshing={false} // Use the loading state to indicate whether the list is being refreshed
+            refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
             onRefresh={() => { // Function that will be called when the user pulls to refresh
                 if (listItems.length > 0) updateFilterOptions();
             }}

@@ -6,6 +6,7 @@ import BigButton from "../components/BigButton";
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PackCarousel from "../components/PackCarousel";
+import ListManager from "../components/ListManager";
 
 export default function HomeScreen() {
 
@@ -50,21 +51,30 @@ export default function HomeScreen() {
                         <BigButton
                             label="Official"
                             description="Stories written by the Fun Libs team"
-                            onPress={() => navigation.navigate("Browse")}
+                            onPress={() => navigation.navigate("Browse", { initialTab: "Official" })}
                         />
                         <BigButton
                             label="Community"
                             description="Stories written by other players"
-                            onPress={() => navigation.navigate("Browse")}
+                            onPress={() => navigation.navigate("Browse", { initialTab: "Community" })}
                         />
                     </View>
                     <View style={[styles.section]}>
                         <View style={styles.titleSection}>
                             <Text style={{fontSize: 22, fontWeight: "500"}}>Featured Today</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate("Browse", { initialTab: "Community" });
+                            }}>
                                 <Text style={globalStyles.touchableText}>View all</Text>
                             </TouchableOpacity>
                         </View>
+                        <ListManager showPreview={false} filterOptions={{
+                            "sortBy": "trending",
+                            "category": "All",
+                            "dateRange": "allTime",
+                            "playable": true,
+                            "pageSize": 1,
+                        }}></ListManager>
                     </View>
                     <View style={styles.titleSection}>
                         <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>

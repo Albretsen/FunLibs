@@ -85,8 +85,9 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             {
                                 title: i18n.t("my_stories"),
                                 icon: "face",
-                                onPress: () => { 
-                                    // Navigation code goes here
+                                onPress: () => {
+                                    // TO DO: navigate with filter option of my stories
+                                    navigation.navigate("Browse", { initialTab: "Community" });
                                     closeDrawer();
                                 }
                             },
