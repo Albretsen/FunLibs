@@ -120,8 +120,6 @@ class IAP {
 
             // Check if the product is a subscription or consumable
             if (packageItem.product.productType === "AUTO_RENEWABLE_SUBSCRIPTION") {
-                // THIS HEY PRINTS AN EMPTY OBJECT
-                console.log("Hey 1: " + JSON.stringify(customerInfo));
                 // It's a subscription
                 if (this.verifySubscription()) {
                     this.subscription = true;
@@ -133,7 +131,7 @@ class IAP {
                 }
             } else {
                 // It's a consumable or non-consumable product
-                if (this.verifyPurchase(identifier)) {
+                if (await this.verifyPurchase(identifier)) {
                     this.purchases.push(identifier);
                     this.storePurchaseInfoLocally(identifier);
                     this.storePurchaseInfoDatabase(identifier);
