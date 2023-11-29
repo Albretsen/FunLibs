@@ -639,6 +639,7 @@ export default function LibsScreen() {
 							comments={item.comments}
 							showPreview={showPreview}
 							official={item.official}
+							pack={item.pack}
 						/>
 					)}
 					keyExtractor={item => `${item.id}-${item.likes}`}

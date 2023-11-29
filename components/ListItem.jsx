@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -271,7 +271,7 @@ function ListItem(props) {
                         <Text style={[styles.actionText, { color: "white" }]}>Play Lib</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-                {(!official ? <>{(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                {(!official && !pack ? <>{(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
                     <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={!locked} onPress={edit}>
                         <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>Edit</Text>
