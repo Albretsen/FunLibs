@@ -105,6 +105,7 @@ const ListManager = (props) => {
                     comments={item.comments}
                     showPreview={showPreview}
                     locked={locked}
+                    official={item.official}
                 />
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed

@@ -22,12 +22,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
-    let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid: FirebaseManager.localUID;
+    let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid : FirebaseManager.localUID;
 
     const { openDialog } = useDialog();
 
@@ -52,7 +52,7 @@ function ListItem(props) {
             if (playable) {
                 let lib = await LibManager.getLibByID(id, type);
                 if (!lib) {
-                    showToast({text: "There was an issue loading the template. Please refresh and try again."});
+                    showToast({ text: "There was an issue loading the template. Please refresh and try again." });
                     return;
                 }
                 navigation.navigate("Play Lib", { libId: id, type: type, lib: lib, key: Math.random().toString() });
@@ -82,9 +82,9 @@ function ListItem(props) {
                         ),
                         header: {
                             middleComponent: (
-                                <View style={{flex: 1}}>
-                                    <Text style={{fontSize: 18}}>{name}</Text>
-                                    <Text style={{fontSize: 14}}>By {username}</Text>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ fontSize: 18 }}>{name}</Text>
+                                    <Text style={{ fontSize: 14 }}>By {username}</Text>
                                 </View>
                             )
                         }
@@ -104,7 +104,7 @@ function ListItem(props) {
                 }
             }
         });
-    
+
         return unsubscribe;
     }, [navigation, listItemClickTimestamp]);
 
@@ -150,13 +150,13 @@ function ListItem(props) {
     }
 
     const edit = () => {
-		navigation.navigate("Create", {
-			params: {
-				libText: LibManager.display_edit(text, prompts),
-				libNameText: name,
+        navigation.navigate("Create", {
+            params: {
+                libText: LibManager.display_edit(text, prompts),
+                libNameText: name,
                 editID: String(id),
                 item: item,
-			}
+            }
         });
     }
 
@@ -198,7 +198,7 @@ function ListItem(props) {
             setIsUpdating(false);  // Allow further interactions
         }
     };
-    
+
 
     const deleteLib = async () => {
         let result = await FileManager._retrieveData("read");
@@ -211,7 +211,7 @@ function ListItem(props) {
 
         FirebaseManager.RefreshList();
     }
-  
+
     let promptOrText = promptFirst;
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -221,9 +221,9 @@ function ListItem(props) {
             Animated.sequence([
                 Animated.delay(index * 5),
                 Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 400,
-                useNativeDriver: true,
+                    toValue: 1,
+                    duration: 400,
+                    useNativeDriver: true,
                 })
             ]).start();
             isInitialRender.current = false;
@@ -231,65 +231,65 @@ function ListItem(props) {
     }, [index]);
 
     return (
-            <Animated.View
-                style={[
-                    styles.container,
-                    {opacity: fadeAnim},
-                    globalStyles.containerWhitespaceMargin,
-                    globalStyles.containerWhitespace,
-                    // styles.lockedOverlay,
-                    {justifyContent: "center", alignSelf: "center", flex: 1}
-                ]}
-            >
-                <AvatarDisplay 
-                    avatarID={avatarID}
-                    title={name}
-                    color={color}
-                    locked={locked}
-                    text={(
-                        <Text>
-                            {"by "} 
-                            <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? {color: "#6294C9", fontWeight: "600"} : null}>{username}</Text>
-                            {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
-                        </Text>
-                    )}
-                    rightComponent={"userActions"}
-                    uid={user}
-                />
-                <View style={[styles.preview, locked ? globalStyles.lockedOpacity : null]}>
-                    {showPreview ? LibManager.displayPreview(text) : null}
-                </View>
-                <View style={[styles.actionsContainer, {marginTop: 8}, locked ? globalStyles.lockedOpacity : null]}>
-                    <TouchableOpacity disabled={locked} onPress={() => playLib(id, type)}>
-                        <LinearGradient
-                            colors={["#638BD5", "#60C195"]}
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 1 }}
-                            style={styles.actionPlay}
-                        >
-                            <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
-                            <Text style={[styles.actionText, {color: "white"}]}>Play Lib</Text>
-                        </LinearGradient>
+        <Animated.View
+            style={[
+                styles.container,
+                { opacity: fadeAnim },
+                globalStyles.containerWhitespaceMargin,
+                globalStyles.containerWhitespace,
+                // styles.lockedOverlay,
+                { justifyContent: "center", alignSelf: "center", flex: 1 }
+            ]}
+        >
+            <AvatarDisplay
+                avatarID={avatarID}
+                title={name}
+                color={color}
+                locked={locked}
+                text={(
+                    <Text>
+                        {"by "}
+                        <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? { color: "#6294C9", fontWeight: "600" } : null}>{username}</Text>
+                        {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
+                    </Text>
+                )}
+                rightComponent={"userActions"}
+                uid={user}
+            />
+            <View style={[styles.preview, locked ? globalStyles.lockedOpacity : null]}>
+                {showPreview ? LibManager.displayPreview(text) : null}
+            </View>
+            <View style={[styles.actionsContainer, { marginTop: 8 }, locked ? globalStyles.lockedOpacity : null]}>
+                <TouchableOpacity disabled={locked} onPress={() => playLib(id, type)}>
+                    <LinearGradient
+                        colors={["#638BD5", "#60C195"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={styles.actionPlay}
+                    >
+                        <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
+                        <Text style={[styles.actionText, { color: "white" }]}>Play Lib</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+                {(!official ? <>{(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                    <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={!locked} onPress={edit}>
+                        <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
+                        <Text style={styles.actionText}>Edit</Text>
                     </TouchableOpacity>
-                    {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
-                        <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={!locked} onPress={edit}>
-                            <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
-                            <Text style={styles.actionText}>Edit</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity style={[styles.action, styles.actionButton]}>
-                            <LikeButton
-                                style={styles.icon}
-                                filled={isLiked ? true : false}
-                                onPressed={favorite}
-                                disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                                onDisabledPress={() => {
-                                    showToast("You have to be signed in to like a post.");
-                                }}
-                            />
-                            <Text style={styles.actionText}>{likes}</Text>
-                        </TouchableOpacity>
-                    )}
+                ) : (
+                    <TouchableOpacity style={[styles.action, styles.actionButton]}>
+                        <LikeButton
+                            style={styles.icon}
+                            filled={isLiked ? true : false}
+                            onPressed={favorite}
+                            disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                            onDisabledPress={() => {
+                                showToast("You have to be signed in to like a post.");
+                            }}
+                        />
+                        <Text style={styles.actionText}>{likes}</Text>
+                    </TouchableOpacity>
+                )}
                     <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
                         <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
@@ -297,21 +297,21 @@ function ListItem(props) {
                     <View style={styles.action}>
                         <Entypo name="open-book" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>{plays ? plays : 0}</Text>
-                    </View>
-                </View>
-                {showDeleteDialog && (
-                    <Dialog
-                        onCancel={hideDeleteDialogHandler}
-                        onConfirm={() => {
-                            deleteLib();
-                            setShowDeleteDialog(false); // Hide the dialog after deletion
-                        }}
-                    >
-                        <Text style={styles.dialogTitle}>Delete lib</Text>
-                        <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
-                    </Dialog>
-                )}
-            </Animated.View>
+                    </View></> : <></>)}
+            </View>
+            {showDeleteDialog && (
+                <Dialog
+                    onCancel={hideDeleteDialogHandler}
+                    onConfirm={() => {
+                        deleteLib();
+                        setShowDeleteDialog(false); // Hide the dialog after deletion
+                    }}
+                >
+                    <Text style={styles.dialogTitle}>Delete lib</Text>
+                    <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
+                </Dialog>
+            )}
+        </Animated.View>
     );
 }
 
