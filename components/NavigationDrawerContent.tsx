@@ -47,7 +47,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 title: i18n.t("official_stories"),
                                 icon: "verified",
                                 onPress: () => { 
-                                    // Navigation code goes here
+                                    navigation.navigate("Browse", { initialTab: "Official" });
                                     closeDrawer();
                                 }
                             },
@@ -55,7 +55,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 title: i18n.t("community_stories"),
                                 icon: "public",
                                 onPress: () => { 
-                                    // Navigation code goes here
+                                    navigation.navigate("Browse", { initialTab: "Community" });
                                     closeDrawer();
                                 }
                             },

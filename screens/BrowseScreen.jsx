@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/core";
 import CustomTabBar from "../components/CustomTabBar";
 
 export default function BrowseScreen({ route }) {
-    const initialTab = route.params?.initialTab ?? "Browse";
+    const initialTab = route.params?.initialTab ?? "Official";
 
     const { tab } = useTab();
 
@@ -30,7 +30,7 @@ export default function BrowseScreen({ route }) {
 
     return (
         <Tab.Navigator
-            initialRouteName={tab}
+            initialRouteName={initialTab}
             tabBarPosition="bottom"
             tabBar={(props) => <CustomTabBar {...props} />}
             screenOptions={({ route }) => ({
