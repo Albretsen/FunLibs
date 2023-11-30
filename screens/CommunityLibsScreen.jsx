@@ -65,7 +65,7 @@ export default function CommunityLibsScreen({ route }) {
                     ]}
                     initialActiveButtonId={initialSort}
                 />
-                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 30}}>
+                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 35}}>
                     <Dropdown selected={selectedCategory} options={[
                         {
                             name: i18n.t('community_templates'),
