@@ -46,18 +46,18 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
             return (
                 <React.Fragment key={route.key}>
                     {index === 1 && (
-                    <LinearGradient
-                        colors={activeGradient}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={styles.centerButton}
-                    >
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate("Create");
-                        }}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("Create");
+                    }}>
+                        <LinearGradient
+                            colors={activeGradient}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.centerButton}
+                        >
                             <MaterialIcons name="add" size={26} color="white" />
-                        </TouchableOpacity>
-                    </LinearGradient>
+                        </LinearGradient>
+                    </TouchableOpacity>
                     )}
                     <Pressable style={styles.tabContainer} onPress={() => navigation.navigate(route.name)}>
                         <LinearGradient

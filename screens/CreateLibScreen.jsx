@@ -28,9 +28,9 @@ import DrawerHeader from "../components/DrawerHeader";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 export default function CreateLibScreen({ route }) {
-    const [libText, setLibText] = useState(route.params?.libText || "");
-    const [libNameText, setLibNameText] = useState(route.params?.libNameText || "");
-    const [item, setItem] = useState(route.params?.item || undefined);
+    const [libText, setLibText] = useState(route.params?.params?.libText || "");
+    const [libNameText, setLibNameText] = useState(route.params?.params?.libNameText || "");
+    const [item, setItem] = useState(route.params?.params?.item || undefined);
     const [finishedLib, setFinishedLib] = useState(null);
     const showToast = useContext(ToastContext);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
@@ -120,28 +120,27 @@ export default function CreateLibScreen({ route }) {
 
     useEffect(() => {
         // Log the route.params to see the values
-        console.log("route.params:", route.params);
 
         // Check if the parameters exist and then update the state
-        if (route.params?.libText) {
-            setLibText(route.params.libText);
-            setInitialLibText(route.params.libText);
+        if (route.params?.params?.libText) {
+            setLibText(route.params.params.libText);
+            setInitialLibText(route.params.params.libText);
         } else {
             setLibText("");
         }
-        if (route.params?.libNameText) {
-            setLibNameText(route.params.libNameText);
-            setInitialLibNameText(route.params.libNameText);
+        if (route.params?.params?.libNameText) {
+            setLibNameText(route.params.params.libNameText);
+            setInitialLibNameText(route.params.params.libNameText);
         } else {
             setLibNameText("");
         }
-        if (route.params?.editID) {
-            setEditLibID(route.params.editID);
+        if (route.params?.params?.editID) {
+            setEditLibID(route.params.params.editID);
         } else {
             setEditLibID(undefined);
         }
-        if (route.params?.item) {
-            setItem(route.params.item);
+        if (route.params?.params?.item) {
+            setItem(route.params.params.item);
         } else {
             setItem(undefined);
         }
@@ -503,13 +502,14 @@ export default function CreateLibScreen({ route }) {
 
     const finished = (message, refreshOptions) => {
         refreshOptions.sortBy = "newest";
-        FirebaseManager.RefreshList(refreshOptions);
+        //FirebaseManager.RefreshList(refreshOptions);
         // closeDrawer();
         setLibText("");
         setLibNameText("");
         setEditLibID("");
         setItem(undefined);
         showToast({text: message, loading: false});
+        navigation.navigate("Browse", { initialTab: "Community", category: "myContent", refresh: Math.floor(Math.random() * 999) });
     }
 
     const showDeleteConfirmation = () => {
@@ -555,8 +555,9 @@ export default function CreateLibScreen({ route }) {
         setButtonPressed(false);
     };
 
-    const promptButtonsHeight = 70; // OLD Platform.OS == "ios" ? 0 : 70;
-    const dividerHeight = 20; // OLD Platform.OS == "ios" ? 0 : 20;
+    
+    const promptButtonsHeight = Platform.OS == "ios" ? 70 : 0;
+    const dividerHeight = Platform.OS == "ios" ? 20 : 0;
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>

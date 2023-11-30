@@ -28,6 +28,14 @@ export default function CommunityLibsScreen({ route }) {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        async function fetchData() {
+            const storedPreview = await FileManager._retrieveData("previewToggle");
+            setShowPreview(storedPreview === 'true');
+        }
+        fetchData();
+    }, [route.params]);
+
     return (
         <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
 			<View style={[globalStyles.containerWhitespacePadding]}>

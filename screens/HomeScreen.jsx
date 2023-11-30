@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { View, ScrollView, Text, Image, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
 import BigButton from "../components/BigButton";
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from "react-native-gesture-handler";
 import PackCarousel from "../components/PackCarousel";
 import ListManager from "../components/ListManager";
 
@@ -43,14 +42,18 @@ export default function HomeScreen() {
                                 <Text style={{fontSize: 22, fontWeight: "500"}}>Fun Libs!</Text>
                             </View>
                         )}
-                        <Image
-                            style={[{ width: 48, height: 48 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
-                            source={
-                                (FirebaseManager.currentUserData?.firestoreData) 
-                                ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-                                : null
-                            }
-                        />
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
+                        }}>
+                            <Image
+                                style={[{ width: 48, height: 48 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
+                                source={
+                                    (FirebaseManager.currentUserData?.firestoreData) 
+                                    ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
+                                    : null
+                                }
+                            />
+                        </TouchableOpacity>
                     </View>
 
                     {/* <View style={styles.titleSection}>

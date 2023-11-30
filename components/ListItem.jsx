@@ -272,7 +272,7 @@ function ListItem(props) {
                     </LinearGradient>
                 </TouchableOpacity>
                 {(!official && !pack ? <>{(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
-                    <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={!locked} onPress={edit}>
+                    <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={edit}>
                         <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>Edit</Text>
                     </TouchableOpacity>

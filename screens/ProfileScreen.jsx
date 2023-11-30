@@ -260,13 +260,13 @@ export default function ProfileScreen({ route }) {
                             </>
                         )}
                         <Text style={[globalStyles.title, { marginTop: 15 }]}>{i18n.t('templates_by')} {userData.username}</Text>
-                        <ListManager paddingBottom={25} filterOptions={{
-                            "sortBy": "newest",
-                            "dateRange": "allTime",
-                            "playable": true,
-                            "uid": uid,
-                        }}></ListManager>
                     </View>
+                    <ListManager paddingBottom={25} filterOptions={{
+                        "sortBy": "newest",
+                        "dateRange": "allTime",
+                        "playable": true,
+                        "uid": uid,
+                    }}></ListManager>
                 </ScrollView>
             </View>
             <Drawer ref={avatarDrawerRef} containerStyle={{paddingHorizontal: 8, borderBottomLeftRadius: 16, borderTopLeftRadius: 16, paddingVertical: 20}}>
