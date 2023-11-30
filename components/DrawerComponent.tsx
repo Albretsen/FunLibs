@@ -171,6 +171,17 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
         closeDrawer: closeDrawerInternal
     }));
 
+    const interpolatedOpacity = slideAnim.interpolate({
+        inputRange: side === "right" ? [0, drawerWidth] : [-drawerWidth, 0],
+        outputRange: side === "right" ? [1, 0] : [0, 1],
+        extrapolate: 'clamp'
+    });
+      
+    const backdropColor = interpolatedOpacity.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["transparent", "rgba(0, 0, 0, 0.4)"]
+    });
+
     return (
         <Modal
             animationType="none"
@@ -178,7 +189,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             visible={isVisible}
         >
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.4)" }}>
+                <Animated.View style={{ flex: 1, backgroundColor: backdropColor }}>
                     {/* Drawer is contained in a flex view, a mask takes up the remaining space from the drawer.
                     The order of these - reverse or not - are determined by whether the drawer is right- or left aligned */}
                     <View style={{ flex: 1, flexDirection: side == 'right' ? 'row' : 'row-reverse'}}>
@@ -187,19 +198,20 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
                             onHandlerStateChange={onSwipeHandler}
                             onGestureEvent={gestureEvent}
                         >
-                            <View
+                            <Animated.View
                                 style={[{
                                     backgroundColor: backgroundColor,
                                     width: drawerWidth,
+                                    transform: [{ translateX: slideAnim }]
                                 }, containerStyle]}
                             >
                                 <SafeAreaView style={{flex: 1}}>
                                     {children}
                                 </SafeAreaView>
-                            </View>
+                            </Animated.View>
                         </PanGestureHandler>
                     </View>
-                </View>
+                </Animated.View>
             </GestureHandlerRootView>
         </Modal>
     );
