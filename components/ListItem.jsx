@@ -20,6 +20,7 @@ import LikeButton from "./LikeButton";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 function ListItem(props) {
     const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack } = props;
@@ -237,10 +238,12 @@ function ListItem(props) {
                 { opacity: fadeAnim },
                 globalStyles.containerWhitespaceMargin,
                 globalStyles.containerWhitespace,
-                // styles.lockedOverlay,
                 { justifyContent: "center", alignSelf: "center", flex: 1 }
             ]}
         >
+            {locked && (
+                <FontAwesome style={styles.lockedIcon} name="lock" size={70} color="#6294C9" />
+            )}
             <AvatarDisplay
                 avatarID={avatarID}
                 title={name}
@@ -330,6 +333,13 @@ const styles = StyleSheet.create({
 
     textRow: {
         flexDirection: "column",
+    },
+
+    lockedIcon: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: [{ translateX: -15 }, { translateY: -25 }], // Correct offset from its own size
     },
 
     icon: {

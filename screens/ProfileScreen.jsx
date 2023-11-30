@@ -60,8 +60,8 @@ export default function ProfileScreen({ route }) {
     const [editBio, setEditBio] = useState(false);
 
     // Default, min, and max heights for the TextInput
-    const defaultHeight = 30;
-    const minHeight = 30;
+    const defaultHeight = 60;
+    const minHeight = 60;
     const maxHeight = 99999;
 
     const [inputHeight, setInputHeight] = useState(defaultHeight);
@@ -146,7 +146,7 @@ export default function ProfileScreen({ route }) {
                     {editUsername ? 
                         <>
                             <TextInput
-                                style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", width: "100%", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
+                                style={[globalStyles.fontMedium, {color: "#1D1B20", textAlign: "center", borderBottomWidth: 1, borderColor: "#5C9BEB"}]}
                                 placeholder={i18n.t('username')}
                                 value={nameValue}
                                 textAlign="center"

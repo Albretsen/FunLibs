@@ -9,7 +9,7 @@ interface PreviewToggleProps {
 
 export default function PreviewToggle(props: PreviewToggleProps) {
     const { onStateChange } = props;
-    const [showPreview, setShowPreview] = useState(false);
+    const [showPreview, setShowPreview] = useState(true);
 
     useEffect(() => {
         async function fetchData() {

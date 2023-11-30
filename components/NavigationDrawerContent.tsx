@@ -9,7 +9,8 @@ type RootStackParamList = {
     Home: undefined;
     Create: undefined;
     Pack: { packName?: string };
-    // ... other screens
+    Browse: { initialTab?: string, category?: string};
+    Read: undefined;
 };
 
 type NavigationDrawerContentNavigationProp = StackNavigationProp<
