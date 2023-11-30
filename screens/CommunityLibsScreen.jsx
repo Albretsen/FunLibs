@@ -9,10 +9,13 @@ import Dropdown from "../components/Dropdown";
 import PreviewToggle from "../components/PreviewToggle";
 import FileManager from "../scripts/file_manager";
 
-export default function CommunityLibsScreen() {
+export default function CommunityLibsScreen({ route }) {
+    const initialCategory = route.params?.category ?? "all";
+    const initialSort = route.params?.sort ?? "newest";
+    console.log("Initialsort: " + initialSort);
 
-    const [selectedSortBy, setSelectedSortBy] = useState("newest");
-    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [selectedSortBy, setSelectedSortBy] = useState(initialSort);
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
     const [showPreview, setShowPreview] = useState(true);
 
@@ -31,25 +34,28 @@ export default function CommunityLibsScreen() {
                 <SegmentedButtons
                     buttons={[
                         {
+                            id: "newest",
                             label: i18n.t('newest'),
                             onPress: () => {
                                 setSelectedSortBy("newest");
                             },
-                            active: true,
                         },
                         {
+                            id: "likes",
                             label: i18n.t('top'),
                             onPress: () => {
                                 setSelectedSortBy("likes");
                             },
                         },
                         {
+                            id: "trending",
                             label: i18n.t('trending'),
                             onPress: () => {
                                 setSelectedSortBy("trending");
                             },
                         },
                     ]}
+                    initialActiveButtonId={initialSort}
                 />
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 30}}>
                     <Dropdown selected={selectedCategory} options={[

@@ -9,6 +9,8 @@ import CustomTabBar from "../components/CustomTabBar";
 
 export default function BrowseScreen({ route }) {
     const initialTab = route.params?.initialTab ?? "Official";
+    const category = route.params?.category ?? "All";
+    const sort = route.params?.sort ?? "newest";
 
     const { tab } = useTab();
 
@@ -18,10 +20,7 @@ export default function BrowseScreen({ route }) {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', (e) => {
-            if (route.name === "Fun Libs") {
-                // Your code to run when "Fun Libs" tab is navigated to
-                console.log('Navigated to Fun Libs tab');
-            }
+            console.log(route.name);
         });
         
         // Clean up the listener when the component is unmounted
@@ -45,6 +44,7 @@ export default function BrowseScreen({ route }) {
             <Tab.Screen 
                 name="Community"
                 component={CommunityLibsScreen}
+                initialParams={{ category: category, sort: sort }}
             />
         </Tab.Navigator>
     );

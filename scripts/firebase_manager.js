@@ -1540,6 +1540,11 @@ export default class FirebaseManager {
             q = query(q, where("official", "==", true));
         } else {
             q = query(q, where("official", "==", false));
+            if (category === 'myFavorites') {
+                q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
+            } else if (category === 'myContent') {
+                q = query(q, where("user", "==", this.currentUserData.auth.uid));
+            }
         }
         return q;
     }

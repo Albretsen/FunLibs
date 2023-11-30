@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -8,11 +8,27 @@ interface SegmentedButtonsProps {
         label: string;
         id: string;
         onPress: () => void;
-    }>
+    }>;
+    initialActiveButtonId?: string;
 }
 
-export default function SegmentedButtons({buttons}: SegmentedButtonsProps) {
-    const [activeButton, setActiveButton] = useState(0);
+export default function SegmentedButtons({buttons, initialActiveButtonId}: SegmentedButtonsProps) {
+    // Find the index of the button with the provided ID
+    const findInitialActiveButtonIndex = () => {
+        if (initialActiveButtonId) {
+            const initialIndex = buttons.findIndex(button => button.id === initialActiveButtonId);
+            return initialIndex >= 0 ? initialIndex : 0;
+        }
+        return 0;
+    };
+
+    const [activeButton, setActiveButton] = useState(findInitialActiveButtonIndex);
+
+    // Update activeButton if initialActiveButtonId changes
+    useEffect(() => {
+        setActiveButton(findInitialActiveButtonIndex());
+    }, [initialActiveButtonId]);
+
     return(
         <View style={styles.container}>
             {buttons.map((button, index) => {

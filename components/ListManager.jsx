@@ -27,7 +27,8 @@ const ListManager = (props) => {
         try {
             if (newFetch) setData([]);
             const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : (readStories ? {data: JSON.parse(await FileManager._retrieveData("read"))} : {data: PackManager.getLibsByPack(pack)});
-            if (!result.data) throw error;
+            console.log(result);
+            if (!result.data || result.data == "no-internet") throw error;
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
             setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
@@ -115,7 +116,7 @@ const ListManager = (props) => {
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
             onRefresh={() => { // Function that will be called when the user pulls to refresh
-                if (listItems.length > 0) updateFilterOptions();
+                fetchData();
             }}
             onEndReached={_.debounce(() => {
                 if (!loading && data.length > 0 && !endReached && !pack) {

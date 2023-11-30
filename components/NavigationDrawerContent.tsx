@@ -87,7 +87,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                                 icon: "face",
                                 onPress: () => {
                                     // TO DO: navigate with filter option of my stories
-                                    navigation.navigate("Browse", { initialTab: "Community" });
+                                    navigation.navigate("Browse", { initialTab: "Community", category: "myContent" });
                                     closeDrawer();
                                 }
                             },

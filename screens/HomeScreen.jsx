@@ -84,7 +84,7 @@ export default function HomeScreen() {
                         <View style={styles.titleSection}>
                             <Text style={{fontSize: 22, fontWeight: "500"}}>Featured Today</Text>
                             <TouchableOpacity onPress={() => {
-                                navigation.navigate("Browse", { initialTab: "Community" });
+                                navigation.navigate("Browse", { initialTab: "Community", sort: "trending" });
                             }}>
                                 <Text style={globalStyles.touchableText}>View all</Text>
                             </TouchableOpacity>
