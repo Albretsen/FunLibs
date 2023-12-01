@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: "500",
-        lineHeight: 25,
         color: "white"
     },
 

@@ -45,11 +45,12 @@ export default function PackCarousel({data}: PackCarouselProps) {
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
             firstItem={0}
-            // autoplay={true}
+            autoplay={true}
             lockScrollWhileSnapping={true}
             inactiveSlideOpacity={1}
             inactiveSlideScale={1}
             // layout="stack"
+            autoplayInterval={5000}
             layout="tinder"
             loop={true}
         />
