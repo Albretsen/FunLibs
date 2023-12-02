@@ -569,6 +569,7 @@ export default function CreateLibScreen({ route }) {
                 <View style={[{flex: 1, paddingBottom: (keyboardHeight - (promptButtonsHeight + dividerHeight))}, globalStyles.standardWhitespace]}>
                     <AvatarDisplay
                         avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48")}
+                        avatarTint={FirebaseManager.currentUserData?.firestoreData ? null : "#5f6368"}
                         titleComponent={(
                             <TextInput
                                 style={[globalStyles.input, globalStyles.inputSmall, { fontSize: 18, borderColor: "white", padding: 0, height: "auto"}]}

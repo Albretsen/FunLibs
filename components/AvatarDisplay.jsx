@@ -7,7 +7,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "./Toast";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AvatarDisplay({ onPress, avatarID, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked }) {
+export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked }) {
     const ParentTag = onPress ? TouchableOpacity : View;
 
     const showToast = useContext(ToastContext);
@@ -51,7 +51,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
         <ParentTag style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, {backgroundColor: color}]}>
                 <Image
-                    style={[styles.image, locked ? globalStyles.lockedOpacity : null, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
+                    style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
                     source={FirebaseManager.avatars[avatarID]} 
                 />
             </View>
