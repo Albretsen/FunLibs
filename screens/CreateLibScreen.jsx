@@ -265,7 +265,7 @@ export default function CreateLibScreen({ route }) {
 
     const keyboardVerticalOffset = 0;
 
-    const ParentTag = View;
+    const ParentTag = Platform.OS == "android" ? KeyboardAvoidingView : View;
 
     const buttonColor = "#006D40";
 
@@ -566,7 +566,8 @@ export default function CreateLibScreen({ route }) {
                     keyboardShouldPersistTaps={'always'}
                     keyboardDismissMode='on-drag'
                 > */}
-                <View style={[{flex: 1, paddingBottom: (keyboardHeight - (promptButtonsHeight + dividerHeight))}, globalStyles.standardWhitespace]}>
+                {/* paddingBottom: (keyboardHeight - (promptButtonsHeight + dividerHeight)) */}
+                <View style={[{flex: 1}, globalStyles.standardWhitespace]}>
                     <AvatarDisplay
                         avatarID={(FirebaseManager.currentUserData?.firestoreData ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48")}
                         avatarTint={FirebaseManager.currentUserData?.firestoreData ? null : "#5f6368"}
@@ -589,50 +590,6 @@ export default function CreateLibScreen({ route }) {
                         )}
                     />
 
-                    <View style={{flexDirection: "row", flex: 1, marginTop: 14, }}>
-                        <TextInput
-                            ref={libTextInputRef}
-                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, flexGrow: 1, fontSize: 18}]}
-                            multiline={true}
-                            // numberOfLines={10}
-                            onChangeText={text => setLibText(text)}
-                            placeholder={i18n.t('write_your_text_here')}
-                            placeholderTextColor={"#9e9e9e"}
-                            onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
-                            selection={newCursorPosition}
-                            value={libText}
-                        />
-                        <View style={{ height: "auto", flexBasis: 24, paddingTop: 10}}>
-                            <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
-                                <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
-                            </TouchableOpacity>
-                            <Dropdown
-                                anchor={
-                                    <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={20} />
-                                }
-                                containerStyle={{marginLeft: 0, alignSelf: "center"}}
-                                options={[
-                                    {
-                                        name: i18n.t('save'),
-                                        onPress: () => {
-                                            saveLib();
-                                        },
-                                    }, {
-                                        name: i18n.t('delete'),
-                                        onPress: () => {
-                                            showDeleteConfirmation();
-                                        },
-                                    }, {
-                                        name: i18n.t('help'),
-                                        onPress: () => {
-                                            setShowDialogInfo(true);
-                                        }
-                                    }
-                                ]}
-                            />
-                        </View>
-                    </View>
-                    <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
                     <View style={{ flexGrow: 0 }}>
                         <Buttons
                             buttons={
@@ -710,12 +667,57 @@ export default function CreateLibScreen({ route }) {
                                 },
                                 ]
                             }
-                            buttonStyle={{ borderRadius: 12, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 50 }}
-                            containerStyle={{ justifyContent: "flex-start" }}
-                            labelStyle={{ fontSize: 17, fontWeight: "500" }}
+                            buttonStyle={{ borderRadius: 8, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 38, padding: 4, gap: 4, paddingHorizontal: 10}}
+                            containerStyle={{ justifyContent: "flex-start", marginBottom: 0, gap: 8 }}
+                            labelStyle={{ fontSize: 14, fontWeight: "500" }}
+                            iconSize={16}
                             sideScroll={true}
                         />
                     </View>
+
+                    <View style={{flexDirection: "row", flex: 1, marginTop: 14, }}>
+                        <TextInput
+                            ref={libTextInputRef}
+                            style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, flexGrow: 1, fontSize: 18}]}
+                            multiline={true}
+                            onChangeText={text => setLibText(text)}
+                            placeholder={i18n.t('write_your_text_here')}
+                            placeholderTextColor={"#9e9e9e"}
+                            onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+                            selection={newCursorPosition}
+                            value={libText}
+                        />
+                        <View style={{ height: "auto", flexBasis: 24, paddingTop: 10}}>
+                            <TouchableOpacity onPress={() => setShowDialogInfo(true)}>
+                                <MaterialIcons style={{ color: "#49454F" }} name="help" size={22} />
+                            </TouchableOpacity>
+                            <Dropdown
+                                anchor={
+                                    <MaterialIcons style={{ color: "#49454F" }} name="more-vert" size={20} />
+                                }
+                                containerStyle={{marginLeft: 0, alignSelf: "center"}}
+                                options={[
+                                    {
+                                        name: i18n.t('save'),
+                                        onPress: () => {
+                                            saveLib();
+                                        },
+                                    }, {
+                                        name: i18n.t('delete'),
+                                        onPress: () => {
+                                            showDeleteConfirmation();
+                                        },
+                                    }, {
+                                        name: i18n.t('help'),
+                                        onPress: () => {
+                                            setShowDialogInfo(true);
+                                        }
+                                    }
+                                ]}
+                            />
+                        </View>
+                    </View>
+                    <Divider color="#CAC4D0" style={{ marginVertical: 10 }} />
 
                     <Drawer ref={saveDrawerRef} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
                         <DrawerHeader

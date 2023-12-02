@@ -42,7 +42,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function Buttons({ buttons, containerStyle, buttonStyle, labelStyle, sideScroll }) {
+export default function Buttons({ buttons, iconSize = 22, containerStyle, buttonStyle, labelStyle, sideScroll }) {
 	let ParentTag = sideScroll ? ScrollView : View;
     return (
 		<ParentTag 
@@ -81,7 +81,7 @@ export default function Buttons({ buttons, containerStyle, buttonStyle, labelSty
 										button.iconColor ? {color: button.iconColor} : null
 									]}
 									name={button.icon}
-									size={22}
+									size={iconSize}
 								/>
 							: null
 						)}
