@@ -118,19 +118,18 @@ const styles = StyleSheet.create({
     },
 
     premiumTextContainer: {
-        borderStyle: "dashed",
+        // borderStyle: "dashed",
         paddingHorizontal: 6,
         paddingVertical: 3,
         backgroundColor: "white",
-        borderWidth: 1,
-        borderColor: "#95691B",
+        // borderWidth: 1,
+        borderColor: "#fdc702",
         borderRadius: 5
     },
 
     premiumText: {
-        // Gold!
-        color: "#95691B",
-        fontSize: 12,
+        color: "#c39c0e",
+        fontSize: 14,
     },
 
     description: {

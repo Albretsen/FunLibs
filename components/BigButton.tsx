@@ -20,8 +20,8 @@ export default function BigButton({label, description, onPress, height = 130, wi
         <Pressable style={[styles.container]} onPress={onPress}>
             <LinearGradient
                 colors={[colorStart, colorEnd]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 0 }}
                 style={[styles.background, {height: height, width: width}, containerStyle ? containerStyle : null]}
             >
                 <View style={styles.section}>

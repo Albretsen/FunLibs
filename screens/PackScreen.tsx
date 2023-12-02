@@ -122,7 +122,7 @@ export default function PackScreen({ route } : Props) {
                 </View>
                 {showBuyButton && (
                     <TouchableOpacity onPress={purchasePack} style={styles.buyButton}>
-                        <Text style={styles.buyButtonText}>Buy Pack {price}</Text>
+                        <Text style={styles.buyButtonText}>🎉 Buy Pack {price} 🎉</Text>
                     </TouchableOpacity>
                 )}
                 <ScrollView>
@@ -174,7 +174,7 @@ export default function PackScreen({ route } : Props) {
                                     }
                                 },
                             ]}
-                            buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 2, borderStyle: "dashed", backgroundColor: "white", minWidth: 30, height: 44 }}
+                            buttonStyle={{ borderRadius: 10, borderColor: "#6294C9", borderWidth: 1, backgroundColor: "white", minWidth: 30, height: 44 }}
                             containerStyle={{ justifyContent: "flex-start" }}
                             labelStyle={{ fontSize: 17, fontWeight: "500" }}
                             sideScroll={true}
@@ -217,13 +217,14 @@ const styles = StyleSheet.create({
 
     buyButton: {
         borderWidth: 2,
-        borderStyle: "dashed",
+        // borderStyle: "dashed",
         borderColor: "#95691B",
         borderRadius: 10,
         padding: 10,
         textAlign: "center",
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        backgroundColor: "#fffbeb"
     },
 
     buyButtonText: {

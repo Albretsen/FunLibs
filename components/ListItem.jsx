@@ -327,8 +327,9 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         borderRadius: 10,
         borderColor: "#CAC4D0",
-        borderWidth: 1,
-        borderStyle: "dashed",
+        // borderWidth: 1,
+        // borderStyle: "dashed",
+        // borderBottomWidth: 1
     },
 
     textRow: {

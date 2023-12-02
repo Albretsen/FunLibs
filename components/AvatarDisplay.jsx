@@ -51,7 +51,7 @@ export default function AvatarDisplay({ onPress, avatarID, title, titleComponent
         <ParentTag style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, {backgroundColor: color}]}>
                 <Image
-                    style={[styles.image, locked ? globalStyles.lockedOpacity : null]}
+                    style={[styles.image, locked ? globalStyles.lockedOpacity : null, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
                     source={FirebaseManager.avatars[avatarID]} 
                 />
             </View>

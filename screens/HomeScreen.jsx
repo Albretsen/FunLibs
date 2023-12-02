@@ -81,6 +81,8 @@ export default function HomeScreen() {
                                 navigation.navigate("Home");
                                 navigation.navigate("Browse", { initialTab: "Community" })
                             }}
+                            colorStart="#60C195"
+                            colorEnd="#638BD5"
                         />
                     </View>
                     <View style={[styles.section]}>
