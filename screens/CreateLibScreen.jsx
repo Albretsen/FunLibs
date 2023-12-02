@@ -503,7 +503,6 @@ export default function CreateLibScreen({ route }) {
     const finished = (message, refreshOptions) => {
         refreshOptions.sortBy = "newest";
         //FirebaseManager.RefreshList(refreshOptions);
-        // closeDrawer();
         setLibText("");
         setLibNameText("");
         setEditLibID("");
@@ -545,7 +544,6 @@ export default function CreateLibScreen({ route }) {
         finished(i18n.t('your_text_has_been_deleted'), { category: "all" });
     }
 
-    const scrollViewRef = useRef(null);
     const [buttonPressed, setButtonPressed] = useState(false);
 
     const handleDismissKeyboard = () => {
@@ -554,10 +552,6 @@ export default function CreateLibScreen({ route }) {
         }
         setButtonPressed(false);
     };
-
-    
-    const promptButtonsHeight = Platform.OS == "ios" ? 70 : 0;
-    const dividerHeight = Platform.OS == "ios" ? 20 : 0;
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>

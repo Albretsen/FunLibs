@@ -318,9 +318,10 @@ export default function AppScreenStack() {
 					headerTitleAlign: "center",
 					headerStyle: standardHeaderStyle,
 					headerTitle: () => (
-						<Text style={{ fontWeight: 600, fontSize: 17 }}>
-							{i18n.t('write_a_lib')}
-						</Text>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ marginRight: 8, fontWeight: "600", fontSize: 17 }}>{i18n.t('write_a_lib')}</Text>
+							<Icon name="edit" size={20} color="#6294C9" />
+						</View>
 					),
 					headerRight: () => (
 						<View></View>
