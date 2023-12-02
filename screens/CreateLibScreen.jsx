@@ -590,6 +590,7 @@ export default function CreateLibScreen({ route }) {
                                 [{
                                     label: i18n.t('custom'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         setShowDialogCustom(true)
@@ -598,6 +599,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('adjective'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Adjective");
@@ -606,6 +608,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('verb'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Verb");
@@ -614,6 +617,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('noun'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Noun");
@@ -622,6 +626,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('occupation'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Occupation");
@@ -630,6 +635,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('name'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Name");
@@ -638,6 +644,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('emotion'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Emotion");
@@ -646,6 +653,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('place'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Place");
@@ -654,6 +662,7 @@ export default function CreateLibScreen({ route }) {
                                 {
                                     label: i18n.t('animal'),
                                     icon: "add",
+                                    iconColor: "#6294C9",
                                     onPress: () => {
                                         setButtonPressed(true);
                                         addPrompt("Animal");
@@ -661,9 +670,9 @@ export default function CreateLibScreen({ route }) {
                                 },
                                 ]
                             }
-                            buttonStyle={{ borderRadius: 8, borderColor: "#454247", backgroundColor: "white", minWidth: 50, height: 38, padding: 4, gap: 4, paddingHorizontal: 10}}
+                            buttonStyle={{ borderRadius: 8, borderColor: "#6294C9", borderWidth: 1, backgroundColor: "white",minWidth: 50, height: 38, padding: 4, gap: 4, paddingHorizontal: 10}}
                             containerStyle={{ justifyContent: "flex-start", marginBottom: 0, gap: 8 }}
-                            labelStyle={{ fontSize: 14, fontWeight: "500" }}
+                            labelStyle={{ fontSize: 14, fontWeight: "500", color: "#6294C9" }}
                             iconSize={16}
                             sideScroll={true}
                         />
