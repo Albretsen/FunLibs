@@ -120,9 +120,8 @@ const ListManager = (props) => {
     const userColor = FirebaseManager.getRandomColor();
 
     function renderFooter() {
-
 		// Define the style based on loadingAdditional's value
-		let activityIndicatorStyle = ((lastVisibleDoc != null) && loading) ? {} : { opacity: 0 };
+		let activityIndicatorStyle = ((true != null) && loading) ? {} : { opacity: 0 };
 
 		return (
             <>
@@ -130,7 +129,7 @@ const ListManager = (props) => {
                 <View>
                     <ActivityIndicator
                         animating={true}
-                        color="#006D40"
+                        color="#6294C9"
                         size="large"
                         style={activityIndicatorStyle}
                     />

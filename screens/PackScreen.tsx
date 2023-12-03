@@ -231,7 +231,7 @@ export default function PackScreen({ route } : Props) {
             </DialogTrigger>
             {purchaseInProgress && (
                 <View style={globalStyles.loadingOverlay}>
-                    <ActivityIndicator size="large" color="#006D40" />
+                    <ActivityIndicator size="large" color="#6294C9" />
                     <Text>{purchaseProgressText}</Text>
                 </View>
 			)}

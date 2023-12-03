@@ -238,7 +238,7 @@ export default function CommentSection(props) {
         <View key={refreshKey}>
             {loading ? (
                 // Render a loading spinner or some other placeholder here
-                <ActivityIndicator style={stylesLoading.loadingIndicator} size="large" color="#006D40" />
+                <ActivityIndicator style={stylesLoading.loadingIndicator} size="large" color="#6294C9" />
             ) : (
                 <View>
                     <View style={[styles.comment, { paddingBottom: 6, borderBottomWidth: 1 }]}>
