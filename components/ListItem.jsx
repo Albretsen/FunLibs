@@ -26,6 +26,7 @@ import Drawer from "../components/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 import DrawerHeader from "../components/DrawerHeader";
 import i18n from "../scripts/i18n";
+import { ActivityIndicator } from "react-native";
 
 function ListItem(props) {
     const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published } = props;
@@ -51,6 +52,8 @@ function ListItem(props) {
     const [localLikesArray, setLocalLikesArray] = useState(likesArray || []);
     const showToast = useContext(ToastContext);
 
+    const [loading, setLoading] = useState(false);
+
     const isInitialRender = useRef(true);
 
     const debouncedNavigationRef = useRef(
@@ -59,9 +62,11 @@ function ListItem(props) {
                 let lib = await LibManager.getLibByID(id, type);
                 if (!lib) {
                     showToast({ text: "There was an issue loading the lib. Please refresh and try again." });
+                    setLoading(false);
                     return;
                 }
                 navigation.navigate("Play Lib", { libId: id, type: type, lib: lib, key: Math.random().toString() });
+                setLoading(false);
                 try {
                     FirebaseManager.updateNumericField("posts", id, "plays", 1);
                     FirebaseManager.updateNumericField("users", lib.user, "plays", 1);
@@ -96,10 +101,12 @@ function ListItem(props) {
     }
 
     function playLib(id, type) {
+        setLoading(true);
         setListItemClickTimestamp(Date.now());
         if (type === "stories") {
             readDrawerRef.current?.openDrawer();
             onClick({ id, name, type });
+            setLoading(false);
         } else {
             debouncedNavigationRef.current(id, type);
         }
@@ -196,7 +203,7 @@ function ListItem(props) {
 
     let promptOrText = promptFirst;
 
-    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const fadeAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         if (isInitialRender.current) {
@@ -211,6 +218,47 @@ function ListItem(props) {
             isInitialRender.current = false;
         }
     }, [index]);
+
+    const pulseAnim = useRef(new Animated.Value(1)).current;
+
+    const startPulseAnimation = () => {
+        pulseAnim.setValue(1); // Reset to full opacity before starting
+
+        // Looping animation between 0.5 and 1 opacity
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(pulseAnim, {
+                    toValue: 0.5,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(pulseAnim, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ]),
+            {
+                iterations: -1 // Infinite loop
+            }
+        ).start();
+    };
+
+    const stopPulseAnimation = () => {
+        pulseAnim.stopAnimation(); // Stop the animation
+        pulseAnim.setValue(1); // Reset to full opacity
+    };
+
+    useEffect(() => {
+        if (loading) {
+            startPulseAnimation();
+        } else {
+            stopPulseAnimation();
+        }
+
+        // Cleanup function to stop the animation when the component unmounts or loading changes
+        return () => stopPulseAnimation();
+    }, [loading]);
 
     const readDrawerRef = useRef(null);
 
@@ -248,17 +296,25 @@ function ListItem(props) {
             </View>
             <View style={[styles.actionsContainer, { marginTop: 8 }, locked ? globalStyles.lockedOpacity : null]}>
                 <TouchableOpacity disabled={locked} onPress={() => playLib(id, type)}>
-                    <LinearGradient
-                        colors={["#638BD5", "#60C195"]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={styles.actionPlay}
-                    >
-                        <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
-                        <Text style={[styles.actionText, { color: "white" }]}>{!playable ? "Read lib" : "Play Lib"}</Text>
-                    </LinearGradient>
+                    <Animated.View
+                        style={[
+                            styles.actionPlay,
+                            { opacity: pulseAnim }, // Apply the animated opacity here
+                        ]}>
+                        <LinearGradient
+                            colors={["#638BD5", "#60C195"]}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.actionPlay}
+                        >
+                            <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
+                            <Text style={[styles.actionText, { color: "white" }]}>
+                                {!playable ? "Read lib" : "Play Lib"}
+                            </Text>
+                        </LinearGradient>
+                    </Animated.View>
                 </TouchableOpacity>
-                {!playable &&(
+                {!playable && (
                     <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={showDeleteDialogHandler}>
                         <MaterialCommunityIcons name="delete-outline" size={18} color="#6294C9" />
                         <Text style={styles.actionText}>Delete</Text>
