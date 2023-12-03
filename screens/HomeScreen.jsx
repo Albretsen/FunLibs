@@ -91,7 +91,7 @@ export default function HomeScreen() {
                             <TouchableOpacity onPress={() => {
                                 navigation.navigate("Browse", { initialTab: "Community", sort: "trending" });
                             }}>
-                                <Text style={globalStyles.touchableText}>View all</Text>
+                                <Text style={[globalStyles.touchableText, {marginRight: 10}]}>View all</Text>
                             </TouchableOpacity>
                         </View>
                         <ListManager showPreview={false} showLoader={false} filterOptions={{

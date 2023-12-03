@@ -55,7 +55,7 @@ export default function UnblockScreen() {
 
                 {isLoading ? (
                     <View style={globalStyles.loadingOverlay}>
-                        <ActivityIndicator size="large" color="#006D40" />
+                        <ActivityIndicator size="large" color="#6294C9" />
                     </View>
                 ) : blockedUsers.length === 0 ? (
                     <Text>{i18n.t('no_blocked_users')}</Text>

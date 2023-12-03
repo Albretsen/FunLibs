@@ -185,7 +185,7 @@ export default function ProfileScreen({ route }) {
                                     containerStyle={{alignSelf: "center", height: "auto"}}
                                     options={[
                                         {
-                                            name: i18n.t('block') + " " + nameValue,
+                                            name: i18n.t('block'),
                                             onPress: () => blockUser(uid, nameValue),
                                         }
                                     ]}
@@ -291,7 +291,7 @@ export default function ProfileScreen({ route }) {
             </Drawer>
             {loading && (
                 <View style={globalStyles.loadingOverlay}>
-                    <ActivityIndicator size="large" color="#006D40" />
+                    <ActivityIndicator size="large" color="#6294C9" />
                 </View>
 			)}
         </View>

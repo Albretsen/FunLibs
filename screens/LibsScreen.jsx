@@ -207,7 +207,7 @@ export default function LibsScreen() {
 			</View>
 			{(isLoading && !endReached)? (
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
-					<ActivityIndicator animating={true} color="#006D40" size="large" />
+					<ActivityIndicator animating={true} color="#6294C9" size="large" />
 				</View>
 			) : (<>
 				<ListManager official={true} showPreview={showPreview} filterOptions={{
@@ -217,7 +217,7 @@ export default function LibsScreen() {
 				}}></ListManager>
 				{(loadingCircle) && (
 					<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
-						<ActivityIndicator size="large" color="#006D40" />
+						<ActivityIndicator size="large" color="#6294C9" />
 					</View>
 				)}
 			</>)}

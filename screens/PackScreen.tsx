@@ -189,7 +189,7 @@ export default function PackScreen({ route } : Props) {
                     <>
                     {isLoading ? (
                     // Replace with your loading icon/component
-                    <ActivityIndicator size="large" color="#0000ff" />
+                    <ActivityIndicator size="large" color="#6294C9" />
                 ) : <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>}
                     </>
                 </ScrollView>

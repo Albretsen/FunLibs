@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
 
     premiumText: {
-        color: "#c39c0e",
+        color: "#95691B",
         fontSize: 14,
     },
 
