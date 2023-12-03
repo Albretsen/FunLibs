@@ -330,8 +330,11 @@ export default class LibManager {
             lib = await FirebaseManager.getDocumentFromCollectionById("posts", id);
         } catch (error) {
             // If database fails, try to get a local lib
-            lib = LibManager.libs.find(item => item.id === id);
-            console.log("Error getting lib from DB: " + error);
+            let localLibs = await FileManager._retrieveData("my_content");
+            if (localLibs) {
+                localLibs = JSON.parse(localLibs);
+                lib = localLibs.find(item => item.id === id);
+            }
         }
         return lib;
     }
@@ -450,7 +453,7 @@ export default class LibManager {
         return (
             <Text>
                 ...{beforeText}
-                <Text style={{color: "#006D40"}}>{input}</Text>
+                <Text style={{color: "#6294C9"}}>{input}</Text>
                 {afterText}...
             </Text>
         )

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet, Pressable } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
 import Dropdown from "./Dropdown";
@@ -7,12 +7,21 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "./Toast";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked }) {
+export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked, avatarOnPress }) {
     const ParentTag = onPress ? TouchableOpacity : View;
 
     const showToast = useContext(ToastContext);
 
     const navigation = useNavigation();
+
+    let blockUser = (uid) => {
+        if (uid == "HOv8K8Z1Q6bUuGxENrPrleECIWe2") {
+            showToast(":(");
+            return;
+        }
+
+        FirebaseManager.blockUser(uid);
+    }
 
     if(rightComponent == "userActions") {
         rightComponent = (
@@ -37,7 +46,7 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
                                 return;
                             }
                     
-                            FirebaseManager.blockUser(uid);
+                            blockUser(uid);
                         }
                     },
                 ]}
@@ -50,10 +59,12 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
     return (
         <ParentTag style={styles.container} onPress={onPress}>
             <View style={[styles.imageContainer, {backgroundColor: color}]}>
-                <Image
-                    style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
-                    source={FirebaseManager.avatars[avatarID]} 
-                />
+                <Pressable onPress={avatarOnPress}>
+                    <Image
+                        style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
+                        source={FirebaseManager.avatars[avatarID]} 
+                    />
+                </Pressable>
             </View>
             <View style={styles.textContainer}>
                 {titleComponent ? (

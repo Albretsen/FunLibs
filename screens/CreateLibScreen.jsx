@@ -192,11 +192,11 @@ export default function CreateLibScreen({ route }) {
 
     const saveLib = () => {
         if (!libNameTextRef.current) {
-            showToast({text: i18n.t('please_add_a_title')});
+            showToast({text: i18n.t('please_add_a_title'), noBottomMargin: true});
             return;
         }
         if (!libTextRef.current) {
-            showToast({text: i18n.t('please_add_some_text')});
+            showToast({text: i18n.t('please_add_some_text'), noBottomMargin: true});
             return;
         }
         //console.log(libTextRef.current);
@@ -214,7 +214,7 @@ export default function CreateLibScreen({ route }) {
         console.log(JSON.stringify(temp_finished_lib));
 
         if (temp_finished_lib.prompts.length < 1) {
-            showToast({text: i18n.t('please_add_some_prompts')});
+            showToast({text: i18n.t('please_add_some_prompts'), noBottomMargin: true});
             return;
         }
 
@@ -304,7 +304,7 @@ export default function CreateLibScreen({ route }) {
 
     const save = () => {
         // Brand new lib
-        showToast({text: i18n.t('saving'), loading: true});
+        showToast({text: i18n.t('saving'), loading: true, noBottomMargin: true});
         saveDrawerRef.current?.closeDrawer();
 
         if (!editLibID && !item?.local) {
@@ -320,7 +320,7 @@ export default function CreateLibScreen({ route }) {
             saveChangesPublished();
             return;
         }
-        showToast({text: i18n.t('error_saving'), loading: false});
+        showToast({text: i18n.t('error_saving'), loading: false, noBottomMargin: true});
     }
 
     const saveNew = async () => {
@@ -398,7 +398,7 @@ export default function CreateLibScreen({ route }) {
             return;
         }
         saveDrawerRef.current?.closeDrawer();
-        showToast({text: i18n.t('publishing'), loading: true});
+        showToast({text: i18n.t('publishing'), loading: true, noBottomMargin: true});
         const wasRewardGiven = await AdManager.showRewardedAd(); 
 
         if (wasRewardGiven === true) {
@@ -412,11 +412,11 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast({text: i18n.t('error_publishing'), loading: false});
+            showToast({text: i18n.t('error_publishing'), loading: false, noBottomMargin: true});
         } else if (wasRewardGiven === false) {
             // The user did not watch the ad or did not earn the reward
             // Show a toast message to inform the user
-            showToast({text: i18n.t('you_need_to_watch_the_ad_to_proceed_with_publishing'), loading: false});
+            showToast({text: i18n.t('you_need_to_watch_the_ad_to_proceed_with_publishing'), loading: false, noBottomMargin: true});
         } else {
             // The ad failed.
             // Continue with the publish action
@@ -428,7 +428,7 @@ export default function CreateLibScreen({ route }) {
                 await publishLocal();
                 return;
             }
-            showToast({text: i18n.t('error_publishing'), loading: false});
+            showToast({text: i18n.t('error_publishing'), loading: false, noBottomMargin: true});
         }
     };    
 
@@ -496,7 +496,7 @@ export default function CreateLibScreen({ route }) {
     }
 
     const notLoggedIn = () => {
-        showToast(i18n.t('you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in'));
+        showToast({text: i18n.t('you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in'), noBottomMargin: true});
         saveDrawerRef.current?.closeDrawer();
     }
 
@@ -507,7 +507,7 @@ export default function CreateLibScreen({ route }) {
         setLibNameText("");
         setEditLibID("");
         setItem(undefined);
-        showToast({text: message, loading: false});
+        showToast({text: message, loading: false, noBottomMargin: true});
         navigation.navigate("Browse", { initialTab: "Community", category: "myContent", refresh: Math.floor(Math.random() * 999) });
     }
 
@@ -517,7 +517,7 @@ export default function CreateLibScreen({ route }) {
 
     const delete_ = async () => {
         deleteDrawerRef.current?.closeDrawer();
-        showToast({text: i18n.t('deleting'), loading: true});
+        showToast({text: i18n.t('deleting'), loading: true, noBottomMargin: true});
         if (editLibID && item?.local) {
             let local_libs = await getLocalLibs();
 

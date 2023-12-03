@@ -241,6 +241,7 @@ function ListItem(props) {
                 )}
                 rightComponent={"userActions"}
                 uid={user}
+                avatarOnPress={() => navigation.navigate("ProfileScreen", { uid: user })}
             />
             <View style={[styles.preview, locked ? globalStyles.lockedOpacity : null]}>
                 {showPreview ? LibManager.displayPreview(text) : null}

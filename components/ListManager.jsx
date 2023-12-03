@@ -21,11 +21,24 @@ const ListManager = (props) => {
 
     const [endReached, setEndReached] = useState(false);
 
+    let blockedList = [];
+    let blockFlag = false;
+
+    let getBlockedList = async () => {
+        let blockedUsers = await FirebaseManager.getAllBlockedUsers();
+        blockedList = blockedUsers;
+        blockFlag = true;
+    }
+
     const fetchData = useCallback(async (newFetch = true) => {
         setRefreshing(true);
         setLoading(true);
         try {
-            if (newFetch) setData([]);
+            if (newFetch) {
+                setData([]);
+                blockFlag = false;
+                getBlockedList();
+            }
             let result;
             
             if (official) {
@@ -51,6 +64,33 @@ const ListManager = (props) => {
             if (!result.data || result.data == "no-internet") throw error;
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
+
+            await new Promise((resolve, reject) => {
+                const waitTime = 5000; // Max wait time in milliseconds
+                const checkInterval = 100; // Check every 100 ms
+                let totalTime = 0;
+
+                const checkBlockFlag = () => {
+                    if (blockFlag) {
+                        resolve();
+                    } else if (totalTime > waitTime) {
+                        resolve('Timeout waiting for blockFlag');
+                    } else {
+                        totalTime += checkInterval;
+                        setTimeout(checkBlockFlag, checkInterval);
+                    }
+                };
+
+                checkBlockFlag();
+            });
+
+            // Filter out users from the blockedList
+            if (blockedList?.length > 0 && result.data) {
+                result.data = result.data.filter(item => !blockedList.includes(item.user));
+            }
+
+            blockFlag = false;
+
             setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
             setLastVisibleDoc(result.lastDocument);
             setLoading(false);
@@ -64,11 +104,11 @@ const ListManager = (props) => {
     }, [pack, filterOptions, lastVisibleDoc]);
 
     useEffect(() => {
-        fetchData();
+        fetchData(true);
     }, [pack, filterOptions]);
 
     const handleRefresh = () => {
-        fetchData();
+        fetchData(true);
     };
 
     const handleLoadMore = () => {
@@ -138,7 +178,7 @@ const ListManager = (props) => {
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
             onRefresh={() => { // Function that will be called when the user pulls to refresh
-                fetchData();
+                fetchData(true);
             }}
             onEndReached={_.debounce(() => {
                 if (!loading && data.length > 0 && !endReached && !pack) {

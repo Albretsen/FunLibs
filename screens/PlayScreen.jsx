@@ -641,7 +641,8 @@ const styles = StyleSheet.create({
 
 	explanation: {
 		// Gap makes this too far away from input, so quick fix
-		marginTop: -6
+		marginTop: -6,
+		flex: 1
 	},
 
 	buttonContainer: {
