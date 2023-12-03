@@ -295,7 +295,7 @@ export default function CommentSection(props) {
                                                     navigation.navigate("ProfileScreen", { uid: comment.uid });
                                                 }}>
                                                     <Text>{comment.username}</Text>
-                                                    {comment.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
+                                                    {comment.uid === opUid ? <Text style={{ color: "#6294C9" }}> | Author</Text> : null}
                                                 </TouchableOpacity>
                                                 <Text style={styles.date}> | {timeAgo(comment.date)}</Text>
                                             </Text>
@@ -519,11 +519,13 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft: 16,
         paddingRight: 6,
-        gap: 5
+        gap: 5,
+        flexWrap: "wrap",
     },
 
     replyCenter: {
-        flex: 1
+        flex: 1,
+        flexWrap: "wrap"
     },
 
     commentActions: {
@@ -554,7 +556,7 @@ const styles = StyleSheet.create({
 
     date: {
         color: "gray",
-        marginLeft: 5,
+        // marginLeft: 5,
         fontWeight: "normal"
     },
 

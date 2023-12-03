@@ -21,9 +21,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import Drawer from "../components/DrawerComponent";
+import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
+import DrawerHeader from "../components/DrawerHeader";
+import i18n from "../scripts/i18n";
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -64,34 +69,7 @@ function ListItem(props) {
                     console.log("Error updating plays: " + error);
                 }
             } else {
-                openDrawer(
-                    {
-                        component: (
-                            <>
-                                <ScrollView>
-                                    <View style={globalStyles.drawerTop}>
-                                        <Text>{LibManager.displayInDrawer(text)}</Text>
-                                    </View>
-                                </ScrollView>
-                                <DrawerActions
-                                    onShare={() => {
-                                        FunLibsShare.Share(text.join("") + "\n\nCreated using: https://funlibs0.wordpress.com/download");
-                                    }}
-                                    onDelete={deleteLib}
-                                />
-                            </>
-                        ),
-                        header: {
-                            middleComponent: (
-                                <View style={{ flex: 1 }}>
-                                    <Text style={{ fontSize: 18 }}>{name}</Text>
-                                    <Text style={{ fontSize: 14 }}>By {username}</Text>
-                                </View>
-                            )
-                        }
-                    }
-                );
-                //onClick({ id, name, type });
+                readDrawerRef.current?.openDrawer();
             }
         }, 1)
     );
@@ -120,7 +98,7 @@ function ListItem(props) {
     function playLib(id, type) {
         setListItemClickTimestamp(Date.now());
         if (type === "stories") {
-            drawer.current.openDrawer();
+            readDrawerRef.current?.openDrawer();
             onClick({ id, name, type });
         } else {
             debouncedNavigationRef.current(id, type);
@@ -209,8 +187,11 @@ function ListItem(props) {
         FileManager._storeData("read", JSON.stringify(result));
 
         closeDrawer();
-
-        FirebaseManager.RefreshList();
+        try {
+            refresh();
+        } catch (error) {
+            console.log("REFRESH ERROR: " + error);
+        }
     }
 
     let promptOrText = promptFirst;
@@ -230,6 +211,8 @@ function ListItem(props) {
             isInitialRender.current = false;
         }
     }, [index]);
+
+    const readDrawerRef = useRef(null);
 
     return (
         <Animated.View
@@ -253,7 +236,7 @@ function ListItem(props) {
                     <Text>
                         {"by "}
                         <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? { color: "#6294C9", fontWeight: "600" } : null}>{username}</Text>
-                        {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : ' | Not published'}
+                        {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : null}
                     </Text>
                 )}
                 rightComponent={"userActions"}
@@ -271,36 +254,58 @@ function ListItem(props) {
                         style={styles.actionPlay}
                     >
                         <MaterialCommunityIcons name="play-circle-outline" size={18} color="white" />
-                        <Text style={[styles.actionText, { color: "white" }]}>Play Lib</Text>
+                        <Text style={[styles.actionText, { color: "white" }]}>{!playable ? "Read lib" : "Play Lib"}</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-                {(!official && !pack ? <>{(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
-                    <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={edit}>
-                        <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>Edit</Text>
-                    </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity style={[styles.action, styles.actionButton]}>
-                        <LikeButton
-                            style={styles.icon}
-                            filled={isLiked ? true : false}
-                            onPressed={favorite}
-                            disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                            onDisabledPress={() => {
-                                showToast("You have to be signed in to like a post.");
-                            }}
-                        />
-                        <Text style={styles.actionText}>{likes}</Text>
+                {!playable &&(
+                    <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={showDeleteDialogHandler}>
+                        <MaterialCommunityIcons name="delete-outline" size={18} color="#6294C9" />
+                        <Text style={styles.actionText}>Delete</Text>
                     </TouchableOpacity>
                 )}
-                    <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
-                        <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
-                    </Pressable>
-                    <View style={styles.action}>
-                        <Entypo name="open-book" size={18} color="#6294C9" />
-                        <Text style={styles.actionText}>{plays ? plays : 0}</Text>
-                    </View></> : <></>)}
+                {(!official && !pack && playable ? (
+                <> 
+                    {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                        <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={edit}>
+                            <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
+                            <Text style={styles.actionText}>Edit</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={[styles.action, styles.actionButton]}>
+                            <LikeButton
+                                style={styles.icon}
+                                filled={isLiked ? true : false}
+                                onPressed={favorite}
+                                disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                                onDisabledPress={() => {
+                                    showToast("You have to be signed in to like a post.");
+                                }}
+                            />
+                            <Text style={styles.actionText}>{likes}</Text>
+                        </TouchableOpacity>
+                    )}
+                    {published ? (
+                        <>
+                            <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
+                                <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
+                                <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
+                            </Pressable>
+                            <View style={styles.action}>
+                                <Entypo name="open-book" size={18} color="#6294C9" />
+                                <Text style={styles.actionText}>{plays ? plays : 0}</Text>
+                            </View>
+                        </>
+                    ) : (
+                        <Pressable disabled={locked} style={styles.action} onPress={() => {
+                            showToast(i18n.t("edit_and_save_again_to_publish"));
+                        }}>
+                            <MaterialIcons name="public-off" size={18} color="#6294C9" />
+                            <Text style={styles.actionText}>{i18n.t('not_published')}</Text>
+                        </Pressable>
+                    )}
+                </>)
+                :
+                <></>)}
             </View>
             {showDeleteDialog && (
                 <Dialog
@@ -314,6 +319,29 @@ function ListItem(props) {
                     <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
                 </Dialog>
             )}
+            <Drawer ref={readDrawerRef} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
+                <DrawerHeader
+                    containerStyle={{paddingHorizontal: 20}}
+                    center={(
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 18 }}>{name}</Text>
+                            <Text style={{ fontSize: 14 }}>{i18n.t('by')} {username}</Text>
+                        </View>
+                    )}
+                    onClose={() => readDrawerRef.current?.closeDrawer()}
+                />
+                <DrawerScrollView>
+                    <View style={[globalStyles.drawerTop, {paddingHorizontal: 14}]}>
+                        {LibManager.displayInDrawer(text)}
+                    </View>
+                </DrawerScrollView>
+                <DrawerActions
+                    onShare={() => {
+                        FunLibsShare.Share(text.join("") + "\n\nCreated using: https://funlibs0.wordpress.com/download");
+                    }}
+                    onDelete={deleteLib}
+                />
+            </Drawer>
         </Animated.View>
     );
 }
@@ -372,7 +400,8 @@ const styles = StyleSheet.create({
 
     actionsContainer: {
         flexDirection: "row",
-        gap: 14
+        gap: 14,
+        flexWrap: "wrap",
     },
 
     action: {

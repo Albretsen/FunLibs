@@ -575,7 +575,7 @@ export default function PlayScreen({ route }) {
 
 				<Drawer ref={finishedLibDrawerRef} onStateChange={(isOpen) => {if(!isOpen) {drawerClosed()}}} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
 					<DrawerHeader
-						containerStyle={{paddingHorizontal: 20}}
+						containerStyle={{paddingHorizontal: 14}}
 						center={(
 							<View style={{ flex: 1 }}>
 								<Text style={{ fontSize: 18 }}>{currentLib.name}</Text>

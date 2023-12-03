@@ -10,7 +10,7 @@ import PackManager from '../scripts/PackManager';
 import FileManager from '../scripts/file_manager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true } = props;
+    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true, readStories } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -27,7 +27,20 @@ const ListManager = (props) => {
         try {
             if (newFetch) setData([]);
             const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : (readStories ? {data: JSON.parse(await FileManager._retrieveData("read"))} : {data: PackManager.getLibsByPack(pack)});
-            console.log(result);
+            try {
+                if (filterOptions.category == "myContent") {
+                    let myContent = await FileManager._retrieveData("my_content");
+                    if (myContent && result.data && result.data != "no-internet") {
+                        myContent = JSON.parse(myContent);
+                        result.data.push(...myContent);
+                    } else {
+                        result.data = myContent;
+                    }
+                    result.data.sort((a, b) => a.date < b.date ? 1 : -1);
+                }
+            } catch (err){
+                console.log("ERROR: " + err);
+            }
             if (!result.data || result.data == "no-internet") throw error;
             if (result.data.length < 10) setEndReached(true);
             else setEndReached(false);
@@ -112,6 +125,8 @@ const ListManager = (props) => {
                     locked={locked}
                     official={item.official}
                     pack={item.pack}
+                    refresh={handleRefresh}
+                    published={item.published}
                 />
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         height: 65,
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
+        gap: 4,
         marginTop: 10,
         justifyContent: "space-between"
     },
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     },
 
     center: {
-        flex: 4
+        flex: 4,
+        marginTop: 10,
     },
 
     right: {

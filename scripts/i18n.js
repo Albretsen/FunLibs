@@ -178,7 +178,11 @@ const translations = {
         christmas: "Christmas",
         packs: "Packs",
         create_a_lib: "Create a lib",
-        
+        romance_pack: "Romance Pack",
+        historical_events_pack: "Historical Events Pack",
+        christmas_pack: "Christmas Pack",
+        not_published: "Not published",
+        edit_and_save_again_to_publish: "Edit and save again to publish!",
     },
     es: {
         sign_in: "Iniciar sesión",

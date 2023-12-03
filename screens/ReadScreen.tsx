@@ -8,7 +8,7 @@ export default function ReadScreen() {
     return(
         <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, { flex: 1 }]}>
             <View style={[globalStyles.containerWhitespacePadding]}>
-                <ListManager readStories={true} paddingBottom={25} filterOptions={{
+                <ListManager pack={true} readStories={true} paddingBottom={25} filterOptions={{
                     "sortBy": "trending",
                     "category": "All",
                     "dateRange": "allTime",

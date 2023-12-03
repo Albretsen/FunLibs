@@ -39,7 +39,7 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
                     
                             FirebaseManager.blockUser(uid);
                         }
-                    }
+                    },
                 ]}
             />
         )
