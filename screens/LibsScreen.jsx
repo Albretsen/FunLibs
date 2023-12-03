@@ -205,22 +205,11 @@ export default function LibsScreen() {
 					<PreviewToggle onStateChange={(state) => {setShowPreview(state); console.log(state)}} />
 				</View>
 			</View>
-			{(isLoading && !endReached)? (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
-					<ActivityIndicator animating={true} color="#6294C9" size="large" />
-				</View>
-			) : (<>
-				<ListManager official={true} showPreview={showPreview} filterOptions={{
-					"category": selectedCategory,
-					"dateRange": "allTime",
-					"playable": true
-				}}></ListManager>
-				{(loadingCircle) && (
-					<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
-						<ActivityIndicator size="large" color="#6294C9" />
-					</View>
-				)}
-			</>)}
+			<ListManager official={true} showPreview={showPreview} filterOptions={{
+				"category": selectedCategory,
+				"dateRange": "allTime",
+				"playable": true
+			}}></ListManager>
 	  	</SafeAreaView>
 	);
 }
