@@ -290,15 +290,11 @@ export default function CommentSection(props) {
                                             />
                                         </TouchableOpacity>
                                         <View style={styles.commentCenter}>
-                                            <Text style={styles.username}>
-                                                <TouchableOpacity onPress={ () => {
-                                                    navigation.navigate("ProfileScreen", { uid: comment.uid });
-                                                }}>
-                                                    <Text>{comment.username}</Text>
-                                                    {comment.uid === opUid ? <Text style={{ color: "#6294C9" }}> | Author</Text> : null}
-                                                </TouchableOpacity>
-                                                <Text style={styles.date}> | {timeAgo(comment.date)}</Text>
-                                            </Text>
+                                            <TouchableOpacity style={styles.username} onPress={ () => {
+                                                navigation.navigate("ProfileScreen", { uid: comment.uid });
+                                            }}>
+                                                <Text>{comment.username} | </Text>{comment.uid === opUid ? <Text style={{ color: "#6294C9" }}>Author | </Text> : null}<Text style={styles.date}>{timeAgo(comment.date)}</Text>
+                                            </TouchableOpacity>
                                             <Text style={styles.commentText}>
                                                 {comment.content}
                                             </Text>
@@ -407,15 +403,11 @@ export default function CommentSection(props) {
                                                     />
                                                 </TouchableOpacity>
                                                 <View style={[styles.commentCenter, styles.replyCenter]}>
-                                                    <Text style={styles.username}>
-                                                        <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
-                                                            navigation.navigate("ProfileScreen", { uid: reply.uid });
-                                                        }} >
-                                                            <Text>{reply.username}</Text>
-                                                            {reply.uid === opUid ? <Text style={{ color: "#419764" }}> | Author</Text> : null}
-                                                        </TouchableOpacity>
-                                                        <Text style={styles.date}> | {timeAgo(reply.date)}</Text>
-                                                    </Text>
+                                                    <TouchableOpacity style={styles.username}  onPress={ () => {
+                                                        navigation.navigate("ProfileScreen", { uid: reply.uid });
+                                                    }}>
+                                                        <Text>{reply.username} | </Text>{reply.uid === opUid ? <Text style={{ color: "#6294C9" }}>Author | </Text> : null}<Text style={styles.date}>{timeAgo(reply.date)}</Text>
+                                                    </TouchableOpacity>
                                                     <Text style={styles.commentText}>
                                                         {reply.content}
                                                     </Text>
@@ -496,7 +488,6 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 1,
         minHeight: 60,
         height: "auto",
-        // alignItems: "center"
         paddingVertical: 15
     },
 
@@ -520,12 +511,10 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 6,
         gap: 5,
-        flexWrap: "wrap",
     },
 
     replyCenter: {
         flex: 1,
-        flexWrap: "wrap"
     },
 
     commentActions: {
@@ -551,12 +540,12 @@ const styles = StyleSheet.create({
 
     username: {
         fontWeight: "500",
-        color: "#505050"
+        color: "#505050",
+        flexDirection: "row", flexWrap: "wrap"
     },
 
     date: {
         color: "gray",
-        // marginLeft: 5,
         fontWeight: "normal"
     },
 
