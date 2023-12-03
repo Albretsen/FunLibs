@@ -120,9 +120,6 @@ const ListManager = (props) => {
     const userColor = FirebaseManager.getRandomColor();
 
     function renderFooter() {
-        if (refreshing) {
-            return null; // Don't render anything in the footer when refreshing
-        }
 
 		// Define the style based on loadingAdditional's value
 		let activityIndicatorStyle = ((lastVisibleDoc != null) && loading) ? {} : { opacity: 0 };

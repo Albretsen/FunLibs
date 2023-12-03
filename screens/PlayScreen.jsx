@@ -599,17 +599,19 @@ export default function PlayScreen({ route }) {
 				</Drawer>
 
 				<View style={[{ width: "100%", marginTop: 35 /* Some whitespace between card and comment section*/ }]}>
-					<Text style={globalStyles.title}>{i18n.t('comments')}</Text>
-					<CommentSection
-						// Username and avatar is what is to be displayed in the "write your comment" box
-						username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('log_in_to_comment')}
-						avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
-						onCommentChange={handleCommentChange}
-						onSubmitComment={submitComment}
-						onDeleteComment={deleteComment}
-						comments={currentLib.comments ? currentLib.comments : []}
-						opUid={currentLib.user}
-					/>
+					{!currentLib.official && (<>
+						<Text style={globalStyles.title}>{i18n.t('comments')}</Text>
+
+						<CommentSection
+							// Username and avatar is what is to be displayed in the "write your comment" box
+							username={FirebaseManager.currentUserData?.firestoreData?.username ? FirebaseManager.currentUserData.firestoreData.username : i18n.t('log_in_to_comment')}
+							avatarID={FirebaseManager.currentUserData?.firestoreData?.avatarID ? FirebaseManager.currentUserData.firestoreData.avatarID : "no-avatar-48"}
+							onCommentChange={handleCommentChange}
+							onSubmitComment={submitComment}
+							onDeleteComment={deleteComment}
+							comments={currentLib.comments ? currentLib.comments : []}
+							opUid={currentLib.user}
+						/></>)}
 				</View>
 			</ScrollView>
 		</View>
