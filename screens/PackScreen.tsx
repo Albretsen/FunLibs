@@ -10,6 +10,7 @@ import { RouteProp } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { DialogTrigger } from "../components/Dialog";
+import { ActivityIndicator } from "react-native-paper";
 
 type PackScreenRouteParams = {
     packName: string;
@@ -21,6 +22,7 @@ type Props = {
   
 
 export default function PackScreen({ route } : Props) {
+    const [isLoading, setIsLoading] = useState(false);
     const { packName } = route.params;
     console.log(packName)
     const [packData, setPackdata] = useState((PackManager.packs as any)[packName]);
@@ -60,23 +62,26 @@ export default function PackScreen({ route } : Props) {
     }, []);
 
     // Runs whenever the user clicks the "other packs" button
-     useEffect(() => {
+    useEffect(() => {
         setPackdata((PackManager.packs as any)[pack]);
 
         const checkPurchase = async () => {
             try {
+                setIsLoading(true); // Start loading
                 setShowBuyButton(true);
                 const purchaseVerified = await PackManager.verifyPurchase(pack + "_pack");
                 console.log("Purchase verified: ", purchaseVerified);
                 setShowBuyButton(!purchaseVerified);
             } catch (error) {
                 console.error("Error verifying purchase:", error);
-                // Optionally, handle the error case (e.g., by showing an error message)
+                // Optionally, handle the error case
+            } finally {
+                setIsLoading(false); // Stop loading regardless of result
             }
         };
 
         checkPurchase();
-    }, [pack])
+    }, [pack]);
 
     useEffect(() => {
         setName(packData.name);
@@ -182,7 +187,10 @@ export default function PackScreen({ route } : Props) {
                         <Text style={styles.title}>{name} libs</Text>
                     </View>
                     <>
-                        <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>
+                    {isLoading ? (
+                    // Replace with your loading icon/component
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>}
                     </>
                 </ScrollView>
             </View>

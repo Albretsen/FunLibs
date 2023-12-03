@@ -76,7 +76,7 @@ const ListManager = (props) => {
         fetchData(false);
     };
 
-    if (loading && !refreshing) return <View><Text>Loading...</Text></View>;
+    //if (loading && !refreshing) return <View><Text>Loading...</Text></View>;
 
     const userColor = FirebaseManager.getRandomColor();
 
