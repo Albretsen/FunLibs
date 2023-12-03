@@ -298,8 +298,7 @@ function ListItem(props) {
                 <TouchableOpacity disabled={locked} onPress={() => playLib(id, type)}>
                     <Animated.View
                         style={[
-                            styles.actionPlay,
-                            { opacity: pulseAnim }, // Apply the animated opacity here
+                            { opacity: pulseAnim },
                         ]}>
                         <LinearGradient
                             colors={["#638BD5", "#60C195"]}
