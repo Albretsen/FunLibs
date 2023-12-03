@@ -210,7 +210,7 @@ export default function LibsScreen() {
 					<ActivityIndicator animating={true} color="#006D40" size="large" />
 				</View>
 			) : (<>
-				<ListManager showPreview={showPreview} filterOptions={{
+				<ListManager official={true} showPreview={showPreview} filterOptions={{
 					"category": selectedCategory,
 					"dateRange": "allTime",
 					"playable": true

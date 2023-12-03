@@ -10,7 +10,7 @@ import PackManager from '../scripts/PackManager';
 import FileManager from '../scripts/file_manager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true, readStories } = props;
+    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true, readStories, official } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,7 +26,14 @@ const ListManager = (props) => {
         setLoading(true);
         try {
             if (newFetch) setData([]);
-            const result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : (readStories ? {data: JSON.parse(await FileManager._retrieveData("read"))} : {data: PackManager.getLibsByPack(pack)});
+            let result;
+            
+            if (official) {
+                result = {data: LibManager.getOfficialLibs() }
+            } else {
+                result = !pack ? (await FirebaseManager.getDatabaseData("posts", filterOptions, newFetch ? null : lastVisibleDoc)) : (readStories ? {data: JSON.parse(await FileManager._retrieveData("read"))} : {data: PackManager.getLibsByPack(pack)});
+            }
+
             try {
                 if (filterOptions.category == "myContent") {
                     let myContent = await FileManager._retrieveData("my_content");
