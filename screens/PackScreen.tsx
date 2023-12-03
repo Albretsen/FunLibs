@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import Buttons from "../components/Buttons";
@@ -11,6 +11,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { DialogTrigger } from "../components/Dialog";
 import { ActivityIndicator } from "react-native-paper";
+import FileManager from "../scripts/file_manager";
+import FirebaseManager from "../scripts/firebase_manager";
+import { ToastContext } from "../components/Toast";
 
 type PackScreenRouteParams = {
     packName: string;
@@ -23,6 +26,7 @@ type Props = {
 
 export default function PackScreen({ route } : Props) {
     const [isLoading, setIsLoading] = useState(false);
+    const showToast = useContext(ToastContext);
     const { packName } = route.params;
     console.log(packName)
     const [packData, setPackdata] = useState((PackManager.packs as any)[packName]);
@@ -33,6 +37,9 @@ export default function PackScreen({ route } : Props) {
 
     const [pack, setPack] = useState(packName);
     const [showBuyButton, setShowBuyButton] = useState(false);
+
+    const [purchaseInProgress, setPurchaseInProgress] = useState(false);
+    const [purchaseProgressText, setPurchaseProgressText] = useState("Buying pack...");
 
     type ImageMap = {
         [key: string]: ReturnType<typeof require>;
@@ -51,6 +58,7 @@ export default function PackScreen({ route } : Props) {
             try {
                 const price = await PackManager.getPackPrice(pack + "_pack");
                 console.log("Price: ", price, "for pack: ", pack + "_pack");
+                //FileManager._storeData("purchases", "[]");
                 setPrice(price);
             } catch (error) {
                 console.error("Error retrieving price:", error);
@@ -90,20 +98,38 @@ export default function PackScreen({ route } : Props) {
     }, [packData]);
     
     let purchasePack = async () => {
-        console.log("Buying pack: ", pack + "_pack");
+        if (!FirebaseManager.currentUserData?.auth) {
+            showToast("You must be logged in to buy packs!");
+            return;
+        }
+        setPurchaseInProgress(true);
+        setPurchaseProgressText("Buying pack...");
         try {
             const purchaseVerified = await PackManager.verifyPurchase(pack);
             if(purchaseVerified) {
                 console.log("Purchase already verified");
                 return;
             }
+
             const purchaseSuccessful = await PackManager.buyPack(pack + "_pack");
             if(purchaseSuccessful) {
+                // Purchase was successful
                 setShowBuyButton(false);
                 setShowDialogConfirmation(true);
+                setPurchaseInProgress(false);
+                setPurchaseProgressText("Pack bought! Please wait...");
+            } else {
+                // Purchase was not successful
+                setPurchaseInProgress(false);
+                setPurchaseProgressText("Purchase failed");
+                showToast("Purchase did not go through");
             }
         } catch (error) {
+            // Purchase failed
             console.error("Error buying pack:", error);
+            setPurchaseInProgress(false);
+            setPurchaseProgressText("Purchase failed");
+            showToast("Purchase did not go through");
             // Optionally, handle the error case (e.g., by showing an error message)
         }
     }
@@ -203,6 +229,12 @@ export default function PackScreen({ route } : Props) {
             >
                 <Text style={{fontSize: 14, fontWeight: "600"}}>Thank you for buying the {name} pack!</Text>
             </DialogTrigger>
+            {purchaseInProgress && (
+                <View style={globalStyles.loadingOverlay}>
+                    <ActivityIndicator size="large" color="#006D40" />
+                    <Text>{purchaseProgressText}</Text>
+                </View>
+			)}
         </View>
     )
 }
