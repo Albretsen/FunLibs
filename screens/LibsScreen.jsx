@@ -18,6 +18,7 @@ import _ from 'lodash';
 import { ToastContext } from "../components/Toast";
 import i18n from "../scripts/i18n";
 import PreviewToggle from "../components/PreviewToggle";
+import ListManager from "../components/ListManager";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -611,57 +612,11 @@ export default function LibsScreen() {
 					<ActivityIndicator animating={true} color="#006D40" size="large" />
 				</View>
 			) : (<>
-				<FlatList
-					data={listItems}
-					renderItem={({ item, index }) => (
-						<ListItem
-							name={item.name}
-							description={item.display_with_prompts}
-							promptAmount={item.prompts.length}
-							prompts={item.prompts}
-							text={item.text}
-							id={item.id}
-							type="libs"
-							key={item.id}
-							length={item.percent}
-							icon="favorite"
-							username={item.username}
-							likes={item.likes}
-							avatarID={item.avatarID}
-							index={index}
-							user={item.user}
-							local={item.local}
-							likesArray={item.likesArray}
-							playable={item.playable}
-							item={item}
-							color={FirebaseManager.getRandomColor()}
-							plays={item.plays}
-							comments={item.comments}
-							showPreview={showPreview}
-							official={item.official}
-							pack={item.pack}
-						/>
-					)}
-					keyExtractor={item => `${item.id}-${item.likes}`}
-					refreshing={false} // Use the loading state to indicate whether the list is being refreshed
-					onRefresh={() => { // Function that will be called when the user pulls to refresh
-						if (listItems.length > 0) updateFilterOptions();
-					}}
-					style={[globalStyles.listItemContainer]}
-					onEndReached={_.debounce(() => {
-							if (!loading && listItems.length > 0 && !endReached) {
-								loadListItems({
-									"category": selectedCategory,
-									"sortBy": selectedSortBy,
-									"dateRange": selectedDate,
-									"playable": playReadValue
-								}, lastDocument);
-							}
-						}, 200)} // Call the loadListItems function when the end is reached
-					onEndReachedThreshold={0.1} // Trigger when the user has scrolled 90% of the content
-					ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 20}}>{loading ? "" : i18n.t('no_results')}</Text>}
-					ListFooterComponent={renderFooter}
-				/>
+				<ListManager showPreview={showPreview} filterOptions={{
+					"category": selectedCategory,
+					"dateRange": "allTime",
+					"playable": true
+				}}></ListManager>
 				{(loadingCircle) && (
 					<View style={[globalStyles.loadingOverlay, {backgroundColor: "transparent"}]} pointerEvents="none">
 						<ActivityIndicator size="large" color="#006D40" />
