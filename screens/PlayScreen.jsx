@@ -562,11 +562,12 @@ export default function PlayScreen({ route }) {
 							},
 							{
 								label: i18n.t('next'),
+								labelStyle: {color: "white"},
 								onPress: () => {
 									handleNext();
 									setShowPromptContext(false);
 								},
-								buttonStyle: { backgroundColor: "#D1E8D5", borderColor: "#D1E8D5" }
+								buttonStyle: { backgroundColor: "#6294C9", borderColor: "#6294C9" }
 							}]
 						}
 						labelStyle={{ fontWeight: "600" }}
