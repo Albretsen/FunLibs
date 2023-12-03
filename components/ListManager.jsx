@@ -65,7 +65,7 @@ const ListManager = (props) => {
             else setEndReached(false);
 
             await new Promise((resolve, reject) => {
-                const waitTime = 5000; // Max wait time in milliseconds
+                const waitTime = 1000; // Max wait time in milliseconds
                 const checkInterval = 100; // Check every 100 ms
                 let totalTime = 0;
 
@@ -178,7 +178,6 @@ const ListManager = (props) => {
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
             onRefresh={() => { // Function that will be called when the user pulls to refresh
-                setRefreshing(false);
                 fetchData(true);
             }}
             onEndReached={_.debounce(() => {
