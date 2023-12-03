@@ -1517,14 +1517,12 @@ export default class FirebaseManager {
         let q = collection(db, collectionName);
 
         q = this.applyUIDFilter(q, filterOptions.uid);
-        q = this.applyCategoryFilter(q, filterOptions.category);
+        q = this.applyCategoryFilter(q, filterOptions.category, filterOptions.uid);
         q = this.applyPlayableFilter(q, filterOptions.playable);
         q = this.applyPublishedFilter(q, filterOptions.published);
         q = this.applyDocIdsFilter(q, filterOptions.docIds);
         q = this.applyDateRangeFilter(q, filterOptions.dateRange, filterOptions.sortBy);
         q = this.applySortByFilter(q, filterOptions.sortBy);
-
-        console.log("Q: " + JSON.stringify(q));
 
         // Pagination
         q = query(q, limit(pageSize));
@@ -1535,11 +1533,15 @@ export default class FirebaseManager {
         return q;
     }
 
-    static applyCategoryFilter(q, category) {
+    static applyCategoryFilter(q, category, uid) {
         if (category === 'official') {
             q = query(q, where("official", "==", true));
         } else {
-            q = query(q, where("official", "==", false));
+            if (uid == "HOv8K8Z1Q6bUuGxENrPrleECIWe2") {
+                q = query(q, where("official", "==", true));
+            } else {
+                q = query(q, where("official", "==", false));
+            }
             if (category === 'myFavorites') {
                 q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
             } else if (category === 'myContent') {
