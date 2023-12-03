@@ -31,7 +31,6 @@ const ListManager = (props) => {
     }
 
     const fetchData = useCallback(async (newFetch = true) => {
-        setRefreshing(true);
         setLoading(true);
         try {
             if (newFetch) {
@@ -121,6 +120,10 @@ const ListManager = (props) => {
     const userColor = FirebaseManager.getRandomColor();
 
     function renderFooter() {
+        if (refreshing) {
+            return null; // Don't render anything in the footer when refreshing
+        }
+
 		// Define the style based on loadingAdditional's value
 		let activityIndicatorStyle = ((lastVisibleDoc != null) && loading) ? {} : { opacity: 0 };
 
@@ -178,6 +181,7 @@ const ListManager = (props) => {
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
             onRefresh={() => { // Function that will be called when the user pulls to refresh
+                setRefreshing(false);
                 fetchData(true);
             }}
             onEndReached={_.debounce(() => {
