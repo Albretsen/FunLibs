@@ -2,8 +2,15 @@ import React from 'react';
 import FirebaseManager from '../scripts/firebase_manager';
 import DrawerContents from './DrawerContents';
 import i18n from '../scripts/i18n';
+import { Linking } from 'react-native';
 
 export default function UserDrawerContent({ navigation, closeDrawer }) {
+
+	const handleEmailPress = async () => {
+		const url = "mailto:contact@funlibs.app";
+		Linking.openURL(url);
+	};
+
 	return (<>
 		{FirebaseManager.currentUserData.auth && (
 			<DrawerContents 
@@ -32,6 +39,14 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 									onPress: () => {
 										navigation.navigate("FeedbackScreen");
 										closeDrawer();
+									}
+								},
+								{
+									title: "contact@funlibs.app",
+									icon: "mail",
+									onPress: () => {
+										handleEmailPress();
+										// closeDrawer();
 									}
 								},
 								// {

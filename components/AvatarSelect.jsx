@@ -13,18 +13,22 @@ export default function AvatarSelect({ onAvatarChange, containerStyle, selectedD
         <ContainerTag style={[styles.selectorContainer, containerStyle ? containerStyle : null]}>
             <View style={styles.avatarContainer}>
                 {avatarKeys.map((key, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={() => {
-                            onAvatarChange(key);
-                            setSelectedAvatar(key);
-                        }}
-                        style={{overflow: "hidden"}}
-                    >
-                        <View>
-                            <Image source={FirebaseManager.avatars[key]} style={[{height: avatarSize, width: avatarSize}, key === selectedAvatar ? styles.selectedAvatar : null]} />
-                        </View>
-                    </TouchableOpacity>
+                    <>
+                        {index != 13 && (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => {
+                                    onAvatarChange(key);
+                                    setSelectedAvatar(key);
+                                }}
+                                style={{overflow: "hidden"}}
+                            >
+                                <View>
+                                    <Image source={FirebaseManager.avatars[key]} style={[{height: avatarSize, width: avatarSize}, key === selectedAvatar ? styles.selectedAvatar : null]} />
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                    </>
                 ))}
             </View>
         </ContainerTag>
