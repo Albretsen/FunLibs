@@ -546,8 +546,8 @@ export default function PlayScreen({ route }) {
 					<Progress.Bar
 						progress={progress}
 						width={null}
-						color="#006D40"
-						unfilledColor="#D1E8D5"
+						color="#6294C9"
+						unfilledColor="#E4EEF2"
 						borderWidth={0}
 						borderRadius={0}
 					/>

@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
 	loadingBar: {
         height: 4,
-        backgroundColor: "#419764",
+        backgroundColor: "#6294C9",
         position: "absolute",
         bottom: 0,
         left: 0,

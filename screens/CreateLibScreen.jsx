@@ -275,9 +275,9 @@ export default function CreateLibScreen({ route }) {
         playAudio('pop');
         const beforeCursor = libText.substring(0, cursorPosition.start);
         const afterCursor = libText.substring(cursorPosition.start);
-        const updatedText = beforeCursor + '(' + prompt + ')' + afterCursor;
+        const updatedText = beforeCursor + ' (' + prompt + ') ' + afterCursor;
 
-        newCursorPositionRef.current = cursorPosition.start + prompt.length + 2;
+        newCursorPositionRef.current = cursorPosition.start + prompt.length + 4;
 
         if (libTextInputRef.current) {
             libTextInputRef.current.setNativeProps({
