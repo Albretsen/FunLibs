@@ -120,7 +120,7 @@ export default class LibManager {
         return (
             <Text style={[globalStyles.fontMedium, { marginTop: 16, lineHeight: 34 }]}>
                 {lib.text.map((key, index) => (
-                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#006D40" } : null}>{key}</Text>
+                    <Text key={key + index} style={(index + 1) % 2 === 0 ? { fontStyle: "italic", color: "#2C5581" } : null}>{key}</Text>
                 ))}
             </Text>
         )
