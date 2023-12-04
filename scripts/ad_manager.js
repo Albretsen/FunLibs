@@ -2,7 +2,7 @@ export default class AdManager {
   static interstitial;
   static interstitialLoaded = false;
 
-  static production = false;
+  static production = true;
 
   static initialize() {
   }
