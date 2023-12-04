@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
 import CustomTabBar from "../components/CustomTabBar";
+import { useSharedParams } from "../components/SharedParamsProvider";
 
 export default function BrowseScreen({ route }) {
     const initialTab = route.params?.initialTab ?? "Official";
@@ -18,6 +19,12 @@ export default function BrowseScreen({ route }) {
 
     const navigation = useNavigation();
 
+    const { sharedParams, setSharedParams } = useSharedParams();
+
+    const updateParams = (newParams) => {
+        setSharedParams(prev => ({ ...prev, ...newParams }));
+    };
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', (e) => {
             console.log(route.name);
@@ -26,6 +33,17 @@ export default function BrowseScreen({ route }) {
         // Clean up the listener when the component is unmounted
         return unsubscribe;
     }, [navigation, route]);
+
+    useEffect(() => {
+        console.log("HERE 3: " + JSON.stringify(route.params));
+        updateParams({ category: route.params?.category ?? "All", sort: route.params?.sort ?? "newest" });
+    }, [route.params]);
+
+    useEffect(() => {
+        if (route.params?.initialTab) {
+            navigation.navigate(route.params.initialTab);
+        }
+    }, [route.params?.initialTab, navigation]);
 
     return (
         <Tab.Navigator

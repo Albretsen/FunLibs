@@ -8,6 +8,7 @@ import i18n from "../scripts/i18n";
 import Dropdown from "../components/Dropdown";
 import PreviewToggle from "../components/PreviewToggle";
 import FileManager from "../scripts/file_manager";
+import { useSharedParams } from "../components/SharedParamsProvider";
 
 export default function CommunityLibsScreen({ route }) {
     const initialCategory = route.params?.category ?? "all";
@@ -16,6 +17,8 @@ export default function CommunityLibsScreen({ route }) {
 
     const [selectedSortBy, setSelectedSortBy] = useState(initialSort);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+    const { sharedParams } = useSharedParams();
 
     const [showPreview, setShowPreview] = useState(true);
 
@@ -29,12 +32,14 @@ export default function CommunityLibsScreen({ route }) {
     }, []);
 
     useEffect(() => {
-        async function fetchData() {
-            const storedPreview = await FileManager._retrieveData("previewToggle");
-            setShowPreview(storedPreview === 'true');
+        if (sharedParams.category) {
+            setSelectedCategory(sharedParams.category);
         }
-        fetchData();
-    }, [route.params]);
+        if (sharedParams.sort) {   
+            setSelectedSortBy(sharedParams.sort);
+        }
+    }, [sharedParams]);
+    
 
     return (
         <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>

@@ -17,10 +17,11 @@ import CompatibilityVerification from "./scripts/compatibility_verification.js";
 import { MenuProvider } from 'react-native-popup-menu';
 import Purchases from "react-native-purchases";
 import IAP from "./scripts/IAP.js";
+import { SharedParamsProvider } from "./components/SharedParamsProvider";
 
 // Initialize RevenueCat with API key
-if (Platform.OS !== "web") { 
-  Purchases.configure({apiKey: 'goog_XgnhUeKjYuxuYkDsCnROqYgnPpK'});
+if (Platform.OS !== "web") {
+  Purchases.configure({ apiKey: 'goog_XgnhUeKjYuxuYkDsCnROqYgnPpK' });
   IAP.initialize();
 }
 
@@ -87,24 +88,26 @@ export default function App() {
       <MenuProvider>
         <SafeAreaProvider>
           <Provider>
-            <ScreenProvider>
-              <ToastProvider>
-                <DialogProvider>
-                  <DrawerProvider>
-                    <TabProvider>
-                      <NavigationContainer>
-                        <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
-                          <AppScreenStack />
-                          <ConditionalSafeAreaView>
-                          <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                          </ConditionalSafeAreaView>
-                        </GestureHandlerRootView>
-                      </NavigationContainer>
-                    </TabProvider>
-                  </DrawerProvider>
-                </DialogProvider>
-              </ToastProvider>
-            </ScreenProvider>
+            <SharedParamsProvider>
+              <ScreenProvider>
+                <ToastProvider>
+                  <DialogProvider>
+                    <DrawerProvider>
+                      <TabProvider>
+                        <NavigationContainer>
+                          <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
+                            <AppScreenStack />
+                            <ConditionalSafeAreaView>
+                              <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                            </ConditionalSafeAreaView>
+                          </GestureHandlerRootView>
+                        </NavigationContainer>
+                      </TabProvider>
+                    </DrawerProvider>
+                  </DialogProvider>
+                </ToastProvider>
+              </ScreenProvider>
+            </SharedParamsProvider>
           </Provider>
         </SafeAreaProvider>
       </MenuProvider>

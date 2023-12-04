@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
 import FirebaseManager from '../scripts/firebase_manager';
 import ListItem from './ListItem';
@@ -30,7 +30,11 @@ const ListManager = (props) => {
         blockFlag = true;
     }
 
+    const fetchCountRef = useRef(0);
+
     const fetchData = useCallback(async (newFetch = true) => {
+        const currentFetchCount = ++fetchCountRef.current;
+
         setLoading(true);
         try {
             if (newFetch) {
@@ -90,15 +94,21 @@ const ListManager = (props) => {
 
             blockFlag = false;
 
-            setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
-            setLastVisibleDoc(result.lastDocument);
-            setLoading(false);
+            if (currentFetchCount === fetchCountRef.current) {
+                setData(prevData => (newFetch ? result.data : [...prevData, ...result.data]));
+                setLastVisibleDoc(result.lastDocument);
+                setLoading(false);
+            }
         } catch (error) {
-            console.log(error);
-            setLoading(false);
-            setData([]);
+            if (currentFetchCount === fetchCountRef.current) {
+                console.log(error);
+                setData([]);
+                setLoading(false);
+            }
         } finally {
-            setRefreshing(false);
+            if (currentFetchCount === fetchCountRef.current) {
+                setRefreshing(false);
+            }
         }
     }, [pack, filterOptions, lastVisibleDoc]);
 
