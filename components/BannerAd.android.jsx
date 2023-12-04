@@ -15,7 +15,8 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
     const [showBannerAd, setShowBannerAd] = useState(false);
 
     useEffect(() => {
-        if (["LibsScreen", "StoriesScreen", "YourLibsScreen"].includes(currentScreenName)) {
+        console.log("Current screen: " + currentScreenName);
+        if (["Home", "Browse", "LibsScreen", "CommunityLibScreen"].includes(currentScreenName)) {
             setAdHeight(74);
             setShowBannerAd(true);
         } else {
@@ -26,6 +27,7 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
 
     const handleAdFailedToLoad = (error) => {
         //setButtonBottom(20);
+        console.log("Banner ad failed to load: " + error);
     };
 
     const getAdaptiveBannerHeight = (width) => {

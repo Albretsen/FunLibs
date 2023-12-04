@@ -237,7 +237,7 @@ const globalStyles = StyleSheet.create({
 
     formButton: {
         borderRadius: 50,
-        backgroundColor: "#D1E8D5",
+        backgroundColor: "#6294C9",
         padding: 12
     },
 
@@ -245,6 +245,7 @@ const globalStyles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 15,
         fontWeight: "600",
+        color: "white"
     },
 
     formBottomText: {

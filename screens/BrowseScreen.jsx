@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import LibsScreen from "./LibsScreen";
 import CommunityLibsScreen from "./CommunityLibsScreen";
@@ -7,8 +7,19 @@ import { useTab } from "../components/TabContext";
 import { useNavigation } from "@react-navigation/core";
 import CustomTabBar from "../components/CustomTabBar";
 import { useSharedParams } from "../components/SharedParamsProvider";
+import { ScreenContext } from "../App";
+import { useIsFocused } from '@react-navigation/native';
 
 export default function BrowseScreen({ route }) {
+    const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+            setCurrentScreenName("Browse");
+        }
+    }, [isFocused]);
+
     const initialTab = route.params?.initialTab ?? "Official";
     const category = route.params?.category ?? "All";
     const sort = route.params?.sort ?? "newest";

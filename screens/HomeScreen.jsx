@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -7,8 +7,19 @@ import BigButton from "../components/BigButton";
 import { useNavigation } from '@react-navigation/native';
 import PackCarousel from "../components/PackCarousel";
 import ListManager from "../components/ListManager";
+import { ScreenContext } from "../App";
+import { useIsFocused } from '@react-navigation/native';
 
 export default function HomeScreen() {
+
+    const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+            setCurrentScreenName("Home");
+        }
+    }, [isFocused]);
 
     const navigation = useNavigation();
 

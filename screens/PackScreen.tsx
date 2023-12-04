@@ -14,6 +14,8 @@ import { ActivityIndicator } from "react-native-paper";
 import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
+import { ScreenContext } from "../App";
+import { useIsFocused } from '@react-navigation/native';
 
 type PackScreenRouteParams = {
     packName: string;
@@ -30,6 +32,15 @@ type PackScreenProps = {
 
 
 export default function PackScreen({ route } : Props) {
+    const isFocused = useIsFocused();
+    const { setCurrentScreenName } = useContext(ScreenContext);
+
+    useEffect(() => {
+        if (isFocused) {
+            setCurrentScreenName("PackScreen");
+        }
+    }, [isFocused]);
+
     const [isLoading, setIsLoading] = useState(false);
     const showToast = useContext(ToastContext);
     const { packName } = route.params;
