@@ -43,7 +43,7 @@ const translations = {
         you_need_to_watch_the_ad_to_proceed_with_publishing: "You need to watch the ad to proceed with publishing.",
         error_publishing: "Error publishing, try again later.",
         your_text_has_been_published: "Your text has been published",
-        you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in: "You have to be logged in. Please 'Save as draft', then 'Publish' after signing in.",
+        you_have_to_be_logged_in_please_save_as_draft_then_publish_after_signing_in: "You have to be logged in to publish. Please tap Next > Save as draft, then sign in.",
         delete_template: "Delete lib?",
         are_you_sure_you_want_to_delete_this_template: "Are you sure you want to delete this lib?",
         by_deleting_the_story_will_be_lost_forever: "By deleting, the lib will be lost forever.",
@@ -116,7 +116,7 @@ const translations = {
         no_thanks: "No thanks",
         of_course: "Of course!",
         created_using_link: "Created using: https://funlibs0.wordpress.com/download",
-        your_story_has_been_saved: "Your story is saved!",
+        your_story_has_been_saved: "Your story has been saved. You can find it under 'Read Libs' in the navigation menu in the top left.",
         you_have_to_be_signed_in_to_like_a_post: "You have to be signed in to like a post.",
         likes: "likes", // As in: this post has x likes
         fill: "Fill",

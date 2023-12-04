@@ -242,6 +242,10 @@ function ListItem(props) {
                 iterations: -1 // Infinite loop
             }
         ).start();
+
+        setTimeout(() => {
+            stopPulseAnimation();
+        }, 3000);
     };
 
     const stopPulseAnimation = () => {

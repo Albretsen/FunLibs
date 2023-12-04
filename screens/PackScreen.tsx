@@ -104,7 +104,7 @@ export default function PackScreen({ route } : Props) {
     
     let purchasePack = async () => {
         if (!FirebaseManager.currentUserData?.auth) {
-            showToast("You must be logged in to buy packs!");
+            showToast("You must be signed in to buy packs. You can sign in via the account icon in the top right.");
             return;
         }
         setPurchaseInProgress(true);
