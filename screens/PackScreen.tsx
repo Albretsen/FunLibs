@@ -24,6 +24,11 @@ type Props = {
 }
   
 
+type PackScreenProps = {
+    route: RouteProp<{ params: PackScreenRouteParams }, 'params'>;
+};
+
+
 export default function PackScreen({ route } : Props) {
     const [isLoading, setIsLoading] = useState(false);
     const showToast = useContext(ToastContext);
@@ -135,6 +140,19 @@ export default function PackScreen({ route } : Props) {
     }
 
     const [showDialogConfirmation, setShowDialogConfirmation] = useState(false);
+
+    useEffect(() => {
+        if (route.params.packName) {
+            const newPackName = route.params.packName;
+            const newPackData = (PackManager.packs as any)[newPackName];
+            setPackdata(newPackData);
+    
+            // Update state with new pack details
+            setName(newPackData.name);
+            setDescription(newPackData.description);
+            setImageName(newPackData.image);
+        }
+    }, [route.params]);
 
     return(
         <View style={[globalStyles.screenStandard]}>

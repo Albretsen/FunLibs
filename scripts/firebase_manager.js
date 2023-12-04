@@ -1545,7 +1545,11 @@ export default class FirebaseManager {
             if (category === 'myFavorites') {
                 q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
             } else if (category === 'myContent') {
-                q = query(q, where("user", "==", this.currentUserData.auth.uid));
+                if (this.currentUserData.auth?.uid) {
+                    q = query(q, where("user", "==", this.currentUserData.auth.uid));
+                } else {
+                    q = query(q, where("user", "==", "not logged in"));
+                }
             }
         }
         return q;
