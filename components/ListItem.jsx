@@ -147,25 +147,36 @@ function ListItem(props) {
     }
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const likeButtonRef = useRef();
+
+    const handleLikePress = () => {
+        if (likeButtonRef.current) {
+            likeButtonRef.current.press();
+        }
+    };
 
     const favorite = async () => {
+        console.log("here 1");
         if (isUpdating) return;  // Prevent further interactions while updating
+        console.log("here 2");
         if (!FirebaseManager.currentUserData?.auth?.uid) {
             showToast("You have to be signed in to like a post.");
             return;
         }
-
+        console.log("here 3");
         setIsUpdating(true);
 
         const userUid = FirebaseManager.currentUserData.auth.uid;
         let isUserLiked = localLikesArray.includes(userUid);
         let updatedLikesArray = [...localLikesArray];
-
+        console.log("here 4");
         if (isUserLiked) {
+            console.log("here 5");
             setIsLiked(false);
             setLikeCount(likeCount - 1);
             updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
         } else {
+            console.log("here 6");
             setIsLiked(true);
             setLikeCount(likeCount + 1);
             playAudio("pop");
@@ -175,12 +186,15 @@ function ListItem(props) {
         try {
             await FirebaseManager.updateLikesWithTransaction(id, userUid);
             setLocalLikesArray(updatedLikesArray);  // Update the local state
+            console.log("here 7");
         } catch (error) {
+            console.log("here 8");
             console.error("Failed to update likes in Firebase:", error);
             // Revert the UI changes
             setIsLiked(isUserLiked);
             setLikeCount(isUserLiked ? likeCount - 1 : likeCount + 1);
         } finally {
+            console.log("here 9");
             setIsUpdating(false);  // Allow further interactions
         }
     };
@@ -324,48 +338,52 @@ function ListItem(props) {
                     </TouchableOpacity>
                 )}
                 {(!official && !pack && playable ? (
-                <> 
-                    {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
-                        <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={edit}>
-                            <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
-                            <Text style={styles.actionText}>Edit</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity style={[styles.action, styles.actionButton]}>
-                            <LikeButton
-                                style={styles.icon}
-                                filled={isLiked ? true : false}
-                                onPressed={favorite}
-                                disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                                onDisabledPress={() => {
-                                    showToast("You have to be signed in to like a post.");
-                                }}
-                            />
-                            <Text style={styles.actionText}>{likes}</Text>
-                        </TouchableOpacity>
-                    )}
-                    {published ? (
-                        <>
-                            <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
-                                <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
-                                <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
+                    <>
+                        {(local || user === FirebaseManager.currentUserData?.auth?.uid) ? (
+                            <TouchableOpacity style={[styles.action, styles.actionButton]} disabled={locked} onPress={edit}>
+                                <MaterialCommunityIcons name="square-edit-outline" size={18} color="#6294C9" />
+                                <Text style={styles.actionText}>Edit</Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                style={[styles.action, styles.actionButton]}
+                                onPress={handleLikePress}
+                            >
+                                <LikeButton
+                                    ref={likeButtonRef}
+                                    style={styles.icon}
+                                    filled={isLiked ? true : false}
+                                    onPressed={favorite}
+                                    disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                                    onDisabledPress={() => {
+                                        showToast("You have to be signed in to like a post.");
+                                    }}
+                                />
+                                <Text style={styles.actionText}>{likes}</Text>
+                            </TouchableOpacity>
+                        )}
+                        {published ? (
+                            <>
+                                <Pressable disabled={locked} style={styles.action} onPress={() => playLib(id, type)}>
+                                    <MaterialCommunityIcons name="comment-multiple-outline" size={18} color="#6294C9" />
+                                    <Text style={styles.actionText}>{comments ? comments.length : 0}</Text>
+                                </Pressable>
+                                <View style={styles.action}>
+                                    <Entypo name="open-book" size={18} color="#6294C9" />
+                                    <Text style={styles.actionText}>{plays ? plays : 0}</Text>
+                                </View>
+                            </>
+                        ) : (
+                            <Pressable disabled={locked} style={styles.action} onPress={() => {
+                                showToast(i18n.t("edit_and_save_again_to_publish"));
+                            }}>
+                                <MaterialIcons name="public-off" size={18} color="#6294C9" />
+                                <Text style={styles.actionText}>{i18n.t('not_published')}</Text>
                             </Pressable>
-                            <View style={styles.action}>
-                                <Entypo name="open-book" size={18} color="#6294C9" />
-                                <Text style={styles.actionText}>{plays ? plays : 0}</Text>
-                            </View>
-                        </>
-                    ) : (
-                        <Pressable disabled={locked} style={styles.action} onPress={() => {
-                            showToast(i18n.t("edit_and_save_again_to_publish"));
-                        }}>
-                            <MaterialIcons name="public-off" size={18} color="#6294C9" />
-                            <Text style={styles.actionText}>{i18n.t('not_published')}</Text>
-                        </Pressable>
-                    )}
-                </>)
-                :
-                <></>)}
+                        )}
+                    </>)
+                    :
+                    <></>)}
             </View>
             {showDeleteDialog && (
                 <Dialog
@@ -379,9 +397,9 @@ function ListItem(props) {
                     <Text style={styles.dialogText}>Are you sure you want to delete this lib? Once deleted it cannot be recovered.</Text>
                 </Dialog>
             )}
-            <Drawer ref={readDrawerRef} containerStyle={[globalStyles.standardDrawer, {paddingHorizontal: 6}]}>
+            <Drawer ref={readDrawerRef} containerStyle={[globalStyles.standardDrawer, { paddingHorizontal: 6 }]}>
                 <DrawerHeader
-                    containerStyle={{paddingHorizontal: 20}}
+                    containerStyle={{ paddingHorizontal: 20 }}
                     center={(
                         <View style={{ flex: 1 }}>
                             <Text style={{ fontSize: 18 }}>{name}</Text>
@@ -391,7 +409,7 @@ function ListItem(props) {
                     onClose={() => readDrawerRef.current?.closeDrawer()}
                 />
                 <DrawerScrollView>
-                    <View style={[globalStyles.drawerTop, {paddingHorizontal: 14}]}>
+                    <View style={[globalStyles.drawerTop, { paddingHorizontal: 14 }]}>
                         {LibManager.displayInDrawer(text)}
                     </View>
                 </DrawerScrollView>

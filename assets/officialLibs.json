@@ -2870,7 +2870,7 @@
          ". The family cat, ",
          "Name 2",
          ", watched in amazement as the ornaments began to ",
-         "Verb -ed 1",
+         "Verb 1",
          " around.\n\nNext, the elf set his sights on the kitchen, where Mrs. ",
          "Surname 1",
          " was baking her famous Christmas ",
@@ -2946,7 +2946,7 @@
             ]
          },
          {
-            "Verb -ed 1":[
+            "Verb 1":[
                17,
                23
             ]
