@@ -20,8 +20,11 @@ import IAP from "./scripts/IAP.js";
 import { SharedParamsProvider } from "./components/SharedParamsProvider";
 
 // Initialize RevenueCat with API key
-if (Platform.OS !== "web") {
+if (Platform.OS === "android") {
   Purchases.configure({ apiKey: 'goog_XgnhUeKjYuxuYkDsCnROqYgnPpK' });
+  IAP.initialize();
+} else if (Platform.OS === "ios") {
+  Purchases.configure({ apiKey: 'appl_bMsEzGxJwHgmqENbiBWtwshHxOh' });
   IAP.initialize();
 }
 
