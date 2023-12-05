@@ -194,7 +194,7 @@ export default function AppScreenStack() {
 					headerStyle: standardHeaderStyle,
 					headerLeft: () => (
 						<>
-						<TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => navigationDrawerRef.current?.openDrawer()}>
+						<TouchableOpacity hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} onPress={() => navigationDrawerRef.current?.openDrawer()}>
 							<Image
 								style={{width: 24, height: 12, marginLeft: 20, tintColor: "#5f6368"}}
 								source={require("../assets/images/icons/hamburger.png")}
@@ -211,7 +211,7 @@ export default function AppScreenStack() {
 					),
 					headerRight: () => (
 						<>
-						<TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => userDrawerRef.current?.openDrawer()}>
+						<TouchableOpacity hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} onPress={() => userDrawerRef.current?.openDrawer()}>
 							<Image
 								key={key}
 								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
