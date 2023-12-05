@@ -25,6 +25,11 @@ const ListManager = (props) => {
     let blockFlag = false;
 
     let getBlockedList = async () => {
+        if (!FirebaseManager.currentUserData?.auth?.uid) {
+            blockFlag = true;
+            blockedList = [];
+            return 
+        };
         let blockedUsers = await FirebaseManager.getAllBlockedUsers();
         blockedList = blockedUsers;
         blockFlag = true;
