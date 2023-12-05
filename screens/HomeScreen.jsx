@@ -54,7 +54,9 @@ export default function HomeScreen() {
                             </View>
                         )}
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
+                            if (FirebaseManager.currentUserData?.auth?.uid) {
+                                navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
+                            }
                         }}>
                             <Image
                                 style={[{ width: 48, height: 48 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}

@@ -170,7 +170,7 @@ export default class LibManager {
             'adjective': 'Adjective: describes something.',
             'verb': 'Verb: shows action or being.',
             'adverb': 'A word or phrase that modifies or qualifies an adjective or verb: gently, quite, then, there, etc.',
-            'noun': 'Noun: name for a person, place, or thing.',
+            'noun': 'Noun: a thing, something you can see or touch.',
             'object': 'A person, place, or thing.',
             'proper noun': 'Proper Noun: name for specific things, people, and places.',
             'superlative': 'Superlative: fastest, best, etc.',
