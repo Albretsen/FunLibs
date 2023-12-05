@@ -424,6 +424,7 @@ export default function PlayScreen({ route }) {
 	const [keyboardHeight, setKeyboardHeight] = useState(0);
 	const [scrollY, setScrollY] = useState(0);
 	const scrollViewRef = useRef(null);
+	const [isTextInputFocused, setIsTextInputFocused] = useState(false);
 
 	useEffect(() => {
 		function onKeyboardDidShow(e) {
@@ -476,7 +477,7 @@ export default function PlayScreen({ route }) {
 				contentContainerStyle={[
 					globalStyles.standardWhitespace,
 					// Did our own custom keyboard avoiding view because we are better
-					{ paddingBottom: keyboardHeight }
+					{ paddingBottom: isTextInputFocused ? 0 : keyboardHeight }
 				]}>
 				<View style={[styles.promptContainer]}>
 					<AvatarDisplay
@@ -496,8 +497,10 @@ export default function PlayScreen({ route }) {
 								setCurrentInput(text);
 								createPromptContext(text);
 							}}
+							onFocus={() => setIsTextInputFocused(true)}
+							onBlur={() => setIsTextInputFocused(false)}
 							mode="outlined"
-							style={{paddingRight: 40}}
+							style={{ paddingRight: 40 }}
 							autoCapitalize="none"
 							theme={{
 								colors: {
