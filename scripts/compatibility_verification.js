@@ -14,7 +14,7 @@ export default class CompatibilityVerification {
         if (parseInt(this.version) < parseInt(this.newestVersion)) {
             console.log("Old version detected. Running old account recovery scheme.");
             try {
-                this.UploadAccount();
+                //this.UploadAccount();
             } catch {
                 console.log("Old account recovery scheme failed.")
             }
