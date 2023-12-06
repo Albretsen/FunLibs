@@ -10,7 +10,7 @@ import PackManager from '../scripts/PackManager';
 import FileManager from '../scripts/file_manager';
 
 const ListManager = (props) => {
-    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true, readStories, official } = props;
+    let { filterOptions, paddingBottom, showPreview, pack, locked, showLoader = true, readStories, official, bordered } = props;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -188,6 +188,7 @@ const ListManager = (props) => {
                     pack={item.pack}
                     refresh={handleRefresh}
                     published={item.published}
+                    bordered={bordered}
                 />
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed

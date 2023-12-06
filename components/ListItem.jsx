@@ -29,7 +29,7 @@ import i18n from "../scripts/i18n";
 import { ActivityIndicator } from "react-native";
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published, bordered } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -279,6 +279,7 @@ function ListItem(props) {
         <Animated.View
             style={[
                 styles.container,
+                { borderWidth: bordered ? 1 : 0},
                 { opacity: fadeAnim },
                 globalStyles.containerWhitespaceMargin,
                 globalStyles.containerWhitespace,
@@ -421,8 +422,8 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         borderRadius: 10,
         borderColor: "#CAC4D0",
-        // borderWidth: 1,
-        // borderStyle: "dashed",
+        minHeight: 130,
+        borderStyle: "solid",
         // borderBottomWidth: 1
     },
 

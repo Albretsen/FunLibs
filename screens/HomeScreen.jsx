@@ -107,14 +107,16 @@ export default function HomeScreen() {
                                 <Text style={[globalStyles.touchableText, {marginRight: 10}]}>View all</Text>
                             </TouchableOpacity>
                         </View>
-                        <ListManager showPreview={false} showLoader={false} filterOptions={{
-                            "sortBy": "trending",
-                            "category": "All",
-                            "dateRange": "allTime",
-                            "playable": true,
-                            "pageSize": 1,
-                            "random": randomField,
-                        }}></ListManager>
+                        <View style={{height: 150}}>
+                            <ListManager showPreview={false} bordered={true} showLoader={true} filterOptions={{
+                                "sortBy": "trending",
+                                "category": "All",
+                                "dateRange": "allTime",
+                                "playable": true,
+                                "pageSize": 1,
+                                "random": randomField,
+                            }}></ListManager>
+                        </View>
                     </View>
                     <View style={styles.titleSection}>
                         <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>
