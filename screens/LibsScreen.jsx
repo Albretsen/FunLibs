@@ -165,7 +165,7 @@ export default function LibsScreen() {
     }, []);
 
 	return (
-		<SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
+		<View style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
 			<View style={[globalStyles.containerWhitespacePadding]}>
 				<View style={[{
 					flexDirection: "row",
@@ -210,6 +210,6 @@ export default function LibsScreen() {
 				"dateRange": "allTime",
 				"playable": true
 			}}></ListManager>
-	  	</SafeAreaView>
+	  	</View>
 	);
 }

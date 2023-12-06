@@ -42,7 +42,7 @@ export default function CommunityLibsScreen({ route }) {
     
 
     return (
-        <SafeAreaView style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
+        <View style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
 			<View style={[globalStyles.containerWhitespacePadding]}>
                 <SegmentedButtons
                     buttons={[
@@ -101,6 +101,7 @@ export default function CommunityLibsScreen({ route }) {
                 "dateRange": "allTime",
                 "playable": true
             }}></ListManager>
-        </SafeAreaView>
+            
+        </View>
     )
 }
