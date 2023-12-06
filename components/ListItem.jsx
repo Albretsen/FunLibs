@@ -36,6 +36,8 @@ function ListItem(props) {
     const [listItemClickTimestamp, setListItemClickTimestamp] = useState(1);
     let uid = FirebaseManager.currentUserData?.auth?.uid ? FirebaseManager.currentUserData.auth.uid : FirebaseManager.localUID;
 
+    const [likesAmount, setLikesAmount] = useState(likes)
+
     const { openDialog } = useDialog();
 
     if (!uid) {
@@ -147,13 +149,6 @@ function ListItem(props) {
     }
 
     const [isUpdating, setIsUpdating] = useState(false);
-    const likeButtonRef = useRef();
-
-    const handleLikePress = () => {
-        if (likeButtonRef.current) {
-            likeButtonRef.current.press();
-        }
-    };
 
     const favorite = async () => {
         console.log("here 1");
@@ -345,22 +340,15 @@ function ListItem(props) {
                                 <Text style={styles.actionText}>Edit</Text>
                             </TouchableOpacity>
                         ) : (
-                            <TouchableOpacity
-                                style={[styles.action, styles.actionButton]}
-                                onPress={handleLikePress}
-                            >
-                                <LikeButton
-                                    ref={likeButtonRef}
-                                    style={styles.icon}
-                                    filled={isLiked ? true : false}
-                                    onPressed={favorite}
-                                    disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
-                                    onDisabledPress={() => {
-                                        showToast("You have to be signed in to like a post.");
-                                    }}
-                                />
-                                <Text style={styles.actionText}>{likes}</Text>
-                            </TouchableOpacity>
+                            <LikeButton
+                                onPressed={favorite}
+                                filled={isLiked ? true : false}
+                                disabled={FirebaseManager.currentUserData?.auth?.uid ? false : true}
+                                onDisabledPress={() => {
+                                    showToast("You have to be signed in to like a post.");
+                                }}
+                                text={"" + likeCount}
+                            />
                         )}
                         {published ? (
                             <>
@@ -383,7 +371,7 @@ function ListItem(props) {
                         )}
                     </>)
                     :
-                    <></>)}
+                null)}
             </View>
             {showDeleteDialog && (
                 <Dialog
@@ -490,7 +478,8 @@ const styles = StyleSheet.create({
         borderColor: "#6294C9",
         borderStyle: "dashed",
         padding: 6,
-        alignItems: "center"
+        alignItems: "center",
+        minHeight: 30
     },
 
     actionButton: {

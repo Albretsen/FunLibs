@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
-import { View, Pressable, Animated } from 'react-native';
+import { View, Pressable, Animated, StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const LikeButton = forwardRef(({ onPressed, filled = false, disabled = false, onDisabledPress }, ref) => {
+const LikeButton = forwardRef(({ onPressed, filled = false, disabled = false, onDisabledPress, text }, ref) => {
     const [isFilled, setIsFilled] = useState(filled);
     const scaleValue = useRef(new Animated.Value(1)).current; // Initial scale set to 1
 
@@ -44,14 +44,43 @@ const LikeButton = forwardRef(({ onPressed, filled = false, disabled = false, on
     };
 
     return (
-        <View>
-            <Pressable onPress={handlePress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-                <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
-                    <Icon name={isFilled ? 'favorite' : 'favorite-outline'} size={24} color="#6294C9" />
-                </Animated.View>
-            </Pressable>
-        </View>
+        <Pressable
+            style={[styles.action, styles.actionButton]}
+            onPress={handlePress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
+                <Icon name={isFilled ? 'favorite' : 'favorite-outline'} size={18} color="#6294C9" />
+            </Animated.View>
+            <Text style={styles.actionText}>{text ? text: null}</Text>
+        </Pressable>
     );
 });
 
 export default LikeButton;
+
+const styles = StyleSheet.create({
+    action: {
+        flexDirection: "row",
+        gap: 8,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#6294C9",
+        borderStyle: "dashed",
+        padding: 6,
+        alignItems: "center",
+        minHeight: 30
+    },
+
+    actionButton: {
+        borderStyle: "solid"
+    },
+
+    actionText: {
+        fontSize: 15,
+        fontWeight: "600",
+        color: "#6294C9",
+        lineHeight: 20
+    },
+})
