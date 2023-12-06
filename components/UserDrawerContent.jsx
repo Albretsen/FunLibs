@@ -27,7 +27,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 							links: [
 								{
 									title: i18n.t("my_profile"),
-									icon: "home",
+									icon: "face",
 									onPress: () => {
 										navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
 										closeDrawer();
