@@ -1,4 +1,3 @@
-//import "expo-dev-client";
 import React from "react";
 import { useWindowDimensions, View, Platform, StatusBar } from "react-native";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
@@ -6,8 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastProvider } from "./components/Toast";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
-import { Provider } from "react-native-paper";
-import { DrawerProvider } from "./components/Drawer";
+import { Provider as PaperProvider } from "react-native-paper";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
@@ -28,22 +26,6 @@ if (Platform.OS === "android") {
 }
 
 CompatibilityVerification.RunCompatibilityVerification();
-
-const getHeaderTitle = (route) => {
-  // If the focused route is not found, use the screen"s name
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Libs";
-
-  switch (routeName) {
-    case "Libs":
-      return "Fun Libs";
-    case "Stories":
-      return "Stories";
-    case "Your Libs":
-      return "Your Libs";
-    default:
-      return "Fun Libs";
-  }
-};
 
 export const ScreenContext = createContext();
 
@@ -89,7 +71,7 @@ export default function App() {
       <StatusBar barStyle="dark-content" />
       <MenuProvider>
         <SafeAreaProvider>
-          <Provider>
+          <PaperProvider>
             <SharedParamsProvider>
               <ScreenProvider>
                 <ToastProvider>
@@ -108,7 +90,7 @@ export default function App() {
                 </ToastProvider>
               </ScreenProvider>
             </SharedParamsProvider>
-          </Provider>
+          </PaperProvider>
         </SafeAreaProvider>
       </MenuProvider>
     </ConditionalWrapper>
