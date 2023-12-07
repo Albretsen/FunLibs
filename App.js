@@ -94,7 +94,6 @@ export default function App() {
               <ScreenProvider>
                 <ToastProvider>
                   <DialogProvider>
-                    <DrawerProvider>
                       <TabProvider>
                         <NavigationContainer>
                           <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
@@ -105,7 +104,6 @@ export default function App() {
                           </GestureHandlerRootView>
                         </NavigationContainer>
                       </TabProvider>
-                    </DrawerProvider>
                   </DialogProvider>
                 </ToastProvider>
               </ScreenProvider>

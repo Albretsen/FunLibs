@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Dimensions, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, KeyboardEvent } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -10,7 +10,6 @@ import BannerAdComponent from "../components/BannerAd";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useDrawer } from "../components/Drawer";
 import { Divider } from '@rneui/themed';
 import DrawerActions from "../components/DrawerActions";
 import FileManager from "../scripts/file_manager";
@@ -43,7 +42,6 @@ export default function CreateLibScreen({ route }) {
 
     // Drawer refs
     const saveDrawerRef = useRef(null);
-    const publishDrawerRef = useRef(null);
     const deleteDrawerRef = useRef(null);
 
     useEffect(() => {
@@ -221,50 +219,13 @@ export default function CreateLibScreen({ route }) {
         setFinishedLib(Lib.createLib(libTextRef.current));
     }
 
-    // This drawer uses outdated code and will need refactor to work
-    // Currently unused
-    let publishDialog = () => {
-        openDrawer({
-            header: {
-                title: i18n.t('publish_lib'),
-            },
-            component: (
-                <>
-                    <ScrollView>
-                        <View style={[globalStyles.drawerTop, { height: "100%" }]}>
-                            <Text style={styles.paragraph}>
-                                {"By publishing your story, everyone gets to create all sorts of whacky and hilarious stories, thanks to you!"}
-                            </Text>
-                            <Text style={styles.paragraph}>
-                                {"If you don't want to publish your story, you can simply save it locally to your device."}
-                            </Text>
-                        </View>
-                    </ScrollView>
-                    <DrawerActions
-                        onPublish={() => {
-                            publishSaveLib();
-                        }}
-                        publishLabel={editLibID ? "Publish Changes" : "Publish"}
-                        onSave={() => {
-                            localSaveLib();
-                        }}
-                        saveLabel={editLibID ? "Save Changes to Device" : "No, just save to Device"}
-                    />
-                </>
-            )
-        });
-    }
-
     const POSTS_COLLECTION = "posts";
     const MY_CONTENT_KEY = "my_content";
-
 
     const keyboardVerticalOffset = 0;
 
     // const ParentTag = Platform.OS == "android" ? KeyboardAvoidingView : View;
     const ParentTag = KeyboardAvoidingView;
-
-    const buttonColor = "#006D40";
 
     const libTextInputRef = useRef(null);
 
@@ -295,9 +256,6 @@ export default function CreateLibScreen({ route }) {
 
     const [showDialogCustom, setShowDialogCustom] = useState(false);
     const [showDialogInfo, setShowDialogInfo] = useState(false);
-    const [showDialogPublish, setShowDialogPublish] = useState(false);
-
-    const { openDrawer, drawerRef, closeDrawer } = useDrawer();
 
     const save = () => {
         // Brand new lib

@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { View, SafeAreaView, BackHandler } from "react-native";
+import { View } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
-import { ActivityIndicator } from "react-native-paper";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useTab } from "../components/TabContext";
 import Dropdown from "../components/Dropdown";
@@ -51,45 +50,6 @@ export default function LibsScreen() {
 
 	const [lastDocument, setLastDocument] = useState(null);
 
-	const [loading, setLoading] = useState(false);
-	const [loadingCircle, setLoadingCircle] = useState(false);
-	const [loadingAdditional, setLoadingAdditional] = useState(false);
-
-	const [endReached, setEndReached] = useState(false);
-
-	const quickload = false;
-
-	useEffect(() => {
-		console.log(`endReached changed to: ${endReached}`);
-	}, [endReached]);
-
-	// This function converts different date formats to a JavaScript Date object
-	const convertToDate = (input) => {
-		// If it's a Firestore timestamp (assuming it's in seconds format)
-		if (typeof input === 'object') {
-			return new Date(input.seconds * 1000);
-		}
-
-		// If it's an ISO date string
-		if (typeof input === 'string') {
-			return new Date(input);
-		}
-
-		// If it's already a JavaScript Date object
-		if (input instanceof Date) {
-			return input;
-		}
-
-		// If unknown format, return a default date to avoid error (you can handle this differently if needed)
-		return new Date(0); // This is 1970-01-01
-	};
-
-	async function loadLocalItems() {
-		let result = await FileManager._retrieveData("libs");
-		if (result) return JSON.parse(result);
-		return []
-	}
-
 	useEffect(() => {
 		// Add a listener to the Auth state change event
 		const authStateListener = (filterOptions) => {
@@ -121,37 +81,7 @@ export default function LibsScreen() {
 		};
 	}, []);
 
-	const playReadToggle = (newValue) => {
-		setPlayReadValue(newValue);
-		updateFilterOptions(newValue);
-	};
-
-
 	const { setTab } = useTab();
-
-	const [scrollY, setScrollY] = useState(0);
-
-	const [hasReachedBottom, setHasReachedBottom] = useState(false);
-
-	const [data, setData] = useState([]);
-
-	// Function to sort data by id
-	const sortById = (data) => {
-		return [...data].sort((a, b) => a.id - b.id);
-	};
-
-	// Function to update likes for a specific item
-	const updateLikes = (id, newLikes) => {
-		const updatedData = data.map(item => {
-			if (item.id === id) {
-				return { ...item, likes: newLikes };
-			}
-			return item;
-		});
-
-		const sortedData = sortById(updatedData);
-		setData(sortedData);
-	};
 
 	const [showPreview, setShowPreview] = useState(true);
 

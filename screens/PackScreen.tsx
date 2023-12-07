@@ -11,7 +11,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { DialogTrigger } from "../components/Dialog";
 import { ActivityIndicator } from "react-native-paper";
-import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
 import { ScreenContext } from "../App";
@@ -19,19 +18,13 @@ import { useIsFocused } from '@react-navigation/native';
 
 type PackScreenRouteParams = {
     packName: string;
-}
-
-type Props = {
-    route: RouteProp<{ params: PackScreenRouteParams }, 'params'>;
-}
+};
   
-
 type PackScreenProps = {
     route: RouteProp<{ params: PackScreenRouteParams }, 'params'>;
 };
 
-
-export default function PackScreen({ route } : Props) {
+export default function PackScreen({ route } : PackScreenProps) {
     const isFocused = useIsFocused();
     const { setCurrentScreenName } = useContext(ScreenContext);
 
@@ -44,7 +37,6 @@ export default function PackScreen({ route } : Props) {
     const [isLoading, setIsLoading] = useState(false);
     const showToast = useContext(ToastContext);
     const { packName } = route.params;
-    console.log(packName)
     const [packData, setPackdata] = useState((PackManager.packs as any)[packName]);
     const [name, setName] = useState(packData.name);
     const [description, setDescription] = useState(packData.description)
@@ -228,17 +220,21 @@ export default function PackScreen({ route } : Props) {
                         <Text style={styles.title}>{name} libs</Text>
                     </View>
                     <>
-                    {isLoading ? (
-                    // Replace with your loading icon/component
-                    <ActivityIndicator size="large" color="#6294C9" />
-                ) : <ListManager paddingBottom={25} showPreview={true} pack={pack + "_pack"} locked={showBuyButton}></ListManager>}
+                        {isLoading ? (
+                            <ActivityIndicator size="large" color="#6294C9" />
+                        ) : <ListManager
+                                paddingBottom={50}
+                                showPreview={true}
+                                pack={pack + "_pack"}
+                                locked={showBuyButton}
+                            />
+                        }
                     </>
                 </ScrollView>
             </View>
             <DialogTrigger
                 id="dialogConfirmation"
                 show={showDialogConfirmation}
-                // onCancel={() => setShowDialogConfirmation(false)}
                 onConfirm={() => setShowDialogConfirmation(false)}
                 cancelLabel=" "
             >
@@ -272,7 +268,6 @@ const styles = StyleSheet.create({
 
     buyButton: {
         borderWidth: 2,
-        // borderStyle: "dashed",
         borderColor: "#95691B",
         borderRadius: 10,
         padding: 10,

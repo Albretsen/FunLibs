@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
     }
 });
 
-
 const DrawerContext = createContext();
 
 export const useDrawer = () => {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image, ScrollView } from "react-native";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Pressable } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
@@ -7,12 +7,10 @@ import _ from "lodash";
 import LibManager from "../scripts/lib_manager";
 import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
-import { useDrawer } from "./Drawer";
 import DrawerActions from "./DrawerActions";
 import AudioPlayer from "../scripts/audio";
 import FileManager from "../scripts/file_manager";
 import FunLibsShare from "../scripts/share";
-import Lib from "../scripts/lib";
 import { useDialog } from "./Dialog";
 import { ToastContext } from "../components/Toast";
 import AvatarDisplay from "./AvatarDisplay";
@@ -26,7 +24,6 @@ import Drawer from "../components/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 import DrawerHeader from "../components/DrawerHeader";
 import i18n from "../scripts/i18n";
-import { ActivityIndicator } from "react-native";
 
 function ListItem(props) {
     const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published, bordered } = props;
@@ -49,7 +46,6 @@ function ListItem(props) {
         setIsLiked(likesArray?.includes(currentUid));
     }, [FirebaseManager.currentUserData]);
     const [likeCount, setLikeCount] = useState(likes || 0);
-    const { openDrawer, closeDrawer } = useDrawer();
     const { playAudio } = AudioPlayer();
     const [localLikesArray, setLocalLikesArray] = useState(likesArray || []);
     const showToast = useContext(ToastContext);
@@ -202,7 +198,7 @@ function ListItem(props) {
 
         FileManager._storeData("read", JSON.stringify(result));
 
-        closeDrawer();
+        readDrawerRef.current?.closeDrawer();
         try {
             refresh();
         } catch (error) {

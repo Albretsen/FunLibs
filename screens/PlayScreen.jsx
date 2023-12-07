@@ -1,13 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Dimensions, SafeAreaView, Keyboard } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Keyboard } from "react-native";
 import * as Progress from "react-native-progress";
 import globalStyles from "../styles/globalStyles";
 import LibManager from "../scripts/lib_manager";
 import Buttons from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import AdManager from "../scripts/ad_manager";
-import BannerAdComponent from "../components/BannerAd";
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
 import { TextInput } from "react-native-paper";
@@ -17,7 +16,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import FileManager from "../scripts/file_manager";
 import Analytics from "../scripts/analytics";
 import { requestReview } from "../scripts/store_review";
-import { DialogTrigger, useDialog } from "../components/Dialog";
+import { useDialog } from "../components/Dialog";
 import AudioPlayer from "../scripts/audio";
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,7 +30,6 @@ import i18n from "../scripts/i18n";
 import Drawer from "../components/DrawerComponent";
 import DrawerHeader from "../components/DrawerHeader";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
-import Dropdown from "../components/Dropdown";
 
 function isNum(n) {
 	return /.*[0-9].*/.test(n);
