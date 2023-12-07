@@ -240,10 +240,6 @@ export default function CreateLibScreen({ route }) {
                             </Text>
                         </View>
                     </ScrollView>
-                    <Image
-                        style={{ height: 212, width: 205 }}
-                        source={require("../assets/images/girl-with-balloon.png")}
-                    />
                     <DrawerActions
                         onPublish={() => {
                             publishSaveLib();

@@ -7,7 +7,7 @@ type BigButtonProps = {
     label: string;
     description?: string;
     onPress?: () => void;
-    height?: number;
+    height?: string | number;
     width?: string | number;
     colorStart?: string;
     colorEnd?: string;
@@ -15,6 +15,14 @@ type BigButtonProps = {
 };
 
 export default function BigButton({label, description, onPress, height = 130, width = "auto", colorStart = "#638BD5", colorEnd = "#60C195", containerStyle}: BigButtonProps) {
+    
+    // Converts the given height and width values to a format compatible with ViewStyle.
+    const styleWithDimension = (height: number | string, width: number | string): ViewStyle => {
+        return {
+            height: height as ViewStyle['height'],
+            width: width as ViewStyle['width'],
+        };
+    };
 
     return(
         <Pressable style={[styles.container]} onPress={onPress}>
@@ -22,7 +30,7 @@ export default function BigButton({label, description, onPress, height = 130, wi
                 colors={[colorStart, colorEnd]}
                 start={{ x: 0, y: 1 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.background, {height: height, width: width}, containerStyle ? containerStyle : null]}
+                style={[styles.background, styleWithDimension(height, width), containerStyle ? containerStyle : null]}
             >
                 <View style={styles.section}>
                     <Text style={styles.label}>

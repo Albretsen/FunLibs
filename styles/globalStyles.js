@@ -75,10 +75,6 @@ const globalStyles = StyleSheet.create({
         maxHeight: Dimensions.get("window").height - 64,
     },
 
-    defaultFont: {
-        fontFamily: "Roboto-Regular",
-    },
-
     fontSmall: {
         fontSize: 15
     },

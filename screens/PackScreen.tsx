@@ -167,25 +167,27 @@ export default function PackScreen({ route } : Props) {
 
     return(
         <View style={[globalStyles.screenStandard]}>
-            <View style={[globalStyles.standardHeight, globalStyles.containerWhitespacePadding]}>
-                <View style={styles.titleSection}>
-                    <View>
-                        <Text style={styles.titleText}>The</Text>
-                        <Text style={[styles.titleText, {fontWeight: "600"}]}>{name}</Text>
-                        <Text style={styles.titleText}>Pack</Text>
-                        <Text style={styles.premiumText}>Premium</Text>
-                    </View>
-                    <Image
-                        style={{ height: 106, width: 102 }}
-                        source={imageSource}
-                    />
+            <View style={[globalStyles.standardHeight]}>
+                <View style={globalStyles.containerWhitespaceMargin}>
+                    <View style={styles.titleSection}>
+                        <View>
+                            <Text style={styles.titleText}>The</Text>
+                            <Text style={[styles.titleText, {fontWeight: "600"}]}>{name}</Text>
+                            <Text style={styles.titleText}>Pack</Text>
+                            <Text style={styles.premiumText}>Premium</Text>
+                        </View>
+                        <Image
+                            style={{ height: 106, width: 102 }}
+                            source={imageSource}
+                        />
+                    </View>  
+                    {showBuyButton && (
+                        <TouchableOpacity onPress={purchasePack} style={styles.buyButton}>
+                            <Text style={styles.buyButtonText}>🎉 Buy Pack {price} 🎉</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
-                {showBuyButton && (
-                    <TouchableOpacity onPress={purchasePack} style={styles.buyButton}>
-                        <Text style={styles.buyButtonText}>🎉 Buy Pack {price} 🎉</Text>
-                    </TouchableOpacity>
-                )}
-                <ScrollView>
+                <ScrollView contentContainerStyle={globalStyles.containerWhitespacePadding}>
                     <View>
                         <Text style={styles.description}>
                             {description}
@@ -195,22 +197,6 @@ export default function PackScreen({ route } : Props) {
                         <Text style={styles.title}>Other packs</Text>
                         <Buttons
                             buttons={[
-                                // [{
-                                //     label: i18n.t('gaming'),
-                                //     icon: "sports-esports",
-                                //     iconColor: "#6294C9",
-                                //     onPress: () => {
-                                //         setPack("gaming_pack");
-                                //     }
-                                // },
-                                // {
-                                //     label: i18n.t('animals'),
-                                //     icon: "pets",
-                                //     iconColor: "#6294C9",
-                                //     onPress: () => {
-                                //         setPack("animals_pack");
-                                //     }
-                                // },
                                 {
                                     label: i18n.t('romance'),
                                     iconComponent: <MaterialCommunityIcons name="hand-heart-outline" size={20} color="#6294C9" />,

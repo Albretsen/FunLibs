@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     avatarContainer: {
         justifyContent: "center",
         flexDirection: "row",
-        width: "100%",
+        // width: "100%",
         flexWrap: "wrap",
         gap: gapSize
     },

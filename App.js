@@ -1,9 +1,8 @@
 //import "expo-dev-client";
 import React from "react";
-import { StyleSheet, useWindowDimensions, View, Platform, StatusBar } from "react-native";
+import { useWindowDimensions, View, Platform, StatusBar } from "react-native";
 import { NavigationContainer, getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import LibManager from "./scripts/lib_manager.js";
 import { ToastProvider } from "./components/Toast";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
@@ -117,24 +116,3 @@ export default function App() {
     </ConditionalWrapper>
   );
 }
-
-// If drawer navigation ever is desired again, here's the code: 
-{/* <DrawerNav.Navigator
-  drawerContent={(props) => <CustomDrawerContent {...props} />}
-  screenOptions={{
-    drawerStyle: {
-      borderTopRightRadius: 15,
-      borderBottomRightRadius: 15,
-    }
-  }}
->
-  <DrawerNav.Screen
-    name="Home"
-    component={AppScreenStack}
-    options={{ headerShown: false }}
-  />
-</DrawerNav.Navigator> */}
-
-const styles = StyleSheet.create({
-
-});
