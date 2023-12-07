@@ -15,6 +15,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import Purchases from "react-native-purchases";
 import IAP from "./scripts/IAP.js";
 import { SharedParamsProvider } from "./components/SharedParamsProvider";
+import { PreviewProvider } from "./components/PreviewToggle";
 
 // Initialize RevenueCat with API key
 if (Platform.OS === "android") {
@@ -76,6 +77,7 @@ export default function App() {
               <ScreenProvider>
                 <ToastProvider>
                   <DialogProvider>
+                    <PreviewProvider>
                       <TabProvider>
                         <NavigationContainer>
                           <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
@@ -86,6 +88,7 @@ export default function App() {
                           </GestureHandlerRootView>
                         </NavigationContainer>
                       </TabProvider>
+                    </PreviewProvider>
                   </DialogProvider>
                 </ToastProvider>
               </ScreenProvider>

@@ -1,30 +1,55 @@
-import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import FileManager from "../scripts/file_manager";
+import FileManager from '../scripts/file_manager';
 
-interface PreviewToggleProps {
-    onStateChange?: (state: boolean) => null
+interface PreviewContextType {
+    showPreview: boolean;
+    setShowPreview: (newState: boolean) => Promise<void>;
 }
 
-export default function PreviewToggle(props: PreviewToggleProps) {
-    const { onStateChange } = props;
-    const [showPreview, setShowPreview] = useState(true);
+export const PreviewContext = createContext<PreviewContextType | undefined>(undefined);
+
+export const PreviewProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+    const [showPreview, setShowPreview] = useState<boolean>(true);
+
+    const handleSetShowPreview = async (newState: boolean) => {
+        setShowPreview(newState);
+        await FileManager._storeData("previewToggle", newState.toString());
+    };
 
     useEffect(() => {
-        async function fetchData() {
+        async function loadInitialState() {
             const storedPreview = await FileManager._retrieveData("previewToggle");
-            setShowPreview(storedPreview === 'true');
+            if (storedPreview !== null) {
+                setShowPreview(storedPreview === 'true');
+            }
         }
-        fetchData();
+        loadInitialState();
     }, []);
 
-    const togglePreview = async () => {
-        let currentPreview = await FileManager._retrieveData("previewToggle");
-        let newPreview = currentPreview !== 'true';
-        await FileManager._storeData("previewToggle", newPreview.toString());
+    return (
+        <PreviewContext.Provider value={{ showPreview, setShowPreview: handleSetShowPreview }}>
+            {children}
+        </PreviewContext.Provider>
+    );
+};
+
+interface PreviewToggleProps {
+    onStateChange?: (state: boolean) => void;
+}
+
+export const PreviewToggle: React.FC<PreviewToggleProps> = ({ onStateChange }) => {
+    const context = useContext(PreviewContext);
+    if (!context) {
+        throw new Error('PreviewToggle must be used within a PreviewProvider');
+    }
+    const { showPreview, setShowPreview } = context;
+
+    const togglePreview = () => {
+        const newPreview = !showPreview;
         setShowPreview(newPreview);
-        if(onStateChange) {
+        if (onStateChange) {
             onStateChange(newPreview);
         }
     }
@@ -39,4 +64,4 @@ export default function PreviewToggle(props: PreviewToggleProps) {
             </View>
         </TouchableOpacity>
     );
-}
+};

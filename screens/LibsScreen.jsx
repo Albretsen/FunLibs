@@ -10,7 +10,7 @@ import Dropdown from "../components/Dropdown";
 import FileManager from "../scripts/file_manager";
 import _ from 'lodash';
 import i18n from "../scripts/i18n";
-import PreviewToggle from "../components/PreviewToggle";
+import { PreviewToggle, PreviewContext } from "../components/PreviewToggle";
 import ListManager from "../components/ListManager";
 
 export default function LibsScreen() {
@@ -83,7 +83,7 @@ export default function LibsScreen() {
 
 	const { setTab } = useTab();
 
-	const [showPreview, setShowPreview] = useState(true);
+	const { showPreview, setShowPreview } = useContext(PreviewContext);
 
     // Get the current state of showPreview stored locally
     useEffect(() => {
@@ -132,7 +132,7 @@ export default function LibsScreen() {
 						},
 					]}/>
 
-					<PreviewToggle onStateChange={(state) => {setShowPreview(state); console.log(state)}} />
+					<PreviewToggle />
 				</View>
 			</View>
 			<ListManager official={true} showPreview={showPreview} filterOptions={{

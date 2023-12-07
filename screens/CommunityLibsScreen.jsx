@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View } from "react-native";
 import ListManager from "../components/ListManager";
-import { SafeAreaView } from "react-native-safe-area-context";
 import globalStyles from "../styles/globalStyles";
 import SegmentedButtons from "../components/SegmentedButtons";
 import i18n from "../scripts/i18n";
 import Dropdown from "../components/Dropdown";
-import PreviewToggle from "../components/PreviewToggle";
+import { PreviewToggle, PreviewContext } from "../components/PreviewToggle";
 import FileManager from "../scripts/file_manager";
 import { useSharedParams } from "../components/SharedParamsProvider";
 
@@ -20,7 +19,7 @@ export default function CommunityLibsScreen({ route }) {
 
     const { sharedParams } = useSharedParams();
 
-    const [showPreview, setShowPreview] = useState(true);
+    const { showPreview, setShowPreview } = useContext(PreviewContext);
 
     // Get the current state of showPreview stored locally
     useEffect(() => {
@@ -40,7 +39,6 @@ export default function CommunityLibsScreen({ route }) {
         }
     }, [sharedParams]);
     
-
     return (
         <View style={[globalStyles.screenStandard, globalStyles.standardHeightBottomNav, {flex: 1}]}>
 			<View style={[globalStyles.containerWhitespacePadding]}>
@@ -88,11 +86,10 @@ export default function CommunityLibsScreen({ route }) {
                             name: i18n.t('my_templates'),
                             onPress: () => {
                                 setSelectedCategory("myContent");
-                                //updateFilterOptions(playReadValue, "myFavorites");
                             }
                         }
                     ]} />
-                    <PreviewToggle onStateChange={(state) => {setShowPreview(state)}} />
+                    <PreviewToggle />
                 </View>
             </View>
             <ListManager showPreview={showPreview}  filterOptions={{
@@ -101,7 +98,6 @@ export default function CommunityLibsScreen({ route }) {
                 "dateRange": "allTime",
                 "playable": true
             }}></ListManager>
-            
         </View>
     )
 }
