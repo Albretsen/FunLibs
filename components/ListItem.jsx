@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
         borderStyle: "dashed",
         padding: 6,
         alignItems: "center",
-        minHeight: 30
+        minHeight: 34
     },
 
     actionButton: {
@@ -493,7 +493,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 6,
         paddingHorizontal: 10,
-        alignItems: "center"
+        alignItems: "center",
+        minHeight: 34
     },
 
     actionText: {
