@@ -17,6 +17,11 @@ import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
 
+    useEffect(() => {
+        setLoading(true);
+        fetchUserData(uid);
+    }, [route.params.uid])
+
     const showToast = useContext(ToastContext);
 
     const [loading, setLoading] = useState(true);

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -509,7 +509,16 @@ export default function CreateLibScreen({ route }) {
 
     return (
         <TouchableWithoutFeedback onPressOut={handleDismissKeyboard}>
-            <ParentTag behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset} style={[globalStyles.screenStandard, globalStyles.standardHeight, {backgroundColor: "white", flex: 1}]}>
+            <ParentTag
+                behavior='height'
+                keyboardVerticalOffset={keyboardVerticalOffset}
+                style={[
+                    globalStyles.screenStandard,
+                    globalStyles.standardHeight,
+                    { backgroundColor: "white", flex: 1 },
+                    Platform.OS === "android" ? { paddingBottom: 55 } : null
+                ]}
+            >
                 {/* <ScrollView style={[globalStyles.standardWhitespace]}
                     keyboardShouldPersistTaps={'always'}
                     keyboardDismissMode='on-drag'

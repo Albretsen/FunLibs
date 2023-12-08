@@ -275,11 +275,7 @@ export const ToastProvider = ({ children }) => {
 	return (
 		<ToastContext.Provider value={showToast}>
 			{children}
-			<KeyboardAvoidingView
-				behavior={Platform.OS === 'ios' ? 'position' : undefined}
-			>
-				{message && <Toast keyboardHeight={keyboardHeight} message={message} setMessage={setMessage} noBottomMargin={bottomMarginBool} showLoading={showLoading} />}
-			</KeyboardAvoidingView>
+			{message && <Toast keyboardHeight={keyboardHeight} message={message} setMessage={setMessage} noBottomMargin={bottomMarginBool} showLoading={showLoading} />}
 		</ToastContext.Provider>
 	);
 };
