@@ -271,6 +271,36 @@ function ListItem(props) {
 
     const readDrawerRef = useRef(null);
 
+    /**
+ * Converts a number to a shortened format similar to social media likes.
+ * 
+ * - Numbers below 1000 are returned as is.
+ * - Numbers from 1000 to 999999 are shortened to 'k' format.
+ * - Numbers 1 million and above are shortened to 'm' format.
+ * 
+ * @param {number} number - The number to be converted.
+ * @returns {string} - The number in a shortened format.
+ */
+    function convertToShortForm(number) {
+        // Validate input
+        if (typeof number !== 'number' || isNaN(number)) {
+            throw new Error('Invalid input: input must be a number.');
+        }
+
+        // Handle numbers less than 1000
+        if (number < 1000) {
+            return number.toString();
+        }
+
+        // Handle thousands
+        if (number < 1000000) {
+            return (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+        }
+
+        // Handle millions and above
+        return (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
+    }
+
     return (
         <Animated.View
             style={[
@@ -294,7 +324,7 @@ function ListItem(props) {
                     <Text>
                         {"by "}
                         <Text style={user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? { color: "#6294C9", fontWeight: "600" } : null}>{username}</Text>
-                        {!local ? !` | ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}` : null}
+                        {!local ? !` | ${convertToShortForm(likeCount)} ${likeCount === 1 ? 'like' : 'likes'}` : null}
                     </Text>
                 )}
                 rightComponent={"userActions"}
@@ -355,7 +385,7 @@ function ListItem(props) {
                                 </Pressable>
                                 <View style={styles.action}>
                                     <Entypo name="open-book" size={18} color="#6294C9" />
-                                    <Text style={styles.actionText}>{plays ? plays : 0}</Text>
+                                    <Text style={styles.actionText}>{plays ? convertToShortForm(plays) : 0}</Text>
                                 </View>
                             </>
                         ) : (

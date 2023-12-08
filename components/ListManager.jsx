@@ -39,6 +39,9 @@ const ListManager = (props) => {
 
     const fetchData = useCallback(async (newFetch = true) => {
         const currentFetchCount = ++fetchCountRef.current;
+        if (official) {
+            newFetch = true;
+        }
 
         setLoading(true);
         try {
