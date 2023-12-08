@@ -234,6 +234,11 @@ export default function CommentSection(props) {
         }
     };
 
+    useEffect(() => {
+        // Update the commentList state when the comments prop changes
+        setCommentList(comments);
+    }, [comments]);
+
     return (
         <View key={refreshKey}>
             {loading ? (
