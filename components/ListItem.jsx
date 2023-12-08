@@ -147,48 +147,41 @@ function ListItem(props) {
     const [isUpdating, setIsUpdating] = useState(false);
 
     const favorite = async () => {
-        console.log("here 1");
         if (isUpdating) return;  // Prevent further interactions while updating
-        console.log("here 2");
         if (!FirebaseManager.currentUserData?.auth?.uid) {
             showToast("You have to be signed in to like a post.");
             return;
         }
-        console.log("here 3");
         setIsUpdating(true);
-
+    
         const userUid = FirebaseManager.currentUserData.auth.uid;
         let isUserLiked = localLikesArray.includes(userUid);
+    
+        // Optimistic UI updates
+        setIsLiked(!isUserLiked);
+        setLikeCount(prevCount => isUserLiked ? prevCount - 1 : prevCount + 1);
         let updatedLikesArray = [...localLikesArray];
-        console.log("here 4");
         if (isUserLiked) {
-            console.log("here 5");
-            setIsLiked(false);
-            setLikeCount(likeCount - 1);
             updatedLikesArray = updatedLikesArray.filter(uid => uid !== userUid);
         } else {
-            console.log("here 6");
-            setIsLiked(true);
-            setLikeCount(likeCount + 1);
-            playAudio("pop");
             updatedLikesArray.push(userUid);
+            playAudio("pop");
         }
-
+        setLocalLikesArray(updatedLikesArray);
+    
         try {
             await FirebaseManager.updateLikesWithTransaction(id, userUid);
-            setLocalLikesArray(updatedLikesArray);  // Update the local state
-            console.log("here 7");
         } catch (error) {
-            console.log("here 8");
             console.error("Failed to update likes in Firebase:", error);
-            // Revert the UI changes
+            // Revert the UI changes in case of failure
             setIsLiked(isUserLiked);
-            setLikeCount(isUserLiked ? likeCount - 1 : likeCount + 1);
+            setLikeCount(isUserLiked ? likeCount + 1 : likeCount - 1);
+            setLocalLikesArray(localLikesArray);
         } finally {
-            console.log("here 9");
             setIsUpdating(false);  // Allow further interactions
         }
     };
+    
 
 
     const deleteLib = async () => {
@@ -374,7 +367,7 @@ function ListItem(props) {
                                 onDisabledPress={() => {
                                     showToast("You have to be signed in to like a post.");
                                 }}
-                                text={"" + likeCount}
+                                text={"" + convertToShortForm(likeCount)}
                             />
                         )}
                         {published ? (
