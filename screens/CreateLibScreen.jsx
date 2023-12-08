@@ -515,8 +515,7 @@ export default function CreateLibScreen({ route }) {
                 style={[
                     globalStyles.screenStandard,
                     globalStyles.standardHeight,
-                    { backgroundColor: "white", flex: 1 },
-                    Platform.OS === "android" ? { paddingBottom: 55 } : null
+                    { backgroundColor: "white", flex: 1, paddingBottom: 55 },
                 ]}
             >
                 {/* <ScrollView style={[globalStyles.standardWhitespace]}
