@@ -705,7 +705,8 @@ export default function CreateLibScreen({ route }) {
                                 {...(!editLibID || (editLibID && item?.local) ? { onPublish: () => { publish() } } : {})}
                                 onSave={() => { save() }}
                                 saveLabel={!editLibID ? i18n.t('save_as_draft') : i18n.t('save_changes')}
-                                {...(editLibID ? { onDelete: () => { 
+                                {...(editLibID ? { onDelete: () => {
+                                    saveDrawerRef.current?.closeDrawer();
                                     showDeleteConfirmation();
                                 } } : {})}
                             />

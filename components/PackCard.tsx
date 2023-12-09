@@ -99,6 +99,9 @@ const styles = StyleSheet.create({
         gap: 10,
         paddingVertical: 4,
         marginRight: 10,
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center"
     },
 
     buttonText: {
