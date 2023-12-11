@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "26"
+      "buildNumber": "27"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -31,7 +31,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.asgalb.FunLibs",
-      "versionCode": 26,
+      "versionCode": 27,
       "intentFilters": [
         {
           "action": "VIEW",
