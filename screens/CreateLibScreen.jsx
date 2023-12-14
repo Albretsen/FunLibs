@@ -812,7 +812,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     highlighted: {
-        color: "#00522F"
+        color: "#6294C9"
     },
     paragraph: {
         marginBottom: 16,
