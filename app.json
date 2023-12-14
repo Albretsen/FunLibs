@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "orientation": "portrait",
     "scheme": "funlibs",
     "plugins": ["react-native-iap"],

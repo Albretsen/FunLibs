@@ -453,12 +453,15 @@ export default class LibManager {
     * @returns Returns a JSX text node containing the context of a prompt within the given story
     */
     static createPromptContext(lib, promptIndex, input, currentPrompt) {
+        let beforeText;
+        let afterText;
+
         const text = lib.text;
         const prompts = lib.prompts;
         const promptPos = Object.values(prompts[promptIndex])[0][0];
 
         // When the user hasn't written anything, show the name of the prompt
-        if(input == "") {
+        if (input == "") {
             input = currentPrompt;
         }
 
@@ -470,15 +473,15 @@ export default class LibManager {
         // Establish iterator
         let beforeI = 2;
         // Keep going backwards in the array until the before text is long enough, or stop if there is no more text
-        while(beforeTextFull.length < maxTextLength && text[promptPos - beforeI]) {
+        while (beforeTextFull.length < maxTextLength && text[promptPos - beforeI]) {
             beforeTextFull = `${text[promptPos - beforeI]}${beforeTextFull}`;
             beforeI++;
         }
 
         // Ditto, but the other way around
-        let afterTextFull = text[promptPos + 1];
+        let afterTextFull = promptPos + 1 < text.length ? text[promptPos + 1] : "";
         let afterI = 2;
-        while(afterTextFull.length < maxTextLength && text[promptPos + afterI]) {
+        while (afterTextFull.length < maxTextLength && (promptPos + afterI) < text.length) {
             afterTextFull = `${afterTextFull}${text[promptPos + afterI]}`;
             afterI++;
         }
@@ -486,20 +489,18 @@ export default class LibManager {
 
         // Limit to maxTextLength characters, also subtracting the length of the input
         const beforeSubtract = maxTextLength - Math.floor(input.length / 2);
-        const beforeText = beforeTextFull.length > beforeSubtract
-            ? beforeTextFull.slice(-beforeSubtract) 
+        beforeText = beforeTextFull.length > beforeSubtract
+            ? beforeTextFull.slice(-beforeSubtract)
             : beforeTextFull;
-        
+
         const afterSubtract = maxTextLength - Math.ceil(input.length / 2);
-        const afterText = afterTextFull.length > afterSubtract 
-            ? afterTextFull.slice(0, afterSubtract) 
+        afterText = afterTextFull.length > afterSubtract
+            ? afterTextFull.slice(0, afterSubtract)
             : afterTextFull;
-
-
         return (
             <Text>
                 ...{beforeText}
-                <Text style={{color: "#6294C9"}}>{input}</Text>
+                <Text style={{ color: "#6294C9" }}>{input}</Text>
                 {afterText}...
             </Text>
         )
