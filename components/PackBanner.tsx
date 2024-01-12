@@ -19,10 +19,10 @@ export default function PackBanner() {
                 <Text style={styles.text}>Celebrate the season of love with the Romance Pack!</Text>
                 {/* Add pulsate to this */}
                 <Text style={styles.discountText}>🎉 20% off until February 16th! 🎉</Text>
-                <Image
+                {/* <Image
                     style={[styles.image, {height: 0, width: 0}]}
-                    source={require("../assets/images/couple-with-balloon.png")}
-                />
+                    source={require("../assets/images/image-name")}
+                /> */}
             </View>
         </LinearGradient>
 

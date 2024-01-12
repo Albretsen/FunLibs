@@ -16,7 +16,7 @@ type PackCardProps = {
     smallButton?: boolean
 };
 
-export default function PackCard({title, description, image, imageWidth = 48, imageHeight = 48, onPress, colorStart = "transparent", colorEnd = "transparent", containerStyle}: PackCardProps) {
+export default function PackCard({title, description, image, imageWidth = 72, imageHeight = 56, onPress, colorStart = "transparent", colorEnd = "transparent", containerStyle}: PackCardProps) {
 
     // colorStart = "#638BD5"
     // colorEnd = "#60C195"

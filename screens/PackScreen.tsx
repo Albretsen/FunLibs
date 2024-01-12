@@ -169,7 +169,7 @@ export default function PackScreen({ route } : PackScreenProps) {
                             <Text style={styles.premiumText}>Premium</Text>
                         </View>
                         <Image
-                            style={{ height: 106, width: 102 }}
+                            style={{ height: 112, width: 144 }}
                             source={imageSource}
                         />
                     </View>  

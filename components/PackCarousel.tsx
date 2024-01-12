@@ -28,8 +28,8 @@ export default function PackCarousel({data}: PackCarouselProps) {
                 title={`${item.title}`}
                 description={item.description}
                 image={item.image}
-                imageHeight={110}
-                imageWidth={110}
+                imageHeight={112}
+                imageWidth={144}
                 onPress={item.onPress}
                 containerStyle={{width: itemWidth}}
                 colorStart="#638BD5"
