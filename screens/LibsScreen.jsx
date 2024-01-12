@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
@@ -105,7 +105,7 @@ export default function LibsScreen() {
 				}]}>
 				</View>
 				<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-					<Dropdown selected={selectedCategory} options={[
+					{Platform.OS !== "ios" ? <Dropdown selected={selectedCategory} options={[
 						{
 							name: i18n.t('official_templates'),
 							onPress: () => { 
@@ -130,7 +130,7 @@ export default function LibsScreen() {
 								navigation.navigate("Pack", {packName: "christmas"});
 							},
 						},
-					]}/>
+					]}/> : <></>}
 
 					<PreviewToggle />
 				</View>

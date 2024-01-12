@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
 import globalStyles from "../styles/globalStyles";
 import BigButton from "../components/BigButton";
@@ -118,11 +118,11 @@ export default function HomeScreen() {
                             }}></ListManager>
                         </View>
                     </View>
-                    <View style={styles.titleSection}>
+                    {Platform.OS != "ios" ? <View style={styles.titleSection}>
                         <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>
-                    </View>
+                    </View> : <></>}
                 </View>
-                <View style={{marginTop: 16}}>
+                {Platform.OS != "ios" ? <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
                             title: 'Christmas Pack',
@@ -152,7 +152,7 @@ export default function HomeScreen() {
                             }
                         },
                     ]}/>
-                </View>
+                </View> : <></>}
             </ScrollView>
         </View>
     )

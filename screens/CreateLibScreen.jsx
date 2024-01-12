@@ -640,7 +640,7 @@ export default function CreateLibScreen({ route }) {
                         />
                     </View>
 
-                    <View style={{flexDirection: "row", flex: 1, marginTop: 14, }}>
+                    <View style={{flexDirection: "row", flex: 1, marginTop: 14, marginBottom: Platform.OS === "ios" ? 25 : 0}}>
                         <TextInput
                             ref={libTextInputRef}
                             style={[globalStyles.input, globalStyles.inputLarge, { flex: 1, flexGrow: 1, fontSize: 18}]}
