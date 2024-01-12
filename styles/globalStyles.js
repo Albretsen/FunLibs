@@ -295,6 +295,26 @@ const globalStyles = StyleSheet.create({
 
     lockedOpacity: {
         opacity: 0.5,
+    },
+
+    textInput: {
+        borderWidth: 2,
+        borderColor: "#8c8c8c",
+        borderRadius: 4,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        fontSize: 15
+    },
+
+    textInputLabel: {
+        fontSize: 15,
+        paddingHorizontal: 4,
+        paddingBottom: 2,
+        color: "#474747"
+    },
+
+    textInputFocused: {
+        borderColor: "#6294C9"
     }
 })
 

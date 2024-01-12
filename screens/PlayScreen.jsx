@@ -9,7 +9,8 @@ import AdManager from "../scripts/ad_manager";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
-import { TextInput } from "react-native-paper";
+// import { TextInput } from "react-native-paper";
+import { TextInput } from "react-native";
 import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -463,6 +464,7 @@ export default function PlayScreen({ route }) {
 		);
 	}
 
+	const focusedInputStyle = isTextInputFocused ? globalStyles.textInputFocused : null;
 
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
@@ -488,8 +490,9 @@ export default function PlayScreen({ route }) {
 						uid={currentLib.user}
 					/>
 					<View style={{ position: "relative", height: 60, maxHeight: 60 }}>
+						<Text style={globalStyles.textInputLabel}>{displayPrompts[currentPromptIndex]}</Text>
 						<TextInput
-							label={displayPrompts[currentPromptIndex]}
+							placeholder={"Write your word here..."}
 							value={currentInput}
 							onChangeText={(text) => {
 								setCurrentInput(text);
@@ -497,22 +500,18 @@ export default function PlayScreen({ route }) {
 							}}
 							onFocus={() => setIsTextInputFocused(true)}
 							onBlur={() => setIsTextInputFocused(false)}
-							mode="outlined"
-							style={{ paddingRight: 40 }}
+							style={[, globalStyles.textInput, { paddingRight: 50 }, focusedInputStyle]}
 							autoCapitalize="none"
-							theme={{
-								colors: {
-									primary: '#49454F', // For the outline color
-								},
-							}}
+							inputMode="text"
+							selectionColor={"black"}
 						/>
 						{fillAvailable && ( // Render only if autofill is available
-							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: 0, height: 60, width: 60, justifyContent: "center", alignItems: "center" }}>
+							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: 0, height: 88, width: 60, justifyContent: "center", alignItems: "center" }}>
 								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>{i18n.t('fill')}</Text>
 							</TouchableOpacity>
 						)}
 					</View>
-					<Text style={[styles.leftPadding, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
+					<Text style={[{paddingLeft: 6, paddingTop: 2}, globalStyles.fontSmall, styles.explanation]}>{LibManager.getPromptExplanation(Object.keys(currentLib.prompts[currentPromptIndex])[0])}</Text>
 					{!showPromptContext && (
 						<TouchableOpacity style={[{flexDirection: "row", gap: 10, alignItems: "center"}, styles.leftPadding]} onPress={() => {
 							createPromptContext(currentInput);
@@ -646,7 +645,8 @@ const styles = StyleSheet.create({
 	explanation: {
 		// Gap makes this too far away from input, so quick fix
 		marginTop: -6,
-		flex: 1
+		flex: 1,
+		color: "#5c5a5a"
 	},
 
 	buttonContainer: {

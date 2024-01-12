@@ -792,7 +792,7 @@ export default function CreateLibScreen({ route }) {
                             {i18n.t('they_built_an')} <Text style={styles.highlighted}>({i18n.t('adjective')})</Text> {i18n.t('house')}.
                         </Text>
                         <Text style={styles.paragraph}>
-                            {i18n.t('you_can_repeat_words_by_adding_a_number_at_the_end_like_so')}:
+                            {i18n.t('you_can_repeat_words_by_adding_a_number_at_the_end_like_so')}
                         </Text>
                         <Text style={styles.paragraph}>
                             <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_building_a_table')}. <Text style={styles.highlighted}>({i18n.t('name_1')})</Text> {i18n.t('is_a_carpenter')}
