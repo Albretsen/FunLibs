@@ -294,15 +294,19 @@ function ListItem(props) {
         return (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
     }
 
+    if(!showPreview) {
+    }
+
     return (
         <Animated.View
             style={[
                 styles.container,
-                { borderWidth: bordered ? 1 : 0},
+                // List item has border if explicitly specified with prop, or if preivew is hidden
+                { borderWidth: (bordered || !showPreview) ? 1 : 0},
                 { opacity: fadeAnim },
                 globalStyles.containerWhitespaceMargin,
                 globalStyles.containerWhitespace,
-                { justifyContent: "center", alignSelf: "center", flex: 1 }
+                { justifyContent: "center", alignSelf: "center", flex: 1 },
             ]}
         >
             {locked && (
