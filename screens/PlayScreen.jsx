@@ -9,8 +9,8 @@ import AdManager from "../scripts/ad_manager";
 import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import FunLibsShare from "../scripts/share";
-// import { TextInput } from "react-native-paper";
-import { TextInput } from "react-native";
+import { TextInput } from "react-native-paper";
+// import { TextInput } from "react-native";
 import { ToastContext } from "../components/Toast";
 import DrawerActions from "../components/DrawerActions";
 import FirebaseManager from "../scripts/firebase_manager";
@@ -464,8 +464,6 @@ export default function PlayScreen({ route }) {
 		);
 	}
 
-	const focusedInputStyle = isTextInputFocused ? globalStyles.textInputFocused : null;
-
 	return (
 		<View style={[globalStyles.screenStandard, globalStyles.standardHeight]}>
 			<ScrollView ref={scrollViewRef}
@@ -490,23 +488,27 @@ export default function PlayScreen({ route }) {
 						uid={currentLib.user}
 					/>
 					<View style={{ position: "relative", height: 60, maxHeight: 60 }}>
-						<Text style={globalStyles.textInputLabel}>{displayPrompts[currentPromptIndex]}</Text>
 						<TextInput
-							placeholder={"Write your word here..."}
+							label={displayPrompts[currentPromptIndex]}
 							value={currentInput}
 							onChangeText={(text) => {
 								setCurrentInput(text);
 								createPromptContext(text);
 							}}
+							mode="outlined"
 							onFocus={() => setIsTextInputFocused(true)}
 							onBlur={() => setIsTextInputFocused(false)}
-							style={[, globalStyles.textInput, { paddingRight: 50 }, focusedInputStyle]}
+							style={[{ paddingRight: 50 }]}
+							theme={{
+								colors: {
+									primary: '#6294C9', // For the outline color
+								},
+							}}
 							autoCapitalize="none"
 							inputMode="text"
-							selectionColor={"black"}
 						/>
 						{fillAvailable && ( // Render only if autofill is available
-							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: 0, height: 88, width: 60, justifyContent: "center", alignItems: "center" }}>
+							<TouchableOpacity onPress={autofill} style={{ position: "absolute", right: 0, height: 60, width: 60, justifyContent: "center", alignItems: "center" }}>
 								<Text style={[globalStyles.touchableText, { fontSize: 16 }]}>{i18n.t('fill')}</Text>
 							</TouchableOpacity>
 						)}

@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastProvider } from "./components/Toast";
 import BannerAdComponent from "./components/BannerAd";
 import { useState, createContext } from "react";
-import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import AppScreenStack from "./screens/AppScreenStack";
 import { DialogProvider } from "./components/Dialog.jsx"
 import { TabProvider } from "./components/TabContext.jsx";
@@ -66,13 +66,19 @@ export default function App() {
     return children;
   };
 
+  const customTheme = {
+    ...DefaultTheme,
+    // You can customize the colors or other properties as needed
+  };
+  
+
   // The outer view makes sure the Android keyboard doesn't move all UI elements to above the keyboard.
   return (
     <ConditionalWrapper>
       <StatusBar barStyle="dark-content" />
       <MenuProvider>
         <SafeAreaProvider>
-          <PaperProvider>
+          <PaperProvider theme={customTheme}>
             <SharedParamsProvider>
               <ScreenProvider>
                 <ToastProvider>

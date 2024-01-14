@@ -301,8 +301,8 @@ const globalStyles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#8c8c8c",
         borderRadius: 4,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 8,
         fontSize: 15
     },
 
