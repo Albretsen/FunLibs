@@ -38,9 +38,9 @@ export default function HomeScreen() {
     );
 
     return(
-        <View style={[globalStyles.screenStandard, globalStyles.headerAccountedHeight]}>
+        <View style={[globalStyles.screenStandard, globalStyles.headerAccountedHeight, {alignItems: "stretch"}]}>
             <ScrollView contentContainerStyle={{paddingBottom: 10}}>
-                <View style={globalStyles.containerWhitespaceMargin}>
+                <View style={[globalStyles.containerWhitespaceMargin]}>
                     <View style={styles.titleSection}>
                         {FirebaseManager.currentUserData?.firestoreData ? (
                             <View>
@@ -120,8 +120,15 @@ export default function HomeScreen() {
                     </View>
                     {Platform.OS != "ios" ? <View style={styles.titleSection}>
                         <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>
-                    </View> : <></>}
+                    </View> 
+                    :
+                    <Image
+                        style={{ width: "100%", height: 160, borderRadius: 8 }}
+                        source={require("../assets/images/home-screen-image.png")}
+                        // resizeMode="center"
+                    />}
                 </View>
+
                 {Platform.OS != "ios" ? <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
@@ -162,7 +169,7 @@ const styles = StyleSheet.create({
     titleSection: {
         justifyContent: "space-between",
         flexDirection: "row",
-        // width: "100%",
+        flex: 1,
         alignItems: "center"
     },
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Pressable } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
@@ -26,7 +26,7 @@ import DrawerHeader from "../components/DrawerHeader";
 import i18n from "../scripts/i18n";
 
 function ListItem(props) {
-    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published, bordered } = props;
+    const { name, prompts, text, id, type, drawer, onClick, avatarID, username, likes, index, user, local, likesArray, playable, item, color, plays, comments, showPreview = true, locked, official, pack, refresh, published, bordered, image } = props;
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -328,6 +328,12 @@ function ListItem(props) {
                 uid={user}
                 avatarOnPress={() => navigation.navigate("ProfileScreen", { uid: user })}
             />
+            {image && (
+                <Image
+                    style={{ width: "100%", height: 100, borderRadius: 8, marginVertical: 6 }}
+                    source={image}
+                />
+            )}
             <View style={[styles.preview, locked ? globalStyles.lockedOpacity : null]}>
                 {showPreview ? LibManager.displayPreview(text) : null}
             </View>

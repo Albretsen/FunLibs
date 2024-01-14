@@ -157,6 +157,16 @@ const ListManager = (props) => {
 		);
 	}
 
+    const images = {
+        1: require("../assets/images/lib-images/adventures-at-the-beach.png"),
+        2: require("../assets/images/lib-images/painting-the-walls.png"),
+        3: require("../assets/images/lib-images/cookie-baking.png"),
+        4: require("../assets/images/lib-images/study-buddies.png"),
+        5: require("../assets/images/lib-images/plane-ride.png"),
+        6: require("../assets/images/lib-images/the-squirrels-hat.png"),
+        7: require("../assets/images/lib-images/painfully-positive-parents.png"),
+    };
+
     return (
         <FlatList
             data={data}
@@ -192,6 +202,7 @@ const ListManager = (props) => {
                     refresh={handleRefresh}
                     published={item.published}
                     bordered={bordered}
+                    image={item.imageId ? images[item.imageId] : null}
                 />
             )}
             refreshing={refreshing} // Use the loading state to indicate whether the list is being refreshed
