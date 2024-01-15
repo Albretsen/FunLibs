@@ -4776,6 +4776,7 @@
       "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2"
    },
    {
+      "imageId": 8,
       "name":"The Great Musical Mishap",
       "username":"The Fun Libs Team",
       "avatarID":"13",
@@ -5085,6 +5086,7 @@
          "seconds":1693995794,
          "nanoseconds":712000000
       },
+      "imageId": 9,
       "name":"Superhero",
       "id":"ka4fJSHrbRsb0Zy8YWSP",
       "playable":true,
@@ -5214,6 +5216,7 @@
       },
       "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
       "published":true,
+      "imageId": 10,
       "name":"An Extravagant Misadventure",
       "text":[
          "In the whimsical town of ",
@@ -5386,6 +5389,7 @@
          "Place 1",
          "."
       ],
+      "imageId": 11,
       "name":"Festivus",
       "username":"The Fun Libs Team",
       "published":true,
@@ -5523,6 +5527,7 @@
       ]
    },
    {
+      "imageId": 12,
       "name":"Vacation Shenanigans",
       "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
       "playable":true,

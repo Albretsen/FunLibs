@@ -165,6 +165,11 @@ const ListManager = (props) => {
         5: require("../assets/images/lib-images/plane-ride.png"),
         6: require("../assets/images/lib-images/the-squirrels-hat.png"),
         7: require("../assets/images/lib-images/painfully-positive-parents.png"),
+        8: require("../assets/images/lib-images/the-great-musical-mishap.png"),
+        9: require("../assets/images/lib-images/superhero.png"),
+        10: require("../assets/images/lib-images/an-extravagant-misadventure.png"),
+        11: require("../assets/images/lib-images/festivus.png"),
+        12: require("../assets/images/lib-images/vacation-shenanigans.png"),
     };
 
     return (
