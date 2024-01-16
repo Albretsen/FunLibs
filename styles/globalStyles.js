@@ -53,7 +53,7 @@ const globalStyles = StyleSheet.create({
     containerWhitespacePadding: {
         paddingHorizontal: fullWidth / 20,
         width: "100%",
-        maxWidth: 700
+        maxWidth: 1000
     },
 
     containerWhitespaceMargin: {

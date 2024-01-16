@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image, Dimensions } from "react-native";
 import globalStyles from "../styles/globalStyles";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Dialog from "./Dialog";
@@ -330,7 +330,7 @@ function ListItem(props) {
             />
             {image && (
                 <Image
-                    style={{ width: "100%", height: 100, borderRadius: 8, marginVertical: 6 }}
+                    style={{ width: "100%", height: Dimensions.get('window').height / 6, borderRadius: 8, marginVertical: 6 }}
                     source={image}
                 />
             )}

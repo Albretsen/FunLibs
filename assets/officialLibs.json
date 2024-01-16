@@ -5762,6 +5762,7 @@
          " night.\nFor in each other's arms, they've found,\nA love that makes their hearts resound."
       ],
       "username":"The Fun Libs Team",
+      "imageId": 13,
       "name":"A Green Heart-shaped Balloon",
       "playable":true,
       "id":"I1DN2QSsE4IQkNT4EHW0",
@@ -5815,6 +5816,7 @@
       ],
       "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
       "avatarID":"13",
+      "imageId": 14,
       "name":"Kitchen Chaos",
       "published":true,
       "playable":true,
@@ -5958,6 +5960,7 @@
       "likesArray":[
          "6jrmfRLNtDgf0TVicZfQfgNCPO12"
       ],
+      "imageId": 15,
       "name":"The Red Baron",
       "username":"The Fun Libs Team",
       "prompts":[
@@ -6167,6 +6170,7 @@
       "playable":true,
       "published":true,
       "avatarID":"13",
+      "imageId": 17,
       "name":"Space Adventure",
       "user":"HOv8K8Z1Q6bUuGxENrPrleECIWe2",
       "likes":1,
@@ -6341,6 +6345,7 @@
          " zoo stood as a testament to the magical power of laughter and the joy it brought to all who visited this wondrous place.\n\nThe end."
       ],
       "username":"The Fun Libs Team",
+      "imageId": 16,
       "name":"Mr. Johnsons Lively Zoo",
       "official":true,
       "date":{
@@ -6480,6 +6485,7 @@
             ]
          }
       ],
+      "imageId": 18,
       "name":"The Perfect Harvest",
       "weightedLikes":1.665e-321,
       "avatarID":"13",
