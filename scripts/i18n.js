@@ -116,7 +116,7 @@ const translations = {
         no_thanks: "No thanks",
         of_course: "Of course!",
         created_using_link: "Created using: https://funlibs0.wordpress.com/download",
-        your_story_has_been_saved: "Your story has been saved. You can find it under 'Read Libs' in the navigation menu in the top left.",
+        your_story_has_been_saved: "Your story has been saved. You can find it under 'Saved Libs' in the navigation menu in the top left.",
         you_have_to_be_signed_in_to_like_a_post: "You have to be signed in to like a post.",
         likes: "likes", // As in: this post has x likes
         fill: "Fill",
@@ -169,7 +169,7 @@ const translations = {
         my_fun_libs: "My Fun Libs",
         create_a_story: "Create a Lib",
         my_libs: "My Libs",
-        read_libs: "Read Libs",
+        read_libs: "Saved Libs",
         lib_packs: "Lib Packs",
         gaming: "Gaming",
         romance: "Romance",
