@@ -76,7 +76,7 @@ export default function BrowseScreen({ route }) {
                 initialParams={{ category: category, sort: sort }}
             />
         </Tab.Navigator>
-    );
+    )
 }
 
 const styles = StyleSheet.create({

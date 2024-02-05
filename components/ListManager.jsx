@@ -173,8 +173,8 @@ const ListManager = (props) => {
         13: require("../assets/images/lib-images/a-green-heart-shaped-balloon.png"),
         14: require("../assets/images/lib-images/kitchen-chaos.png"),
         15: require("../assets/images/lib-images/the-red-baron.png"),
-        16: require("../assets/images/lib-images/space-adventure.png"),
-        17: require("../assets/images/lib-images/mr-johnsons-lively-zoo.png"),
+        16: require("../assets/images/lib-images/mr-johnsons-lively-zoo.png"),
+        17: require("../assets/images/lib-images/space-adventure.png"),
         18: require("../assets/images/lib-images/the-perfect-harvest.png"),
     };
 
