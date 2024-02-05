@@ -58,7 +58,6 @@ export default function AppScreenStack() {
 	useEffect(() => {
 		const handleFocus = () => {
 			// Your desired code to run when "Browse" screen is focused goes here
-			console.log('Navigated to Browse screen!');
 		};
 	
 		// Add the listener for the focus event on the navigation object

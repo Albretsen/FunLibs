@@ -280,7 +280,6 @@ export default function CommentSection(props) {
                     <View>
                         {commentList.map((comment, index) => {
                             if (blockedUsers[index]) {
-                                console.log("USER IS BLOCKED");
                                 return null;
                             }
                             return (
@@ -393,7 +392,6 @@ export default function CommentSection(props) {
                                     )}
                                     {comment.replies && (expandedRepliesForComment[index] || comment.replies.length <= MAX_REPLIES_DISPLAY ? comment.replies : comment.replies.slice(0, MAX_REPLIES_DISPLAY)).map((reply, replyIndex) => {
                                         if (blockedReplies[index] && blockedReplies[index][replyIndex]) {
-                                            console.log("THE USER IS BLOCKED");
                                             return null;
                                         }
 

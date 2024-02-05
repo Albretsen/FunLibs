@@ -18,9 +18,7 @@ function IAPOld() {
     useEffect(() => {
         async function prepareIAP() {
             try {
-                console.log("INITTIGN");
                 await initConnection();
-                console.log("INNITED");
                 const fetchedProducts = await getProducts(['christmas_pack', 'test', 'mega_pack']);
                 console.log("FETCHED PRODUCST: " + fetchedProducts);
                 setProducts(fetchedProducts);

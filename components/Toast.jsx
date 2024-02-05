@@ -231,7 +231,6 @@ export const ToastProvider = ({ children }) => {
 
     useEffect(() => {
         function onKeyboardDidShow(e) {
-			console.log("KEYBOARD HEIGHT: " + e.endCoordinates.height);
             setKeyboardHeight(e.endCoordinates.height);
         }
 

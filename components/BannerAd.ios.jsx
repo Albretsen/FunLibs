@@ -15,7 +15,6 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
     const [showBannerAd, setShowBannerAd] = useState(false);
 
     useEffect(() => {
-        console.log("Current screen: " + currentScreenName);
         if (["Home", "Browse", "LibsScreen", "CommunityLibScreen"].includes(currentScreenName)) {
             setAdHeight(74);
             setShowBannerAd(true);

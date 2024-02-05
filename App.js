@@ -16,6 +16,7 @@ import Purchases from "react-native-purchases";
 import IAP from "./scripts/IAP.js";
 import { SharedParamsProvider } from "./components/SharedParamsProvider";
 import { PreviewProvider } from "./components/PreviewToggle";
+import { PackBannerProvider } from "./components/PackBanner";
 
 // Initialize RevenueCat with API key
 if (Platform.OS === "android") {
@@ -83,18 +84,20 @@ export default function App() {
               <ScreenProvider>
                 <ToastProvider>
                   <DialogProvider>
-                    <PreviewProvider>
-                      <TabProvider>
-                        <NavigationContainer>
-                          <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
-                            <AppScreenStack />
-                            <ConditionalSafeAreaView>
-                              <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
-                            </ConditionalSafeAreaView>
-                          </GestureHandlerRootView>
-                        </NavigationContainer>
-                      </TabProvider>
-                    </PreviewProvider>
+                    <PackBannerProvider>
+                      <PreviewProvider>
+                        <TabProvider>
+                          <NavigationContainer>
+                            <GestureHandlerRootView style={{ flex: 1, paddingBottom: 0 }}>
+                              <AppScreenStack />
+                              <ConditionalSafeAreaView>
+                                <BannerAdComponent setAdHeightInParent={setBannerAdHeight} />
+                              </ConditionalSafeAreaView>
+                            </GestureHandlerRootView>
+                          </NavigationContainer>
+                        </TabProvider>
+                      </PreviewProvider>
+                    </PackBannerProvider>
                   </DialogProvider>
                 </ToastProvider>
               </ScreenProvider>

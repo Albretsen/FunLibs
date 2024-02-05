@@ -104,7 +104,10 @@ export default function LibsScreen() {
 					gap: 10,
 				}]}>
 				</View>
-				<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+				<View style={[
+					{flexDirection: "row", alignItems: "center"},
+					{justifyContent: Platform.OS !== "ios" ? "space-between" : "flex-end"}
+				]}>
 					{Platform.OS !== "ios" ? <Dropdown selected={selectedCategory} options={[
 						{
 							name: i18n.t('official_templates'),

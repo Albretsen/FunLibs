@@ -38,7 +38,7 @@ export default function BrowseScreen({ route }) {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', (e) => {
-            console.log(route.name);
+            
         });
         
         // Clean up the listener when the component is unmounted
@@ -46,7 +46,6 @@ export default function BrowseScreen({ route }) {
     }, [navigation, route]);
 
     useEffect(() => {
-        console.log("HERE 3: " + JSON.stringify(route.params));
         updateParams({ category: route.params?.category ?? "All", sort: route.params?.sort ?? "newest" });
     }, [route.params]);
 

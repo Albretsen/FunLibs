@@ -61,8 +61,6 @@ export default function DrawerActions(props) {
                     style={{ alignItems: "center" }}
                     onPress={async () => {
                         await onFavorite();
-                        console.log("LIKES ARRAY (from ref):", likesArray);
-                        console.log("UID:", FirebaseManager.currentUserData?.auth?.uid);
                     }}
                 >
                     <MaterialIcons

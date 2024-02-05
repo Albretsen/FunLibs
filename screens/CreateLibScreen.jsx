@@ -196,7 +196,6 @@ export default function CreateLibScreen({ route }) {
             showToast({text: i18n.t('please_add_some_text'), noBottomMargin: true});
             return;
         }
-        //console.log(libTextRef.current);
 
         let temp_finished_lib = Lib.createLib(libTextRef.current);
 
@@ -208,7 +207,6 @@ export default function CreateLibScreen({ route }) {
         temp_finished_lib.user = "HOv8K8Z1Q6bUuGxENrPrleECIWe2";
         temp_finished_lib.name = libNameTextRef.current;
         temp_finished_lib.id = Math.random().toString(36).slice(2, 7);
-        console.log(JSON.stringify(temp_finished_lib));
 
         if (temp_finished_lib.prompts.length < 1) {
             showToast({text: i18n.t('please_add_some_prompts'), noBottomMargin: true});
@@ -249,7 +247,6 @@ export default function CreateLibScreen({ route }) {
     // Dialog-related functions
 
     let addCustomPrompt = (text) => {
-        console.log("TESX:T " + text);
         addPrompt(text);
     }
 

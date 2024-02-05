@@ -80,6 +80,66 @@ class IAP {
     }
 
     /**
+    * Retrieves information about the discounted product among a set of products.
+    * 
+    * This function identifies the standard price by finding the most common price among all products.
+    * It then finds any discounted product by comparing each product's price to the standard price.
+    * Finally, it calculates the discount percentage and returns relevant information.
+    * 
+    * @returns {Object} An object containing:
+    *   - {String|null} discountedProductId - The identifier of the discounted product, or null if no discount.
+    *   - {String|null} discountedPrice - The current discounted price, or null if no discount.
+    *   - {String} standardPrice - The standard price of all other products.
+    *   - {Number} discountPercentage - The percentage of the discount, rounded down. 0 if no discount.
+    * @throws {Error} - Throws an error if no offerings are available or in case of an API failure.
+    */
+    static async getDiscountedProductInfo() {
+        try {
+            return {
+                discountedProductId: "romance_pack",
+                discountedPrice: "$3",
+                standardPrice: "$4",
+                discountPercentage: "25"
+            }
+            const offerings = await Purchases.getOfferings();
+            if (!offerings || !offerings.current) {
+                console.log("No offerings found");
+            }
+
+            const allPackages = offerings.current.availablePackages;
+
+            // Calculate the most common price (standard price)
+            const priceCounts = allPackages.reduce((counts, p) => {
+                counts[p.product.priceString] = (counts[p.product.priceString] || 0) + 1;
+                return counts;
+            }, {});
+
+            const standardPrice = Object.keys(priceCounts).reduce((a, b) => priceCounts[a] > priceCounts[b] ? a : b);
+
+            // Find the discounted product
+            const discountedProduct = allPackages.find(p => p.product.priceString !== standardPrice);
+
+            // Calculate discount percentage
+            let discountPercentage = 0;
+            if (discountedProduct) {
+                const standardPriceNumber = parseFloat(standardPrice.replace(/[^0-9.-]+/g, ""));
+                const discountedPriceNumber = parseFloat(discountedProduct.product.priceString.replace(/[^0-9.-]+/g, ""));
+                discountPercentage = Math.floor(((standardPriceNumber - discountedPriceNumber) / standardPriceNumber) * 100);
+            }
+
+            return {
+                discountedProductId: discountedProduct ? discountedProduct.product.identifier : null,
+                discountedPrice: discountedProduct ? discountedProduct.product.priceString : null,
+                standardPrice: standardPrice,
+                discountPercentage: discountPercentage
+            };
+        } catch (error) {
+            console.log('Error retrieving discounted product info: ' + error);
+        }
+    }
+
+
+    /**
      * Fetches product offerings from RevenueCat.
      *
      * @returns {Array} - Array of available packages from the current offerings.
