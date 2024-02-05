@@ -8,7 +8,7 @@ import Dropdown from "../components/Dropdown";
 import { PreviewToggle, PreviewContext } from "../components/PreviewToggle";
 import FileManager from "../scripts/file_manager";
 import { useSharedParams } from "../components/SharedParamsProvider";
-import {PackBanner} from "../components/PackBanner";
+import { PackBanner } from "../components/PackBanner";
 
 export default function CommunityLibsScreen({ route }) {
     const initialCategory = route.params?.category ?? "all";
@@ -69,7 +69,6 @@ export default function CommunityLibsScreen({ route }) {
                     ]}
                     initialActiveButtonId={initialSort}
                 />
-                {/* Not finished */}
                 <PackBanner />
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 35}}>
                     <Dropdown selected={selectedCategory} options={[

@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState, useEffect } from "react";
 import FileManager from "../scripts/file_manager";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import PulseAnimation from "./PulseAnimation";
 import { Feather } from '@expo/vector-icons';
@@ -70,6 +70,7 @@ export function PackBanner() {
     };
 
     interface BannerContent {
+        packName: "romance_pack" | "easter_pack";
         title?: string;
         message?: string;
         discountText?: string;
@@ -78,6 +79,7 @@ export function PackBanner() {
     }
 
     const [bannerContent, setBannerContent] = useState<BannerContent>({
+        packName: "romance_pack",
         title: "Lib Packs 📚",
         message: "Check out our selection of premium libs!",
         colors: ["#4C669F", "#3B5998"], // Default gradient colors
@@ -91,13 +93,15 @@ export function PackBanner() {
 
     const BannerContentLookup: BannerContentLookupTypes = {
         "romance_pack": {
-            title: "Happy Valentines! 💙",
+            packName: "romance_pack",
+            title: "Happy Valentines!",
             message: "Celebrate the season of love with the Romance Pack!",
             colors: ["#FF257E", "#FF2644"],
         },
 
         "easter_pack": {
-            title: "Happy Easter! 🐇",
+            packName: "easter_pack",
+            title: "Happy Easter!",
             message: "Celebrate with the Easter Pack!",
             colors: ["#f298f4", "#9386e6"],
         }
@@ -128,31 +132,42 @@ export function PackBanner() {
         fetch();
     }, [])
 
+    const images = {
+        "romance_pack": require("../assets/images/romance-banner.png"),
+        "easter_pack": require("../assets/images/easter-banner.png"),
+    };
 
     return(
         <>
             {showPackBanner && (
+
                 <LinearGradient
                     colors={bannerContent.colors}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
-                    style={styles.banner}
+                    style={styles.container}
                 >
-                    <View style={styles.textContainer}>
-                        <Text style={styles.title}>{bannerContent.title}</Text>
-                        <Text style={styles.text}>{bannerContent.message}</Text>
-                        <PulseAnimation duration={3000}>
-                            <Text style={styles.discountText}>{bannerContent.discountText}</Text>
-                        </PulseAnimation>
-                        <TouchableOpacity style={styles.goToButton} onPress={() => {
-                            bannerContent.onPress && bannerContent.onPress();
-                        }}>
-                            <Text style={styles.goToButtonText}>Go to pack</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={styles.close} onPress={hidePackBanner}>
-                        <Feather name="x" size={30} color="white" />
-                    </TouchableOpacity>
+                    <ImageBackground
+                        source={images[bannerContent.packName]}
+                    >
+                        <View style={[styles.banner, styles.overlay]}>
+                            <View style={styles.textContainer}>
+                                <Text style={[styles.title, styles.text]}>{bannerContent.title}</Text>
+                                <Text style={styles.text}>{bannerContent.message}</Text>
+                                <PulseAnimation duration={3000}>
+                                    <Text style={styles.text}>{bannerContent.discountText}</Text>
+                                </PulseAnimation>
+                                <TouchableOpacity style={styles.goToButton} onPress={() => {
+                                    bannerContent.onPress && bannerContent.onPress();
+                                }}>
+                                    <Text style={styles.goToButtonText}>🎉 Go to pack 🎉</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity style={styles.close} onPress={hidePackBanner}>
+                                <Feather name="x" size={30} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </ImageBackground>
                 </LinearGradient>
             )}
         </>
@@ -160,12 +175,22 @@ export function PackBanner() {
 }
 
 const styles = StyleSheet.create({
-    banner: {
-        flexDirection: "row",
-        padding: 10,
+    container: {
         borderRadius: 8,
         marginTop: 10,
         marginHorizontal: 4,
+        overflow: "hidden"
+    },
+
+    overlay: {
+        borderRadius: 8,
+        // Makes the background image slightly less pronounced
+        backgroundColor: "rgba(0, 0, 0, 0.15)",
+    },
+
+    banner: {
+        flexDirection: "row",
+        padding: 10,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -179,33 +204,27 @@ const styles = StyleSheet.create({
     textContainer: {
         gap: 4,
         justifyContent: "center",
-        alignItems: "center"
-    },
-
-    title: {
-        fontSize: 16,
-        fontWeight: "500",
-        color: "white",
-        textAlign: "center"
+        alignItems: "center",
     },
 
     text: {
         fontSize: 14,
+        padding: 4,
+        borderRadius: 6,
         color: "white",
-        textAlign: "center"
+        fontWeight: "500",
+        textAlign: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.35)",
     },
 
-    discountText: {
-        fontSize: 14,
-        fontWeight: "500",
-        color: "white",
-        textAlign: "center"
+    title: {
+        fontSize: 16,
     },
 
     goToButton: {
         width: "90%",
         paddingVertical: 10,
-        backgroundColor: "rgba(0, 0, 0, 0.2)",
+        backgroundColor: "rgba(0, 0, 0, 0.45)",
         borderRadius: 6,
         alignItems: "center",
         justifyContent: "center"

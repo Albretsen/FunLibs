@@ -12,6 +12,7 @@ import _ from 'lodash';
 import i18n from "../scripts/i18n";
 import { PreviewToggle, PreviewContext } from "../components/PreviewToggle";
 import ListManager from "../components/ListManager";
+import { PackBanner } from "../components/PackBanner";
 
 export default function LibsScreen() {
 	const navigation = useNavigation();
@@ -104,6 +105,7 @@ export default function LibsScreen() {
 					gap: 10,
 				}]}>
 				</View>
+				<PackBanner />
 				<View style={[
 					{flexDirection: "row", alignItems: "center"},
 					{justifyContent: Platform.OS !== "ios" ? "space-between" : "flex-end"}

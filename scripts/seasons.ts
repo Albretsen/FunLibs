@@ -5,7 +5,7 @@ const season = () => {
     const day = currentDate.getDate();
 
 
-    if(month === 2 && (day >= 5 && day <= 16)) {
+    if(month === 2 && (day >= 7 && day <= 16)) {
         return "romance_pack"
     }
 
