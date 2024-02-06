@@ -15,6 +15,7 @@ import FirebaseManager from "../scripts/firebase_manager";
 import { ToastContext } from "../components/Toast";
 import { ScreenContext } from "../App";
 import { useIsFocused } from '@react-navigation/native';
+import IAP from "../scripts/IAP";
 
 type PackScreenRouteParams = {
     packName: string;
@@ -65,12 +66,14 @@ export default function PackScreen({ route } : PackScreenProps) {
         const checkPrice = async () => {
             try {
                 const price = await PackManager.getPackPrice(pack + "_pack");
-                console.log("Price: ", price, "for pack: ", pack + "_pack");
-                //FileManager._storeData("purchases", "[]");
-                setPrice(price);
+                const discountInfo: any = await IAP.getDiscountedProductInfo();
+                if (discountInfo.discountedProductId == pack + "_pack") {
+                    setPrice(`🎉 Get ${discountInfo.discountPercentage}% Off - ${price} 🎉`);
+                } else {
+                    setPrice(`🎉 Buy Pack ${price} 🎉`);
+                }
             } catch (error) {
                 console.error("Error retrieving price:", error);
-                // Optionally, handle the error case (e.g., by showing an error message)
             }
         };
 
@@ -175,7 +178,7 @@ export default function PackScreen({ route } : PackScreenProps) {
                     </View>  
                     {showBuyButton && (
                         <TouchableOpacity onPress={purchasePack} style={styles.buyButton}>
-                            <Text style={styles.buyButtonText}>🎉 Buy Pack {price} 🎉</Text>
+                            <Text style={styles.buyButtonText}>{price}</Text>
                         </TouchableOpacity>
                     )}
                 </View>
