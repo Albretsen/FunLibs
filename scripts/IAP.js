@@ -95,12 +95,12 @@ class IAP {
     */
     static async getDiscountedProductInfo() {
         try {
-            return {
+            /*return {
                 discountedProductId: "romance_pack",
                 discountedPrice: "$3",
                 standardPrice: "$4",
                 discountPercentage: "25"
-            }
+            }*/
             const offerings = await Purchases.getOfferings();
             if (!offerings || !offerings.current) {
                 console.log("No offerings found");
@@ -124,6 +124,7 @@ class IAP {
             if (discountedProduct) {
                 const standardPriceNumber = parseFloat(standardPrice.replace(/[^0-9.-]+/g, ""));
                 const discountedPriceNumber = parseFloat(discountedProduct.product.priceString.replace(/[^0-9.-]+/g, ""));
+                console.log("Standard price: " + standardPriceNumber + " | discount: " + discountedPriceNumber);
                 discountPercentage = Math.floor(((standardPriceNumber - discountedPriceNumber) / standardPriceNumber) * 100);
             }
 

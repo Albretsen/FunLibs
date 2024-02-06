@@ -62,27 +62,28 @@ export default function PackScreen({ route } : PackScreenProps) {
 
     const imageSource = imageMap[imageName] || require('../assets/images/historic.png');
     
-    useEffect(() => {
-        const checkPrice = async () => {
-            try {
-                const price = await PackManager.getPackPrice(pack + "_pack");
-                const discountInfo: any = await IAP.getDiscountedProductInfo();
-                if (discountInfo.discountedProductId == pack + "_pack") {
-                    setPrice(`🎉 Get ${discountInfo.discountPercentage}% Off - ${price} 🎉`);
-                } else {
-                    setPrice(`🎉 Buy Pack ${price} 🎉`);
-                }
-            } catch (error) {
-                console.error("Error retrieving price:", error);
+    const checkPrice = async () => {
+        try {
+            const price = await PackManager.getPackPrice(pack + "_pack");
+            const discountInfo: any = await IAP.getDiscountedProductInfo();
+            if (discountInfo.discountedProductId == pack + "_pack") {
+                setPrice(`🎉 Get ${discountInfo.discountPercentage}% Off - ${price} 🎉`);
+            } else {
+                setPrice(`🎉 Buy Pack ${price} 🎉`);
             }
-        };
+        } catch (error) {
+            console.error("Error retrieving price:", error);
+        }
+    };
 
+    useEffect(() => {
         checkPrice();
     }, []);
 
     // Runs whenever the user clicks the "other packs" button
     useEffect(() => {
         setPackdata((PackManager.packs as any)[pack]);
+        setPrice("🎉 Buy Pack 🎉")
 
         const checkPurchase = async () => {
             try {
@@ -100,6 +101,7 @@ export default function PackScreen({ route } : PackScreenProps) {
         };
 
         checkPurchase();
+        checkPrice();
     }, [pack]);
 
     useEffect(() => {
