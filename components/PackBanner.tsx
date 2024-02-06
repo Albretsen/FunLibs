@@ -7,6 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, ParamListBase } from "@react-navigation/native";
 import { season } from "../scripts/seasons";
 import IAP from "../scripts/IAP";
+import PackManager from "../scripts/PackManager";
 
 interface PackBannerContextType {
     showPackBanner: boolean;
@@ -35,13 +36,12 @@ export const PackBannerProvider: React.FC<{children: React.ReactNode}> = ({ chil
         async function loadInitialState() {
             const storedPackBannerState = await FileManager._retrieveData("PackBannerState");
             const storedLastClosedSeason = await FileManager._retrieveData("LastClosedSeason");
+
+            console.log("storedPackBannerState: " + storedPackBannerState);
+            console.log("storedLastClosedSeason: " + storedLastClosedSeason);
             
-            if (storedPackBannerState !== null) {
-                setShowPackBanner(storedPackBannerState === "true");
-            }
-            if (storedLastClosedSeason !== null && storedLastClosedSeason !== undefined) {
-                setLastClosedSeasonState(storedLastClosedSeason);
-            }
+            setShowPackBanner(false);
+            setLastClosedSeasonState(storedLastClosedSeason + "");
         }
         loadInitialState();
     }, []);
@@ -70,7 +70,7 @@ export function PackBanner() {
     };
 
     interface BannerContent {
-        packName: "romance_pack" | "easter_pack";
+        packName: "default_pack" | "romance_pack" | "easter_pack";
         title?: string;
         message?: string;
         discountText?: string;
@@ -79,7 +79,7 @@ export function PackBanner() {
     }
 
     const [bannerContent, setBannerContent] = useState<BannerContent>({
-        packName: "romance_pack",
+        packName: "default_pack",
         title: "Lib Packs 📚",
         message: "Check out our selection of premium libs!",
         colors: ["#4C669F", "#3B5998"], // Default gradient colors
@@ -89,6 +89,7 @@ export function PackBanner() {
         [id: string] : any;
         "romance_pack": {};
         "easter_pack": {};
+        "default_pack": {};
     }
 
     const BannerContentLookup: BannerContentLookupTypes = {
@@ -104,6 +105,13 @@ export function PackBanner() {
             title: "Happy Easter!",
             message: "Celebrate with the Easter Pack!",
             colors: ["#f298f4", "#9386e6"],
+        },
+
+        "default_pack": {
+            packName: "default_pack",
+            title: "Lib Packs 📚",
+            message: "Check out our selection of premium libs!",
+            colors: ["#4C669F", "#3B5998"],
         }
     }
 
@@ -111,24 +119,41 @@ export function PackBanner() {
     useEffect(() => {
         const fetch = async () => {
             let discountedPack: string = season();
-            console.log("discountedPack: " + discountedPack);
+
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+
+            if (lastClosedSeason === season() + year) {
+                setShowPackBanner(false);
+                return;
+            };
+
+            let alreadyPurchased = await PackManager.verifyPurchase(discountedPack);
+            if (alreadyPurchased) {
+                setShowPackBanner(false);
+                return;
+            };;
     
             let discountedPackInfo: any = await IAP.getDiscountedProductInfo();
-            console.log("discountedPackInfo.discountedProductId: " + discountedPackInfo.discountedProductId);
 
             if (discountedPack && (discountedPack === discountedPackInfo.discountedProductId) && lastClosedSeason !== discountedPack + year) {
                 let bannerContent = BannerContentLookup[discountedPack];
                 bannerContent.discountText = "Enjoy " + discountedPackInfo.discountPercentage + "% off";
                 bannerContent.onPress = () => {
-                    console.log("GOING TO: " + discountedPack.split("_")[0]);
-                    navigation.navigate("Pack", { packName: discountedPack.split("_")[0] })
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "Pack", params: { packName: discountedPack.split("_")[0] } }],
+                    });
                 };
 
                 setShowPackBanner(true);
                 setBannerContent(bannerContent);
+            } else {
+                setShowPackBanner(false);
             }
         };
 
+        setShowPackBanner(false);
         fetch();
     }, [])
 
