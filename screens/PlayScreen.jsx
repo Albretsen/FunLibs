@@ -482,7 +482,9 @@ export default function PlayScreen({ route }) {
 						avatarID={currentLib.avatarID}
 						title={currentLib.name}
 						text={(
-							<Text>{i18n.t('by')} {currentLib.username} | {currentLib.likes} {i18n.t('likes')}</Text>
+							<Text>
+								{i18n.t('by')} {currentLib.username}
+								{currentLib.user === "HOv8K8Z1Q6bUuGxENrPrleECIWe2" ? null : " | " + currentLib.likes + " " + i18n.t('likes')}</Text>
 						)}
 						rightComponent={"userActions"}
 						uid={currentLib.user}
