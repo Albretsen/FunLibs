@@ -14,6 +14,9 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
 
     const navigation = useNavigation();
 
+    // Checks for Official's uid
+    const byOfficial = uid === "HOv8K8Z1Q6bUuGxENrPrleECIWe2";
+
     let blockUser = (uid) => {
         if (uid == "HOv8K8Z1Q6bUuGxENrPrleECIWe2") {
             showToast(":(");
@@ -58,14 +61,16 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
     color = "transparent";
     return (
         <ParentTag style={styles.container} onPress={onPress}>
-            <View style={[styles.imageContainer, {backgroundColor: color}]}>
-                <Pressable onPress={avatarOnPress}>
-                    <Image
-                        style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
-                        source={FirebaseManager.avatars[avatarID]} 
-                    />
-                </Pressable>
-            </View>
+            {!byOfficial && (
+                <View style={[styles.imageContainer, {backgroundColor: color}]}>
+                    <Pressable onPress={avatarOnPress}>
+                        <Image
+                            style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
+                            source={FirebaseManager.avatars[avatarID]} 
+                        />
+                    </Pressable>
+                </View>
+            )}
             <View style={styles.textContainer}>
                 {titleComponent ? (
                     titleComponent
@@ -83,9 +88,13 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
                 </Text>
             </View>
             {rightComponent ? (
-                <View style={[styles.rightContainer]}>
-                    {rightComponent}
-                </View>
+                <>
+                    {!byOfficial && (
+                        <View style={[styles.rightContainer]}>
+                            {rightComponent}
+                        </View>
+                    )}
+                </>
             ) : null}
         </ParentTag>
     )
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         gap: 15,
-        width: "100%"
+        width: "100%",
     },
 
     image: {

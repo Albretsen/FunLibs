@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import Buttons from "../components/Buttons";
 import globalStyles from "../styles/globalStyles";
 import Lib from "../scripts/lib";
@@ -728,10 +728,6 @@ export default function CreateLibScreen({ route }) {
                                 </Text>
                             </View>
                         </DrawerScrollView>
-                        <Image
-                            style={{ height: 148, width: 201, alignSelf: "center" }}
-                            source={require("../assets/images/couple-with-balloon.png")}
-                        />
                         <DrawerActions
                             onDelete={() => {
                                 delete_();
