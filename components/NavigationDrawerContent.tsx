@@ -3,8 +3,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import DrawerContents from './DrawerContents';
 import i18n from '../scripts/i18n';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import { Platform } from 'react-native'; // Import Platform module
+import { Platform, ViewStyle } from 'react-native'; // Import Platform and ViewStyle module for containerStyle
 
+// Define the types for the navigation parameters
 type RootStackParamList = {
     Home: undefined;
     Create: undefined;
@@ -13,18 +14,32 @@ type RootStackParamList = {
     Read: undefined;
 };
 
-type NavigationDrawerContentNavigationProp = StackNavigationProp<
-    RootStackParamList,
-    "Home"
->;
+// Type for the navigation prop specific to this component
+type NavigationDrawerContentNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
+// Props interface
 interface NavigationDrawerContentProps {
     navigation: NavigationDrawerContentNavigationProp;
     closeDrawer: () => void;
 }
 
-export default function NavigationDrawerContent({ navigation, closeDrawer}: NavigationDrawerContentProps) {
-    const sections = [
+// Link Section interface
+interface LinkSection {
+    title: string;
+    links: Link[];
+}
+
+interface Link {
+    title: string;
+    icon?: string; // Optional because some links use iconComponent instead
+    iconComponent?: JSX.Element; // For custom icons not part of a library
+    iconColor?: string;
+    textColor?: string;
+    onPress: () => void;
+}
+
+const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navigation, closeDrawer }) => {
+    const sections: LinkSection[] = [
         {
             title: i18n.t("browse"),
             links: [
@@ -85,7 +100,7 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
         }
     ];
 
-    // Exclude specific sections on iOS
+    // Exclude packs on iOS
     if (Platform.OS !== 'ios') {
         sections.push(
             {
@@ -123,6 +138,17 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
                             closeDrawer();
                         }
                     },
+                    {
+                        title: i18n.t("easter"),
+                        iconComponent: (
+                            <MaterialCommunityIcons name="egg-easter" size={20} color="#95691B" />
+                        ),
+                        textColor: "#95691B",
+                        onPress: () => {
+                            navigation.navigate("Pack", {packName: "easter"});
+                            closeDrawer();
+                        }
+                    },
                 ]
             }
         );
@@ -131,8 +157,10 @@ export default function NavigationDrawerContent({ navigation, closeDrawer}: Navi
     return (
         <DrawerContents
             title={i18n.t("fun_libs")}
-            containerStyle={{paddingHorizontal: 26}}
+            containerStyle={{ paddingHorizontal: 26 } as ViewStyle} // Explicitly cast to ViewStyle to avoid type errors
             sections={sections}
         />
-    )
-}
+    );
+};
+
+export default NavigationDrawerContent;

@@ -58,6 +58,7 @@ export default function PackScreen({ route } : PackScreenProps) {
         'christmas': require('../assets/images/christmas.png'),
         'historic': require('../assets/images/historic.png'),
         'romance': require('../assets/images/romance.png'),
+        'easter': require('../assets/images/easter.png'),
     };
 
     const imageSource = imageMap[imageName] || require('../assets/images/historic.png');
@@ -214,6 +215,14 @@ export default function PackScreen({ route } : PackScreenProps) {
                                     iconColor: "#6294C9",
                                     onPress: () => {
                                         setPack("historic");
+                                    }
+                                },
+                                {
+                                    label: i18n.t('easter'),
+                                    iconComponent: <MaterialCommunityIcons name="egg-easter" size={20} color="#6294C9" />,
+                                    iconColor: "#6294C9",
+                                    onPress: () => {
+                                        setPack("easter");
                                     }
                                 },
                             ]}

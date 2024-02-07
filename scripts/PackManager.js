@@ -44,6 +44,18 @@ class PackManager {
                     Embark on an enchanting journey with classics like <Text style={globalStyles.highlightText}>Romeo and Juliet</Text>, get swept off your feet in the modern twists of <Text style={globalStyles.highlightText}>Twilight</Text>, and discover more thrilling, heart-fluttering adventures.
                 </Text>
             )
+        },
+        easter: {
+            name: "Easter",
+            price: 0,
+            image: "easter",
+            description: (
+                <Text>
+                    Explore the vibrant joy of Easter with our delightful collection of <Text style={globalStyles.highlightText}>8 enchanting Easter-themed Libs</Text>, lovingly curated by the Fun Libs Team!
+                    {"\n"}
+                    Immerse yourself in the springtime magic with <Text style={globalStyles.highlightText}>The Great Easter Egg Hunt</Text>, hop along thrilling adventures in <Text style={globalStyles.highlightText}>The Bunny's Secret Garden</Text>, and let your imagination bloom with tales of whimsical characters and colorful eggs.
+                </Text>
+            )
         }
     }
 

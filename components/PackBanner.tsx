@@ -158,6 +158,7 @@ export function PackBanner() {
     }, [])
 
     const images = {
+        "default_pack": require("../assets/images/romance-banner.png"),
         "romance_pack": require("../assets/images/romance-banner.png"),
         "easter_pack": require("../assets/images/easter-banner.png"),
     };
