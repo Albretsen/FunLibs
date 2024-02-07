@@ -95,12 +95,12 @@ class IAP {
     */
     static async getDiscountedProductInfo() {
         try {
-            /*return {
-                discountedProductId: "romance_pack",
-                discountedPrice: "$3",
-                standardPrice: "$4",
-                discountPercentage: "25"
-            }*/
+            // return {
+            //     discountedProductId: "christmas_pack",
+            //     discountedPrice: "$3",
+            //     standardPrice: "$4",
+            //     discountPercentage: "25"
+            // }
             const offerings = await Purchases.getOfferings();
             if (!offerings || !offerings.current) {
                 console.log("No offerings found");

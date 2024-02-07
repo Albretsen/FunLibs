@@ -70,7 +70,7 @@ export function PackBanner() {
     };
 
     interface BannerContent {
-        packName: "default_pack" | "romance_pack" | "easter_pack";
+        packName: "default_pack" | "romance_pack" | "easter_pack" | "christmas_pack";
         title?: string;
         message?: string;
         discountText?: string;
@@ -89,10 +89,18 @@ export function PackBanner() {
         [id: string] : any;
         "romance_pack": {};
         "easter_pack": {};
+        "christmas_pack": {};
         "default_pack": {};
     }
 
     const BannerContentLookup: BannerContentLookupTypes = {
+        "default_pack": {
+            packName: "default_pack",
+            title: "Lib Packs 📚",
+            message: "Check out our selection of premium libs!",
+            colors: ["#4C669F", "#3B5998"],
+        },
+
         "romance_pack": {
             packName: "romance_pack",
             title: "Happy Valentines!",
@@ -107,12 +115,12 @@ export function PackBanner() {
             colors: ["#f298f4", "#9386e6"],
         },
 
-        "default_pack": {
-            packName: "default_pack",
-            title: "Lib Packs 📚",
-            message: "Check out our selection of premium libs!",
-            colors: ["#4C669F", "#3B5998"],
-        }
+        "christmas_pack": {
+            packName: "christmas_pack",
+            title: "Merry Christmas!",
+            message: "Celebrate the holly season with the Christmas Pack!",
+            colors: ["#378b29", "#74d680"],
+        },
     }
 
 
@@ -136,6 +144,7 @@ export function PackBanner() {
     
             let discountedPackInfo: any = await IAP.getDiscountedProductInfo();
 
+            console.log(discountedPack, "HERE!")
             if (discountedPack && (discountedPack === discountedPackInfo.discountedProductId) && lastClosedSeason !== discountedPack + year) {
                 let bannerContent = BannerContentLookup[discountedPack];
                 bannerContent.discountText = "Enjoy " + discountedPackInfo.discountPercentage + "% off";
@@ -161,6 +170,7 @@ export function PackBanner() {
         "default_pack": require("../assets/images/romance-banner.png"),
         "romance_pack": require("../assets/images/romance-banner.png"),
         "easter_pack": require("../assets/images/easter-banner.png"),
+        "christmas_pack": require("../assets/images/christmas-banner.png"),
     };
 
     return(

@@ -51,7 +51,7 @@ const season = () => {
         return "thanksgiving_pack"
     }
 
-    if(month === 12 && (day >= 20 && day <= 31)) {
+    if(month === 12 && (day >= 14 && day <= 31)) {
         return "christmas_pack"
     }
 
