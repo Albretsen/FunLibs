@@ -178,6 +178,7 @@ export default class LibManager {
             'verb ending in ing': 'An action ending in -ing: laughing, jumping, etc.',
             'verb ending in ed': 'An action ending in -ed: laughed, jumped, etc.',
             'adverb': 'A word or phrase that modifies or qualifies an adjective or verb: gently, quite, then, there, etc.',
+            'movement verb': 'A verb that describes a movement: run, walk, jumped, etc.',
             'noun': 'A thing, something you can see or touch.',
             'Plural Noun': 'Things, something you can see or touch.',
             'object': 'A person, place, or thing.',
@@ -264,6 +265,7 @@ export default class LibManager {
         const fill = {
             "adjective": ["blue", "tacky", "sassy", "groovy", "fantabulous", "awesome", "snazzy", "goofy", "dope", "stellar", "wacky", "zany", "bizarre", "funky", "quirky", "spiffy", "gnarly", "epic", "radical", "fabulous", "bubbly", "silly", "crazy", "gigantic", "marvelous", "hilarious", "fierce", "chill", "tubular", "hilarious", "nifty", "smashing", "chillaxing", "stellar", "swell"],
             "verb": ["drink", "jump", "fly", "dance", "sing", "frolic", "laugh", "skate", "surf", "chillax", "yodel", "dab", "moonwalk", "boogie", "twerk", "high-five", "whoop", "floss", "swoosh", "wobble", "gallop", "belly-flop", "sizzle", "bamboozle", "splish-splash", "wiggle", "twirl", "giggle", "noodle", "snicker", "shimmer", "zest", "glide", "shuffle", "exclaim"],
+            "movement verb": ["jump", "fly", "dance", "frolic", "skate", "surf", "dab", "moonwalk", "boogie", "twerk", "high-five", "floss", "swoosh", "wobble", "gallop", "belly-flop", "splish-splash", "wiggle", "twirl", "shimmer", "glide", "shuffle"],
             "verb -ing": ["drinking", "jumping", "flying", "dancing", "singing", "frolicing", "laughing", "skating", "surfing", "chillaxing", "yodeling", "dabing", "moonwalking", "boogiing", "twerking", "high-fiving", "whooping", "flossing", "swooshing", "wobbling", "galloping", "belly-floping", "sizzling", "bamboozling", "splish-splashing", "wiggling", "twirling", "giggling", "noodling", "snickering", "shimmering", "zesting", "gliding", "shuffling", "exclaiming"],
             "verb -ed": ["drinked", "jumped", "flied", "danced", "singed", "froliced", "laughed", "skated", "surfed", "chillaxed", "yodeled", "dabed", "moonwalked", "boogied", "twerked", "high-fived", "whooped", "flossed", "swooshed", "wobbled", "galloped", "belly-floped", "sizzled", "bamboozled", "splish-splashed", "wiggled", "twirled", "giggled", "noodled", "snickered", "shimmered", "zested", "glided", "shuffled", "exclaimed"],
             "noun": ["cat", "hat", "banana", "penguin", "unicorn", "narwhal", "taco", "donut", "pickle", "rainbow", "marshmallow", "sneaker", "pineapple", "jellybean", "toaster", "koala", "bumblebee", "flamingo", "ninja", "giraffe", "cupcake", "chinchilla", "panda", "robot", "sushi", "lollipop", "bubblegum", "rocket", "watermelon", "gummy bear", "doodle", "wonderland", "glimmer", "munchkin", "chatter", "magic"],
