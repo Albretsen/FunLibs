@@ -237,6 +237,8 @@ export default class LibManager {
             'tool': 'An instrument or device used to perform a task: hammer, saw, etc.',
             'type of car': 'A specific brand of car: Ford, Tesla, etc.',
             'car': 'A specific brand of car: Ford, Tesla, etc.',
+            'Ability': 'Skill or power, often magical: invisibility, flight, etc.',
+            'Random Word': 'Any word, sometimes unpredictable or fictional.'
         };
     
         // Use compromise to get the base form of the word
@@ -328,6 +330,8 @@ export default class LibManager {
             "animal": ["lion", "elephant", "giraffe", "zebra", "bear", "wolf", "kangaroo", "penguin"],
             "car": ["sedan", "SUV", "hatchback", "convertible", "coupe", "station wagon", "sports car", "pickup truck", "minivan", "electric car", "hybrid", "compact", "luxury vehicle", "roadster", "limousine"],
             "type of car": ["sedan", "SUV", "hatchback", "convertible", "coupe", "station wagon", "sports car", "pickup truck", "minivan", "electric car", "hybrid", "compact", "luxury vehicle", "roadster", "limousine"],
+            "ability": ["teleportation", "invisibility", "time travel", "telekinesis", "flight", "shape-shifting", "mind reading", "super strength", "fire manipulation", "ice manipulation", "healing", "electrokinesis", "illusion creation", "gravity control", "speed", "intangibility", "energy blasts", "water manipulation", "animal communication", "weather control"],
+            "random word": ["quartz", "wobble", "zephyr", "marmalade", "juxtapose", "kaleidoscope", "quandary", "serendipity", "flibbertigibbet", "labyrinth", "whimsical", "gargantuan", "nebula", "vortex", "alchemy", "brouhaha", "crescendo", "doodle", "ephemeral", "fandango", "gizmo", "hullabaloo", "iconoclast", "jamboree", "kismet", "loquacious", "maverick", "nirvana", "oscillate", "paradox"],
         };
 
         // Use compromise to get the base form of the word
