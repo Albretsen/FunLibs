@@ -132,18 +132,9 @@ export default function HomeScreen() {
                 {Platform.OS != "ios" ? <View style={{marginTop: 16}}>
                     <PackCarousel data={[
                         {
-                            title: 'Christmas Pack',
-                            description: "Eight high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
-                            key: 'item1',
-                            image: require("../assets/images/christmas.png"),
-                            onPress: () => {
-                                navigation.navigate("Pack", {packName: "christmas"});
-                            }
-                        },
-                        {
                             title: 'Romance Pack',
                             description: "Dive into a world of romance with our collection of 10 heartwarming Libs, each crafted with passion by the Fun Libs Team!",
-                            key: 'item2',
+                            key: 'item1',
                             image: require("../assets/images/romance.png"),
                             onPress: () => {
                                 navigation.navigate("Pack", {packName: "romance"});
@@ -152,12 +143,30 @@ export default function HomeScreen() {
                         {
                             title: 'Historical Events Pack',
                             description: "Get ready to immerse yourself in history! The Historical Events pack is filled with funny takes on famous moments throughout history!",
-                            key: 'item3',
+                            key: 'item2',
                             image: require("../assets/images/historic.png"),
                             onPress: () => {
                                 navigation.navigate("Pack", {packName: "historic"});
                             }
                         },
+                        {
+                            title: 'The Easter Pack',
+                            description: "Write some hilarious stories while enjoying the Easter festivities!",
+                            key: 'item3',
+                            image: require("../assets/images/easter.png"),
+                            onPress: () => {
+                                navigation.navigate("Pack", {packName: "easter"});
+                            }
+                        },
+                        {
+                            title: 'Christmas Pack',
+                            description: "Eight high quality Libs about romance. Stories include Romeo and Juliet, Twilight and many more heartwarming stories!",
+                            key: 'item4',
+                            image: require("../assets/images/christmas.png"),
+                            onPress: () => {
+                                navigation.navigate("Pack", {packName: "christmas"});
+                            }
+                        }
                     ]}/>
                 </View> : <></>}
             </ScrollView>

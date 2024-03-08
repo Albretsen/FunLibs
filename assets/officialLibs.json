@@ -1,5 +1,993 @@
 [
    {
+      "name": "The Egg-straterrestrial Encounter",
+      "imageId": 26,
+      "id": "gflt0",
+      "text": [
+         "In the ",
+         "Adjective 1",
+         " woods near the town of ",
+         "Town 1",
+         ", a group of ",
+         "Adjective 2",
+         " children were on their annual Easter egg hunt. Their adventure took a surprising turn when they discovered a ",
+         "Adjective 3",
+         " spacecraft, hidden among the trees. Inside, they found Eggo, a friendly alien from the distant planet of ",
+         "Proper Noun 1",
+         ". Eggo explained that he was tasked with delivering ",
+         "Adjective 4",
+         " Easter eggs across the universe, but his spacecraft had unexpectedly malfunctioned.\n\n\nTo the children's amazement, Eggo revealed his ",
+         "Random Word",
+         ", a device capable of repairing his ship and creating magical portals. With this gadget, they embarked on a mission to ",
+         "Verb",
+         " Easter, not just on Earth, but across the galaxies.\n\n\nTheir first destination was ",
+         "Place 1",
+         ", known for its tradition of celebrating Easter with ",
+         "Noun 2",
+         "s instead of eggs. As they traveled, each child had a chance to use the ",
+         "Noun 1",
+         " to ",
+         "Verb 1",
+         ", experiencing the diverse customs of interstellar Easter celebrations.\n\n\nThey encountered ",
+         "Adjective 5",
+         " aliens and came across ",
+         "Adjective 6",
+         " creatures, each sharing their unique Easter traditions. With every new world, the children helped Eggo distribute his ",
+         "Adjective 4",
+         " Easter eggs, spreading joy and wonder.\n\n\nUpon their return to ",
+         "Town 1",
+         ", the children kept their incredible journey a secret. Yet, every Easter, they would reminisce about their ",
+         "Adjective 7",
+         " adventure with Eggo and the cosmic Easter eggs. The tale of The Egg-straterrestrial Encounter became a cherished legend in ",
+         "Town 1",
+         ", inspiring all to look up at the stars and imagine the vast possibilities of friendship and celebration beyond our world.\n"
+      ],
+      "prompts": [
+         {
+            "Adjective 1": [
+               1
+            ]
+         },
+         {
+            "Town 1": [
+               3,
+               31,
+               35
+            ]
+         },
+         {
+            "Adjective 2": [
+               5
+            ]
+         },
+         {
+            "Adjective 3": [
+               7
+            ]
+         },
+         {
+            "Proper Noun 1": [
+               9
+            ]
+         },
+         {
+            "Adjective 4": [
+               11,
+               29
+            ]
+         },
+         {
+            "Random Word": [
+               13
+            ]
+         },
+         {
+            "Verb": [
+               15
+            ]
+         },
+         {
+            "Place 1": [
+               17
+            ]
+         },
+         {
+            "Noun 2": [
+               19
+            ]
+         },
+         {
+            "Noun 1": [
+               21
+            ]
+         },
+         {
+            "Verb 1": [
+               23
+            ]
+         },
+         {
+            "Adjective 5": [
+               25
+            ]
+         },
+         {
+            "Adjective 6": [
+               27
+            ]
+         },
+         {
+            "Adjective 7": [
+               33
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "The Secret Garden of Easter",
+      "imageId": 25,
+      "id": "ht7f3",
+      "text": [
+         "In the sleepy town of ",
+         "Town 1",
+         ", just beyond the ancient, weathered walls of the oldest church, lies a hidden marvel that comes to life only on the morning of Easter. This secret garden, discovered by siblings ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         ", was a place of enchantment and wonders, where the spirit of Easter was not just celebrated but palpably felt.\n\n\nThe first magical encounter in the garden was with a ",
+         "Color 1",
+         " tulip. Upon ",
+         "Name 1",
+         "’s gentle touch, the flower bloomed spectacularly, granting them the ability to ",
+         "Ability 1",
+         ". This unexpected magic filled them with laughter and amazement, as they explored the newfound joy it brought.\n\n\nVenturing deeper, they found a ",
+         "Color 2",
+         " daffodil that seemed to beckon with its vibrant hue. When ",
+         "Name 2",
+         " caressed its petals, the daffodil bestowed upon them the power to ",
+         "Ability 2",
+         ", an ability so whimsical and delightful that it seemed to embody the very essence of Easter joy and mischief.\n\n\nThe final treasure was a ",
+         "Color 3",
+         " hyacinth, hiding shyly among its lush companions. With a whisper of hope, the siblings awakened its magic, and were granted the ability to ",
+         "Ability 3",
+         ". This power, perhaps the most enchanting of all, allowed them to experience the garden’s mysteries in a way they never thought possible.\n\n\nWith each discovery, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " understood that the garden was a guardian of magic, a keeper of Easter’s most cherished secrets. They promised to protect this magical place from those who would seek to misuse its wonders, ensuring its magic would continue to bring joy and surprise for many Easters to come.\n\n\nAs the sun dipped low, signaling the end of the enchanted morning, the garden whispered of its return next year, with new magic to explore and new lessons to impart. The siblings departed, their hearts alight with memories of the day and the magic they had shared, knowing that the secret garden of Easter would always hold a special place in their lives.\n"
+      ],
+      "prompts": [
+         {
+            "Town 1": [
+               1
+            ]
+         },
+         {
+            "Name 1": [
+               3,
+               9,
+               23
+            ]
+         },
+         {
+            "Name 2": [
+               5,
+               15,
+               25
+            ]
+         },
+         {
+            "Color 1": [
+               7
+            ]
+         },
+         {
+            "Ability 1": [
+               11
+            ]
+         },
+         {
+            "Color 2": [
+               13
+            ]
+         },
+         {
+            "Ability 2": [
+               17
+            ]
+         },
+         {
+            "Color 3": [
+               19
+            ]
+         },
+         {
+            "Ability 3": [
+               21
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "The Great Easter carrot heist",
+      "imageId": 24,
+      "id": "c4l43",
+      "text": [
+         "In ",
+         "Bunny themed town 1",
+         ", the Easter Bunny's stash of magical carrots — the secret to his boundless energy for Easter egg delivery — goes missing. A detective duo, a clever rabbit named ",
+         "Name 1",
+         " and a keen-eyed squirrel named ",
+         "Name 2",
+         ", take on the case. Their investigation leads them through a series of ",
+         "Adjective",
+         " mishaps and encounters with various woodland creatures, only to discover the carrots were taken by a group of mischievous mice planning to start their own Easter delivery service.\n\n\nThe story begins as ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " follow a trail of ",
+         "Noun",
+         "s that leads them past ",
+         "Place",
+         ", down ",
+         "Place",
+         ", and finally to the hidden lair of the mice. Along the way, they meet an ",
+         "Adjective",
+         " owl who offers ",
+         "Adjective",
+         " clues, and a ",
+         "Noun",
+         " that almost derails their quest.\n\n\nJust when all seems lost, the duo uncovers the secret entrance to the mice's hideout. Inside, they find the mice ",
+         "Verb -ing",
+         " over a map of ",
+         "Bunny themed town 1",
+         ", plotting their next big delivery. With quick thinking and a ",
+         "Adjective",
+         " negotiation, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " convince the mice to join forces with the Easter bunny, resulting in the first-ever woodland creature Easter delivery team.\n\n\nTheir adventure concludes with a grand Easter egg delivery, where ",
+         "Noun",
+         "s and ",
+         "Noun",
+         "s are hidden with care, bringing joy to the children of ",
+         "Bunny themed town 1",
+         " and proving that teamwork and a little bit of ",
+         "Adjective",
+         " thinking can overcome any challenge.\n"
+      ],
+      "prompts": [
+         {
+            "Bunny themed town 1": [
+               1,
+               27,
+               39
+            ]
+         },
+         {
+            "Name 1": [
+               3,
+               9,
+               31
+            ]
+         },
+         {
+            "Name 2": [
+               5,
+               11,
+               33
+            ]
+         },
+         {
+            "Adjective": [
+               7
+            ]
+         },
+         {
+            "Noun": [
+               13
+            ]
+         },
+         {
+            "Place": [
+               15
+            ]
+         },
+         {
+            "Place": [
+               17
+            ]
+         },
+         {
+            "Adjective": [
+               19
+            ]
+         },
+         {
+            "Adjective": [
+               21
+            ]
+         },
+         {
+            "Noun": [
+               23
+            ]
+         },
+         {
+            "Verb -ing": [
+               25
+            ]
+         },
+         {
+            "Adjective": [
+               29
+            ]
+         },
+         {
+            "Noun": [
+               35
+            ]
+         },
+         {
+            "Noun": [
+               37
+            ]
+         },
+         {
+            "Adjective": [
+               41
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "The Egg-cellent Escape",
+      "imageId": 23,
+      "id": "8k757",
+      "text": [
+         "Just moments after their daring departure from the carton, Sunny Side-Up and his fellow eggs found themselves perched precariously on the edge of a fridge shelf in ",
+         "Place 1",
+         ". Their freedom lay just beyond the kitchen counter, but first, they had to conquer the descent from their chilly ledge.\n\n\nSunny Side-Up, always the leader, eyed the drop with a ",
+         "Adjective 1",
+         " grin. \"Fear not, my friends! Watch and learn.\" With that, he leaned forward and, to the amazement of the others, began to float down gently. It was as if he had invisible wings, descending with a grace that belied his oval form. He landed softly on a pile of ",
+         "Food",
+         ", laughing. \"Come on, the salad's fine!\"\n\n\nEncouraged, ",
+         "Name 1",
+         ", known for being the most ",
+         "Adjective 2",
+         " egg of the lot, decided to follow. But instead of floating, he chose a more direct route. With a determined wiggle, he ",
+         "Movement verb -ed",
+         " off the edge, picking up speed. The other eggs watched with bated breath as he executed a perfect landing—right in the middle of a salad bowl. \"Refreshing!\" he exclaimed, nestled among the lettuce and tomatoes.\n\n\nNext up was ",
+         "Name 2",
+         ", the ",
+         "Adjective 3",
+         " egg of the group. He hesitated at the brink, mustered up all his courage, and jumped. Unfortunately, his trajectory was less than ideal. With a splat that echoed through the kitchen, he didn't quite make it to the safety of the salad. Instead, he found himself spread out, a bit worse for wear, on the kitchen floor.\n\n\nThe rest of the eggs, witnessing the varied fates of their compatriots, were suddenly struck by a wave of fear. They shuffled back from the edge, murmuring excuses and casting nervous glances at each other. The brave acts of Sunny Side-Up, ",
+         "Name 1",
+         ", and the unfortunate splat of ",
+         "Name 2",
+         " had taught them one thing: not all escapes are created equal.\n\n\nSo there they remained, too scared to attempt the descent, their dreams of freedom temporarily paused on the fridge shelf. Meanwhile, Sunny Side-Up, still buoyant in his salad bed, called up with a chuckle, \"We'll find another way down for you all. Until then, enjoy the view!\"\n"
+      ],
+      "prompts": [
+         {
+            "Place 1": [
+               1
+            ]
+         },
+         {
+            "Adjective 1": [
+               3
+            ]
+         },
+         {
+            "Food": [
+               5
+            ]
+         },
+         {
+            "Name 1": [
+               7,
+               17
+            ]
+         },
+         {
+            "Adjective 2": [
+               9
+            ]
+         },
+         {
+            "Movement verb -ed": [
+               11
+            ]
+         },
+         {
+            "Name 2": [
+               13,
+               19
+            ]
+         },
+         {
+            "Adjective 3": [
+               15
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "Lost at the Easter fair",
+      "imageId": 22,
+      "id": "raee8",
+      "text": [
+         "During the annual Easter fair, eight-year-old Mia loses sight of her parents. Amidst the colorful egg stalls and cheerful Easter bunny mascots of ",
+         "Town",
+         ", she feels a mix of excitement and fear. Distracted by a ",
+         "Adjective",
+         " magician pulling ",
+         "Noun",
+         "s out of his hat, Mia wanders further away, her ",
+         "Body part",
+         " pounding with each step.\n\n\nDetermined to find her parents, Mia approaches an ",
+         "Occupation",
+         " at a nearby stall, who gifts her an ",
+         "Adjective",
+         " chocolate egg. \"Don't worry, little one,\" he says, \"We'll find them.\" With the chocolate egg in one hand, she ",
+         "Verb -s",
+         " through the fair, looking at every face in hopes of spotting her ",
+         "Adjective",
+         " parents.\n\n\nNext, she meets a group of performers dressed as Easter bunnies practicing their ",
+         "Noun",
+         " dance. They are adorned in ",
+         "Adjective",
+         " costumes, sparkling under the spring sun. \"Lost, are you?\" one asks before leading Mia atop a small stage for a better view. From there, she ",
+         "Verb -ed",
+         " across the fairgrounds, hoping to spot her parents.\n\n\nFinally, near the ",
+         "Place",
+         ", adorned with Easter decorations and vibrant flowers, she hears her name being called. Turning around, she sees her parents rushing towards her, relief and joy in their eyes. The kindness of the fair's people and the Easter-themed adventure she embarked on fills Mia with a newfound appreciation for her community.\n\n\n\"Thank you,\" Mia whispers to her new friends, clutching her parents' hands tightly. The Easter fair, a place of wonder and kindness, had brought them back together.\n"
+      ],
+      "prompts": [
+         {
+            "Town": [
+               1
+            ]
+         },
+         {
+            "Adjective": [
+               3
+            ]
+         },
+         {
+            "Noun": [
+               5
+            ]
+         },
+         {
+            "Body part": [
+               7
+            ]
+         },
+         {
+            "Occupation": [
+               9
+            ]
+         },
+         {
+            "Adjective": [
+               11
+            ]
+         },
+         {
+            "Verb -s": [
+               13
+            ]
+         },
+         {
+            "Adjective": [
+               15
+            ]
+         },
+         {
+            "Noun": [
+               17
+            ]
+         },
+         {
+            "Adjective": [
+               19
+            ]
+         },
+         {
+            "Verb -ed": [
+               21
+            ]
+         },
+         {
+            "Place": [
+               23
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "A Basket of Surprises",
+      "imageId": 21,
+      "id": "gh363",
+      "text": [
+         "Once upon a spring morning in the quaint village of ",
+         "Town 1",
+         ", ",
+         "Name 1",
+         " and her little brother ",
+         "Name 2",
+         " were bustling with excitement. Today, they had a special mission: to deliver handcrafted Easter baskets to every doorstep in their neighborhood. Filled with ",
+         "Adjective 1",
+         " chocolate eggs, ",
+         "Noun plural 1",
+         ", and a rainbow of jelly beans, each basket promised a burst of joy.\n\n\nBut as they got their wagon out the door, a ",
+         "Adjective 2",
+         " surprise awaited them. A group of bunnies, meant to be the stars of Mrs. ",
+         "Name 3",
+         "'s garden party, had escaped and were now hopping merrily across the village square!\n\n\nWithout missing a beat, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " set a plan into motion. Using a trail of ",
+         "Noun",
+         ", they lured the bunnies back into their cozy hutch, laughing as they went. Yet, just as they resumed their journey, the sky turned ",
+         "Adjective 3",
+         ", and a gentle rain began to fall.\n\n\nUnperturbed, ",
+         "Name 1",
+         " draped her ",
+         "Noun 1",
+         " over the baskets, protecting them from the droplets, while ",
+         "Name 2",
+         " led the way with his ",
+         "Color",
+         " umbrella. Together, they navigated through puddles and ",
+         "Verb -ing 1",
+         " raindrops, their spirits undampened.\n\n\nBy the end of the day, as the last rays of sunshine peeked through the parting clouds, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " reached their final stop. Mrs. ",
+         "Name 4",
+         ", the oldest resident of ",
+         "Town 2",
+         ", greeted them with a warm smile, her eyes twinkling at the sight of the Easter basket.\n\n\n\"Thank you, my dears,\" she said, her voice as ",
+         "Adjective 4",
+         " as the spring breeze. \"You've brought so much happiness today, not just to me, but to our entire village.\"\n\n\nAs they headed home, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         " couldn't help but feel a sense of accomplishment. Despite the runaway bunnies and unexpected showers, they had worked together, spreading Easter joy with every step.\n\n\nAnd in that moment, they realized that Easter wasn't just about the baskets and candies; it was about the surprises along the way and the joy of ",
+         "Verb -ing",
+         ".\n"
+      ],
+      "prompts": [
+         {
+            "Town 1": [
+               1
+            ]
+         },
+         {
+            "Name 1": [
+               3,
+               15,
+               23,
+               33,
+               43
+            ]
+         },
+         {
+            "Name 2": [
+               5,
+               17,
+               27,
+               35,
+               45
+            ]
+         },
+         {
+            "Adjective 1": [
+               7
+            ]
+         },
+         {
+            "Noun plural 1": [
+               9
+            ]
+         },
+         {
+            "Adjective 2": [
+               11
+            ]
+         },
+         {
+            "Name 3": [
+               13
+            ]
+         },
+         {
+            "Noun": [
+               19
+            ]
+         },
+         {
+            "Adjective 3": [
+               21
+            ]
+         },
+         {
+            "Noun 1": [
+               25
+            ]
+         },
+         {
+            "Color": [
+               29
+            ]
+         },
+         {
+            "Verb -ing 1": [
+               31
+            ]
+         },
+         {
+            "Name 4": [
+               37
+            ]
+         },
+         {
+            "Town 2": [
+               39
+            ]
+         },
+         {
+            "Adjective 4": [
+               41
+            ]
+         },
+         {
+            "Verb -ing": [
+               47
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "The Bunny who lost her hop",
+      "imageId": 20,
+      "id": "4ut4m",
+      "text": [
+         "Once upon a time, in a cozy little house nestled in the heart of ",
+         "Place 1",
+         ", there lived a fluffy, ",
+         "Adjective",
+         " bunny named Bella. Bella was not just any bunny; she was the beloved pet of the ",
+         "Surname 1",
+         " family, known for her lively hops and joyful spirit. However, one sunny morning, right before Easter, Bella discovered she had lost her ability to hop.\n\n\nDistraught, the ",
+         "Surname 1",
+         " children, ",
+         "Name 1",
+         " and ",
+         "Name 2",
+         ", embarked on a creative quest to help Bella regain her hop. They first tried the traditional remedy of feeding her ",
+         "Noun 1",
+         ", hoping it would bring back her bounce, but to no avail. Next, they attempted more hilarious methods, like creating a mini trampoline out of ",
+         "Noun",
+         ", but Bella just sat there, looking puzzled.\n\n\nDetermined not to give up, the siblings consulted the wise ",
+         "Occupation",
+         " from the neighboring ",
+         "City",
+         ", who suggested they teach Bella how to hop again with love and patience. Day by day, they encouraged Bella, using a trail of her favorite food ",
+         "Food",
+         "s to motivate her. Slowly but surely, Bella began to regain her confidence.\n\n\nOn Easter morning, the ",
+         "Surname 1",
+         " family woke up to a wonderful surprise. Bella was hopping around, hiding Easter eggs in the most ",
+         "Adjective",
+         " places. The children's creative efforts and unwavering support had paid off. Through this adventure, they learned valuable lessons about empathy, resilience, and the joy of helping others. Bella's hop was not just restored; their bond with her was stronger than ever.\n\n\nAnd so, in the heart of ",
+         "Place 1",
+         ", the ",
+         "Surname 1",
+         " family celebrated the most memorable Easter, filled with laughter, love, and lots of hopping, thanks to their ",
+         "Adjective 1",
+         " bunny, Bella.\n"
+      ],
+      "prompts": [
+         {
+            "Place 1": [
+               1,
+               27
+            ]
+         },
+         {
+            "Adjective": [
+               3
+            ]
+         },
+         {
+            "Surname 1": [
+               5,
+               7,
+               23,
+               29
+            ]
+         },
+         {
+            "Name 1": [
+               9
+            ]
+         },
+         {
+            "Name 2": [
+               11
+            ]
+         },
+         {
+            "Noun 1": [
+               13
+            ]
+         },
+         {
+            "Noun": [
+               15
+            ]
+         },
+         {
+            "Occupation": [
+               17
+            ]
+         },
+         {
+            "City": [
+               19
+            ]
+         },
+         {
+            "Food": [
+               21
+            ]
+         },
+         {
+            "Adjective": [
+               25
+            ]
+         },
+         {
+            "Adjective 1": [
+               31
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
+      "name": "The Easter egg mix-up",
+      "imageId": 19,
+      "id": "0v6w0",
+      "text": [
+         "",
+         "Name 1",
+         " worked in an ",
+         "Adjective",
+         " theme park where preparations for the great annual Easter egg hunt were underway. When all the eggs had been hidden after an ",
+         "Adjective",
+         " day of hard labor, ",
+         "Name 1",
+         " decided to celebrate by finding an egg and eating all the ",
+         "Noun",
+         "-tasting candy inside. But to the ",
+         "Name 1",
+         "’s surprise, the egg contained no candy, just a whole bunch of ",
+         "Noun",
+         "s.\n\n\nSurprised, they told the ",
+         "Adjective",
+         " manager, and soon they realized all the eggs were filled with everything but candy. It was an ",
+         "Adjective",
+         " disaster. It was, however, too late. The children would be there at ",
+         "Time of day 1",
+         " on Easter day, and there was no time to hide new eggs. “Oh my ",
+         "Noun",
+         "!” ",
+         "Name 1",
+         " yelled, “we have a HUGE problem”!\n\n\n",
+         "Time of day 1",
+         ", on the dot, a mass of children arrive at the gates to the amusement park, followed by their ",
+         "Adjective",
+         " parents. Children were running around the park, looking in every nook and cranny. Little Suzie was one of the first children to find an egg, inside was an ",
+         "Adjective",
+         " ",
+         "Noun",
+         ". Suzie felt really ",
+         "Emotion",
+         " and her father could not stop ",
+         "Verbin (-ing",
+         ").\n\n\nAll over the park, children were pulling out eggs with the weirdest prizes. Timmy found a ",
+         "Noun",
+         " that made him squeal with ",
+         "Emotion",
+         ", while another group of kids discovered eggs filled with ",
+         "Adjective",
+         " ",
+         "Noun",
+         "s, leaving them bewildered yet oddly excited. The park echoed with a mixture of laughter and gasps as each new find was revealed.\n\n\n",
+         "Name 1",
+         ", watching the chaos unfold, couldn't help but feel a ",
+         "Emotion",
+         " mix of panic and amusement. The ",
+         "Adjective",
+         " manager, trying to maintain order, announced over the loudspeaker, \"Attention, dear visitors! Today's Easter egg hunt comes with a special twist – unique treasures await you!\" This clever spin turned the ",
+         "Adjective",
+         " disaster into an unexpected adventure.\n"
+      ],
+      "prompts": [
+         {
+            "Name 1": [
+               1,
+               7,
+               11,
+               23,
+               45
+            ]
+         },
+         {
+            "Adjective": [
+               3
+            ]
+         },
+         {
+            "Adjective": [
+               5
+            ]
+         },
+         {
+            "Noun": [
+               9
+            ]
+         },
+         {
+            "Noun": [
+               13
+            ]
+         },
+         {
+            "Adjective": [
+               15
+            ]
+         },
+         {
+            "Adjective": [
+               17
+            ]
+         },
+         {
+            "Time of day 1": [
+               19,
+               25
+            ]
+         },
+         {
+            "Noun": [
+               21
+            ]
+         },
+         {
+            "Adjective": [
+               27
+            ]
+         },
+         {
+            "Adjective": [
+               29
+            ]
+         },
+         {
+            "Noun": [
+               31
+            ]
+         },
+         {
+            "Emotion": [
+               33
+            ]
+         },
+         {
+            "Verbin (-ing": [
+               35
+            ]
+         },
+         {
+            "Noun": [
+               37
+            ]
+         },
+         {
+            "Emotion": [
+               39
+            ]
+         },
+         {
+            "Adjective": [
+               41
+            ]
+         },
+         {
+            "Noun": [
+               43
+            ]
+         },
+         {
+            "Emotion": [
+               47
+            ]
+         },
+         {
+            "Adjective": [
+               49
+            ]
+         },
+         {
+            "Adjective": [
+               51
+            ]
+         }
+      ],
+      "words": [],
+      "pack": "easter_pack",
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2"
+   },
+   {
       "name":"The Last Voyage of the Titanic",
       "username":"The Fun Libs Team",
       "id":"png1z",

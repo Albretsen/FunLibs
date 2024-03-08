@@ -177,6 +177,14 @@ const ListManager = (props) => {
         16: require("../assets/images/lib-images/mr-johnsons-lively-zoo.png"),
         17: require("../assets/images/lib-images/space-adventure.png"),
         18: require("../assets/images/lib-images/the-perfect-harvest.png"),
+        19: require("../assets/images/lib-images/easter-pack/the-easter-egg-mix-up.png"),
+        20: require("../assets/images/lib-images/easter-pack/the-bunny-who-lost-her-hop.png"),
+        21: require("../assets/images/lib-images/easter-pack/a-basket-of-surprises.png"),
+        22: require("../assets/images/lib-images/easter-pack/lost-at-the-easter-fair.png"),
+        23: require("../assets/images/lib-images/easter-pack/the-egg-cellent-escape.png"),
+        24: require("../assets/images/lib-images/easter-pack/the-great-easter-carrot-heist.png"),
+        25: require("../assets/images/lib-images/easter-pack/the-secret-garden-of-easter.png"),
+        26: require("../assets/images/lib-images/easter-pack/the-egg-straterrestrial-encounter.png"),
     };
 
     return (
