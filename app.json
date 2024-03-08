@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "3.0.9",
+    "version": "3.0.10",
     "orientation": "portrait",
     "scheme": "funlibs",
     "plugins": ["react-native-iap"],
@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "33"
+      "buildNumber": "34"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -31,7 +31,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.asgalb.FunLibs",
-      "versionCode": 33,
+      "versionCode": 34,
       "intentFilters": [
         {
           "action": "VIEW",
