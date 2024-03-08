@@ -330,7 +330,10 @@ function ListItem(props) {
             />
             {image && (
                 <Image
-                    style={{ width: "100%", height: Dimensions.get('window').height / 6, borderRadius: 8, marginVertical: 6 }}
+                    style={[
+                        { width: "100%", height: Dimensions.get('window').height / 6, borderRadius: 8, marginVertical: 6 },
+                        locked ? { opacity: 0.5 } : {}
+                    ]}
                     source={image}
                 />
             )}
