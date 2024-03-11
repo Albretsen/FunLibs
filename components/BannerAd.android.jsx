@@ -1,12 +1,18 @@
-import React, { useMemo, useContext } from 'react';
-import { View, Dimensions } from 'react-native';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
-import AdManager from '../scripts/ad_manager';
-import { useState } from 'react';
-import { ScreenContext } from '../App';
-import { useEffect } from 'react';
+import React, { useMemo, useContext } from "react";
+import { View, Dimensions } from "react-native";
+import {
+    BannerAd,
+    BannerAdSize,
+    TestIds,
+} from "react-native-google-mobile-ads";
+import AdManager from "../scripts/ad_manager";
+import { useState } from "react";
+import { ScreenContext } from "../App";
+import { useEffect } from "react";
 
-const adUnitId = AdManager.production ? 'ca-app-pub-1354741235649835/9424468100' : TestIds.BANNER;
+const adUnitId = AdManager.production
+    ? "ca-app-pub-1354741235649835/9424468100"
+    : TestIds.BANNER;
 
 export default function BannerAdComponent({ setAdHeightInParent }) {
     const { currentScreenName } = useContext(ScreenContext);
@@ -15,14 +21,18 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
     const [showBannerAd, setShowBannerAd] = useState(false);
 
     useEffect(() => {
-        if (["Home", "Browse", "LibsScreen", "CommunityLibScreen"].includes(currentScreenName)) {
+        if (
+            ["Home", "Browse", "LibsScreen", "CommunityLibScreen"].includes(
+                currentScreenName
+            )
+        ) {
             setAdHeight(74);
             setShowBannerAd(true);
         } else {
             setAdHeight(0);
             if (currentScreenName == "SplashScreen") setShowBannerAd(false);
         }
-    }, [currentScreenName])
+    }, [currentScreenName]);
 
     const handleAdFailedToLoad = (error) => {
         //setButtonBottom(20);
@@ -38,11 +48,11 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
         } else {
             return 100; // For screen widths > 720dp
         }
-    }
+    };
 
     const handleAdLoaded = (event) => {
         // Dynamically get the width of the screen
-        const width = Dimensions.get('window').width;
+        const width = Dimensions.get("window").width;
         // Calculate the height of the ANCHORED_ADAPTIVE_BANNER
         const height = getAdaptiveBannerHeight(width);
         // Set the ad height in the parent component
@@ -59,7 +69,8 @@ export default function BannerAdComponent({ setAdHeightInParent }) {
                         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
                         //size={BannerAdSize.FULL_BANNER} // 60
                         requestOptions={{
-                            requestNonPersonalizedAdsOnly: AdManager.requestNonPersonalizedAdsOnly,
+                            requestNonPersonalizedAdsOnly:
+                                AdManager.requestNonPersonalizedAdsOnly,
                         }}
                         onAdFailedToLoad={handleAdFailedToLoad}
                         onAdLoaded={handleAdLoaded}

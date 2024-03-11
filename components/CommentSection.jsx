@@ -344,6 +344,7 @@ export default function CommentSection(props) {
                                                 });
                                             }}>
                                                 {iconReply}
+                                                <Text style={{ fontSize: 13, color: "#49454F" }}>Reply</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -456,6 +457,7 @@ export default function CommentSection(props) {
                                                         });
                                                     }}>
                                                         {iconReply}
+                                                        <Text style={{ fontSize: 13, color: "#49454F" }}>Reply</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
@@ -531,7 +533,8 @@ const styles = StyleSheet.create({
     commentAction: {
         // Make touchable opacity bigger, for ease of clicking
         height: 24,
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     avatar: {
@@ -558,5 +561,5 @@ const styles = StyleSheet.create({
 
     commentText: {
         lineHeight: 24
-    }
+    },
 })

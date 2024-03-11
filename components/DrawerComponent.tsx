@@ -188,7 +188,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             transparent={true}
             visible={isVisible}
         >
-            <GestureHandlerRootView style={{ flex: 1 }}>
+            <GestureHandlerRootView style={{ flex: 1, marginBottom: 61 }}>
                 <Animated.View style={{ flex: 1, backgroundColor: backdropColor }}>
                     {/* Drawer is contained in a flex view, a mask takes up the remaining space from the drawer.
                     The order of these - reverse or not - are determined by whether the drawer is right- or left aligned */}

@@ -66,6 +66,7 @@ export default function PackCard({title, description, image, imageWidth = 72, im
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        overflow: "hidden",
     },
 
     background: {
