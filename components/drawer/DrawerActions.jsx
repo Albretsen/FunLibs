@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import FirebaseManager from "../scripts/firebase_manager";
+import FirebaseManager from "../../scripts/firebase_manager";
 
 export default function DrawerActions(props) {
     const { playOrWrite, onPublish, onShare, onSave, onFavorite, onDelete, onUndo, publishLabel, saveLabel, deleteLabel, undoLabel, likesArray } = props;

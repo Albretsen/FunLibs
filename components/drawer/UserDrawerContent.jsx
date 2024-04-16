@@ -1,7 +1,7 @@
 import React from 'react';
-import FirebaseManager from '../scripts/firebase_manager';
+import FirebaseManager from '../../scripts/firebase_manager';
 import DrawerContents from './DrawerContents';
-import i18n from '../scripts/i18n';
+import i18n from '../../scripts/i18n';
 import { Linking } from 'react-native';
 
 export default function UserDrawerContent({ navigation, closeDrawer }) {
