@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import DrawerContents from './DrawerContents';
-import i18n from '../scripts/i18n';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import i18n from '../../scripts/i18n';
+import { MaterialCommunityIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { Platform, ViewStyle } from 'react-native'; // Import Platform and ViewStyle module for containerStyle
+import ImageDrawerLink from './ImageDrawerLink';
 
 // Define the types for the navigation parameters
 type RootStackParamList = {
     Home: undefined;
     Create: undefined;
     Pack: { packName?: string };
-    Browse: { initialTab?: string, category?: string};
+    Browse: { initialTab?: string, category?: string };
     Read: undefined;
 };
 
@@ -30,12 +31,14 @@ interface LinkSection {
 }
 
 interface Link {
-    title: string;
+    title?: string;
+    description?: string;
     icon?: string; // Optional because some links use iconComponent instead
     iconComponent?: JSX.Element; // For custom icons not part of a library
     iconColor?: string;
     textColor?: string;
     onPress: () => void;
+    component?: ReactNode;
 }
 
 const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navigation, closeDrawer }) => {
@@ -45,24 +48,30 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
             links: [
                 {
                     title: i18n.t("home"),
+                    description: "An overview of the Fun Libs app.",
                     icon: "home",
-                    onPress: () => { 
+                    iconColor: "#6294C9",
+                    onPress: () => {
                         navigation.navigate("Home");
                         closeDrawer();
                     }
                 },
                 {
                     title: i18n.t("official_stories"),
+                    description: "Browse official libs written by the Fun Libs team.",
                     icon: "verified",
-                    onPress: () => { 
+                    iconColor: "#6294C9",
+                    onPress: () => {
                         navigation.navigate("Browse", { initialTab: "Official" });
                         closeDrawer();
                     }
                 },
                 {
                     title: i18n.t("community_stories"),
+                    description: "Browse custom libs written by the Fun Libs community.",
                     icon: "public",
-                    onPress: () => { 
+                    iconColor: "#6294C9",
+                    onPress: () => {
                         navigation.navigate("Browse", { initialTab: "Community" });
                         closeDrawer();
                     }
@@ -74,15 +83,19 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
             links: [
                 {
                     title: i18n.t("create_a_lib"),
+                    description: "Write your own lib and publish it for others to play!",
                     icon: "edit",
-                    onPress: () => { 
+                    iconColor: "#6294C9",
+                    onPress: () => {
                         navigation.navigate("Create");
                         closeDrawer();
                     }
                 },
                 {
                     title: i18n.t("my_libs"),
+                    description: "Browse all the libs you're written.",
                     icon: "face",
+                    iconColor: "#6294C9",
                     onPress: () => {
                         navigation.navigate("Browse", { initialTab: "Community", category: "myContent" });
                         closeDrawer();
@@ -90,8 +103,10 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
                 },
                 {
                     title: i18n.t("read_libs"),
+                    description: "Read the libs you've played again.",
                     icon: "local-library",
-                    onPress: () => { 
+                    iconColor: "#6294C9",
+                    onPress: () => {
                         navigation.navigate("Read");
                         closeDrawer();
                     }
@@ -107,45 +122,51 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
                 title: i18n.t("packs"),
                 links: [
                     {
-                        title: i18n.t("romance"),
-                        iconComponent: (
-                            <MaterialCommunityIcons name="hand-heart-outline" size={20} color="#95691B" />
+                        component: (
+                            <ImageDrawerLink
+                                variant="romance"
+                                title={i18n.t("romance_pack")}
+                                desciption="Dive into a world of romance with heartwarming libs about love!"
+                            />
                         ),
-                        textColor: "#95691B",
                         onPress: () => {
-                            navigation.navigate("Pack", {packName: "romance"});
+                            navigation.navigate("Pack", { packName: "romance" });
                             closeDrawer();
                         }
                     },
                     {
-                        title: i18n.t("christmas"),
-                        iconComponent: (
-                            <FontAwesome5 name="candy-cane" size={20} color="#95691B" />
+                        component: (
+                            <ImageDrawerLink
+                                variant="christmas"
+                                title={i18n.t("christmas_pack")}
+                                desciption="Get into the festive spirit with magical Christmas libs!"
+                            />
                         ),
-                        textColor: "#95691B",
                         onPress: () => {
-                            navigation.navigate("Pack", {packName: "christmas"});
+                            navigation.navigate("Pack", { packName: "christmas" });
                             closeDrawer();
                         }
                     },
                     {
                         title: i18n.t("historical_events"),
+                        description: "Immerse yourself in history with historical libs!",
                         icon: "history-edu",
-                        iconColor: "#95691B",
-                        textColor: "#95691B",
+                        iconColor: "#6294C9",
                         onPress: () => {
-                            navigation.navigate("Pack", {packName: "historic"});
+                            navigation.navigate("Pack", { packName: "historic" });
                             closeDrawer();
                         }
                     },
                     {
-                        title: i18n.t("easter"),
-                        iconComponent: (
-                            <MaterialCommunityIcons name="egg-easter" size={20} color="#95691B" />
+                        component: (
+                            <ImageDrawerLink
+                                variant="easter"
+                                title={i18n.t("easter_pack")}
+                                desciption="Explore the vibrant joy of Easter with enchanting Easter-themed libs!"
+                            />
                         ),
-                        textColor: "#95691B",
                         onPress: () => {
-                            navigation.navigate("Pack", {packName: "easter"});
+                            navigation.navigate("Pack", { packName: "easter" });
                             closeDrawer();
                         }
                     },

@@ -13,7 +13,7 @@ interface DrawerProps {
 }
 
 const Drawer = forwardRef((props: DrawerProps, ref) => {
-    const {children, side = "right", width = "85%", maxWidth = "500px", containerStyle, backgroundColor = "white", onStateChange } = props;
+    const { children, side = "right", width = "85%", maxWidth = "500px", containerStyle, backgroundColor = "white", onStateChange } = props;
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -31,24 +31,24 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
 
     let drawerWidth: number;
     // Set windowWidth
-    if(isPx(width)) {
+    if (isPx(width)) {
         // Strip the px-suffix from width
         const pxValue = parseInt(width.slice(0, -2), 10);
         // The drawer width will be the minimum between the provided pixel value and the window width.
         drawerWidth = Math.min(pxValue, windowWidth);
-    } else if(isPerc(width)) {
+    } else if (isPerc(width)) {
         drawerWidth = (parseInt(width.toString()) / 100) * windowWidth;
     } else {
         throw 'Drawer width must end in either "px" or "%".';
     }
 
     let drawerMaxWidth: number;
-    if(isPx(maxWidth)) {
+    if (isPx(maxWidth)) {
         const pxValue = parseInt(maxWidth.slice(0, -1), 10);
         drawerMaxWidth = Math.min(pxValue, windowWidth);
-    } else if(isPerc(maxWidth)) {
+    } else if (isPerc(maxWidth)) {
         drawerMaxWidth = (parseInt(maxWidth.toString()) / 100) * windowWidth;
-    } else if(maxWidth === "none") {
+    } else if (maxWidth === "none") {
         drawerMaxWidth = windowWidth;
     } else {
         throw 'Drawer maxWidth must end in either "px" or "%".';
@@ -76,13 +76,13 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             const swipeDistance = event.nativeEvent.translationX;
 
             // If the swipe distance is more than half the drawer's width, close the drawer
-            let shouldClose = side === "right" 
+            let shouldClose = side === "right"
                 ? swipeDistance > drawerWidth / 2
                 : swipeDistance < -drawerWidth / 2;
-    
+
             // Decide where the drawer will land when the swipe has ended, either fully expanded or fully hidden 
             const targetValue = shouldClose ? initialSlideValue : 0;
-    
+
             // Animate to the target value
             Animated.timing(slideAnim, {
                 toValue: targetValue,
@@ -104,21 +104,21 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             lastOffset.x = targetValue;
         }
     };
-    
-    
+
+
     // This is responsible for updating the drawer's position in real-time as the user drags it
     const gestureEvent = (event: any) => {
         // Extract the current horizontal translation (how far the user has dragged) from the event
         let translationX = event.nativeEvent.translationX;
-    
+
 
         // The drawer is limited to being dragged at the max to the full width of the drawer, and at the minimum 0
         if (side === "right") { translationX = Math.min(Math.max(translationX, 0), drawerWidth) }
         if (side === "left") { translationX = Math.max(Math.min(translationX, 0), -drawerWidth) }
-    
+
         slideAnim.setValue(translationX);
     };
-    
+
     // This function handles the animation and setting visibility after the animation is complete
     const closeDrawerInternal = (callback?: () => void) => {
         animateDrawer(false, () => {
@@ -132,11 +132,11 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
 
     const animateDrawer = (visible: boolean, finishCallback?: () => void) => {
         const targetValue = side === "right"
-        ? (visible ? 0 : drawerWidth)
-        : (visible ? 0 : -drawerWidth);
-      
+            ? (visible ? 0 : drawerWidth)
+            : (visible ? 0 : -drawerWidth);
+
         const targetFadeValue = visible ? 1 : 0;
-      
+
         Animated.parallel([
             Animated.timing(slideAnim, {
                 toValue: targetValue,
@@ -155,7 +155,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             }
         });
     };
-      
+
 
     useImperativeHandle(ref, () => ({
         openDrawer: () => {
@@ -176,7 +176,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
         outputRange: side === "right" ? [1, 0] : [0, 1],
         extrapolate: 'clamp'
     });
-      
+
     const backdropColor = interpolatedOpacity.interpolate({
         inputRange: [0, 1],
         outputRange: ["transparent", "rgba(0, 0, 0, 0.4)"]
@@ -192,7 +192,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
                 <Animated.View style={{ flex: 1, backgroundColor: backdropColor }}>
                     {/* Drawer is contained in a flex view, a mask takes up the remaining space from the drawer.
                     The order of these - reverse or not - are determined by whether the drawer is right- or left aligned */}
-                    <View style={{ flex: 1, flexDirection: side == 'right' ? 'row' : 'row-reverse'}}>
+                    <View style={{ flex: 1, flexDirection: side == 'right' ? 'row' : 'row-reverse' }}>
                         <Pressable style={{ width: maskWidth }} onPress={() => closeDrawerInternal()} />
                         <PanGestureHandler
                             onHandlerStateChange={onSwipeHandler}
@@ -205,7 +205,7 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
                                     transform: [{ translateX: slideAnim }]
                                 }, containerStyle]}
                             >
-                                <SafeAreaView style={{flex: 1}}>
+                                <SafeAreaView style={{ flex: 1 }}>
                                     {children}
                                 </SafeAreaView>
                             </Animated.View>

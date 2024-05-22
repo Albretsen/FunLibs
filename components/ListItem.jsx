@@ -7,7 +7,7 @@ import _ from "lodash";
 import LibManager from "../scripts/lib_manager";
 import { Animated } from "react-native";
 import FirebaseManager from "../scripts/firebase_manager";
-import DrawerActions from "./DrawerActions";
+import DrawerActions from "./drawer/DrawerActions";
 import AudioPlayer from "../scripts/audio";
 import FileManager from "../scripts/file_manager";
 import FunLibsShare from "../scripts/share";
@@ -20,9 +20,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import Drawer from "../components/DrawerComponent";
+import Drawer from "./drawer/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
-import DrawerHeader from "../components/DrawerHeader";
+import DrawerHeader from "./drawer/DrawerHeader";
 import i18n from "../scripts/i18n";
 
 function ListItem(props) {

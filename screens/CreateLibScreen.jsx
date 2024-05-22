@@ -11,7 +11,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { ScreenContext } from "../App";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Divider } from '@rneui/themed';
-import DrawerActions from "../components/DrawerActions";
+import DrawerActions from "../components/drawer/DrawerActions";
 import FileManager from "../scripts/file_manager";
 import FirebaseManager from "../scripts/firebase_manager";
 import { useFocusEffect } from '@react-navigation/native';
@@ -22,8 +22,8 @@ import AvatarDisplay from "../components/AvatarDisplay";
 import Dropdown from "../components/Dropdown";
 import i18n from "../scripts/i18n";
 // import { Drawer } from 'hallvardlh-react-native-drawer';
-import Drawer from "../components/DrawerComponent";
-import DrawerHeader from "../components/DrawerHeader";
+import Drawer from "../components/drawer/DrawerComponent";
+import DrawerHeader from "../components/drawer/DrawerHeader";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 export default function CreateLibScreen({ route }) {
