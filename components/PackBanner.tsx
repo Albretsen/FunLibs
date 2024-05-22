@@ -141,10 +141,8 @@ export function PackBanner() {
                 setShowPackBanner(false);
                 return;
             };;
-    
+            
             let discountedPackInfo: any = await IAP.getDiscountedProductInfo();
-
-            console.log(discountedPack, "HERE!")
             if (discountedPack && (discountedPack === discountedPackInfo.discountedProductId) && lastClosedSeason !== discountedPack + year) {
                 let bannerContent = BannerContentLookup[discountedPack];
                 bannerContent.discountText = "Enjoy " + discountedPackInfo.discountPercentage + "% off";
