@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
-import { View, Text, TouchableOpacity, ImageRequireSource, Image, StyleProp, ViewStyle, ImageStyle, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ImageRequireSource, Image, StyleProp, ViewStyle, ImageStyle, StyleSheet, } from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Divider } from '@rneui/themed';
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 
 interface DrawerContentsProps {
+    topComponent?: ReactNode;
     title: string;
     imageSrc?: ImageRequireSource;
     imageStyle?: StyleProp<ImageStyle>
@@ -24,11 +25,18 @@ interface DrawerContentsProps {
     }>;
 }
 
-export default function DrawerContents({ title, imageSrc, imageStyle, containerStyle, sections }: DrawerContentsProps) {
+export default function DrawerContents({ topComponent, title, imageSrc, imageStyle, containerStyle, sections }: DrawerContentsProps) {
     return (
         <DrawerScrollView contentContainerStyle={containerStyle}>
+            {topComponent && (
+                <View style={{
+                    marginTop: 50,
+                }}>
+                    {topComponent}
+                </View>
+            )}
             <View style={styles.topSection}>
-                <Text style={[styles.text, { fontSize: 20 }]}>{title}</Text>
+                <Text style={[styles.text, { fontSize: 20, }]}>{title}</Text>
                 {imageSrc && (
                     <Image
                         style={[styles.image, imageStyle]}
@@ -40,7 +48,9 @@ export default function DrawerContents({ title, imageSrc, imageStyle, containerS
             {sections.map((section, index) => (
                 <View key={index + "1"}>
                     <View key={index} style={styles.linkGroup}>
-                        <Text style={[styles.text, { fontSize: 17 }]}>{section.title}</Text>
+                        {section.title && (
+                            <Text style={[styles.text, { fontSize: 17 }]}>{section.title}</Text>
+                        )}
                         {section.links.map((link, linksIndex) => (
                             <TouchableOpacity
                                 key={linksIndex}
@@ -89,9 +99,10 @@ export default function DrawerContents({ title, imageSrc, imageStyle, containerS
 const styles = StyleSheet.create({
     topSection: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-end",
         justifyContent: "space-between",
-        height: 100
+        paddingBottom: 6,
+        height: 60
     },
 
     image: {

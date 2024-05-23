@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface ImageDrawerLinkProps {
-    variant: "romance" | "easter" | "christmas",
+    variant: "romance" | "easter" | "historic" | "christmas",
     title: string,
     desciption: string,
 }
@@ -13,12 +13,14 @@ export default function ImageDrawerLink(props: ImageDrawerLinkProps) {
     const gradientColors = {
         "romance": ["#FF257E", "#FF2644"],
         "easter": ["#f298f4", "#9386e6"],
+        "historic": ["#f298f4", "#9386e6"],
         "christmas": ["#378b29", "#74d680"],
     }
 
     const images = {
         "romance": require("../../assets/images/romance-banner.png"),
         "easter": require("../../assets/images/easter-banner.png"),
+        "historic": require("../../assets/images/historic-banner.png"),
         "christmas": require("../../assets/images/christmas-banner.png"),
     };
 

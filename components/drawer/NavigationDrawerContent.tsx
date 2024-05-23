@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import DrawerContents from './DrawerContents';
 import i18n from '../../scripts/i18n';
 import { MaterialCommunityIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
-import { Platform, ViewStyle } from 'react-native'; // Import Platform and ViewStyle module for containerStyle
+import { Platform, ViewStyle, Image, View, Text, Linking, TouchableOpacity } from 'react-native'; // Import Platform and ViewStyle module for containerStyle
 import ImageDrawerLink from './ImageDrawerLink';
 
 // Define the types for the navigation parameters
@@ -26,7 +26,7 @@ interface NavigationDrawerContentProps {
 
 // Link Section interface
 interface LinkSection {
-    title: string;
+    title?: string;
     links: Link[];
 }
 
@@ -148,10 +148,13 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
                         }
                     },
                     {
-                        title: i18n.t("historical_events"),
-                        description: "Immerse yourself in history with historical libs!",
-                        icon: "history-edu",
-                        iconColor: "#6294C9",
+                        component: (
+                            <ImageDrawerLink
+                                variant="historic"
+                                title={"Historic pack"}
+                                desciption="Immerse yourself in history with historical libs!"
+                            />
+                        ),
                         onPress: () => {
                             navigation.navigate("Pack", { packName: "historic" });
                             closeDrawer();
@@ -177,6 +180,19 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
 
     return (
         <DrawerContents
+            topComponent={
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://play.google.com/store/apps/details?id=com.asgalb.DailyJokes");
+                }}>
+                    <View style={{ marginTop: -25, marginBottom: -10, gap: 5, }}>
+                        <Image
+                            style={{ width: "100%", height: 100, borderRadius: 8, }}
+                            source={require("../../assets/images/daily-jokes-banner.png")}
+                        />
+                        <Text style={{ lineHeight: 24, fontSize: 14, marginLeft: 20 }}>{"Laugh, vote & win in our newest app Daily Jokes!"}</Text>
+                    </View>
+                </TouchableOpacity>
+            }
             title={i18n.t("fun_libs")}
             containerStyle={{ paddingHorizontal: 26 } as ViewStyle} // Explicitly cast to ViewStyle to avoid type errors
             sections={sections}
