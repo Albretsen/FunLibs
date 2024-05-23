@@ -4765,6 +4765,411 @@
       "playable":true
    },
    {
+      "name": "The unforgettable house party",
+      "id": "jepu0",
+      "text": [
+        "As ",
+        "Name 1",
+        ", the charismatic ",
+        "Occupation 1",
+        ", stepped through the door of the cozy home in ",
+        "Place 1",
+        ", they were greeted by a wave of ",
+        "Adjective 1",
+        " music. Dressed in ",
+        "Clothing",
+        " and ",
+        "Clothing",
+        ", they immediately joined ",
+        "Name 2",
+        ", a renowned ",
+        "Occupation 2",
+        ", who was busy showing off their ",
+        "Verb -ing",
+        " moves in the living room. ",
+        "Name 2",
+        " was wearing a ",
+        "Clothing",
+        " on their ",
+        "Body part",
+        ".\n\nIn the kitchen, ",
+        "Name 3",
+        ", known among friends as the ",
+        "Occupation 3",
+        ", was mixing an ",
+        "Adjective",
+        " cocktail, much to the delight of ",
+        "Name 4",
+        ", an ",
+        "Occupation 4",
+        " with a knack for telling ",
+        "Adjective",
+        " stories. ",
+        "Name 4",
+        " was entertaining a group by recounting their latest adventure, wearing a ",
+        "Adjective",
+        " hat that had everyone's attention.\n\nMeanwhile, in the backyard, ",
+        "Name 5",
+        ", a professional ",
+        "Occupation 5",
+        ", challenged guests to a ",
+        "Noun 1",
+        " game, creating a playful competition that had everyone laughing and cheering.\n\nAs the night progressed and the ",
+        "Adjective 1",
+        " music blared, each room of the house offered a different flavor of fun, from spontaneous ",
+        "Verb -ing",
+        " contests to heartfelt ",
+        "Noun 2",
+        "s around the fireplace, ensuring the this house party in ",
+        "Place 1",
+        " would be talked about for years to come."
+      ],
+      "prompts": [
+        {
+          "Name 1": [
+            1
+          ]
+        },
+        {
+          "Occupation 1": [
+            3
+          ]
+        },
+        {
+          "Place 1": [
+            5,
+            53
+          ]
+        },
+        {
+          "Adjective 1": [
+            7,
+            47
+          ]
+        },
+        {
+          "Clothing": [
+            9
+          ]
+        },
+        {
+          "Clothing": [
+            11
+          ]
+        },
+        {
+          "Name 2": [
+            13,
+            19
+          ]
+        },
+        {
+          "Occupation 2": [
+            15
+          ]
+        },
+        {
+          "Verb -ing": [
+            17
+          ]
+        },
+        {
+          "Clothing": [
+            21
+          ]
+        },
+        {
+          "Body part": [
+            23
+          ]
+        },
+        {
+          "Name 3": [
+            25
+          ]
+        },
+        {
+          "Occupation 3": [
+            27
+          ]
+        },
+        {
+          "Adjective": [
+            29
+          ]
+        },
+        {
+          "Name 4": [
+            31,
+            37
+          ]
+        },
+        {
+          "Occupation 4": [
+            33
+          ]
+        },
+        {
+          "Adjective": [
+            35
+          ]
+        },
+        {
+          "Adjective": [
+            39
+          ]
+        },
+        {
+          "Name 5": [
+            41
+          ]
+        },
+        {
+          "Occupation 5": [
+            43
+          ]
+        },
+        {
+          "Noun 1": [
+            45
+          ]
+        },
+        {
+          "Verb -ing": [
+            49
+          ]
+        },
+        {
+          "Noun 2": [
+            51
+          ]
+        }
+      ],
+      "words": [],
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "official": true
+    },
+    {
+      "name": "Life on the farm",
+      "id": "nqept",
+      "text": [
+        "One sunny morning at the ",
+        "Place 1",
+        " farm, the air was filled with the sounds of animals engaging in their daily routines. ",
+        "Name 1",
+        ", the ",
+        "Adjective",
+        " ",
+        "Animal 1",
+        ", was busy ",
+        "Verb -ing",
+        " in the mud, much to the amusement of the visiting children.\n\nNear the barn, ",
+        "Name 2",
+        ", an ",
+        "Adjective",
+        " ",
+        "Animal",
+        ", decided it was the perfect day to ",
+        "Verb 1",
+        " across the field, kicking up clouds of dust with every joyful step. This spectacle caught the eye of ",
+        "Name 3",
+        ", the farm's ",
+        "Adjective 3",
+        " ",
+        "Animal 3",
+        ", who was usually too busy ",
+        "Verb -ing",
+        " to notice what ",
+        "Name 2",
+        " was up to, but today ",
+        "Name 3",
+        " was watching ",
+        "Name 2",
+        "’s ",
+        "Verb 1",
+        ".\n\nOn the other side of the farm, under a ",
+        "Size",
+        " oak tree, lay ",
+        "Name 4",
+        ". As the oldest ",
+        "Animal 4",
+        " on the farm, he preferred to spend his days ",
+        "Verb -ing",
+        " quietly. However, today he was watching the ",
+        "Adjective 4",
+        " antics of the younger ",
+        "Animal 1",
+        " and ",
+        "Animal 2",
+        " with a wise, old eye.\n\nMeanwhile, the pond was a splash of activity where ",
+        "Name 5",
+        ", the ",
+        "Animal 5",
+        ", was expertly ",
+        "Verb -ing",
+        ". Every now and then, she would cause a ripple of laughter among the onlookers by playfully ",
+        "Verb -ing",
+        " at the farm dog, who was too ",
+        "Adjective 6",
+        " to run away..\n\nEach animal at the ",
+        "Place 1",
+        " farm brought their own flavor of fun, making it a place where every visit was filled with laughter, ",
+        "Noun 1",
+        "s, and the simple joy of ",
+        "Adjective",
+        " life on the farm."
+      ],
+      "prompts": [
+        {
+          "Place 1": [
+            1,
+            59
+          ]
+        },
+        {
+          "Name 1": [
+            3
+          ]
+        },
+        {
+          "Adjective": [
+            5
+          ]
+        },
+        {
+          "Animal 1": [
+            7,
+            45
+          ]
+        },
+        {
+          "Verb -ing": [
+            9
+          ]
+        },
+        {
+          "Name 2": [
+            11,
+            27,
+            31
+          ]
+        },
+        {
+          "Adjective": [
+            13
+          ]
+        },
+        {
+          "Animal": [
+            15
+          ]
+        },
+        {
+          "Verb 1": [
+            17,
+            33
+          ]
+        },
+        {
+          "Name 3": [
+            19,
+            29
+          ]
+        },
+        {
+          "Adjective 3": [
+            21
+          ]
+        },
+        {
+          "Animal 3": [
+            23
+          ]
+        },
+        {
+          "Verb -ing": [
+            25
+          ]
+        },
+        {
+          "Size": [
+            35
+          ]
+        },
+        {
+          "Name 4": [
+            37
+          ]
+        },
+        {
+          "Animal 4": [
+            39
+          ]
+        },
+        {
+          "Verb -ing": [
+            41
+          ]
+        },
+        {
+          "Adjective 4": [
+            43
+          ]
+        },
+        {
+          "Animal 2": [
+            47
+          ]
+        },
+        {
+          "Name 5": [
+            49
+          ]
+        },
+        {
+          "Animal 5": [
+            51
+          ]
+        },
+        {
+          "Verb -ing": [
+            53
+          ]
+        },
+        {
+          "Verb -ing": [
+            55
+          ]
+        },
+        {
+          "Adjective 6": [
+            57
+          ]
+        },
+        {
+          "Noun 1": [
+            61
+          ]
+        },
+        {
+          "Adjective": [
+            63
+          ]
+        }
+      ],
+      "words": [],
+      "avatarID": "13",
+      "username": "The Fun Libs Team",
+      "published": true,
+      "playable": true,
+      "user": "HOv8K8Z1Q6bUuGxENrPrleECIWe2",
+      "official": true
+    },
+   {
       "official":true,
       "likes":7,
       "avatarID":"13",
