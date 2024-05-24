@@ -9,6 +9,7 @@ import PackCarousel from "../components/PackCarousel";
 import ListManager from "../components/ListManager";
 import { ScreenContext } from "../App";
 import { useIsFocused } from '@react-navigation/native';
+import DailyJokesBanner from "../components/DailyJokesBanner";
 
 export default function HomeScreen() {
 
@@ -118,9 +119,15 @@ export default function HomeScreen() {
                             }}></ListManager>
                         </View>
                     </View>
-                    {Platform.OS != "ios" ? <View style={styles.titleSection}>
-                        <Text style={{fontSize: 22, fontWeight: "500"}}>Packs</Text>
-                    </View> 
+                    {Platform.OS != "ios" ? (
+                        <View>
+                            <Text style={{fontSize: 22, fontWeight: "500", marginBottom: 10}}>Try our new app!</Text>
+                            <DailyJokesBanner />
+                            <View style={styles.titleSection}>
+                                <Text style={{fontSize: 22, fontWeight: "500", marginTop: 10}}>Packs</Text>
+                            </View>
+                        </View>
+                    )
                     :
                     <Image
                         style={{ width: "100%", height: 160, borderRadius: 8 }}

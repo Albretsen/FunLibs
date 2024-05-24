@@ -185,6 +185,8 @@ const ListManager = (props) => {
         24: require("../assets/images/lib-images/easter-pack/the-great-easter-carrot-heist.png"),
         25: require("../assets/images/lib-images/easter-pack/the-secret-garden-of-easter.png"),
         26: require("../assets/images/lib-images/easter-pack/the-egg-straterrestrial-encounter.png"),
+        27: require("../assets/images/lib-images/life-on-the-farm.png"),
+        28: require("../assets/images/lib-images/the-unforgettable-house-party.png"),
     };
 
     return (

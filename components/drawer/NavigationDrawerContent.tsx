@@ -5,6 +5,7 @@ import i18n from '../../scripts/i18n';
 import { MaterialCommunityIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { Platform, ViewStyle, Image, View, Text, Linking, TouchableOpacity } from 'react-native'; // Import Platform and ViewStyle module for containerStyle
 import ImageDrawerLink from './ImageDrawerLink';
+import DailyJokesBanner from '../DailyJokesBanner';
 
 // Define the types for the navigation parameters
 type RootStackParamList = {
@@ -180,19 +181,7 @@ const NavigationDrawerContent: React.FC<NavigationDrawerContentProps> = ({ navig
 
     return (
         <DrawerContents
-            topComponent={
-                <TouchableOpacity onPress={() => {
-                    Linking.openURL("https://play.google.com/store/apps/details?id=com.asgalb.DailyJokes");
-                }}>
-                    <View style={{ marginTop: -25, marginBottom: -10, gap: 5, }}>
-                        <Image
-                            style={{ width: "100%", height: 100, borderRadius: 8, }}
-                            source={require("../../assets/images/daily-jokes-banner.png")}
-                        />
-                        <Text style={{ lineHeight: 24, fontSize: 14, marginLeft: 20 }}>{"Laugh, vote & win in our newest app Daily Jokes!"}</Text>
-                    </View>
-                </TouchableOpacity>
-            }
+            topComponent={<DailyJokesBanner style={{ marginTop: -25, marginBottom: -10, gap: 5, }} showText />}
             title={i18n.t("fun_libs")}
             containerStyle={{ paddingHorizontal: 26 } as ViewStyle} // Explicitly cast to ViewStyle to avoid type errors
             sections={sections}
