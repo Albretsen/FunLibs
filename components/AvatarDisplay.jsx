@@ -6,6 +6,7 @@ import Dropdown from "./Dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "./Toast";
 import { useNavigation } from "@react-navigation/native";
+import Avatar from "./Avatar";
 
 export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, titleComponent, text, titleStyle, textStyle, rightComponent, uid, color, locked, avatarOnPress }) {
     const ParentTag = onPress ? TouchableOpacity : View;
@@ -62,14 +63,9 @@ export default function AvatarDisplay({ onPress, avatarID, avatarTint, title, ti
     return (
         <ParentTag style={styles.container} onPress={onPress}>
             {!byOfficial && (
-                <View style={[styles.imageContainer, {backgroundColor: color}]}>
-                    <Pressable onPress={avatarOnPress}>
-                        <Image
-                            style={[styles.image, locked ? globalStyles.lockedOpacity : null, avatarTint ? {tintColor: avatarTint} : null]}
-                            source={FirebaseManager.avatars[avatarID]} 
-                        />
-                    </Pressable>
-                </View>
+                <Pressable onPress={avatarOnPress} style={[styles.imageContainer, {backgroundColor: color}]}>
+                    <Avatar id={avatarID} />
+                </Pressable>
             )}
             <View style={styles.textContainer}>
                 {titleComponent ? (

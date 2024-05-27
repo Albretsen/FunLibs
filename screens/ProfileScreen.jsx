@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import i18n from "../scripts/i18n";
 import Drawer from "../components/drawer/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
+import Avatar from "../components/Avatar";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -136,10 +137,11 @@ export default function ProfileScreen({ route }) {
                         if(yourOwnProfile) avatarDrawerRef.current?.openDrawer();
                     }
                 }>
-                    <Image
+                    {/* <Image
                         style={styles.image}
                         source={FirebaseManager.avatars[avatarIndex]}
-                    />
+                    /> */}
+                    <Avatar style={styles.image} size={120} id={avatarIndex} />
                     {yourOwnProfile && (
                         <View style={styles.addImage}>
                             <MaterialIcons name="add" size={20} style={{color: "white", alignSelf: "center"}} />
@@ -275,13 +277,10 @@ export default function ProfileScreen({ route }) {
             </View>
             <Drawer ref={avatarDrawerRef} containerStyle={{paddingHorizontal: 8, borderBottomLeftRadius: 16, borderTopLeftRadius: 16, paddingVertical: 20}}>
                 <Text style={[globalStyles.title, {textAlign: "center", marginBottom: 20}]}>{i18n.t('selected_a_new_avatar')}</Text>
-                <DrawerScrollView>
-                    <AvatarSelect
-                        onAvatarChange={handleAvatarChange}
-                        selectedDefaultIndex={avatarIndex}
-                        containerIsView
-                    />
-                </DrawerScrollView>
+                <AvatarSelect
+                    onAvatarChange={handleAvatarChange}
+                    selectedDefaultIndex={avatarIndex}
+                />
             </Drawer>
             <Drawer ref={colorDrawerRef} containerStyle={{paddingHorizontal: 8, borderBottomLeftRadius: 16, borderTopLeftRadius: 16, paddingVertical: 20}}>
                 <Text style={[globalStyles.title, {textAlign: "center", marginBottom: 20}]}>{i18n.t('select_a_new_color')}</Text>
@@ -324,7 +323,7 @@ const styles = StyleSheet.create({
     image: {
         height: imageSize,
         width: imageSize,
-        justifyContent: "center",
+        // justifyContent: "center",
         alignSelf: "center",
     },
 
@@ -345,7 +344,7 @@ const styles = StyleSheet.create({
     addImage: {
         position: "absolute",
         right: 10,
-        top: imageSize - 25,
+        top: imageSize - 20,
         borderRadius: 100, // "100%"
         height: 30,
         width: 30,

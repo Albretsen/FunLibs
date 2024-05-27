@@ -9,6 +9,7 @@ interface DrawerContentsProps {
     title: string;
     imageSrc?: ImageRequireSource;
     imageStyle?: StyleProp<ImageStyle>
+    imageComponent?: ReactNode;
     containerStyle?: StyleProp<ViewStyle>
     sections: Array<{
         title?: string;
@@ -25,7 +26,7 @@ interface DrawerContentsProps {
     }>;
 }
 
-export default function DrawerContents({ topComponent, title, imageSrc, imageStyle, containerStyle, sections }: DrawerContentsProps) {
+export default function DrawerContents({ topComponent, title, imageSrc, imageStyle, imageComponent, containerStyle, sections }: DrawerContentsProps) {
     return (
         <DrawerScrollView contentContainerStyle={containerStyle}>
             {topComponent && (
@@ -42,6 +43,9 @@ export default function DrawerContents({ topComponent, title, imageSrc, imageSty
                         style={[styles.image, imageStyle]}
                         source={imageSrc}
                     />
+                )}
+                {imageComponent && (
+                    <>{imageComponent}</>
                 )}
             </View>
 

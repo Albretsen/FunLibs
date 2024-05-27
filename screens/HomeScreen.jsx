@@ -10,6 +10,7 @@ import ListManager from "../components/ListManager";
 import { ScreenContext } from "../App";
 import { useIsFocused } from '@react-navigation/native';
 import DailyJokesBanner from "../components/DailyJokesBanner";
+import Avatar from "../components/Avatar";
 
 export default function HomeScreen() {
 
@@ -59,14 +60,13 @@ export default function HomeScreen() {
                                 navigation.navigate("ProfileScreen", { uid: FirebaseManager.currentUserData?.auth?.uid });
                             }
                         }}>
-                            <Image
-                                style={[{ width: 48, height: 48 }, FirebaseManager.currentUserData?.firestoreData ? null :  {tintColor: "#5f6368"}]}
-                                source={
-                                    (FirebaseManager.currentUserData?.firestoreData) 
-                                    ? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-                                    : null
-                                }
-                            />
+							<>
+								{FirebaseManager.currentUserData?.firestoreData ? (
+									<Avatar size={48} id={FirebaseManager.currentUserData.firestoreData.avatarID} />
+								) : (
+									<Avatar size={48} noAvatar="48" />
+								)}
+							</>
                         </TouchableOpacity>
                     </View>
 

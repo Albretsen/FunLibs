@@ -56,7 +56,7 @@ Notifications.setNotificationHandler({
 export default class FirebaseManager {
     static auth = auth;
 
-    static currentUserData = { 
+    static currentUserData = {
         auth: null,
         firestoreData: null
     };
@@ -180,7 +180,7 @@ export default class FirebaseManager {
                                 Analytics.log("Successfully created user");
                                 resolve(user);
                             } else {
-                                const error = { 
+                                const error = {
                                     message: "Username is already taken",
                                     code: "auth/username-taken"
                                 };
@@ -213,7 +213,7 @@ export default class FirebaseManager {
             'auth/username-taken': 'Username is taken.'
             // Add more error codes and their messages as needed
         };
-    
+
         return errorMessages[errorCode] || 'An unknown error occurred.';
     }
 
@@ -265,7 +265,7 @@ export default class FirebaseManager {
             'auth/missing-password': 'Missing password.'
             // ... add other error codes as needed
         };
-    
+
         return errorMessages[errorCode] || 'An unknown error occurred.';
     }
 
@@ -307,12 +307,12 @@ export default class FirebaseManager {
 
         let currentDate = new Date();
         let day = currentDate.getDate();
-        let monthIndex  = currentDate.getMonth();
+        let monthIndex = currentDate.getMonth();
         let year = currentDate.getFullYear();
 
         // An array of month names in English
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+
         let memberSinceString = `Member since ${day}. ${monthNames[monthIndex]}. ${year}`;
 
         // If user.displayName is undefined, generate a random username string
@@ -481,9 +481,9 @@ export default class FirebaseManager {
     }
 
     static async UpdateUsername(uid, newUsername) {
-        if (!(await this.storeUsername(newUsername, uid))) { 
+        if (!(await this.storeUsername(newUsername, uid))) {
             console.log("The username is not available!")
-            return "username-not-available"; 
+            return "username-not-available";
         }
 
         try {
@@ -519,19 +519,19 @@ export default class FirebaseManager {
 
         const postsQuery = collection(db, "posts");
         const snapshot = await getDocs(postsQuery);
-    
+
         const batch = writeBatch(db);
-    
+
         snapshot.docs.forEach(doc => {
             const postData = doc.data();
             let postModified = false;
-        
+
             // Check if main post user matches the uid
             if (postData.user === uid) {
                 postModified = true;
                 addToBatch(doc.ref, { username: newUsername });
             }
-        
+
             // Check each comment
             if (postData.comments) {
                 postData.comments.forEach(comment => {
@@ -539,7 +539,7 @@ export default class FirebaseManager {
                         comment.username = newUsername; // Update the username in the comment
                         postModified = true;
                     }
-        
+
                     // Check replies of each comment
                     if (comment.replies) {
                         comment.replies.forEach(reply => {
@@ -550,14 +550,14 @@ export default class FirebaseManager {
                         });
                     }
                 });
-        
+
                 // Update the post with modified comments and replies only if needed
                 if (postModified) {
                     batches[batches.length - 1].update(doc.ref, { comments: postData.comments });
                 }
             }
         });
-    
+
         for (const batch of batches) {
             await batch.commit();
         }
@@ -565,7 +565,7 @@ export default class FirebaseManager {
         FirebaseManager.fetchUserData(uid);
         FirebaseManager.RefreshList(null);
     }
-    
+
     static async UpdateAvatar(uid, newAvatarID) {
         // First, update the authentication profile for the user
         // Assuming the avatarID is stored in the photoURL field of the auth profile
@@ -595,20 +595,20 @@ export default class FirebaseManager {
 
         const postsQuery = collection(db, "posts");
         const snapshot = await getDocs(postsQuery);
-    
+
         const batch = writeBatch(db);
-    
+
         snapshot.docs.forEach(doc => {
             console.log("LOOPING POST");
             const postData = doc.data();
             let postModified = false;
-    
+
             // Check if main post user matches the uid
             if (postData.user === uid) {
                 postModified = true;
                 addToBatch(doc.ref, { avatarID: newAvatarID });
             }
-    
+
             // Check each comment
             if (postData.comments) {
                 postData.comments.forEach(comment => {
@@ -625,14 +625,14 @@ export default class FirebaseManager {
                         });
                     }
                 });
-    
+
                 // Update the post with modified comments and replies only if needed
                 if (postModified) {
                     batches[batches.length - 1].update(doc.ref, { comments: postData.comments });
                 }
             }
         });
-    
+
         for (const batch of batches) {
             await batch.commit();
         }
@@ -689,14 +689,14 @@ export default class FirebaseManager {
 
     static async DeleteUser() {
         const user = this.currentUserData.auth;
-    
+
         if (!user) {
             Analytics.log("No user is currently signed in. Cannot delete.");
             return;
         }
-    
+
         const uid = user.uid;
-    
+
         // 1. Delete user data from Firestore
         try {
             const userDocRef = doc(db, "users", uid);
@@ -706,20 +706,20 @@ export default class FirebaseManager {
             Analytics.log(`Error deleting user data from Firestore: ${error.message}`);
             throw error;
         }
-    
+
         // 2. Paginate through and delete all posts associated with the user
         let lastVisible;
         const batchSize = 10;  // Adjust this based on your needs
-    
+
         do {
             let userPostsQuery = query(collection(db, "posts"), where("user", "==", uid), orderBy("date"), limit(batchSize));
-    
+
             if (lastVisible) {
                 userPostsQuery = query(collection(db, "posts"), where("user", "==", uid), orderBy("date"), startAfter(lastVisible), limit(batchSize));
             }
-    
+
             const snapshot = await getDocs(userPostsQuery);
-    
+
             if (snapshot.empty) {
                 break;
             }
@@ -731,7 +731,7 @@ export default class FirebaseManager {
             snapshot.docs.forEach(doc => {
                 batch.delete(doc.ref);
             });
-    
+
             await batch.commit();
 
         } while (true);
@@ -807,7 +807,7 @@ export default class FirebaseManager {
         } catch (error) {
             Analytics.log(`Error deleting username entry from 'usernames' collection: ${error.message}`);
         }
-    
+
         // 3. Delete the Firebase Auth user
         try {
             await deleteUser(user);
@@ -826,7 +826,7 @@ export default class FirebaseManager {
     }
 
     static async blockUser(blockedID) {
-        if (!this.currentUserData?.auth?.uid) return false; 
+        if (!this.currentUserData?.auth?.uid) return false;
         const blockerID = this.currentUserData.auth.uid;
         if (blockerID === blockedID) {
             console.error("A user can't block themselves.");
@@ -848,7 +848,7 @@ export default class FirebaseManager {
     }
 
     static async isUserBlocked(blockedID) {
-        if (!this.currentUserData?.auth?.uid) return false; 
+        if (!this.currentUserData?.auth?.uid) return false;
         const blockerID = this.currentUserData.auth.uid;
         const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID), where("blockedID", "==", blockedID));
         const snapshot = await getDocs(blockQuery);
@@ -856,11 +856,11 @@ export default class FirebaseManager {
     }
 
     static async getAllBlockedUsers() {
-        if (!this.currentUserData?.auth?.uid) return false; 
+        if (!this.currentUserData?.auth?.uid) return false;
         const blockerID = this.currentUserData.auth.uid;
         const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID));
         const snapshot = await getDocs(blockQuery);
-        
+
         const blockedUsers = [];
         snapshot.forEach(doc => {
             blockedUsers.push(doc.data().blockedID);
@@ -870,12 +870,12 @@ export default class FirebaseManager {
     }
 
     static async unblockUser(blockedID) {
-        if (!this.currentUserData?.auth?.uid) return false; 
+        if (!this.currentUserData?.auth?.uid) return false;
         const blockerID = this.currentUserData.auth.uid;
 
         const blockQuery = query(collection(db, "blockedUsers"), where("blockerID", "==", blockerID), where("blockedID", "==", blockedID));
         const snapshot = await getDocs(blockQuery);
-        
+
         if (snapshot.empty) {
             console.error(`User ${blockedID} is not blocked by ${blockerID}.`);
             return;
@@ -914,7 +914,7 @@ export default class FirebaseManager {
         try {
             const userDocRef = doc(db, "users", uid);
             const userDocSnap = await getDoc(userDocRef);
-            
+
             if (userDocSnap.exists()) {
                 return userDocSnap.data();
             } else {
@@ -1118,7 +1118,7 @@ export default class FirebaseManager {
                 q = query(q, where("official", "==", false));
                 break;
             case "myFavorites":
-                if (this.currentUserData.auth) { 
+                if (this.currentUserData.auth) {
                     q = query(q, where("likesArray", "array-contains", this.currentUserData.auth.uid));
                 } else {
                     q = query(q, where("likesArray", "array-contains", "NO_UID"));
@@ -1126,7 +1126,7 @@ export default class FirebaseManager {
                 break;
             case "myContent":
                 localResult = await FileManager._retrieveData("my_content");
-                if (localResult) { 
+                if (localResult) {
                     localResult = JSON.parse(localResult).filter(item => item.playable === true);
                 } else {
                     localResult = [];
@@ -1149,7 +1149,7 @@ export default class FirebaseManager {
             } else {
                 //if (lastVisibleDoc?.local) return;
                 localResult = await FileManager._retrieveData("read");
-                if (localResult) { 
+                if (localResult) {
                     localResult = JSON.parse(localResult);
                 } else {
                     localResult = [];
@@ -1195,7 +1195,7 @@ export default class FirebaseManager {
                 startDate = new Date(now.getFullYear(), 0, 1);
                 break;
             case "allTime":
-                startDate = new Date(now.getFullYear()-10, 0, 1);
+                startDate = new Date(now.getFullYear() - 10, 0, 1);
                 break; // Leaving this comment here to note the historical significance of this break statement. I wasted hours debugging why the sort order wasn't working. The fix was adding this break statement. Who knows why my IDE wouldn't notify of a missing break statement though!!!!!!!!!
             default:
                 startDate = null;
@@ -1259,18 +1259,18 @@ export default class FirebaseManager {
 
         const lastDoc = result.docs[result.docs.length - 1];
         if (Analytics.production === false) //this.FindUnsupportedPrompts(localResult.concat(resultArray));
-        //return localResult.concat(resultArray);
-        return {
-            data: localResult.concat(resultArray),
-            lastDocument: lastDoc
-        };
+            //return localResult.concat(resultArray);
+            return {
+                data: localResult.concat(resultArray),
+                lastDocument: lastDoc
+            };
     }
 
     static async getDocumentFromCollectionById(collectionName, docId) {
         try {
             const docRef = doc(db, collectionName, docId);
             const docSnapshot = await getDoc(docRef);
-    
+
             if (docSnapshot.exists()) {
                 return docSnapshot.data();
             } else {
@@ -1324,17 +1324,17 @@ export default class FirebaseManager {
     static async UpdateDocument(collection_, docId, updateData = {}, arrayUpdates = {}, arrayRemove_ = {}) {
         Analytics.log(`Updating document ${docId} in collection ${collection_} with data: ${JSON.stringify(updateData)}`);
         Analytics.increment("database_updates");
-        
+
         const docRef = doc(db, collection_, docId);
-    
+
         // Begin the update batch
         const batch = writeBatch(db);
-    
+
         // Apply field overwrites
         if (Object.keys(updateData).length > 0) {
             batch.update(docRef, updateData);
         }
-    
+
         // Apply array updates
         for (const [field, values] of Object.entries(arrayUpdates)) {
             if (Array.isArray(values)) {
@@ -1345,7 +1345,7 @@ export default class FirebaseManager {
                 Analytics.log(`Expected array for field ${field} in arrayUpdates, but got ${typeof values}. Skipping this update.`);
             }
         }
-    
+
         // Apply array removals
         for (const [field, values] of Object.entries(arrayRemove_)) {
             if (Array.isArray(values)) {
@@ -1356,7 +1356,7 @@ export default class FirebaseManager {
                 Analytics.log(`Expected array for field ${field} in arrayRemove, but got ${typeof values}. Skipping this update.`);
             }
         }
-    
+
         // Commit the batch
         try {
             await batch.commit();
@@ -1366,7 +1366,7 @@ export default class FirebaseManager {
             throw error;
         }
     }
-    
+
     static async DeleteDocument(collection_, docId) {
         Analytics.increment("database_deletes");
         try {
@@ -1387,23 +1387,23 @@ export default class FirebaseManager {
         const postsQuery = query(collection(db, "posts"), where("user", "==", uid));
         const snapshot = await getDocs(postsQuery);
         let totalLikes = 0;
-    
+
         snapshot.forEach(doc => {
             const postData = doc.data();
             if (postData.likes) {
                 totalLikes += postData.likes;
             }
         });
-    
+
         const userDocRef = doc(db, "users", uid);
-        
+
         // Update the libsCount and likesCount for the user in the users collection
         try {
             await setDoc(userDocRef, {
                 libsCount: snapshot.size,
                 likesCount: totalLikes
             }, { merge: true });  // Using merge: true to only update these fields and not overwrite the entire document
-    
+
             console.log(`Updated libsCount and likesCount for user ${uid}`);
         } catch (error) {
             console.error(`Error updating libsCount and likesCount for user ${uid}: ${error.message}`);
@@ -1447,22 +1447,22 @@ export default class FirebaseManager {
         // Get all documents from the 'posts' collection
         const postsCollectionRef = collection(db, 'posts');
         const snapshot = await getDocs(postsCollectionRef);
-    
+
         // Iterate through each document
         for (const docSnap of snapshot.docs) {
             const now = new Date();
             const start = new Date(now);
             start.setMonth(now.getMonth() - 2);
             const randomDate = new Date(start.getTime() + Math.random() * (now.getTime() - start.getTime()));
-    
+
             // Convert the random date to a Firestore Timestamp
             const timestamp = Timestamp.fromDate(randomDate);
-    
+
             // Update the 'date' field of the document with the new Timestamp
             const docRef = doc(postsCollectionRef, docSnap.id);
             await this.UpdateDocument('posts', docSnap.id, { date: timestamp });
         }
-    
+
         console.log('Date conversion completed.');
     }
 
@@ -1482,8 +1482,8 @@ export default class FirebaseManager {
         },
         lastVisibleDoc = null,
         pageSize = 10,
-        maxRetries = 3, 
-        retryDelay = 1000 
+        maxRetries = 3,
+        retryDelay = 1000
     ) {
         if (filterOptions.pageSize) pageSize = filterOptions.pageSize;
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -1666,40 +1666,40 @@ export default class FirebaseManager {
         };
     }
 
-    static avatars = {
-        0: require('../assets/images/avatars/0.png'),
-        1: require('../assets/images/avatars/1.png'),
-        2: require('../assets/images/avatars/2.png'),
-        3: require('../assets/images/avatars/3.png'),
-        4: require('../assets/images/avatars/4.png'),
-        5: require('../assets/images/avatars/5.png'),
-        6: require('../assets/images/avatars/6.png'),
-        7: require('../assets/images/avatars/7.png'),
-        8: require('../assets/images/avatars/8.png'),
-        9: require('../assets/images/avatars/9.png'),
-        10: require('../assets/images/avatars/10.png'),
-        11: require('../assets/images/avatars/11.png'),
-        12: require('../assets/images/avatars/12.png'),
-        13: require('../assets/images/avatars/13.png'),
-        14: require('../assets/images/avatars/14.png'),
-        15: require('../assets/images/avatars/15.png'),
-        16: require('../assets/images/avatars/16.png'),
-        17: require('../assets/images/avatars/17.png'),
-        18: require('../assets/images/avatars/18.png'),
-        19: require('../assets/images/avatars/19.png'),
-        20: require('../assets/images/avatars/20.png'),
-        21: require('../assets/images/avatars/21.png'),
-        22: require('../assets/images/avatars/22.png'),
-        23: require('../assets/images/avatars/23.png'),
-        24: require('../assets/images/avatars/24.png'),
-        25: require('../assets/images/avatars/25.png'),
-        26: require('../assets/images/avatars/26.png'),
-        27: require('../assets/images/avatars/27.png'),
-        28: require('../assets/images/avatars/28.png'),
-        29: require('../assets/images/avatars/29.png'),
-        "no-avatar-48": require(`../assets/images/avatars/no-avatar-48.png`),
-        "no-avatar-24": require(`../assets/images/avatars/no-avatar-24.png`),
-    }
+    // static avatars = {
+    //     0: require('../assets/images/avatars/0.png'),
+    //     1: require('../assets/images/avatars/1.png'),
+    //     2: require('../assets/images/avatars/2.png'),
+    //     3: require('../assets/images/avatars/3.png'),
+    //     4: require('../assets/images/avatars/4.png'),
+    //     5: require('../assets/images/avatars/5.png'),
+    //     6: require('../assets/images/avatars/6.png'),
+    //     7: require('../assets/images/avatars/7.png'),
+    //     8: require('../assets/images/avatars/8.png'),
+    //     9: require('../assets/images/avatars/9.png'),
+    //     10: require('../assets/images/avatars/10.png'),
+    //     11: require('../assets/images/avatars/11.png'),
+    //     12: require('../assets/images/avatars/12.png'),
+    //     13: require('../assets/images/avatars/13.png'),
+    //     14: require('../assets/images/avatars/14.png'),
+    //     15: require('../assets/images/avatars/15.png'),
+    //     16: require('../assets/images/avatars/16.png'),
+    //     17: require('../assets/images/avatars/17.png'),
+    //     18: require('../assets/images/avatars/18.png'),
+    //     19: require('../assets/images/avatars/19.png'),
+    //     20: require('../assets/images/avatars/20.png'),
+    //     21: require('../assets/images/avatars/21.png'),
+    //     22: require('../assets/images/avatars/22.png'),
+    //     23: require('../assets/images/avatars/23.png'),
+    //     24: require('../assets/images/avatars/24.png'),
+    //     25: require('../assets/images/avatars/25.png'),
+    //     26: require('../assets/images/avatars/26.png'),
+    //     27: require('../assets/images/avatars/27.png'),
+    //     28: require('../assets/images/avatars/28.png'),
+    //     29: require('../assets/images/avatars/29.png'),
+    //     "no-avatar-48": require(`../assets/images/avatars/no-avatar-48.png`),
+    //     "no-avatar-24": require(`../assets/images/avatars/no-avatar-24.png`),
+    // }
 
     /**
     * @returns Returns a random color, used for generating a color when creating user profile
@@ -1723,21 +1723,21 @@ export default class FirebaseManager {
     static brightenColor(hexColor, factor) {
         // Ensure the hex color starts with a hash symbol
         hexColor = hexColor.replace(/^#/, '');
-    
+
         // Convert hex to RGB
         let r = parseInt(hexColor.substring(0, 2), 16);
         let g = parseInt(hexColor.substring(2, 4), 16);
         let b = parseInt(hexColor.substring(4, 6), 16);
-    
+
         // Brighten each RGB component
         r = Math.min(255, parseInt(r + (255 - r) * factor));
         g = Math.min(255, parseInt(g + (255 - g) * factor));
         b = Math.min(255, parseInt(b + (255 - b) * factor));
-    
+
         // Convert RGB back to hex and return it
         return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     }
-    
+
 }
 
 // Sets auth state listener

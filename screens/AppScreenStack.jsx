@@ -26,6 +26,7 @@ import i18n from '../scripts/i18n';
 import Drawer from "../components/drawer/DrawerComponent";
 import globalStyles from '../styles/globalStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Avatar from '../components/Avatar';
 
 const Stack = createStackNavigator();
 
@@ -107,15 +108,13 @@ export default function AppScreenStack() {
 					headerRight: () => (
 						<>
 						<TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => userDrawerRef.current?.openDrawer()}>
-							<Image
-								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
-								source={
-									(FirebaseManager.currentUserData?.firestoreData) 
-									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-									: FirebaseManager.avatars["no-avatar-24"]
-								}
-							/>
+							<>
+								{FirebaseManager.currentUserData?.firestoreData ? (
+									<Avatar style={{marginRight: 20}} size={24} id={FirebaseManager.currentUserData.firestoreData.avatarID} />
+								) : (
+									<Avatar style={{marginRight: 20}} size={24} noAvatar="24" />
+								)}
+							</>
 						</TouchableOpacity>
 						<Drawer
 							ref={userDrawerRef}
@@ -159,15 +158,13 @@ export default function AppScreenStack() {
 					headerRight: () => (
 						<>
 						<TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => userDrawerRef.current?.openDrawer()}>
-							<Image
-								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
-								source={
-									(FirebaseManager.currentUserData?.firestoreData) 
-									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-									: FirebaseManager.avatars["no-avatar-24"]
-								}
-							/>
+							<>
+								{FirebaseManager.currentUserData?.firestoreData ? (
+									<Avatar style={{marginRight: 20}} size={24} id={FirebaseManager.currentUserData.firestoreData.avatarID} />
+								) : (
+									<Avatar style={{marginRight: 20}} size={24} noAvatar="24" />
+								)}
+							</>
 						</TouchableOpacity>
 						<Drawer
 							ref={userDrawerRef}
@@ -211,15 +208,13 @@ export default function AppScreenStack() {
 					headerRight: () => (
 						<>
 						<TouchableOpacity hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} onPress={() => userDrawerRef.current?.openDrawer()}>
-							<Image
-								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
-								source={
-									(FirebaseManager.currentUserData?.firestoreData) 
-									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-									: FirebaseManager.avatars["no-avatar-24"]
-								}
-							/>
+							<>
+								{FirebaseManager.currentUserData?.firestoreData ? (
+									<Avatar style={{marginRight: 20}} size={24} id={FirebaseManager.currentUserData.firestoreData.avatarID} />
+								) : (
+									<Avatar style={{marginRight: 20}} size={24} noAvatar="24" />
+								)}
+							</>
 						</TouchableOpacity>
 						<Drawer
 							ref={userDrawerRef}
@@ -263,15 +258,13 @@ export default function AppScreenStack() {
 					headerRight: () => (
 						<>
 						<TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => userDrawerRef.current?.openDrawer()}>
-							<Image
-								key={key}
-								style={[{ width: 24, height: 24, marginRight: 20 }, FirebaseManager.currentUserData?.firestoreData ? null : {tintColor: "#5f6368"}]}
-								source={
-									(FirebaseManager.currentUserData?.firestoreData) 
-									? FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-									: FirebaseManager.avatars["no-avatar-24"]
-								}
-							/>
+							<>
+								{FirebaseManager.currentUserData?.firestoreData ? (
+									<Avatar style={{marginRight: 20}} size={24} id={FirebaseManager.currentUserData.firestoreData.avatarID} />
+								) : (
+									<Avatar style={{marginRight: 20}} size={24} noAvatar="24" />
+								)}
+							</>
 						</TouchableOpacity>
 						<Drawer
 							ref={userDrawerRef}

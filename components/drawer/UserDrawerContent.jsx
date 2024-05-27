@@ -3,6 +3,7 @@ import FirebaseManager from '../../scripts/firebase_manager';
 import DrawerContents from './DrawerContents';
 import i18n from '../../scripts/i18n';
 import { Linking } from 'react-native';
+import Avatar from '../Avatar';
 
 export default function UserDrawerContent({ navigation, closeDrawer }) {
 
@@ -17,9 +18,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 				title={
 					`${i18n.t("hey")}, ${FirebaseManager.currentUserData.firestoreData.username ? FirebaseManager.currentUserData.firestoreData.username : null}!`
 				}
-				imageSrc={
-					FirebaseManager.avatars[FirebaseManager.currentUserData.firestoreData.avatarID]
-				}
+				imageComponent={<Avatar id={FirebaseManager.currentUserData.firestoreData.avatarID} />}
 				sections={
 					[
 						{
@@ -112,14 +111,14 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 		{!FirebaseManager.currentUserData.auth && (
 			<DrawerContents 
 				title={i18n.t('not_logged_in')}
-				imageSrc={FirebaseManager.avatars["no-avatar-48"]}
-				imageStyle={{tintColor: "#5f6368"}}
+				imageComponent={<Avatar noAvatar="48" />}
 				sections={[
 					{
 						title: i18n.t("fun_libs"),
 						links: [
 							{
 								title: i18n.t("feedback"),
+								description: "Experiencing any problems? Let us know!",
 								icon: "feedback",
 								onPress: () => {
 									navigation.navigate("FeedbackScreen");
@@ -128,6 +127,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 							},
 							{
 								title: i18n.t("sign_in"),
+								description: "Log in to your existing account.",
 								icon: "login",
 								onPress: () => {
 									navigation.navigate('SignInScreen');
@@ -136,6 +136,7 @@ export default function UserDrawerContent({ navigation, closeDrawer }) {
 							},
 							{
 								title: i18n.t("create_new_account"),
+								description: "Don't have an account? Create one! This lets you post your libs so that others can play them!",
 								icon: "person-add",
 								onPress: () => {
 									navigation.navigate('NewAccountScreen');

@@ -198,7 +198,7 @@ export default function NewAccountScreen() {
                         </TouchableOpacity>
                     </View>
                     <Text style={[globalStyles.bigWhitespace, { fontSize: 22, fontWeight: "600", alignSelf: "center" }]}>{i18n.t('select_your_avatar')}</Text>
-                    <AvatarSelect onAvatarChange={handleAvatarChange} height={9} containerIsView />
+                    <AvatarSelect selectedDefaultIndex={avatarIndex} onAvatarChange={handleAvatarChange} height={9} containerIsView />
                 </View>
             </ScrollView>
             

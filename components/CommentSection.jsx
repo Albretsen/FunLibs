@@ -5,6 +5,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { ToastContext } from "../components/Toast";
 import Dropdown from "./Dropdown";
 import { useNavigation } from "@react-navigation/native";
+import Avatar from "./Avatar";
 
 export default function CommentSection(props) {
     const { comments, username, avatarID, onCommentChange, onSubmitComment, onDeleteComment, opUid } = props;
@@ -239,6 +240,8 @@ export default function CommentSection(props) {
         setCommentList(comments);
     }, [comments]);
 
+    console.log(avatarID)
+
     return (
         <View key={refreshKey}>
             {loading ? (
@@ -248,10 +251,11 @@ export default function CommentSection(props) {
                 <View>
                     <View style={[styles.comment, { paddingBottom: 6, borderBottomWidth: 1 }]}>
                         <View style={styles.commentAvatar}>
-                            <Image
-                                style={styles.avatar}
-                                source={FirebaseManager.avatars[avatarID]}
-                            />
+                            {avatarID == "no-avatar-48" ? (
+                                <Avatar noAvatar="48" />
+                            ) : (
+                                <Avatar id={avatarID} />
+                            )}
                         </View>
                         <View style={styles.commentCenter}>
                             <Text style={styles.username}>
@@ -288,10 +292,7 @@ export default function CommentSection(props) {
                                         <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
                                             navigation.navigate("ProfileScreen", { uid: comment.uid });
                                         }}>
-                                            <Image
-                                                style={styles.avatar}
-                                                source={FirebaseManager.avatars[comment.avatarID]}
-                                            />
+                                            <Avatar id={comment.avatarID} />
                                         </TouchableOpacity>
                                         <View style={styles.commentCenter}>
                                             <TouchableOpacity style={styles.username} onPress={ () => {
@@ -352,10 +353,11 @@ export default function CommentSection(props) {
                                     {replyingToCommentIndex === index && (
                                         <View style={[styles.comment, styles.reply, { paddingBottom: 6 }]}>
                                             <View style={styles.commentAvatar}>
-                                                <Image
-                                                    style={styles.avatar}
-                                                    source={FirebaseManager.avatars[avatarID]}
-                                                />
+                                            {avatarID == "no-avatar-48" ? (
+                                                <Avatar noAvatar="48" />
+                                            ) : (
+                                                <Avatar id={avatarID} />
+                                            )}
                                             </View>
                                             <View style={[styles.commentCenter, styles.replyCenter]}>
                                                 <Text style={styles.username}>
@@ -401,10 +403,7 @@ export default function CommentSection(props) {
                                                 <TouchableOpacity style={styles.commentAvatar} onPress={ () => {
                                                     navigation.navigate("ProfileScreen", { uid: reply.uid });
                                                 }} >
-                                                    <Image
-                                                        style={styles.avatar}
-                                                        source={FirebaseManager.avatars[reply.avatarID]}
-                                                    />
+                                                    <Avatar id={reply.avatarID} />
                                                 </TouchableOpacity>
                                                 <View style={[styles.commentCenter, styles.replyCenter]}>
                                                     <TouchableOpacity style={styles.username}  onPress={ () => {
