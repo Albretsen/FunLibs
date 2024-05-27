@@ -1,4 +1,4 @@
-import { TouchableOpacity, Linking, View, Image, Text, StyleProp, ViewStyle } from "react-native";
+import { TouchableOpacity, Linking, View, Image, Text, StyleProp, Platform, ViewStyle } from "react-native";
 
 interface DailyJokesBannerProps {
     style?: StyleProp<ViewStyle>;
@@ -6,6 +6,9 @@ interface DailyJokesBannerProps {
 }
 
 export default function DailyJokesBanner({ style, showText }: DailyJokesBannerProps) {
+
+    if (Platform.OS == "ios") return null
+
     return (
         <TouchableOpacity onPress={() => {
             Linking.openURL("https://play.google.com/store/apps/details?id=com.asgalb.DailyJokes");
