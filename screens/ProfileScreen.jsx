@@ -14,6 +14,7 @@ import i18n from "../scripts/i18n";
 import Drawer from "../components/drawer/DrawerComponent";
 import { ScrollView as DrawerScrollView } from "react-native-gesture-handler";
 import Avatar from "../components/Avatar";
+import Button from "../components/Button";
 
 export default function ProfileScreen({ route }) {
     const uid = route.params.uid;
@@ -137,10 +138,6 @@ export default function ProfileScreen({ route }) {
                         if(yourOwnProfile) avatarDrawerRef.current?.openDrawer();
                     }
                 }>
-                    {/* <Image
-                        style={styles.image}
-                        source={FirebaseManager.avatars[avatarIndex]}
-                    /> */}
                     <Avatar style={styles.image} size={120} id={avatarIndex} />
                     {yourOwnProfile && (
                         <View style={styles.addImage}>
@@ -148,6 +145,11 @@ export default function ProfileScreen({ route }) {
                         </View>
                     )}
                 </Pressable>
+                {yourOwnProfile && (
+                    <View>
+                        <Text style={[globalStyles.grayText, {textAlign: "center"}]}>Tap your avatar to change it</Text>
+                    </View>
+                )}
                 <View style={{alignSelf: "center", zIndex: 100, paddingVertical: 10}}>
                     {editUsername ? 
                         <>
